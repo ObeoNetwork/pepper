@@ -34,6 +34,13 @@
 		<sirius.version>7.2.0-SNAPSHOT</sirius.version>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>github-pepper</id>
+			<name>ObeoNetwork Pepper</name>
+			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
+		</repository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>
@@ -68,11 +75,6 @@
 			<dependency>
 				<groupId>org.eclipse.sirius</groupId>
 				<artifactId>sirius-components-view-builder</artifactId>
-				<version>${sirius.web.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.sirius</groupId>
-				<artifactId>sirius-components-collaborative-trees</artifactId>
 				<version>${sirius.web.version}</version>
 			</dependency>
 			<dependency>
