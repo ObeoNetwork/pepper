@@ -29,14 +29,6 @@
 		<java.version>17</java.version>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>ObeoNetwork Pepper</name>
-			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
-		</repository>
-	</distributionManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>

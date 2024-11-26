@@ -16,10 +16,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.3</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<groupId>deeplab</groupId>
+		<artifactId>deeplab-parent</artifactId>
+		<version>2024.11.0</version>
+		<relativePath>../deeplab-parent</relativePath>
 	</parent>
 	<groupId>deeplab</groupId>
 	<artifactId>deeplab-frontend</artifactId>
@@ -30,14 +30,6 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>ObeoNetwork Pepper</name>
-			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
-		</repository>
-	</distributionManagement>
 
 	<dependencies>
 		<dependency>

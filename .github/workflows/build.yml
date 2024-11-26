@@ -67,7 +67,7 @@ jobs:
         run: mvn -U -B -e clean verify  -f backend/pom.xml --settings settings.xml
 
       - name: Publish the backend
-        if: startsWith(github.ref, 'refs/tags/v')
+        # if: startsWith(github.ref, 'refs/tags/v')
         env:
           USERNAME: ${{ github.actor }}
           PASSWORD: ${{ github.token }}

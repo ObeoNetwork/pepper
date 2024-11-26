@@ -24,6 +24,13 @@
 	<description>Pepper for project management</description>
 	<packaging>pom</packaging>
 
+	<distributionManagement>
+		<repository>
+			<id>github-pepper</id>
+			<name>ObeoNetwork Pepper</name>
+			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
+		</repository>
+	</distributionManagement>
 
 	<!-- reminder
 	

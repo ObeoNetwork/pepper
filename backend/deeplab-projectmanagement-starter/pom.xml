@@ -30,14 +30,6 @@
 		<sirius.version>7.2.0-SNAPSHOT</sirius.version>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>ObeoNetwork Pepper</name>
-			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
-		</repository>
-	</distributionManagement>
-
 	<repositories>
 		<repository>
 			<id>Eclipse Sirius</id>
