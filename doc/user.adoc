@@ -1,0 +1,109 @@
+ifndef::imagesdir[:imagesdir: images]
+
+= User documentation
+Pepper v{deeplab-version} - {git-commit-id-abbrev}
+
+:toc:
+
+Pepper is a project management tool.
+
+It allows creating data related to your project and represents the data with Gantt, Form and boards like Daily, Kanban or OKR.
+
+As `Pepper` is based on Sirius Web application, please refer to the  https://www.eclipse.org/sirius/sirius-web.html[Sirius Web documentation] for more details.
+
+== Concepts
+
+The core concept is the `Project`.
+It contains:
+
+* many attributes to describe the `Project` such as planning, cost or stakeholder information.
+* a list of `Workpackages`
+* a list of `Risks`
+A `Risk` is associated to one or many `Workpackages`
+* a list of `Objectives`
+
+A `Workpackage` contains
+
+* a list of `WorkpackageArtefact`
+* a list of `Tasks`.
+`Tasks` is a fine-grained concept to describe the `Workpackage` 
+
+At root level, you can create `Organizations` that own the `Projects` and `ResourceFolders` which contain `Persons`, `Teams`, `InternalStakeholders` and `ExternalStakeholders`.
+
+image::concepts.png[Concepts] 
+
+== Starter
+
+To start the user need to create a Sirius project that will contain a model containing the concepts.
+By default, a blank model is created.
+You can add a new model by adding a blank or a sample model.
+The sample model is useful to see the concepts that are possible to create.
+
+image::create-projectmgmt-project.png[Create Project] 
+
+image::create-model-button.png[Create Model Button] 
+
+image::create-model-dialog.png[Create Model Dialog] 
+
+== Representations
+
+Once you have created the model, you can create representations of your model.
+Representation is the core feature that will help display and edit your data.
+
+You can create a representation using the contextual menu on the object.
+
+image::create-representation.png[Create Model Dialog] 
+
+=== Form on Project
+
+Project is the key concept.
+A `Form` representation can be created from a `Project`.
+It contains many tabs that display project information.
+
+image::representation-form.png[Form] 
+
+
+=== Gantt on Project and Workpackage
+
+A `Gantt` representation can be created from a `Project` or a `Workpackage`
+
+image::representation-gantt.png[Gantt] 
+
+In `Gantt` on `Project`, the Gantt tasks represent the `Workpackage` of the `Project`.
+
+In `Gantt` on `Workpackage`, the Gantt tasks represent the `Tasks` and sub `Tasks` of the `Workpackage`.
+
+You can 
+
+* create new tasks
+* change the dates of the task by moving the task or changing in `Details` panel
+* reorder existing tasks or change the parent of a task
+
+=== Deck on Project and Workpackage
+
+A `Deck` representation is a representation which have columns and card inside columns.
+The cards can be moved from a column to another.
+
+==== OKR
+
+The `OKR` representation can be created from a `Project` or a `Workpackage`.
+The columns represent the `Objectives` contained in the Project or Workpackage and the cards represent the `KeyResult`.
+
+image::representation-okr.png[OKR]
+
+==== Daily
+
+The `Daily` representation can be created from a `Workpackage`.
+
+image::representation-daily.png[Daily]
+
+The columns represent the `TaskTags` (with _daily_ prefix) contained in the `TagFolder` and the cards represent the `Tasks` that have a reference to the corresponding `TaskTag`.
+
+
+==== Kanban
+
+The `Kanban` representation can be created from a `Workpackage`.
+
+image::representation-kanban.png[Daily] 
+
+The columns represent the `TaskTags` (with _kanban_ prefix) contained in the `TagFolder` and the cards represent the `Tasks` that have a reference to the corresponding `TaskTag`.

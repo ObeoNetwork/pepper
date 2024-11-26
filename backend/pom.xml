@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019, 2023 CEA LIST.
+ This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v2.0
+ which accompanies this distribution, and is available at
+ https://www.eclipse.org/legal/epl-2.0/
+
+ SPDX-License-Identifier: EPL-2.0
+
+ Contributors:
+     Obeo - initial API and implementation
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>deeplab</groupId>
+	<artifactId>deeplab-container</artifactId>
+	<version>2024.11.0</version>
+
+	<name>Pepper</name>
+	<description>Pepper for project management</description>
+	<packaging>pom</packaging>
+
+
+	<!-- reminder
+	
+	 Update version: mvn versions:set -DnewVersion=xxx.y.z
+	 
+	  -->
+	<modules>
+		<module>deeplab-parent</module>
+		<module>deeplab-projectmanagement</module>
+		<module>deeplab-projectmanagement-edit</module>
+		<module>deeplab-projectmanagement-starter</module>
+		<module>deeplab-application</module>
+		<module>deeplab-frontend</module>
+
+	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<configuration>
+						<processAllModules>true</processAllModules>
+					</configuration>
+
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

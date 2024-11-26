@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2024 CEA LIST.
+ This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v2.0
+ which accompanies this distribution, and is available at
+ https://www.eclipse.org/legal/epl-2.0/
+
+ SPDX-License-Identifier: EPL-2.0
+
+ Contributors:
+     Obeo - initial API and implementation
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>deeplab</groupId>
+		<artifactId>deeplab-parent</artifactId>
+		<version>2024.11.0</version>
+		<relativePath>../deeplab-parent</relativePath>
+	</parent>
+	<artifactId>deeplab-projectmanagement</artifactId>
+	<name>deeplab-projectmanagement</name>
+	<description>Project Management Meta-model</description>
+
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>ObeoNetwork Pepper</name>
+			<url>https://maven.pkg.github.com/ObeoNetwork/pepper</url>
+		</repository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.21.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.23.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.edit</artifactId>
+			<version>2.16.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore.edit</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+	</dependencies>
+</project>
