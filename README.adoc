@@ -4,7 +4,7 @@ Pepper stands for "Plan Progress Review", a project management tool.
 
 image::PepperScreenshot.png[Pepper] 
 
-Pepper is a web application based on  (https://www.eclipse.org/sirius/sirius-web.html[Eclipse Sirius-Web]).
+Pepper is a web application based on https://www.eclipse.org/sirius/sirius-web.html[Eclipse Sirius-Web].
 
 It allows to create data related to your project and represents the data with Gantt, Form and boards like Daily, Kanban or OKR.
 Follow the link for https://github.com/ObeoNetwork/pepper/blob/main/doc/user.adoc[User documentation].
@@ -79,7 +79,7 @@ To build the application yourself you will need the following tools:
 
 WARNING: Note that there are issues with npm under Windows Subsystem for Linux (WSL). If you use WSL and encounter error messages like _"Maximum call stack size exceeded"_ when running NPM, switch to plain Windows where this should work.
 
-For Windows users: Due to the Maximum Path Length Limitation of Windows, you may exceed the limit of 260 characters in your PATH. To remove this limitation, apply the https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=powershell[this procedure] with this command line in PowerShell (`New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force`), then active the longpath option in Git in a command line with administrator rights (`git config --system core.longpaths true`).
+For Windows users: Due to the Maximum Path Length Limitation of Windows, you may exceed the limit of 260 characters in your PATH. To remove this limitation, apply https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=powershell[this procedure] with this command line in PowerShell (`New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force`), then active the longpath option in Git in a command line with administrator rights (`git config --system core.longpaths true`).
 
 [#github-token]
 === GitHub Access Token
@@ -220,5 +220,5 @@ backend/deeplab-resources/editor
 
 == License
 
-Everything in this repository is Open Source. Except when explicitly mentioned otherwise (e.g. for some resources likes images), the license is Eclipse Public License* v 2.0.
+Everything in this repository is Open Source. Except when explicitly mentioned otherwise (e.g. for some resources likes images), the license is Eclipse Public License v 2.0.
 
