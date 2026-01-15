@@ -18,12 +18,10 @@
 	<parent>
 		<groupId>deeplab</groupId>
 		<artifactId>deeplab-parent</artifactId>
-		<version>2024.11.0</version>
+		<version>${revision}</version>
 		<relativePath>../deeplab-parent</relativePath>
 	</parent>
-	<groupId>deeplab</groupId>
 	<artifactId>deeplab-frontend</artifactId>
-	<version>2024.11.0</version>
 	<name>deeplab-frontend</name>
 	<description>Deeplab Frontend</description>
 

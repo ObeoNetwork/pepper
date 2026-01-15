@@ -14,7 +14,6 @@ package fr.cea.deeplab.projectmanagement.starter.services;
 
 import fr.cea.deeplab.projectmgmt.TaskTag;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -37,7 +36,7 @@ public class ProjectManagementLabelServiceDelegate extends DefaultLabelService i
     private final EditingDomainServices editingDomainServices = new EditingDomainServices();
 
     public ProjectManagementLabelServiceDelegate(ComposedAdapterFactory composedAdapterFactory, LabelFeatureProviderRegistry labelFeatureProviderRegistry) {
-        super(List.of(), labelFeatureProviderRegistry, composedAdapterFactory, List.of());
+        super(labelFeatureProviderRegistry, composedAdapterFactory);
     }
 
     @Override

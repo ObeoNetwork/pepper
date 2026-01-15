@@ -76,10 +76,12 @@ public class ProjectManagementEditingContextDescriptionProvider implements IEdit
         FormDescription projectFormDescription =  FormDescription.newFormDescription(PROJECT_FORM_ID)
                 .label(this.projectManagementMessageService.getMessage(MessageConstants.FORM_TITLE))
                 .idProvider(new GetOrCreateRandomIdProvider())
+                .canCreatePredicate(vm -> true)
                 .labelProvider(variableManager -> this.projectManagementMessageService.getMessage(MessageConstants.FORM_TITLE))
                 .targetObjectIdProvider(this::getTargetObjectId)
                 .canCreatePredicate(this::canCreate)
                 .pageDescriptions(List.of(projectPageDescription, customerPageDescription, planningAndCostingPageDescription, workpackagesPageDescription, workpackageArtefactPageDescription, risksPageDescription))
+                .iconURLsProvider(vm -> List.of())
                 .build();
         return List.of(projectFormDescription);
     }

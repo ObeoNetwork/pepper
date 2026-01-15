@@ -23,15 +23,16 @@
 	</parent>
 	<groupId>deeplab</groupId>
 	<artifactId>deeplab-parent</artifactId>
-	<version>2024.11.0</version>
+	<version>${revision}</version>
 	<name>deeplab-parent</name>
 	<description>Parent Pom for Deeplab modules</description>
 	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>17</java.version>
-		<sirius.web.version>2024.11.1</sirius.web.version>
+		<sirius.web.version>2025.1.0</sirius.web.version>
 		<sirius.version>7.2.0-SNAPSHOT</sirius.version>
+		<revision>2026.1.0</revision>
 	</properties>
 
 	<distributionManagement>

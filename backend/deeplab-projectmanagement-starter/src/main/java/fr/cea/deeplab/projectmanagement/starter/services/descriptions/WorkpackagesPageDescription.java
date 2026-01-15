@@ -22,7 +22,7 @@ import fr.cea.deeplab.projectmgmt.ProjectmgmtPackage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+//import java.util.Objects;
 import java.util.function.Function;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -39,6 +39,7 @@ import org.eclipse.sirius.components.forms.description.TableWidgetDescription;
 import org.eclipse.sirius.components.representations.Success;
 import org.eclipse.sirius.components.representations.VariableManager;
 import org.eclipse.sirius.components.tables.descriptions.LineDescription;
+import org.eclipse.sirius.components.tables.descriptions.PaginatedData;
 import org.eclipse.sirius.components.tables.descriptions.TableDescription;
 
 /**
@@ -70,6 +71,48 @@ public class WorkpackagesPageDescription {
         this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
     }
 
+    // todo: to change
+    private PaginatedData toPaginatedData(List<Object> objects, Object cursor, String direction, int size) {
+        List<Object> subList = new ArrayList<>();
+        boolean hasPrevious = false;
+        boolean hasNext = false;
+
+        if (cursor != null) {
+            int cursorIndex = objects.indexOf(cursor);
+            if (cursorIndex >= 0) {
+                if ("NEXT".equals(direction)) {
+                    int startIndex = cursorIndex + 1;
+                    int endIndex = Math.min(startIndex + size, objects.size());
+                    subList = objects.subList(startIndex, endIndex);
+                    hasPrevious = cursorIndex > 0;
+                    hasNext = endIndex < objects.size();
+                } else if ("PREV".equalsIgnoreCase(direction)) {
+                    int startIndex = Math.max(cursorIndex - size, 0);
+                    subList = objects.subList(startIndex, cursorIndex);
+                    hasPrevious = startIndex > 0;
+                    hasNext = cursorIndex < objects.size();
+                }
+            }
+        } else {
+            int endIndex = Math.min(size, objects.size());
+            subList = objects.subList(0, endIndex);
+            hasNext = endIndex < objects.size();
+        }
+
+        return new PaginatedData(subList, hasPrevious, hasNext, objects.size());
+    }
+
+    private Function<VariableManager, PaginatedData> getSemanticElementsProvider() {
+        return variableManager -> variableManager.get(VariableManager.SELF, Project.class)
+                .map(Project::getOwnedRisks)
+                .map(risks -> this.toPaginatedData(risks.stream().map(Object.class::cast).toList(),
+                        variableManager.get("cursor", Object.class).orElse(null),
+                        variableManager.get("direction", String.class).orElse(null),
+                        variableManager.get("size", Integer.class).orElse(10)))
+                .orElseGet(() -> new PaginatedData(List.of(), false, false, 0));
+    }
+
+
     PageDescription getWorkpackagesPageDescription() {
         List<AbstractControlDescription> controlDescriptions = new ArrayList<>();
 
@@ -85,24 +128,31 @@ public class WorkpackagesPageDescription {
                 .map(this.objectService::getLabel)
                 .orElse(null);
 
-        List<LineDescription> lineDescriptions = new ArrayList<>();
-        LineDescription lineDescription = LineDescription.newLineDescription(UUID.nameUUIDFromBytes("Table - Line".getBytes()))
+        LineDescription lineDescription = LineDescription.newLineDescription("Table - Line")
                 .targetObjectIdProvider(this::getTargetObjectId)
                 .targetObjectKindProvider(this::getTargetObjectKind)
-                .semanticElementsProvider(semanticElementsProvider)
+                .semanticElementsProvider(this.getSemanticElementsProvider())
+                .headerLabelProvider(labelProvider)
+                .headerIconURLsProvider(vm -> List.of())
+                .headerIndexLabelProvider(vm -> "")
+                .initialHeightProvider(vm -> 40)
+                .isResizablePredicate(variableManager -> true)
                 .build();
-        lineDescriptions.add(lineDescription);
 
         WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
         TableDescription tableDescription = TableDescription.newTableDescription("workpackagesTableId")
+                .label("")
+                .canCreatePredicate(vm -> true)
                 .targetObjectIdProvider(this::getTargetObjectId)
                 .targetObjectKindProvider(this::getTargetObjectKind)
                 .labelProvider(labelProvider)
-                .lineDescriptions(lineDescriptions)
+                .isStripeRowPredicate(vm -> true)
+                .lineDescription(lineDescription)
                 .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackage(),
                         ProjectmgmtPackage.eINSTANCE.getWorkpackage())))
-                .cellDescription(widgetDescriptionBuilderHelper.buildCellDescription())
+                .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
+                .iconURLsProvider(vm -> List.of())
                 .build();
 
         TableWidgetDescription tableWidgetDescription = TableWidgetDescription.newTableWidgetDescription("workpackagesTableWidgetId")

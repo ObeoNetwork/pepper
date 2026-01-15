@@ -18,7 +18,7 @@
 
 	<groupId>deeplab</groupId>
 	<artifactId>deeplab-container</artifactId>
-	<version>2024.11.0</version>
+	<version>2026.1.0</version>
 
 	<name>Pepper</name>
 	<description>Pepper for project management</description>

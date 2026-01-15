@@ -33,6 +33,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -85,8 +86,9 @@ import org.eclipse.sirius.components.representations.MessageLevel;
 import org.eclipse.sirius.components.representations.Success;
 import org.eclipse.sirius.components.representations.VariableManager;
 import org.eclipse.sirius.components.tables.components.SelectCellComponent;
-import org.eclipse.sirius.components.tables.descriptions.CellDescription;
 import org.eclipse.sirius.components.tables.descriptions.ColumnDescription;
+import org.eclipse.sirius.components.tables.descriptions.ICellDescription;
+import org.eclipse.sirius.components.tables.descriptions.TextfieldCellDescription;
 import org.eclipse.sirius.components.tables.elements.MultiSelectCellElementProps;
 import org.eclipse.sirius.components.tables.elements.SelectCellElementProps;
 import org.eclipse.sirius.components.tables.elements.TextfieldCellElementProps;
@@ -168,7 +170,7 @@ public class WidgetDescriptionBuilderHelper {
 
                 .diagnosticsProvider(variableManager -> List.of())
                 .kindProvider(diagnostic -> "")
-                .styleProvider(variableManager -> TextareaStyle.newTextareaStyle().widgetGridLayout(buildWidgetGridLayout()).build())
+                .styleProvider(variableManager -> TextareaStyle.newTextareaStyle().widgetGridLayout(this.buildWidgetGridLayout()).build())
                 .messageProvider(diagnostic -> "");
 
         if (helpMessageKey != null) {
@@ -229,7 +231,7 @@ public class WidgetDescriptionBuilderHelper {
                 .kindProvider(diagnostic -> "")
                 .isReadOnlyProvider(variableManager -> isReadOnly)
                 .messageProvider(diagnostic -> "")
-                .styleProvider(variableManager -> TextfieldStyle.newTextfieldStyle().widgetGridLayout(buildWidgetGridLayout()).build());
+                .styleProvider(variableManager -> TextfieldStyle.newTextfieldStyle().widgetGridLayout(this.buildWidgetGridLayout()).build());
 
         if (textfieldStyle != null) {
             builder.styleProvider(variableManager -> textfieldStyle);
@@ -256,7 +258,7 @@ public class WidgetDescriptionBuilderHelper {
                 .isReadOnlyProvider(variableManager -> isReadOnly)
                 .kindProvider(diagnostic -> "")
                 .messageProvider(diagnostic -> "")
-                .styleProvider(variableManager -> CheckboxStyle.newCheckboxStyle().widgetGridLayout(buildWidgetGridLayout()).build())
+                .styleProvider(variableManager -> CheckboxStyle.newCheckboxStyle().widgetGridLayout(this.buildWidgetGridLayout()).build())
                 .build();
     }
 
@@ -298,7 +300,7 @@ public class WidgetDescriptionBuilderHelper {
                 .diagnosticsProvider(variableManager -> List.of())
                 .kindProvider(diagnostic -> "")
                 .messageProvider(diagnostic -> "")
-                .styleProvider(variableManager -> SelectStyle.newSelectStyle().widgetGridLayout(buildWidgetGridLayout()).build());
+                .styleProvider(variableManager -> SelectStyle.newSelectStyle().widgetGridLayout(this.buildWidgetGridLayout()).build());
 
         if (helpText != null) {
             builder.helpTextProvider(vm -> helpText);
@@ -359,7 +361,7 @@ public class WidgetDescriptionBuilderHelper {
                 .diagnosticsProvider(variableManager -> List.of())
                 .kindProvider(diagnostic -> "")
                 .messageProvider(diagnostic -> "")
-                .styleProvider(variableManager -> MultiSelectStyle.newMultiSelectStyle().widgetGridLayout(buildWidgetGridLayout()).build());
+                .styleProvider(variableManager -> MultiSelectStyle.newMultiSelectStyle().widgetGridLayout(this.buildWidgetGridLayout()).build());
 
         if (helpText != null) {
             builder.helpTextProvider(vm -> helpText);
@@ -382,11 +384,18 @@ public class WidgetDescriptionBuilderHelper {
     ColumnDescription buildFeaturesColumnDescription(EObject eObject, EClass eClass) {
         Map<EStructuralFeature, String> featureToDisplayName = this.getColumnsStructuralFeaturesDisplayName(eObject, eClass);
 
-        ColumnDescription columnDescription = ColumnDescription.newColumnDescription(UUID.nameUUIDFromBytes("features".getBytes()))
+        ColumnDescription columnDescription = ColumnDescription.newColumnDescription("features")
                 .semanticElementsProvider(vm -> featureToDisplayName.keySet().stream().map(Object.class::cast).toList())
-                .labelProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(featureToDisplayName::get).orElse(""))
+                .headerLabelProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(featureToDisplayName::get).orElse(""))
                 .targetObjectIdProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(EStructuralFeature::getName).orElse(""))
                 .targetObjectKindProvider(vm -> "")
+                .headerIconURLsProvider(vm -> List.of())
+                .headerIndexLabelProvider(vm -> "")
+                .isResizablePredicate(variableManager -> true)
+                .shouldRenderPredicate(vm -> true)
+                .initialWidthProvider(vm -> 40)
+                .isResizablePredicate(vm -> true)
+                .filterVariantProvider(vm -> "")
                 .build();
         return columnDescription;
     }
@@ -416,8 +425,9 @@ public class WidgetDescriptionBuilderHelper {
         return eStructuralFeature.getName();
     }
 
-    CellDescription buildCellDescription() {
-        return CellDescription.newCellDescription("cells")
+    List<ICellDescription> buildCellDescription() {
+        List<ICellDescription> iCellDescriptionList = new ArrayList<>();
+/*        return CellDescription.newCellDescription("cells")
                 .targetObjectIdProvider(vm-> "")
                 .targetObjectKindProvider(vm-> "")
                 .cellTypeProvider(this.getCellTypeProvider())
@@ -426,10 +436,18 @@ public class WidgetDescriptionBuilderHelper {
                 .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
                 .cellOptionsProvider(this.getCellOptionsProvider())
                 .newCellValueHandler(this.getNewCellValueHandler())
-                .build();
+                .build();*/
+        iCellDescriptionList.add(TextfieldCellDescription.newTextfieldCellDescription("cells")
+                .targetObjectIdProvider(vm-> "")
+                .targetObjectKindProvider(vm-> "")
+                .canCreatePredicate(wm -> true)
+                //  .cellTypeProvider(widgetDescriptionBuilderHelper.getCellTypeProvider())
+                .cellValueProvider(this.getCellValueProvider())
+                .build());
+        return iCellDescriptionList;
     }
 
-    BiFunction<VariableManager, Object, Object> getCellValueProvider() {
+    BiFunction<VariableManager, Object, String> getCellValueProvider() {
         return (variableManager, columnTargetObject) -> {
             Object value = "";
             Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
@@ -450,13 +468,14 @@ public class WidgetDescriptionBuilderHelper {
                     }
                 }
             }
-            return value;
+            return value.toString();
         };
     }
 
-    BiFunction<VariableManager, Object, String> getCellTypeProvider() {
-        return (variableManager, columnTargetObject) -> {
+    Predicate<VariableManager> canCreateCellProvider(String requiredCellType) {
+        return (variableManager) -> {
             String type = "";
+            Object columnTargetObject = variableManager.get(VariableManager.SELF, Object.class);
             Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
             if (optionalEObject.isPresent() && columnTargetObject instanceof EStructuralFeature eStructuralFeature) {
                 EClassifier eType = eStructuralFeature.getEType();
@@ -477,7 +496,7 @@ public class WidgetDescriptionBuilderHelper {
                     type = TextfieldCellElementProps.TYPE;
                 }
             }
-            return type;
+            return requiredCellType.equals(type);
         };
     }
 
@@ -597,7 +616,6 @@ public class WidgetDescriptionBuilderHelper {
         } else if (eType instanceof EEnum enumType && newValue instanceof String newValueString) {
             if (newValueString.isBlank()) {
                 eObject.eUnset(eStructuralFeature);
-                status = new Success();
             } else {
                 EEnumLiteral eEnumLiteral = enumType.getEEnumLiteral(newValueString);
                 eObject.eSet(eStructuralFeature, eEnumLiteral.getInstance());
