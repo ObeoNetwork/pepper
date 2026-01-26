@@ -25,10 +25,6 @@
 	<name>deeplab-projectmanagement</name>
 	<description>Project Management Meta-model</description>
 
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>

@@ -17,19 +17,17 @@ import fr.cea.deeplab.projectmanagement.starter.messages.IProjectManagementMessa
 import fr.cea.deeplab.projectmanagement.starter.messages.MessageConstants;
 import fr.cea.deeplab.projectmgmt.Project;
 import fr.cea.deeplab.projectmgmt.ProjectmgmtFactory;
-import fr.cea.deeplab.projectmgmt.ProjectmgmtPackage;
-import fr.cea.deeplab.projectmgmt.Risk;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
 import org.eclipse.sirius.components.forms.ButtonStyle;
 import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
@@ -39,11 +37,9 @@ import org.eclipse.sirius.components.forms.description.PageDescription;
 import org.eclipse.sirius.components.forms.description.TableWidgetDescription;
 import org.eclipse.sirius.components.representations.Success;
 import org.eclipse.sirius.components.representations.VariableManager;
-import org.eclipse.sirius.components.tables.descriptions.ICellDescription;
 import org.eclipse.sirius.components.tables.descriptions.LineDescription;
 import org.eclipse.sirius.components.tables.descriptions.PaginatedData;
 import org.eclipse.sirius.components.tables.descriptions.TableDescription;
-import org.eclipse.sirius.components.tables.descriptions.TextfieldCellDescription;
 
 /**
  * This class is used to provide the project page description for the project risks.
@@ -56,7 +52,7 @@ public class RisksPageDescription {
 
     private final IIdentityService identityService;
 
-    private final Function<VariableManager, String> semanticTargetIdProvider;
+    private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
@@ -64,51 +60,20 @@ public class RisksPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public RisksPageDescription(IObjectService objectService, IIdentityService identityService, ComposedAdapterFactory composedAdapterFactory,
+    public RisksPageDescription(IObjectService objectService, IIdentityService identityService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
             IProjectManagementMessageService projectManagementMessageService, IFeedbackMessageService feedbackMessageService) {
         this.objectService = objectService;
         this.identityService = identityService;
+        this.cursorBasedNavigationServices = cursorBasedNavigationServices;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
-        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
-    }
-
-    // todo: to change
-    private PaginatedData toPaginatedData(List<Object> objects, Object cursor, String direction, int size) {
-        List<Object> subList = new ArrayList<>();
-        boolean hasPrevious = false;
-        boolean hasNext = false;
-
-        if (cursor != null) {
-            int cursorIndex = objects.indexOf(cursor);
-            if (cursorIndex >= 0) {
-                if ("NEXT".equals(direction)) {
-                    int startIndex = cursorIndex + 1;
-                    int endIndex = Math.min(startIndex + size, objects.size());
-                    subList = objects.subList(startIndex, endIndex);
-                    hasPrevious = cursorIndex > 0;
-                    hasNext = endIndex < objects.size();
-                } else if ("PREV".equalsIgnoreCase(direction)) {
-                    int startIndex = Math.max(cursorIndex - size, 0);
-                    subList = objects.subList(startIndex, cursorIndex);
-                    hasPrevious = startIndex > 0;
-                    hasNext = cursorIndex < objects.size();
-                }
-            }
-        } else {
-            int endIndex = Math.min(size, objects.size());
-            subList = objects.subList(0, endIndex);
-            hasNext = endIndex < objects.size();
-        }
-
-        return new PaginatedData(subList, hasPrevious, hasNext, objects.size());
     }
 
     private Function<VariableManager, PaginatedData> getSemanticElementsProvider() {
         return variableManager -> variableManager.get(VariableManager.SELF, Project.class)
                 .map(Project::getOwnedRisks)
-                .map(risks -> this.toPaginatedData(risks.stream().map(Object.class::cast).toList(),
+                .map(risks -> this.cursorBasedNavigationServices.toPaginatedData(risks.stream().map(Object.class::cast).toList(),
                         variableManager.get("cursor", Object.class).orElse(null),
                         variableManager.get("direction", String.class).orElse(null),
                         variableManager.get("size", Integer.class).orElse(10)))
@@ -143,9 +108,8 @@ public class RisksPageDescription {
                 .labelProvider(labelProvider)
                 .isStripeRowPredicate(vm -> true)
                 .lineDescription(lineDescription)
-                .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createRisk(),
-                        ProjectmgmtPackage.eINSTANCE.getRisk())))
-                .cellDescriptions(this.buildCellDescription())
+                .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createRisk())))
+                .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
                 .build();
 
@@ -216,46 +180,4 @@ public class RisksPageDescription {
                 .orElse(null);
     }
 
-
-
-
-    List<ICellDescription> buildCellDescription() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory,
-                this.projectManagementMessageService, this.feedbackMessageService);
-        List<ICellDescription> iCellDescriptionList = new ArrayList<>();
-//        return SelectCellDescription.newSelectCellDescription("cells")
-//                .targetObjectIdProvider(vm-> "")
-//                .targetObjectKindProvider(vm-> "")
-//                .canCreatePredicate(widgetDescriptionBuilderHelper.canCreateCellProvider(SelectCellElementProps.TYPE) )
-//                .cellTypeProvider(widgetDescriptionBuilderHelper.getCellTypeProvider())
-//                .cellValueProvider(widgetDescriptionBuilderHelper.getCellValueProvider())
-//                .cellOptionsIdProvider(widgetDescriptionBuilderHelper.getCellOptionsIdProvider())
-//                .cellOptionsLabelProvider(widgetDescriptionBuilderHelper.getCellOptionsLabelProvider())
-//                .cellOptionsProvider(this.getCellOptionsProvider())
-//                .newCellValueHandler(widgetDescriptionBuilderHelper.getNewCellValueHandler())
-//                .build();
-        iCellDescriptionList.add(TextfieldCellDescription.newTextfieldCellDescription("cells")
-                .targetObjectIdProvider(vm-> "")
-                .targetObjectKindProvider(vm-> "")
-                .canCreatePredicate(vm -> true)
-                .cellValueProvider(widgetDescriptionBuilderHelper.getCellValueProvider())
-                .build());
-        return iCellDescriptionList;
-    }
-
-    private BiFunction<VariableManager, Object, List<Object>> getCellOptionsProvider() {
-        return (variableManager, columnTargetObject) -> {
-            if (columnTargetObject.equals(ProjectmgmtPackage.eINSTANCE.getRisk_Workpackages())) {
-                return variableManager.get(VariableManager.SELF, Risk.class)
-                        .map(wpa -> wpa.eContainer())
-                        .map(Project.class::cast)
-                        .stream()
-                        .flatMap(project -> project.getOwnedWorkpackages().stream())
-                        .map(Object.class::cast)
-                        .toList();
-            } else {
-                return new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellOptionsProvider().apply(variableManager, columnTargetObject);
-            }
-        };
-    }
 }

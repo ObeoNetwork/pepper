@@ -34,7 +34,7 @@ import './reset.css';
 import './variables.css';
 import { Footer } from './footer/Footer';
 import { Help } from './core/Help';
-import { PepperIcon } from './core/PepperIcon';
+import { PepperNavigationBarIcon } from './core/PepperNavigationBarIcon';
 
 if (process.env.NODE_ENV !== 'production') {
   loadDevMessages();
@@ -64,7 +64,7 @@ extensionRegistry.addComponent(footerExtensionPoint, {
 // Main icon contribution
 extensionRegistry.addComponent(navigationBarIconExtensionPoint, {
   identifier: 'pepper_navigationbar#icon',
-  Component: PepperIcon,
+  Component: PepperNavigationBarIcon,
 });
 
 const container = document.getElementById('root');

@@ -12,7 +12,6 @@
  *******************************************************************************/
 
 package fr.cea.deeplab.projectmanagement.starter.services.descriptions;
-
 import fr.cea.deeplab.projectmanagement.starter.messages.IProjectManagementMessageService;
 import fr.cea.deeplab.projectmanagement.starter.messages.MessageConstants;
 import fr.cea.deeplab.projectmgmt.Organization;
@@ -88,6 +87,8 @@ import org.eclipse.sirius.components.representations.VariableManager;
 import org.eclipse.sirius.components.tables.components.SelectCellComponent;
 import org.eclipse.sirius.components.tables.descriptions.ColumnDescription;
 import org.eclipse.sirius.components.tables.descriptions.ICellDescription;
+import org.eclipse.sirius.components.tables.descriptions.MultiSelectCellDescription;
+import org.eclipse.sirius.components.tables.descriptions.SelectCellDescription;
 import org.eclipse.sirius.components.tables.descriptions.TextfieldCellDescription;
 import org.eclipse.sirius.components.tables.elements.MultiSelectCellElementProps;
 import org.eclipse.sirius.components.tables.elements.SelectCellElementProps;
@@ -381,8 +382,8 @@ public class WidgetDescriptionBuilderHelper {
         };
     }
 
-    ColumnDescription buildFeaturesColumnDescription(EObject eObject, EClass eClass) {
-        Map<EStructuralFeature, String> featureToDisplayName = this.getColumnsStructuralFeaturesDisplayName(eObject, eClass);
+    ColumnDescription buildFeaturesColumnDescription(EObject eObject) {
+        Map<EStructuralFeature, String> featureToDisplayName = this.getColumnsStructuralFeaturesDisplayName(eObject);
 
         ColumnDescription columnDescription = ColumnDescription.newColumnDescription("features")
                 .semanticElementsProvider(vm -> featureToDisplayName.keySet().stream().map(Object.class::cast).toList())
@@ -391,7 +392,6 @@ public class WidgetDescriptionBuilderHelper {
                 .targetObjectKindProvider(vm -> "")
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
-                .isResizablePredicate(variableManager -> true)
                 .shouldRenderPredicate(vm -> true)
                 .initialWidthProvider(vm -> 40)
                 .isResizablePredicate(vm -> true)
@@ -400,10 +400,11 @@ public class WidgetDescriptionBuilderHelper {
         return columnDescription;
     }
 
-    private Map<EStructuralFeature, String> getColumnsStructuralFeaturesDisplayName(EObject eObject, EClass eClass) {
+    private Map<EStructuralFeature, String> getColumnsStructuralFeaturesDisplayName(EObject eObject) {
         Map<EStructuralFeature, String> featureToDisplayName = new LinkedHashMap<>();
-        EList<EStructuralFeature> eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
-        for (EStructuralFeature eSF : eAllStructuralFeatures) {
+        EList<EStructuralFeature> eAllStructuralFeatures = eObject.eClass().getEAllStructuralFeatures();
+        List<EStructuralFeature> eAllStructuralFeaturesFiltered = eAllStructuralFeatures.stream().filter(feature -> !feature.getName().equals("name")).toList();
+        for (EStructuralFeature eSF : eAllStructuralFeaturesFiltered) {
             if (eSF instanceof EAttribute && !eSF.isMany() && !eSF.isDerived()) {
                 featureToDisplayName.put(eSF, this.getDisplayName(eObject, eSF));
             } else if (eSF instanceof EReference ref && !eSF.isDerived() && !ref.isContainment()) {
@@ -427,23 +428,35 @@ public class WidgetDescriptionBuilderHelper {
 
     List<ICellDescription> buildCellDescription() {
         List<ICellDescription> iCellDescriptionList = new ArrayList<>();
-/*        return CellDescription.newCellDescription("cells")
-                .targetObjectIdProvider(vm-> "")
-                .targetObjectKindProvider(vm-> "")
-                .cellTypeProvider(this.getCellTypeProvider())
-                .cellValueProvider(this.getCellValueProvider())
-                .cellOptionsIdProvider(this.getCellOptionsIdProvider())
-                .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
-                .cellOptionsProvider(this.getCellOptionsProvider())
-                .newCellValueHandler(this.getNewCellValueHandler())
-                .build();*/
-        iCellDescriptionList.add(TextfieldCellDescription.newTextfieldCellDescription("cells")
-                .targetObjectIdProvider(vm-> "")
-                .targetObjectKindProvider(vm-> "")
-                .canCreatePredicate(wm -> true)
-                //  .cellTypeProvider(widgetDescriptionBuilderHelper.getCellTypeProvider())
-                .cellValueProvider(this.getCellValueProvider())
-                .build());
+        iCellDescriptionList.add(
+                SelectCellDescription.newSelectCellDescription("select cells")
+                        .canCreatePredicate(this.canCreateCellProvider(SelectCellElementProps.TYPE))
+                        .targetObjectIdProvider(vm -> "")
+                        .targetObjectKindProvider(vm -> "")
+                        .cellValueProvider(this.getCellValueProvider())
+                        .cellOptionsIdProvider(this.getCellOptionsIdProvider())
+                        .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
+                        .cellOptionsProvider(this.getCellOptionsProvider())
+                        .build()
+        );
+        iCellDescriptionList.add(
+                MultiSelectCellDescription.newMultiSelectCellDescription("multi cells")
+                        .targetObjectIdProvider(vm -> "")
+                        .targetObjectKindProvider(vm -> "")
+                        .canCreatePredicate(this.canCreateCellProvider(MultiSelectCellElementProps.TYPE))
+                        .cellValueProvider(this.getMultiCellValueProvider())
+                        .cellOptionsIdProvider(this.getCellOptionsIdProvider())
+                        .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
+                        .cellOptionsProvider(this.getCellOptionsProvider())
+                        .build()
+        );
+        iCellDescriptionList.add(
+                TextfieldCellDescription.newTextfieldCellDescription("text cells")
+                        .targetObjectIdProvider(vm-> "")
+                        .targetObjectKindProvider(vm-> "")
+                        .canCreatePredicate(this.canCreateCellProvider(TextfieldCellElementProps.TYPE))
+                        .cellValueProvider(this.getCellValueProvider())
+                        .build());
         return iCellDescriptionList;
     }
 
@@ -468,16 +481,46 @@ public class WidgetDescriptionBuilderHelper {
                     }
                 }
             }
-            return value.toString();
+            return Optional.ofNullable(value)
+                    .map(Object::toString)
+                    .orElse("");
+        };
+    }
+
+    BiFunction<VariableManager, Object, List<String>> getMultiCellValueProvider() {
+        return (variableManager, columnTargetObject) -> {
+            Object value = "";
+            Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
+            if (optionalEObject.isPresent() && columnTargetObject instanceof EStructuralFeature eStructuralFeature) {
+                EObject eObject = optionalEObject.get();
+                Object objectValue = eObject.eGet(eStructuralFeature);
+                if (eStructuralFeature instanceof EReference eReference) {
+                    if (eReference.isMany() && !eReference.isContainment() && objectValue instanceof EList<?>) {
+                        value = ((EList<?>) objectValue).stream().map(this.objectService::getId).collect(Collectors.toList());
+                    } else if (!eReference.isMany() && !eReference.isContainment()) {
+                        value = this.objectService.getId(objectValue);
+                    }
+                } else if (objectValue != null) {
+                    if (objectValue instanceof Enumerator enumerator) {
+                        value =  enumerator.getName();
+                    } else {
+                        value = objectValue.toString();
+                    }
+                }
+            }
+            return List.of(Optional.ofNullable(value)
+                    .map(Object::toString)
+                    .orElse(""));
         };
     }
 
     Predicate<VariableManager> canCreateCellProvider(String requiredCellType) {
         return (variableManager) -> {
             String type = "";
-            Object columnTargetObject = variableManager.get(VariableManager.SELF, Object.class);
+            Optional<EStructuralFeature> columnTargetObject = variableManager.get("columnTargetObject", EStructuralFeature.class);
             Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
-            if (optionalEObject.isPresent() && columnTargetObject instanceof EStructuralFeature eStructuralFeature) {
+            if (optionalEObject.isPresent() && columnTargetObject.isPresent()) {
+                EStructuralFeature eStructuralFeature = columnTargetObject.get();
                 EClassifier eType = eStructuralFeature.getEType();
                 if (eStructuralFeature instanceof EAttribute) {
                     if (eType instanceof EEnum) {

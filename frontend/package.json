@@ -10,6 +10,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
+  "packageManager": "npm@8.15.0",
   "workspaces": [
     "deeplab-web"
   ],
@@ -24,6 +25,6 @@
     "format-lint": "prettier --list-different \"*/src/**/*.{js,ts,tsx,css}\""
   },
   "devDependencies": {
-    "turbo": "1.13.3"
+    "turbo": "2.3.3"
   }
 }

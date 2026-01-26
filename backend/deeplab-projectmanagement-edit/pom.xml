@@ -25,10 +25,6 @@
 	<name>deeplab-projectmanagement-edit</name>
 	<description>Project Management - Edit Support</description>
 
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>

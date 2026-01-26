@@ -17,18 +17,17 @@ import fr.cea.deeplab.projectmanagement.starter.messages.IProjectManagementMessa
 import fr.cea.deeplab.projectmanagement.starter.messages.MessageConstants;
 import fr.cea.deeplab.projectmgmt.Project;
 import fr.cea.deeplab.projectmgmt.ProjectmgmtFactory;
-import fr.cea.deeplab.projectmgmt.ProjectmgmtPackage;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//import java.util.Objects;
 import java.util.function.Function;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
 import org.eclipse.sirius.components.forms.ButtonStyle;
 import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
@@ -53,7 +52,7 @@ public class WorkpackagesPageDescription {
 
     private final IIdentityService identityService;
 
-    private final Function<VariableManager, String> semanticTargetIdProvider;
+    private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
@@ -61,51 +60,20 @@ public class WorkpackagesPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public WorkpackagesPageDescription(IObjectService objectService, IIdentityService identityService, ComposedAdapterFactory composedAdapterFactory,
+    public WorkpackagesPageDescription(IObjectService objectService, IIdentityService identityService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
             IProjectManagementMessageService projectManagementMessageService, IFeedbackMessageService feedbackMessageService) {
         this.objectService = objectService;
         this.identityService = identityService;
+        this.cursorBasedNavigationServices = cursorBasedNavigationServices;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
-        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
-    }
-
-    // todo: to change
-    private PaginatedData toPaginatedData(List<Object> objects, Object cursor, String direction, int size) {
-        List<Object> subList = new ArrayList<>();
-        boolean hasPrevious = false;
-        boolean hasNext = false;
-
-        if (cursor != null) {
-            int cursorIndex = objects.indexOf(cursor);
-            if (cursorIndex >= 0) {
-                if ("NEXT".equals(direction)) {
-                    int startIndex = cursorIndex + 1;
-                    int endIndex = Math.min(startIndex + size, objects.size());
-                    subList = objects.subList(startIndex, endIndex);
-                    hasPrevious = cursorIndex > 0;
-                    hasNext = endIndex < objects.size();
-                } else if ("PREV".equalsIgnoreCase(direction)) {
-                    int startIndex = Math.max(cursorIndex - size, 0);
-                    subList = objects.subList(startIndex, cursorIndex);
-                    hasPrevious = startIndex > 0;
-                    hasNext = cursorIndex < objects.size();
-                }
-            }
-        } else {
-            int endIndex = Math.min(size, objects.size());
-            subList = objects.subList(0, endIndex);
-            hasNext = endIndex < objects.size();
-        }
-
-        return new PaginatedData(subList, hasPrevious, hasNext, objects.size());
     }
 
     private Function<VariableManager, PaginatedData> getSemanticElementsProvider() {
         return variableManager -> variableManager.get(VariableManager.SELF, Project.class)
-                .map(Project::getOwnedRisks)
-                .map(risks -> this.toPaginatedData(risks.stream().map(Object.class::cast).toList(),
+                .map(Project::getOwnedWorkpackages)
+                .map(workpackages -> this.cursorBasedNavigationServices.toPaginatedData(workpackages.stream().map(Object.class::cast).toList(),
                         variableManager.get("cursor", Object.class).orElse(null),
                         variableManager.get("direction", String.class).orElse(null),
                         variableManager.get("size", Integer.class).orElse(10)))
@@ -115,14 +83,6 @@ public class WorkpackagesPageDescription {
 
     PageDescription getWorkpackagesPageDescription() {
         List<AbstractControlDescription> controlDescriptions = new ArrayList<>();
-
-        Function<VariableManager, List<Object>> semanticElementsProvider = variableManager -> variableManager.get(VariableManager.SELF, Project.class)
-                .map(eObject -> {
-                    List<Object> objects = new ArrayList<>();
-                    objects.addAll(eObject.getOwnedWorkpackages());
-                    return objects;
-                })
-                .orElse(List.of());
 
         Function<VariableManager, String> labelProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class)
                 .map(this.objectService::getLabel)
@@ -149,8 +109,7 @@ public class WorkpackagesPageDescription {
                 .labelProvider(labelProvider)
                 .isStripeRowPredicate(vm -> true)
                 .lineDescription(lineDescription)
-                .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackage(),
-                        ProjectmgmtPackage.eINSTANCE.getWorkpackage())))
+                .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackage())))
                 .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
                 .build();

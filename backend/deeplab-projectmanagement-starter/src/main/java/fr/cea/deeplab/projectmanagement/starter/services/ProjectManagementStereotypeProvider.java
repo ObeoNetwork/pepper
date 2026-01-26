@@ -13,14 +13,12 @@
 package fr.cea.deeplab.projectmanagement.starter.services;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.eclipse.sirius.components.core.api.IEditingContext;
-import org.eclipse.sirius.web.application.UUIDParser;
 import org.eclipse.sirius.web.application.document.dto.Stereotype;
 import org.eclipse.sirius.web.application.document.services.api.IStereotypeProvider;
-import org.eclipse.sirius.web.domain.boundedcontexts.project.Nature;
 import org.eclipse.sirius.web.domain.boundedcontexts.project.services.api.IProjectSearchService;
+import org.eclipse.sirius.web.domain.boundedcontexts.projectsemanticdata.services.api.IProjectSemanticDataSearchService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,22 +33,16 @@ public class ProjectManagementStereotypeProvider implements IStereotypeProvider 
 
     public static final String PROJECT_MANAGEMENT_EMPTY = "projectmgmt_empty";
 
-    private final IProjectSearchService projectSearchService;
+    private final PepperEditingContextPredicate pepperEditingContextPredicate;
 
-    public ProjectManagementStereotypeProvider(IProjectSearchService projectSearchService) {
-        this.projectSearchService = Objects.requireNonNull(projectSearchService);
+    public ProjectManagementStereotypeProvider(IProjectSearchService projectSearchService, IProjectSemanticDataSearchService projectSemanticDataSearchService) {
+        this.pepperEditingContextPredicate = new PepperEditingContextPredicate(projectSearchService, projectSemanticDataSearchService);
     }
 
     @Override
     public List<Stereotype> getStereotypes(IEditingContext editingContext) {
-        var isProjectMgmtProject = new UUIDParser().parse(editingContext.getId())
-                .flatMap(this.projectSearchService::findById)
-                .filter(project -> project.getNatures().stream()
-                        .map(Nature::name)
-                        .anyMatch(ProjectManagementProjectTemplateProvider.PROJECTMANAGEMENT_NATURE::equals))
-                .isPresent();
 
-        if (isProjectMgmtProject) {
+        if (this.pepperEditingContextPredicate.test(editingContext)) {
             return List.of(
                     new Stereotype(PROJECT_MANAGEMENT_EMPTY, "Empty Project Management Model"),
                     new Stereotype(PROJECT_MANAGEMENT_SAMPLE, "Project Management Sample Model")

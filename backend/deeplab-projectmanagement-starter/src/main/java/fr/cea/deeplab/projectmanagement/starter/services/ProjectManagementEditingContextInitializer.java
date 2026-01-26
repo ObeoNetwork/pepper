@@ -16,7 +16,6 @@ import fr.cea.deeplab.projectmanagement.starter.services.view.ViewDeckDescriptio
 import fr.cea.deeplab.projectmanagement.starter.services.view.ViewGanttDescriptionBuilder;
 import fr.cea.deeplab.projectmgmt.ProjectmgmtPackage;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -28,10 +27,9 @@ import org.eclipse.sirius.components.emf.services.JSONResourceFactory;
 import org.eclipse.sirius.components.view.View;
 import org.eclipse.sirius.components.view.ViewFactory;
 import org.eclipse.sirius.emfjson.resource.JsonResource;
-import org.eclipse.sirius.web.application.UUIDParser;
 import org.eclipse.sirius.web.application.editingcontext.EditingContext;
-import org.eclipse.sirius.web.domain.boundedcontexts.project.Nature;
 import org.eclipse.sirius.web.domain.boundedcontexts.project.services.api.IProjectSearchService;
+import org.eclipse.sirius.web.domain.boundedcontexts.projectsemanticdata.services.api.IProjectSemanticDataSearchService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,22 +40,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProjectManagementEditingContextInitializer implements IEditingContextProcessor {
 
-    private final IProjectSearchService projectSearchService;
+    private final PepperEditingContextPredicate pepperEditingContextPredicate;
 
-    public ProjectManagementEditingContextInitializer(IProjectSearchService projectSearchService) {
-        this.projectSearchService = Objects.requireNonNull(projectSearchService);
+    public ProjectManagementEditingContextInitializer(IProjectSearchService projectSearchService, IProjectSemanticDataSearchService projectSemanticDataSearchService) {
+        this.pepperEditingContextPredicate = new PepperEditingContextPredicate(projectSearchService, projectSemanticDataSearchService);
     }
 
     @Override
     public void preProcess(IEditingContext editingContext) {
-        var isProjectManagementProject = new UUIDParser().parse(editingContext.getId())
-                .flatMap(this.projectSearchService::findById)
-                .filter(project -> project.getNatures().stream()
-                        .map(Nature::name)
-                        .anyMatch(ProjectManagementProjectTemplateProvider.PROJECTMANAGEMENT_NATURE::equals))
-                .isPresent();
 
-        if (isProjectManagementProject && editingContext instanceof EditingContext emfEditingContext) {
+        if (this.pepperEditingContextPredicate.test(editingContext) && editingContext instanceof EditingContext emfEditingContext) {
             var packageRegistry = emfEditingContext.getDomain().getResourceSet().getPackageRegistry();
             packageRegistry.put(ProjectmgmtPackage.eNS_URI, ProjectmgmtPackage.eINSTANCE);
 

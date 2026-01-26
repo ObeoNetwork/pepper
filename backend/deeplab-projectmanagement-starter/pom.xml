@@ -25,11 +25,6 @@
 	<name>deeplab-projectmanagement-starter</name>
 	<description>Deeplab Project Management Starter</description>
 
-	<properties>
-		<java.version>17</java.version>
-		<sirius.version>7.2.0-SNAPSHOT</sirius.version>
-	</properties>
-
 	<repositories>
 		<repository>
 			<id>Eclipse Sirius</id>
@@ -54,7 +49,7 @@
 		<dependency>
 			<groupId>org.eclipse.sirius</groupId>
 			<artifactId>sirius-web-application</artifactId>
-			<version>2025.1.0</version>
+			<version>2025.2.0</version>
 		</dependency>
 
 		<dependency>
