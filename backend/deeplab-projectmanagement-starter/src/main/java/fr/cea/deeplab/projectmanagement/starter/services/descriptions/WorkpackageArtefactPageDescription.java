@@ -44,7 +44,7 @@ import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
 import org.eclipse.sirius.components.forms.description.GroupDescription;
 import org.eclipse.sirius.components.forms.description.PageDescription;
-import org.eclipse.sirius.components.forms.description.TableWidgetDescription;
+import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
 import org.eclipse.sirius.components.representations.VariableManager;
 import org.eclipse.sirius.components.tables.components.SelectCellComponent;
 import org.eclipse.sirius.components.tables.descriptions.ColumnDescription;
@@ -212,6 +212,7 @@ public class WorkpackageArtefactPageDescription {
                         .cellOptionsIdProvider(this.getCellOptionsIdProvider())
                         .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
                         .cellOptionsProvider(this.getCellOptionsProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build()
         );
         iCellDescriptionList.add(
@@ -223,6 +224,7 @@ public class WorkpackageArtefactPageDescription {
                         .cellOptionsIdProvider(this.getCellOptionsIdProvider())
                         .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
                         .cellOptionsProvider(this.getCellOptionsProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build()
         );
         iCellDescriptionList.add(
@@ -231,6 +233,7 @@ public class WorkpackageArtefactPageDescription {
                         .targetObjectKindProvider(vm-> "")
                         .canCreatePredicate(this.canCreateCellProvider(TextfieldCellElementProps.TYPE))
                         .cellValueProvider(this.getCellValueProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build());
         return iCellDescriptionList;
     }

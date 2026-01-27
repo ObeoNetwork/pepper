@@ -438,6 +438,7 @@ public class WidgetDescriptionBuilderHelper {
                         .cellOptionsIdProvider(this.getCellOptionsIdProvider())
                         .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
                         .cellOptionsProvider(this.getCellOptionsProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build()
         );
         iCellDescriptionList.add(
@@ -449,6 +450,7 @@ public class WidgetDescriptionBuilderHelper {
                         .cellOptionsIdProvider(this.getCellOptionsIdProvider())
                         .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
                         .cellOptionsProvider(this.getCellOptionsProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build()
         );
         iCellDescriptionList.add(
@@ -457,6 +459,7 @@ public class WidgetDescriptionBuilderHelper {
                         .targetObjectKindProvider(vm-> "")
                         .canCreatePredicate(this.canCreateCellProvider(TextfieldCellElementProps.TYPE))
                         .cellValueProvider(this.getCellValueProvider())
+                        .cellTooltipValueProvider((vm, o) -> "")
                         .build());
         return iCellDescriptionList;
     }

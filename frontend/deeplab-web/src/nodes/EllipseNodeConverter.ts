@@ -16,8 +16,8 @@ import {
   GQLDiagram,
   GQLDiagramDescription,
   GQLEdge,
-  GQLNode,
   GQLHandleLayoutData,
+  GQLNode,
   GQLNodeDescription,
   GQLNodeLayoutData,
   GQLNodeStyle,
@@ -28,9 +28,9 @@ import {
   convertInsideLabel,
   convertLineStyle,
   convertOutsideLabels,
-  isListLayoutStrategy,
   defaultHeight,
   defaultWidth,
+  isListLayoutStrategy,
 } from '@eclipse-sirius/sirius-components-diagrams';
 import { Node, XYPosition } from '@xyflow/react';
 import { EllipseNodeData, GQLEllipseNodeStyle } from './EllipseNode.types';
@@ -57,6 +57,7 @@ const toEllipseNode = (
     pinned,
     style,
     labelEditable,
+    customizedStyleProperties,
   } = gqlNode;
 
   const handleLayoutData: GQLHandleLayoutData[] = gqlDiagram.layoutData.nodeLayoutData
@@ -95,10 +96,14 @@ const toEllipseNode = (
     labelEditable,
     isNew,
     resizedByUser,
-    isListChild: isListLayoutStrategy(gqlParentNode?.childrenLayoutStrategy),
+    isListChild: isListLayoutStrategy(gqlParentNode?.style.childrenLayoutStrategy),
     isDropNodeTarget: false,
     isDropNodeCandidate: false,
     isHovered: false,
+    nodeAppearanceData: {
+      gqlStyle: style,
+      customizedStyleProperties,
+    },
   };
 
   data.insideLabel = convertInsideLabel(

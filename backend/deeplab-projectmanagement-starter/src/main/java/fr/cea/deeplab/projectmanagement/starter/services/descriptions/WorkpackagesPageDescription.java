@@ -34,7 +34,7 @@ import org.eclipse.sirius.components.forms.description.AbstractControlDescriptio
 import org.eclipse.sirius.components.forms.description.ButtonDescription;
 import org.eclipse.sirius.components.forms.description.GroupDescription;
 import org.eclipse.sirius.components.forms.description.PageDescription;
-import org.eclipse.sirius.components.forms.description.TableWidgetDescription;
+import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
 import org.eclipse.sirius.components.representations.Success;
 import org.eclipse.sirius.components.representations.VariableManager;
 import org.eclipse.sirius.components.tables.descriptions.LineDescription;
