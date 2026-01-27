@@ -24,7 +24,8 @@
       "dependsOn": ["format-lint", "^build-dev"]
     },
     "start": {
-      "dependsOn": ["format-lint", "^start"]
+      "dependsOn": ["format-lint", "^build-dev"],
+      "persistent": true
     }
   }
 }

@@ -49,7 +49,6 @@
 		<dependency>
 			<groupId>org.eclipse.sirius</groupId>
 			<artifactId>sirius-web-application</artifactId>
-			<version>2025.2.0</version>
 		</dependency>
 
 		<dependency>

@@ -386,16 +386,17 @@ public class WidgetDescriptionBuilderHelper {
         Map<EStructuralFeature, String> featureToDisplayName = this.getColumnsStructuralFeaturesDisplayName(eObject);
 
         ColumnDescription columnDescription = ColumnDescription.newColumnDescription("features")
-                .semanticElementsProvider(vm -> featureToDisplayName.keySet().stream().map(Object.class::cast).toList())
-                .headerLabelProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(featureToDisplayName::get).orElse(""))
                 .targetObjectIdProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(EStructuralFeature::getName).orElse(""))
-                .targetObjectKindProvider(vm -> "")
+                .headerLabelProvider(vm -> vm.get(VariableManager.SELF, EStructuralFeature.class).map(featureToDisplayName::get).orElse(""))
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
+                .targetObjectKindProvider(vm -> "")
+                .semanticElementsProvider(vm -> featureToDisplayName.keySet().stream().map(Object.class::cast).toList())
                 .shouldRenderPredicate(vm -> true)
                 .initialWidthProvider(vm -> 40)
                 .isResizablePredicate(vm -> true)
                 .filterVariantProvider(vm -> "")
+                .isSortablePredicate(vm -> true)
                 .build();
         return columnDescription;
     }

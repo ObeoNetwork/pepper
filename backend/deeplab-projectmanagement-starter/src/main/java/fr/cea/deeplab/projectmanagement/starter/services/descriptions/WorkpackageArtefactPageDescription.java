@@ -17,13 +17,24 @@ import fr.cea.deeplab.projectmanagement.starter.messages.IProjectManagementMessa
 import fr.cea.deeplab.projectmanagement.starter.messages.MessageConstants;
 import fr.cea.deeplab.projectmgmt.Project;
 import fr.cea.deeplab.projectmgmt.ProjectmgmtFactory;
+import fr.cea.deeplab.projectmgmt.Workpackage;
 import fr.cea.deeplab.projectmgmt.WorkpackageArtefact;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
@@ -35,10 +46,18 @@ import org.eclipse.sirius.components.forms.description.GroupDescription;
 import org.eclipse.sirius.components.forms.description.PageDescription;
 import org.eclipse.sirius.components.forms.description.TableWidgetDescription;
 import org.eclipse.sirius.components.representations.VariableManager;
+import org.eclipse.sirius.components.tables.components.SelectCellComponent;
 import org.eclipse.sirius.components.tables.descriptions.ColumnDescription;
+import org.eclipse.sirius.components.tables.descriptions.ICellDescription;
 import org.eclipse.sirius.components.tables.descriptions.LineDescription;
+import org.eclipse.sirius.components.tables.descriptions.MultiSelectCellDescription;
 import org.eclipse.sirius.components.tables.descriptions.PaginatedData;
+import org.eclipse.sirius.components.tables.descriptions.SelectCellDescription;
 import org.eclipse.sirius.components.tables.descriptions.TableDescription;
+import org.eclipse.sirius.components.tables.descriptions.TextfieldCellDescription;
+import org.eclipse.sirius.components.tables.elements.MultiSelectCellElementProps;
+import org.eclipse.sirius.components.tables.elements.SelectCellElementProps;
+import org.eclipse.sirius.components.tables.elements.TextfieldCellElementProps;
 
 /**
  * This class is used to provide the project page description for the project workpackage artefact.
@@ -101,6 +120,7 @@ public class WorkpackageArtefactPageDescription {
                 .headerIndexLabelProvider(vm -> "")
                 .initialHeightProvider(vm -> 40)
                 .isResizablePredicate(variableManager -> true)
+                .depthLevelProvider(vm -> 0)
                 .build();
         lineDescriptions.add(lineDescription);
 
@@ -116,8 +136,11 @@ public class WorkpackageArtefactPageDescription {
                 .isStripeRowPredicate(vm -> true)
                 .lineDescription(lineDescription)
                 .columnDescriptions(List.of(workpackageColumnDescription, widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackageArtefact())))
-                .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
+                .cellDescriptions(this.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
+                .enableSubRows(true)
+                .pageSizeOptionsProvider(vm -> List.of(10, 20))
+                .defaultPageSizeIndexProvider(vm -> 20)
                 .build();
 
         TableWidgetDescription tableWidgetDescription = TableWidgetDescription.newTableWidgetDescription("workpackageArtefactsTableWidgetId")
@@ -173,7 +196,144 @@ public class WorkpackageArtefactPageDescription {
                 .initialWidthProvider(vm -> 40)
                 .isResizablePredicate(vm -> true)
                 .filterVariantProvider(vm -> "")
+                .isSortablePredicate(vm -> true)
                 .build();
         return columnDescription;
+    }
+
+    List<ICellDescription> buildCellDescription() {
+        List<ICellDescription> iCellDescriptionList = new ArrayList<>();
+        iCellDescriptionList.add(
+                SelectCellDescription.newSelectCellDescription("select cells")
+                        .canCreatePredicate(this.canCreateCellProvider(SelectCellElementProps.TYPE))
+                        .targetObjectIdProvider(vm -> "")
+                        .targetObjectKindProvider(vm -> "")
+                        .cellValueProvider(this.getCellValueProvider())
+                        .cellOptionsIdProvider(this.getCellOptionsIdProvider())
+                        .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
+                        .cellOptionsProvider(this.getCellOptionsProvider())
+                        .build()
+        );
+        iCellDescriptionList.add(
+                MultiSelectCellDescription.newMultiSelectCellDescription("multi cells")
+                        .targetObjectIdProvider(vm -> "")
+                        .targetObjectKindProvider(vm -> "")
+                        .canCreatePredicate(this.canCreateCellProvider(MultiSelectCellElementProps.TYPE))
+                        .cellValueProvider(this.getMultiCellValueProvider())
+                        .cellOptionsIdProvider(this.getCellOptionsIdProvider())
+                        .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
+                        .cellOptionsProvider(this.getCellOptionsProvider())
+                        .build()
+        );
+        iCellDescriptionList.add(
+                TextfieldCellDescription.newTextfieldCellDescription("text cells")
+                        .targetObjectIdProvider(vm-> "")
+                        .targetObjectKindProvider(vm-> "")
+                        .canCreatePredicate(this.canCreateCellProvider(TextfieldCellElementProps.TYPE))
+                        .cellValueProvider(this.getCellValueProvider())
+                        .build());
+        return iCellDescriptionList;
+    }
+
+    Function<VariableManager, String> getCellOptionsIdProvider() {
+        return variableManager -> {
+            Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
+            if (candidate instanceof EEnumLiteral) {
+                return this.objectService.getLabel(candidate);
+            }
+            return this.objectService.getId(candidate);
+        };
+    }
+
+    Function<VariableManager, String> getCellOptionsLabelProvider() {
+        return  variableManager -> {
+            Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
+            if (candidate instanceof EEnumLiteral) {
+                return this.objectService.getLabel(candidate);
+            }
+            return this.objectService.getLabel(candidate);
+        };
+    }
+
+    BiFunction<VariableManager, Object, List<Object>> getCellOptionsProvider() {
+        return (variableManager, columnTargetObject) -> {
+            if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
+                return variableManager.get(VariableManager.SELF, WorkpackageArtefact.class)
+                        .map(wpa -> wpa.eContainer().eContainer())
+                        .map(Project.class::cast)
+                        .stream()
+                        .flatMap(project -> project.getOwnedWorkpackages().stream())
+                        .map(Object.class::cast)
+                        .toList();
+            } else {
+                return new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellOptionsProvider().apply(variableManager, columnTargetObject);
+            }
+        };
+    }
+
+    private BiFunction<VariableManager, Object, String> getCellValueProvider() {
+        return (variableManager, columnTargetObject) -> {
+            Object value = "";
+            Optional<WorkpackageArtefact> optionalWorkpackageArtefact = variableManager.get(VariableManager.SELF, WorkpackageArtefact.class);
+            if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
+                if (optionalWorkpackageArtefact.isPresent() && optionalWorkpackageArtefact.get().eContainer() instanceof Workpackage workpackage) {
+                    value = this.objectService.getId(workpackage);
+                }
+            } else {
+                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellValueProvider().apply(variableManager, columnTargetObject);
+            }
+            return value.toString();
+        };
+    }
+
+    private BiFunction<VariableManager, Object, List<String>> getMultiCellValueProvider() {
+        return (variableManager, columnTargetObject) -> {
+            Object value = "";
+            Optional<WorkpackageArtefact> optionalWorkpackageArtefact = variableManager.get(VariableManager.SELF, WorkpackageArtefact.class);
+            if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
+                if (optionalWorkpackageArtefact.isPresent() && optionalWorkpackageArtefact.get().eContainer() instanceof Workpackage workpackage) {
+                    value = this.objectService.getId(workpackage);
+                }
+            } else {
+                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getMultiCellValueProvider().apply(variableManager, columnTargetObject);
+            }
+            return List.of(value.toString());
+        };
+    }
+
+    Predicate<VariableManager> canCreateCellProvider(String requiredCellType) {
+        return (variableManager) -> {
+            Optional<String> optionalString = variableManager.get("columnTargetObject", String.class);
+            if (optionalString.isPresent()) {
+                String columnWorkpackage = optionalString.get();
+                if (columnWorkpackage.equals("WORKPACKAGE_COLUMN_NAME")) {
+                    return true;
+                }
+            }
+            String type = "";
+            Optional<EStructuralFeature> columnTargetObject = variableManager.get("columnTargetObject", EStructuralFeature.class);
+            Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
+            if (optionalEObject.isPresent() && columnTargetObject.isPresent()) {
+                EStructuralFeature eStructuralFeature = columnTargetObject.get();
+                EClassifier eType = eStructuralFeature.getEType();
+                if (eStructuralFeature instanceof EAttribute) {
+                    if (eType instanceof EEnum) {
+                        type = SelectCellElementProps.TYPE;
+                    }
+                } else {
+                    EReference eReference = (EReference) eStructuralFeature;
+                    if (eReference.isMany() && !eReference.isContainment()) {
+                        type = MultiSelectCellElementProps.TYPE;
+                    }
+                    if (!eReference.isMany() && !eReference.isContainment()) {
+                        type = SelectCellElementProps.TYPE;
+                    }
+                }
+                if (type.isEmpty()) {
+                    type = TextfieldCellElementProps.TYPE;
+                }
+            }
+            return requiredCellType.equals(type);
+        };
     }
 }

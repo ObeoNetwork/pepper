@@ -96,7 +96,8 @@ public class WorkpackagesPageDescription {
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
                 .initialHeightProvider(vm -> 40)
-                .isResizablePredicate(variableManager -> true)
+                .isResizablePredicate(vm -> true)
+                .depthLevelProvider(vm -> 0)
                 .build();
 
         WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory,
@@ -112,6 +113,9 @@ public class WorkpackagesPageDescription {
                 .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackage())))
                 .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
+                .enableSubRows(true)
+                .pageSizeOptionsProvider(vm -> List.of(10, 20))
+                .defaultPageSizeIndexProvider(vm -> 20)
                 .build();
 
         TableWidgetDescription tableWidgetDescription = TableWidgetDescription.newTableWidgetDescription("workpackagesTableWidgetId")

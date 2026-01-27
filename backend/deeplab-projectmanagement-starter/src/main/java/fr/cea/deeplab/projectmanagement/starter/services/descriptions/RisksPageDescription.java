@@ -95,7 +95,8 @@ public class RisksPageDescription {
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
                 .initialHeightProvider(vm -> 40)
-                .isResizablePredicate(variableManager -> true)
+                .isResizablePredicate(vm -> true)
+                .depthLevelProvider(vm -> 0)
                 .build();
 
 
@@ -111,6 +112,9 @@ public class RisksPageDescription {
                 .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createRisk())))
                 .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
+                .enableSubRows(true)
+                .pageSizeOptionsProvider(vm -> List.of(10, 20))
+                .defaultPageSizeIndexProvider(vm -> 20)
                 .build();
 
         TableWidgetDescription tableWidgetDescription = TableWidgetDescription.newTableWidgetDescription("risksTableWidgetId")
