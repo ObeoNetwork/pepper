@@ -38,7 +38,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
+import org.eclipse.sirius.components.core.api.labels.StyledString;
 import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
 import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
@@ -66,9 +68,12 @@ import org.eclipse.sirius.components.tables.elements.TextfieldCellElementProps;
  */
 public class WorkpackageArtefactPageDescription {
 
-    private final IObjectService objectService;
+    //private final IObjectService objectService;
+    private final ILabelService labelService;
 
     private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
 
     private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
@@ -78,10 +83,12 @@ public class WorkpackageArtefactPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public WorkpackageArtefactPageDescription(IObjectService objectService, IIdentityService identityService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
+    public WorkpackageArtefactPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
-        this.objectService = objectService;
+        //this.objectService = objectService;
+        this.labelService = labelService;
         this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.cursorBasedNavigationServices = cursorBasedNavigationServices;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
@@ -107,7 +114,8 @@ public class WorkpackageArtefactPageDescription {
         List<AbstractControlDescription> controlDescriptions = new ArrayList<>();
 
         Function<VariableManager, String> labelProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class)
-                .map(this.objectService::getLabel)
+                .map(this.labelService::getStyledLabel)
+                .map(StyledString::toString)
                 .orElse(null);
 
         List<LineDescription> lineDescriptions = new ArrayList<>();
@@ -124,7 +132,7 @@ public class WorkpackageArtefactPageDescription {
                 .build();
         lineDescriptions.add(lineDescription);
 
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
         ColumnDescription workpackageColumnDescription = this.buildWorkpackageColumnDescription();
         TableDescription tableDescription = TableDescription.newTableDescription("workpackageArtefactsTableId")
@@ -179,7 +187,7 @@ public class WorkpackageArtefactPageDescription {
 
     private String getTargetObjectKind(VariableManager variableManager) {
         return variableManager.get(VariableManager.SELF, Object.class)
-                .map(this.identityService::getKind)
+                .map(this.identityService::getId)
                 .orElse(null);
     }
 
@@ -242,9 +250,9 @@ public class WorkpackageArtefactPageDescription {
         return variableManager -> {
             Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
             if (candidate instanceof EEnumLiteral) {
-                return this.objectService.getLabel(candidate);
+                return this.labelService.getStyledLabel(candidate).toString();
             }
-            return this.objectService.getId(candidate);
+            return this.identityService.getId(candidate);
         };
     }
 
@@ -252,9 +260,9 @@ public class WorkpackageArtefactPageDescription {
         return  variableManager -> {
             Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
             if (candidate instanceof EEnumLiteral) {
-                return this.objectService.getLabel(candidate);
+                return this.labelService.getStyledLabel(candidate).toString();
             }
-            return this.objectService.getLabel(candidate);
+            return this.labelService.getStyledLabel(candidate).toString();
         };
     }
 
@@ -269,7 +277,7 @@ public class WorkpackageArtefactPageDescription {
                         .map(Object.class::cast)
                         .toList();
             } else {
-                return new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellOptionsProvider().apply(variableManager, columnTargetObject);
+                return new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellOptionsProvider().apply(variableManager, columnTargetObject);
             }
         };
     }
@@ -280,10 +288,10 @@ public class WorkpackageArtefactPageDescription {
             Optional<WorkpackageArtefact> optionalWorkpackageArtefact = variableManager.get(VariableManager.SELF, WorkpackageArtefact.class);
             if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
                 if (optionalWorkpackageArtefact.isPresent() && optionalWorkpackageArtefact.get().eContainer() instanceof Workpackage workpackage) {
-                    value = this.objectService.getId(workpackage);
+                    value = this.identityService.getId(workpackage);
                 }
             } else {
-                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellValueProvider().apply(variableManager, columnTargetObject);
+                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellValueProvider().apply(variableManager, columnTargetObject);
             }
             return value.toString();
         };
@@ -295,10 +303,10 @@ public class WorkpackageArtefactPageDescription {
             Optional<WorkpackageArtefact> optionalWorkpackageArtefact = variableManager.get(VariableManager.SELF, WorkpackageArtefact.class);
             if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
                 if (optionalWorkpackageArtefact.isPresent() && optionalWorkpackageArtefact.get().eContainer() instanceof Workpackage workpackage) {
-                    value = this.objectService.getId(workpackage);
+                    value = this.identityService.getId(workpackage);
                 }
             } else {
-                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getMultiCellValueProvider().apply(variableManager, columnTargetObject);
+                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getMultiCellValueProvider().apply(variableManager, columnTargetObject);
             }
             return List.of(value.toString());
         };

@@ -25,7 +25,9 @@ import java.util.function.Function;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.IIdentityService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
 import org.eclipse.sirius.components.forms.FlexDirection;
 import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractWidgetDescription;
@@ -44,7 +46,11 @@ import org.eclipse.sirius.components.representations.VariableManager;
  */
 public class CustomerPageDescription {
 
-    private final IObjectService objectService;
+    private final ILabelService labelService;
+
+    private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
@@ -54,13 +60,15 @@ public class CustomerPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public CustomerPageDescription(IObjectService objectService, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
+    public CustomerPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService,  ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
-        this.objectService = objectService;
+        this.labelService = labelService;
+        this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
-        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
+        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null);
     }
 
     PageDescription getCustomerPageDescription() {
@@ -97,15 +105,15 @@ public class CustomerPageDescription {
     }
 
     private AbstractWidgetDescription getContainer1() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
 
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_CLIENTS_GROUP_CLIENTS));
-        MultiSelectDescription clientsMultiSelectDescription = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        MultiSelectDescription clientsMultiSelectDescription = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService)
                 .buildMultiSelectDescriptionForProjectResource(ProjectmgmtPackage.eINSTANCE.getProject_Clients(), null);
 
-        MultiSelectDescription partnersMultiSelectDescription = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        MultiSelectDescription partnersMultiSelectDescription = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService)
                 .buildMultiSelectDescriptionForProjectResource(ProjectmgmtPackage.eINSTANCE.getProject_Partners(), null);
 
@@ -113,7 +121,7 @@ public class CustomerPageDescription {
     }
 
     private AbstractWidgetDescription getContainer2() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
 
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_CLIENTS_GROUP_NEEDS));

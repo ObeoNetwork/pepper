@@ -18,14 +18,13 @@ import java.util.Optional;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IEditService;
-import org.eclipse.sirius.components.core.api.IEditServiceDelegate;
-import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
-import org.eclipse.sirius.components.core.api.IObjectService;
-import org.eclipse.sirius.components.emf.services.DefaultEditService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.web.application.object.services.DefaultEditService;
 import org.eclipse.sirius.components.emf.services.ISuggestedRootObjectTypesProvider;
 import org.eclipse.sirius.components.emf.services.api.IEMFKindService;
 import org.eclipse.sirius.components.emf.services.messages.IEMFMessageService;
+import org.eclipse.sirius.web.application.views.explorer.services.api.IExplorerLabelServiceDelegate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,11 +33,11 @@ import org.springframework.stereotype.Service;
  * @author Laurent Fasani
  */
 @Service
-public class ProjectManagementEditServiceDelegate extends DefaultEditService implements IEditServiceDelegate {
+public class ProjectManagementEditServiceDelegate extends DefaultEditService implements IExplorerLabelServiceDelegate {
 
     public ProjectManagementEditServiceDelegate(IEMFKindService emfKindService, ComposedAdapterFactory composedAdapterFactory, Optional<ISuggestedRootObjectTypesProvider> optionalSuggestedRootObjectsProvider,
-            IObjectService objectService, IFeedbackMessageService feedbackMessageService, IEMFMessageService messageService) {
-        super(emfKindService, composedAdapterFactory, optionalSuggestedRootObjectsProvider, objectService, feedbackMessageService, messageService);
+            ILabelService labelService, IFeedbackMessageService feedbackMessageService, IEMFMessageService messageService) {
+        super(emfKindService, composedAdapterFactory, optionalSuggestedRootObjectsProvider, labelService, feedbackMessageService, messageService);
     }
 
     @Override
@@ -47,12 +46,12 @@ public class ProjectManagementEditServiceDelegate extends DefaultEditService imp
     }
 
     @Override
-    public boolean canHandle(IEditingContext editingContext) {
+    public boolean isEditable(Object self) {
         return true;
     }
 
     @Override
-    public void editLabel(Object object, String labelField, String newValue) {
+    public void editLabel(Object object, String newValue) {
         if (object instanceof TaskTag tag) {
             String[] split = newValue.split("::");
             if (split.length > 0) {
@@ -61,8 +60,6 @@ public class ProjectManagementEditServiceDelegate extends DefaultEditService imp
             if (split.length > 1) {
                 tag.setSuffix(split[1]);
             }
-        } else {
-            super.editLabel(object, labelField, newValue);
-        }
+        } 
     }
 }

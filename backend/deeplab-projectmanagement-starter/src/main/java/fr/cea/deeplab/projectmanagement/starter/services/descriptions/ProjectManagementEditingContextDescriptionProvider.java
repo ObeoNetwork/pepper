@@ -25,7 +25,8 @@ import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IEditingContextRepresentationDescriptionProvider;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
 import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
 import org.eclipse.sirius.components.forms.description.FormDescription;
 import org.eclipse.sirius.components.forms.description.PageDescription;
@@ -46,9 +47,11 @@ public class ProjectManagementEditingContextDescriptionProvider implements IEdit
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
+    private final ILabelService labelService;
+
     private final IIdentityService identityService;
 
-    private final IObjectService objectService;
+    private final IObjectSearchService objectSearchService;
 
     private final IProjectManagementMessageService projectManagementMessageService;
 
@@ -56,10 +59,11 @@ public class ProjectManagementEditingContextDescriptionProvider implements IEdit
 
     private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
-    public ProjectManagementEditingContextDescriptionProvider(ComposedAdapterFactory composedAdapterFactory, IIdentityService identityService, IObjectService objectService, IProjectManagementMessageService projectManagementMessageService,
+    public ProjectManagementEditingContextDescriptionProvider(ComposedAdapterFactory composedAdapterFactory, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
+        this.labelService = Objects.requireNonNull(labelService);
         this.identityService = Objects.requireNonNull(identityService);
-        this.objectService = Objects.requireNonNull(objectService);
+        this.objectSearchService = Objects.requireNonNull(objectSearchService);
         this.composedAdapterFactory = Objects.requireNonNull(composedAdapterFactory);
         this.projectManagementMessageService = Objects.requireNonNull(projectManagementMessageService);
         this.feedbackMessageService = feedbackMessageService;
@@ -69,12 +73,12 @@ public class ProjectManagementEditingContextDescriptionProvider implements IEdit
     @Override
     public List<IRepresentationDescription> getRepresentationDescriptions(IEditingContext editingContext) {
 
-        PageDescription projectPageDescription = new ProjectPageDescription(this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getProjectPageDescription();
-        PageDescription customerPageDescription = new CustomerPageDescription(this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCustomerPageDescription();
-        PageDescription planningAndCostingPageDescription = new PlanningAndCostingPageDescription(this.objectService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getPageDescription();
-        PageDescription workpackagesPageDescription = new WorkpackagesPageDescription(this.objectService, this.identityService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getWorkpackagesPageDescription();
-        PageDescription workpackageArtefactPageDescription = new WorkpackageArtefactPageDescription(this.objectService, this.identityService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getWorkpackageArtefactsPageDescription();
-        PageDescription risksPageDescription = new RisksPageDescription(this.objectService, this.identityService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getRisksPageDescription();
+        PageDescription projectPageDescription = new ProjectPageDescription(this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getProjectPageDescription();
+        PageDescription customerPageDescription = new CustomerPageDescription(this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCustomerPageDescription();
+        PageDescription planningAndCostingPageDescription = new PlanningAndCostingPageDescription(this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getPageDescription();
+        PageDescription workpackagesPageDescription = new WorkpackagesPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getWorkpackagesPageDescription();
+        PageDescription workpackageArtefactPageDescription = new WorkpackageArtefactPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getWorkpackageArtefactsPageDescription();
+        PageDescription risksPageDescription = new RisksPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getRisksPageDescription();
 
 
         FormDescription projectFormDescription =  FormDescription.newFormDescription(PROJECT_FORM_ID)

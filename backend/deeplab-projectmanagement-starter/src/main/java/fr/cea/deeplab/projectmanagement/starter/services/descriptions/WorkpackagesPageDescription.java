@@ -26,7 +26,9 @@ import java.util.function.Function;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
+import org.eclipse.sirius.components.core.api.labels.StyledString;
 import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
 import org.eclipse.sirius.components.forms.ButtonStyle;
 import org.eclipse.sirius.components.forms.WidgetIdProvider;
@@ -48,9 +50,11 @@ import org.eclipse.sirius.components.tables.descriptions.TableDescription;
  */
 public class WorkpackagesPageDescription {
 
-    private final IObjectService objectService;
+    private final ILabelService labelService;
 
     private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
 
     private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
@@ -60,10 +64,11 @@ public class WorkpackagesPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public WorkpackagesPageDescription(IObjectService objectService, IIdentityService identityService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
+    public WorkpackagesPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
             IProjectManagementMessageService projectManagementMessageService, IFeedbackMessageService feedbackMessageService) {
-        this.objectService = objectService;
+        this.labelService = labelService;
         this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.cursorBasedNavigationServices = cursorBasedNavigationServices;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
@@ -85,7 +90,7 @@ public class WorkpackagesPageDescription {
         List<AbstractControlDescription> controlDescriptions = new ArrayList<>();
 
         Function<VariableManager, String> labelProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class)
-                .map(this.objectService::getLabel)
+                .map(this.labelService::getStyledLabel).map(StyledString::toString)
                 .orElse(null);
 
         LineDescription lineDescription = LineDescription.newLineDescription("Table - Line")
@@ -100,7 +105,7 @@ public class WorkpackagesPageDescription {
                 .depthLevelProvider(vm -> 0)
                 .build();
 
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
         TableDescription tableDescription = TableDescription.newTableDescription("workpackagesTableId")
                 .label("")
@@ -150,7 +155,10 @@ public class WorkpackagesPageDescription {
     private ButtonDescription getCreateWorkpackageButtonDescription() {
         return ButtonDescription.newButtonDescription("createWorkpackage")
                 .idProvider(new WidgetIdProvider())
-                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null))
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class)
+                        .map(this.labelService::getStyledLabel)
+                        .map(StyledString::toString)
+                        .orElse(null))
                 .labelProvider(variableManager -> "Create New Workpackage")
                 .iconURLProvider(variableManager -> List.of())
                 .isReadOnlyProvider(variableManager -> false)
@@ -181,7 +189,7 @@ public class WorkpackagesPageDescription {
 
     private String getTargetObjectKind(VariableManager variableManager) {
         return variableManager.get(VariableManager.SELF, Object.class)
-                .map(this.identityService::getKind)
+                .map(this.identityService::getId)
                 .orElse(null);
     }
 }

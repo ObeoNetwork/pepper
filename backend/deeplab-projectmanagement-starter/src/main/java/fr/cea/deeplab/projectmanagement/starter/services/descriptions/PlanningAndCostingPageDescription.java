@@ -30,7 +30,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.IIdentityService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
 import org.eclipse.sirius.components.emf.forms.EMFFormDescriptionProvider;
 import org.eclipse.sirius.components.emf.forms.EStructuralFeatureLabelProvider;
 import org.eclipse.sirius.components.forms.DateTimeStyle;
@@ -57,8 +59,11 @@ import org.eclipse.sirius.components.representations.VariableManager;
  */
 public class PlanningAndCostingPageDescription {
 
-    private final IObjectService objectService;
+    private final ILabelService labelService;
 
+    private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
     private final ComposedAdapterFactory composedAdapterFactory;
 
     private final IProjectManagementMessageService projectManagementMessageService;
@@ -67,13 +72,15 @@ public class PlanningAndCostingPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public PlanningAndCostingPageDescription(IObjectService objectService, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
+    public PlanningAndCostingPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
-        this.objectService = objectService;
+        this.labelService = labelService;
+        this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
-        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
+        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null);
     }
 
     PageDescription getPageDescription() {
@@ -109,7 +116,7 @@ public class PlanningAndCostingPageDescription {
     }
 
     private AbstractWidgetDescription getContainer1() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
 
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_PLANNING_GROUP_PLANNING));
@@ -125,7 +132,7 @@ public class PlanningAndCostingPageDescription {
     }
 
     private AbstractWidgetDescription getContainer2() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
 
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_PLANNING_GROUP_BUDGET));
@@ -142,7 +149,7 @@ public class PlanningAndCostingPageDescription {
     }
 
     DateTimeDescription buildDateTimeDescription(EAttribute feature) {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
 
         return DateTimeDescription.newDateTimeDescription(UUID.randomUUID().toString())

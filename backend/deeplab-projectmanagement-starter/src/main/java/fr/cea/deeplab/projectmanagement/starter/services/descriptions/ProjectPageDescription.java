@@ -27,7 +27,9 @@ import java.util.function.Function;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.IIdentityService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
 import org.eclipse.sirius.components.emf.forms.EMFFormDescriptionProvider;
 import org.eclipse.sirius.components.emf.forms.EStructuralFeatureLabelProvider;
 import org.eclipse.sirius.components.forms.ContainerBorderLineStyle;
@@ -56,7 +58,11 @@ import org.eclipse.sirius.components.representations.VariableManager;
  */
 public class ProjectPageDescription {
 
-    private final IObjectService objectService;
+    private final ILabelService labelService;
+
+    private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
 
     private final Function<VariableManager, String> semanticTargetIdProvider;
 
@@ -66,13 +72,15 @@ public class ProjectPageDescription {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public ProjectPageDescription(IObjectService objectService, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
+    public ProjectPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
-        this.objectService = objectService;
+        this.labelService = labelService;
+        this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
-        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.objectService::getId).orElse(null);
+        this.semanticTargetIdProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null);
     }
 
     PageDescription getProjectPageDescription() {
@@ -108,7 +116,7 @@ public class ProjectPageDescription {
     }
 
     private AbstractWidgetDescription getContainer1() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_PROJECT_GROUP_INFORMATION));
         TextfieldDescription nameDescription = widgetDescriptionBuilderHelper.buildTextfieldDescription(ProjectmgmtPackage.eINSTANCE.getProject_Name());
@@ -158,7 +166,7 @@ public class ProjectPageDescription {
     }
 
     private AbstractWidgetDescription getContainer2() {
-        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.objectService, this.composedAdapterFactory,
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.projectManagementMessageService.getMessage(MessageConstants.PAGE_PROJECT_GROUP_ACTORS));
         SelectDescription leaderSelectDescription = widgetDescriptionBuilderHelper

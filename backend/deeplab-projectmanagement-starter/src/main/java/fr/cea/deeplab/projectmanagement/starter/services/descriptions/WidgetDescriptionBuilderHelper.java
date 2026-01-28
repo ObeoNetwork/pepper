@@ -55,7 +55,10 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
-import org.eclipse.sirius.components.core.api.IObjectService;
+import org.eclipse.sirius.components.core.api.IIdentityService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
+import org.eclipse.sirius.components.core.api.labels.StyledString;
 import org.eclipse.sirius.components.emf.forms.EMFFormDescriptionProvider;
 import org.eclipse.sirius.components.emf.forms.EStructuralFeatureLabelProvider;
 import org.eclipse.sirius.components.forms.CheckboxStyle;
@@ -102,7 +105,11 @@ public class WidgetDescriptionBuilderHelper {
 
     private final Function<VariableManager, String> semanticTargetIdProvider;
 
-    private final IObjectService objectService;
+    private final ILabelService labelService;
+
+    private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
@@ -110,10 +117,12 @@ public class WidgetDescriptionBuilderHelper {
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public WidgetDescriptionBuilderHelper(Function<VariableManager, String> semanticTargetIdProvider, IObjectService objectService, ComposedAdapterFactory composedAdapterFactory,
+    public WidgetDescriptionBuilderHelper(Function<VariableManager, String> semanticTargetIdProvider, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory,
             IProjectManagementMessageService projectManagementMessageService, IFeedbackMessageService feedbackMessageService) {
         this.semanticTargetIdProvider = semanticTargetIdProvider;
-        this.objectService = objectService;
+        this.labelService = labelService;
+        this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
         this.composedAdapterFactory = composedAdapterFactory;
         this.projectManagementMessageService = projectManagementMessageService;
         this.feedbackMessageService = feedbackMessageService;
@@ -269,9 +278,17 @@ public class WidgetDescriptionBuilderHelper {
                 .idProvider(new WidgetIdProvider())
                 .targetObjectIdProvider(this.semanticTargetIdProvider)
                 .labelProvider(this.getLabelProvider(feature))
-                .valueProvider(variableManager -> variableManager.get(VariableManager.SELF, Project.class).map(project -> project.eGet(feature)).map(this.objectService::getId).orElse(""))
-                .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass).map(this.objectService::getId).orElse(""))
-                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass).map(this.objectService::getLabel).orElse(""))
+                .valueProvider(variableManager -> variableManager.get(VariableManager.SELF, Project.class)
+                        .map(project -> project.eGet(feature))
+                        .map(this.identityService::getId)
+                        .orElse(""))
+                .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass)
+                        .map(this.identityService::getId)
+                        .orElse(""))
+                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass)
+                        .map(this.labelService::getStyledLabel)
+                        .map(StyledString::toString)
+                        .orElse(""))
                 .optionsProvider(variableManager -> variableManager.get(VariableManager.SELF, Project.class)
                         .map(EObject::eContainer)
                         .map(Organization.class::cast).stream()
@@ -289,7 +306,7 @@ public class WidgetDescriptionBuilderHelper {
                             if (newValue == null || newValue.isBlank()) {
                                 project.eSet(feature, null);
                             } else {
-                                this.objectService.getObject(optionalEditingContext.get(), newValue)
+                                this.objectSearchService.getObject(optionalEditingContext.get(), newValue)
                                         .filter(instanceClass::isInstance)
                                         .map(instanceClass::cast)
                                         .ifPresent(object -> project.eSet(feature, object));
@@ -322,10 +339,15 @@ public class WidgetDescriptionBuilderHelper {
                         .filter(Collection.class::isInstance)
                         .map(Collection.class::cast)
                         .flatMap(Collection::stream)
-                        .map(this.objectService::getId)
+                        .map(this.identityService::getId)
                         .toList())
-                .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass).map(this.objectService::getId).orElse(""))
-                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass).map(this.objectService::getLabel).orElse(""))
+                .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass)
+                        .map(this.identityService::getId)
+                        .orElse(""))
+                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, instanceClass)
+                        .map(this.labelService::getStyledLabel)
+                        .map(StyledString::toString)
+                        .orElse(""))
                 .optionsProvider(variableManager -> variableManager.get(VariableManager.SELF, Project.class)
                         .map(EObject::eContainer)
                         .map(Organization.class::cast).stream()
@@ -345,7 +367,7 @@ public class WidgetDescriptionBuilderHelper {
                             } else {
                                 Collection<Object> currentObjectValues = (Collection<Object>) project.eGet(feature);
                                 List<Object> newObjectValues = newValues.stream()
-                                        .map(newValue -> this.objectService.getObject(optionalEditingContext.get(), newValue))
+                                        .map(newValue -> this.objectSearchService.getObject(optionalEditingContext.get(), newValue))
                                         .filter(Optional::isPresent)
                                         .map(Optional::get)
                                         .toList();
@@ -473,9 +495,9 @@ public class WidgetDescriptionBuilderHelper {
                 Object objectValue = eObject.eGet(eStructuralFeature);
                 if (eStructuralFeature instanceof EReference eReference) {
                     if (eReference.isMany() && !eReference.isContainment() && objectValue instanceof EList<?>) {
-                        value = ((EList<?>) objectValue).stream().map(this.objectService::getId).collect(Collectors.toList());
+                        value = ((EList<?>) objectValue).stream().map(this.identityService::getId).collect(Collectors.toList());
                     } else if (!eReference.isMany() && !eReference.isContainment()) {
-                        value = this.objectService.getId(objectValue);
+                        value = this.identityService.getId(objectValue);
                     }
                 } else if (objectValue != null) {
                     if (objectValue instanceof Enumerator enumerator) {
@@ -500,9 +522,9 @@ public class WidgetDescriptionBuilderHelper {
                 Object objectValue = eObject.eGet(eStructuralFeature);
                 if (eStructuralFeature instanceof EReference eReference) {
                     if (eReference.isMany() && !eReference.isContainment() && objectValue instanceof EList<?>) {
-                        value = ((EList<?>) objectValue).stream().map(this.objectService::getId).collect(Collectors.toList());
+                        value = ((EList<?>) objectValue).stream().map(this.identityService::getId).collect(Collectors.toList());
                     } else if (!eReference.isMany() && !eReference.isContainment()) {
-                        value = this.objectService.getId(objectValue);
+                        value = this.identityService.getId(objectValue);
                     }
                 } else if (objectValue != null) {
                     if (objectValue instanceof Enumerator enumerator) {
@@ -551,9 +573,9 @@ public class WidgetDescriptionBuilderHelper {
         return variableManager -> {
             Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
             if (candidate instanceof EEnumLiteral) {
-                return this.objectService.getLabel(candidate);
+                return this.labelService.getStyledLabel(candidate).toString();
             }
-            return this.objectService.getId(candidate);
+            return this.identityService.getId(candidate);
         };
     }
 
@@ -561,9 +583,9 @@ public class WidgetDescriptionBuilderHelper {
         return  variableManager -> {
             Object candidate = variableManager.getVariables().get(SelectCellComponent.CANDIDATE_VARIABLE);
             if (candidate instanceof EEnumLiteral) {
-                return this.objectService.getLabel(candidate);
+                return this.labelService.getStyledLabel(candidate).toString();
             }
-            return this.objectService.getLabel(candidate);
+            return this.labelService.getStyledLabel(candidate).toString();
         };
     }
 
@@ -617,7 +639,7 @@ public class WidgetDescriptionBuilderHelper {
                         List<EObject> newValuesToSet = new ArrayList<>();
                         List<String> newValues = ((Collection<?>) newValue).stream().map(elt -> elt.toString()).collect(Collectors.toList());
                         for (String newStringValue : newValues) {
-                            var optionalNewValueToSet = this.objectService.getObject(optionalEditingContext.get(), newStringValue);
+                            var optionalNewValueToSet = this.objectSearchService.getObject(optionalEditingContext.get(), newStringValue);
                             if (optionalNewValueToSet.isEmpty()) {
                                 continue;
                             }
@@ -655,7 +677,7 @@ public class WidgetDescriptionBuilderHelper {
     private IStatus handleNewValueForMonoValue(Object newValue, EClassifier eType, Optional<IEditingContext> optionalEditingContext, EObject eObject, EStructuralFeature eStructuralFeature) {
         IStatus status = new Failure(this.projectManagementMessageService.getMessage(MessageConstants.INVALID_VALUE, newValue.toString()));
         if (eType instanceof EClass && newValue instanceof String newStringValue) {
-            var optionalNewValueToSet = this.objectService.getObject(optionalEditingContext.get(), newStringValue);
+            var optionalNewValueToSet = this.objectSearchService.getObject(optionalEditingContext.get(), newStringValue);
             if (optionalNewValueToSet.isPresent()) {
                 eObject.eSet(eStructuralFeature, optionalNewValueToSet.get());
                 status = new Success();
