@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.components.core.api.IEditService;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
 import org.eclipse.sirius.web.application.object.services.DefaultEditService;
 import org.eclipse.sirius.components.emf.services.ISuggestedRootObjectTypesProvider;
 import org.eclipse.sirius.components.emf.services.api.IEMFKindService;
@@ -36,8 +37,8 @@ import org.springframework.stereotype.Service;
 public class ProjectManagementEditServiceDelegate extends DefaultEditService implements IExplorerLabelServiceDelegate {
 
     public ProjectManagementEditServiceDelegate(IEMFKindService emfKindService, ComposedAdapterFactory composedAdapterFactory, Optional<ISuggestedRootObjectTypesProvider> optionalSuggestedRootObjectsProvider,
-            ILabelService labelService, IFeedbackMessageService feedbackMessageService, IEMFMessageService messageService) {
-        super(emfKindService, composedAdapterFactory, optionalSuggestedRootObjectsProvider, labelService, feedbackMessageService, messageService);
+            IObjectSearchService objectSearchService, ILabelService labelService, IFeedbackMessageService feedbackMessageService, IEMFMessageService messageService) {
+        super(emfKindService, composedAdapterFactory, optionalSuggestedRootObjectsProvider, objectSearchService, labelService, feedbackMessageService, messageService);
     }
 
     @Override
