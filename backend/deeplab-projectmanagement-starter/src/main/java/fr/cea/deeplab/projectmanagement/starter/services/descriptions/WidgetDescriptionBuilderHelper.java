@@ -494,9 +494,7 @@ public class WidgetDescriptionBuilderHelper {
                 EObject eObject = optionalEObject.get();
                 Object objectValue = eObject.eGet(eStructuralFeature);
                 if (eStructuralFeature instanceof EReference eReference) {
-                    if (eReference.isMany() && !eReference.isContainment() && objectValue instanceof EList<?>) {
-                        value = ((EList<?>) objectValue).stream().map(this.identityService::getId).collect(Collectors.toList());
-                    } else if (!eReference.isMany() && !eReference.isContainment()) {
+                    if (!eReference.isMany() && !eReference.isContainment()) {
                         value = this.identityService.getId(objectValue);
                     }
                 } else if (objectValue != null) {
@@ -515,28 +513,22 @@ public class WidgetDescriptionBuilderHelper {
 
     BiFunction<VariableManager, Object, List<String>> getMultiCellValueProvider() {
         return (variableManager, columnTargetObject) -> {
-            Object value = "";
+            List<String> value = new ArrayList<>();
             Optional<EObject> optionalEObject = variableManager.get(VariableManager.SELF, EObject.class);
             if (optionalEObject.isPresent() && columnTargetObject instanceof EStructuralFeature eStructuralFeature) {
                 EObject eObject = optionalEObject.get();
                 Object objectValue = eObject.eGet(eStructuralFeature);
                 if (eStructuralFeature instanceof EReference eReference) {
                     if (eReference.isMany() && !eReference.isContainment() && objectValue instanceof EList<?>) {
-                        value = ((EList<?>) objectValue).stream().map(this.identityService::getId).collect(Collectors.toList());
-                    } else if (!eReference.isMany() && !eReference.isContainment()) {
-                        value = this.identityService.getId(objectValue);
+                        value = ((EList<?>) objectValue).stream().map(this.identityService::getId).toList();
                     }
                 } else if (objectValue != null) {
                     if (objectValue instanceof Enumerator enumerator) {
-                        value =  enumerator.getName();
-                    } else {
-                        value = objectValue.toString();
+                        value.add(enumerator.getName());
                     }
                 }
             }
-            return List.of(Optional.ofNullable(value)
-                    .map(Object::toString)
-                    .orElse(""));
+            return value;
         };
     }
 
@@ -608,11 +600,9 @@ public class WidgetDescriptionBuilderHelper {
                         }
                     }
                     return organizationOpt.stream()
-                            .flatMap(org -> org.getOwnedResourceFolders()
-                                    .stream())
-                            .flatMap(resourceFolder -> StreamSupport.stream(Spliterators.spliteratorUnknownSize(resourceFolder.eAllContents(), Spliterator.ORDERED), false))
+                            .flatMap(org -> StreamSupport.stream(Spliterators.spliteratorUnknownSize(org.eAllContents(), Spliterator.ORDERED), false))
                             .filter(eObj -> eType.getInstanceClass().isInstance(eObj))
-                            .collect(Collectors.toCollection(LinkedHashSet::new))
+                            .toList()
                             .stream()
                             .map(Object.class::cast)
                             .toList();

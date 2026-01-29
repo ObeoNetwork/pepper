@@ -46,17 +46,16 @@ import org.eclipse.sirius.components.forms.WidgetIdProvider;
 import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
 import org.eclipse.sirius.components.forms.description.GroupDescription;
 import org.eclipse.sirius.components.forms.description.PageDescription;
-import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
-import org.eclipse.sirius.components.representations.VariableManager;
-import org.eclipse.sirius.components.tables.components.SelectCellComponent;
 import org.eclipse.sirius.components.tables.descriptions.ColumnDescription;
 import org.eclipse.sirius.components.tables.descriptions.ICellDescription;
 import org.eclipse.sirius.components.tables.descriptions.LineDescription;
-import org.eclipse.sirius.components.tables.descriptions.MultiSelectCellDescription;
 import org.eclipse.sirius.components.tables.descriptions.PaginatedData;
 import org.eclipse.sirius.components.tables.descriptions.SelectCellDescription;
 import org.eclipse.sirius.components.tables.descriptions.TableDescription;
 import org.eclipse.sirius.components.tables.descriptions.TextfieldCellDescription;
+import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
+import org.eclipse.sirius.components.representations.VariableManager;
+import org.eclipse.sirius.components.tables.components.SelectCellComponent;
 import org.eclipse.sirius.components.tables.elements.MultiSelectCellElementProps;
 import org.eclipse.sirius.components.tables.elements.SelectCellElementProps;
 import org.eclipse.sirius.components.tables.elements.TextfieldCellElementProps;
@@ -224,18 +223,6 @@ public class WorkpackageArtefactPageDescription {
                         .build()
         );
         iCellDescriptionList.add(
-                MultiSelectCellDescription.newMultiSelectCellDescription("multi cells")
-                        .targetObjectIdProvider(vm -> "")
-                        .targetObjectKindProvider(vm -> "")
-                        .canCreatePredicate(this.canCreateCellProvider(MultiSelectCellElementProps.TYPE))
-                        .cellValueProvider(this.getMultiCellValueProvider())
-                        .cellOptionsIdProvider(this.getCellOptionsIdProvider())
-                        .cellOptionsLabelProvider(this.getCellOptionsLabelProvider())
-                        .cellOptionsProvider(this.getCellOptionsProvider())
-                        .cellTooltipValueProvider((vm, o) -> "")
-                        .build()
-        );
-        iCellDescriptionList.add(
                 TextfieldCellDescription.newTextfieldCellDescription("text cells")
                         .targetObjectIdProvider(vm-> "")
                         .targetObjectKindProvider(vm-> "")
@@ -294,21 +281,6 @@ public class WorkpackageArtefactPageDescription {
                 value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getCellValueProvider().apply(variableManager, columnTargetObject);
             }
             return value.toString();
-        };
-    }
-
-    private BiFunction<VariableManager, Object, List<String>> getMultiCellValueProvider() {
-        return (variableManager, columnTargetObject) -> {
-            Object value = "";
-            Optional<WorkpackageArtefact> optionalWorkpackageArtefact = variableManager.get(VariableManager.SELF, WorkpackageArtefact.class);
-            if (MessageConstants.WORKPACKAGE_COLUMN_NAME.equals(columnTargetObject)) {
-                if (optionalWorkpackageArtefact.isPresent() && optionalWorkpackageArtefact.get().eContainer() instanceof Workpackage workpackage) {
-                    value = this.identityService.getId(workpackage);
-                }
-            } else {
-                value = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.projectManagementMessageService, this.feedbackMessageService).getMultiCellValueProvider().apply(variableManager, columnTargetObject);
-            }
-            return List.of(value.toString());
         };
     }
 

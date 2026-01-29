@@ -11,7 +11,6 @@
  *     Obeo - initial API and implementation
  *******************************************************************************/
 import {
-  BorderNodePosition,
   ConnectionHandle,
   GQLDiagram,
   GQLDiagramDescription,
@@ -24,6 +23,7 @@ import {
   GQLViewModifier,
   IConvertEngine,
   INodeConverter,
+  convertBorderNodePosition,
   convertHandles,
   convertInsideLabel,
   convertLineStyle,
@@ -65,11 +65,13 @@ const toEllipseNode = (
     .flatMap((nodeLayoutData) => nodeLayoutData.handleLayoutData);
 
   const connectionHandles: ConnectionHandle[] = convertHandles(gqlNode.id, gqlEdges, handleLayoutData);
+
   const gqlNodeLayoutData: GQLNodeLayoutData | undefined = gqlDiagram.layoutData.nodeLayoutData.find(
     (nodeLayoutData) => nodeLayoutData.id === id
   );
   const isNew = gqlNodeLayoutData === undefined;
   const resizedByUser = gqlNodeLayoutData?.resizedByUser ?? false;
+  const movedByUser = gqlNodeLayoutData?.movedByUser ?? false;
 
   const data: EllipseNodeData = {
     targetObjectId,
@@ -91,21 +93,24 @@ const toEllipseNode = (
     nodeDescription,
     defaultWidth: gqlNode.defaultWidth,
     defaultHeight: gqlNode.defaultHeight,
-    borderNodePosition: isBorderNode ? BorderNodePosition.EAST : null,
+    borderNodePosition: convertBorderNodePosition(gqlNode.initialBorderNodePosition),
     connectionHandles,
     labelEditable,
     isNew,
     resizedByUser,
+    movedByUser,
     isListChild: isListLayoutStrategy(gqlParentNode?.style.childrenLayoutStrategy),
     isDraggedNode: false,
     isDropNodeTarget: false,
     isDropNodeCandidate: false,
     isHovered: false,
-    connectionLinePositionOnNode: 'none',
     nodeAppearanceData: {
       gqlStyle: style,
       customizedStyleProperties,
     },
+    connectionLinePositionOnNode: 'none',
+    minComputedWidth: gqlNodeLayoutData?.minComputedSize.width ?? null,
+    minComputedHeight: gqlNodeLayoutData?.minComputedSize.height ?? null,
   };
 
   data.insideLabel = convertInsideLabel(
@@ -144,7 +149,12 @@ const toEllipseNode = (
     node.height = data.defaultHeight ?? defaultHeight;
     node.width = data.defaultWidth ?? defaultWidth;
   }
-
+  if (nodeLayoutData?.size.height && nodeLayoutData?.size.width) {
+    node.measured = {
+      height: nodeLayoutData.size.height,
+      width: nodeLayoutData.size.width,
+    };
+  }
   return node;
 };
 
@@ -165,7 +175,9 @@ export class EllipseNodeConverter implements INodeConverter {
     nodeDescriptions: GQLNodeDescription[]
   ) {
     const nodeDescription = nodeDescriptions.find((description) => description.id === gqlNode.descriptionId);
-    nodes.push(toEllipseNode(gqlDiagram, gqlNode, parentNode, nodeDescription, isBorderNode, gqlEdges));
+    if (nodeDescription) {
+      nodes.push(toEllipseNode(gqlDiagram, gqlNode, parentNode, nodeDescription, isBorderNode, gqlEdges));
+    }
 
     const borderNodeDescriptions: GQLNodeDescription[] = (nodeDescription?.borderNodeDescriptionIds ?? []).flatMap(
       (nodeDescriptionId) =>
