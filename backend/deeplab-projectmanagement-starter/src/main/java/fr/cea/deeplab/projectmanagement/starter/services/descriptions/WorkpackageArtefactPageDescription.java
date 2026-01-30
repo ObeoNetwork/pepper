@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024 CEA LIST.
+ * Copyright (c) 2024, 2026 CEA LIST.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  *
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ ******************************************************************************/
 
 package fr.cea.deeplab.projectmanagement.starter.services.descriptions;
 
@@ -84,7 +84,6 @@ public class WorkpackageArtefactPageDescription {
 
     public WorkpackageArtefactPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory, IProjectManagementMessageService projectManagementMessageService,
             IFeedbackMessageService feedbackMessageService) {
-        //this.objectService = objectService;
         this.labelService = labelService;
         this.identityService = identityService;
         this.objectSearchService = objectSearchService;
@@ -117,7 +116,6 @@ public class WorkpackageArtefactPageDescription {
                 .map(StyledString::toString)
                 .orElse(null);
 
-        List<LineDescription> lineDescriptions = new ArrayList<>();
         LineDescription lineDescription = LineDescription.newLineDescription("Table - Line") //$NON-NLS-1$
                 .targetObjectIdProvider(this::getTargetObjectId)
                 .targetObjectKindProvider(this::getTargetObjectKind)
@@ -125,11 +123,11 @@ public class WorkpackageArtefactPageDescription {
                 .headerLabelProvider(labelProvider)
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
-                .initialHeightProvider(vm -> 40)
+                .initialHeightProvider(vm -> 60)
                 .isResizablePredicate(variableManager -> true)
                 .depthLevelProvider(vm -> 0)
+                .hasChildrenProvider(vm -> true)
                 .build();
-        lineDescriptions.add(lineDescription);
 
         WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.projectManagementMessageService, this.feedbackMessageService);
@@ -145,7 +143,7 @@ public class WorkpackageArtefactPageDescription {
                 .columnDescriptions(List.of(workpackageColumnDescription, widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackageArtefact())))
                 .cellDescriptions(this.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
-                .enableSubRows(true)
+                .enableSubRows(false)
                 .pageSizeOptionsProvider(vm -> List.of(10, 20))
                 .defaultPageSizeIndexProvider(vm -> 20)
                 .build();

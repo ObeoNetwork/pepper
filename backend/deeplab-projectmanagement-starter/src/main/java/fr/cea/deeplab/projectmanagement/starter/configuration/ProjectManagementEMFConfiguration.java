@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024 CEA LIST.
+ * Copyright (c) 2024, 2026 CEA LIST.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,12 +9,12 @@
  *
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ ******************************************************************************/
 package fr.cea.deeplab.projectmanagement.starter.configuration;
 
 import fr.cea.deeplab.projectmgmt.provider.ProjectmgmtItemProviderAdapterFactory;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 public class ProjectManagementEMFConfiguration {
 
     @Bean
-    public AdapterFactory projectManagementAdapterFactory() {
-        return new ProjectmgmtItemProviderAdapterFactory();
+    public ComposedAdapterFactory.Descriptor projectManagementAdapterFactory() {
+        return ProjectmgmtItemProviderAdapterFactory::new;
     }
 }

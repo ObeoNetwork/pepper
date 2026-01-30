@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024 CEA LIST.
+ * Copyright (c) 2024, 2026 CEA LIST.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  *
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ ******************************************************************************/
 
 package fr.cea.deeplab.projectmanagement.starter.services.descriptions;
 
@@ -191,7 +191,7 @@ public class ProjectPageDescription {
     }
 
     private Function<VariableManager, String> getLabelProvider(EStructuralFeature feature) {
-        return new EStructuralFeatureLabelProvider(EMFFormDescriptionProvider.ESTRUCTURAL_FEATURE, this.composedAdapterFactory) {
+        return new EStructuralFeatureLabelProvider(EMFFormDescriptionProvider.ESTRUCTURAL_FEATURE) {
             @Override
             public String apply(VariableManager variableManager) {
                 VariableManager childVM = variableManager.createChild();

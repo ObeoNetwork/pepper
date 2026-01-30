@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024 CEA LIST.
+ * Copyright (c) 2024, 2026 CEA LIST.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -57,6 +57,7 @@ const toEllipseNode = (
     pinned,
     style,
     labelEditable,
+    deletable,
     customizedStyleProperties,
   } = gqlNode;
 
@@ -96,6 +97,7 @@ const toEllipseNode = (
     borderNodePosition: convertBorderNodePosition(gqlNode.initialBorderNodePosition),
     connectionHandles,
     labelEditable,
+    deletable,
     isNew,
     resizedByUser,
     movedByUser,
@@ -111,6 +113,7 @@ const toEllipseNode = (
     connectionLinePositionOnNode: 'none',
     minComputedWidth: gqlNodeLayoutData?.minComputedSize.width ?? null,
     minComputedHeight: gqlNodeLayoutData?.minComputedSize.height ?? null,
+    isLastNodeSelected: false,
   };
 
   data.insideLabel = convertInsideLabel(

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024 CEA LIST.
+ * Copyright (c) 2024, 2026 CEA LIST.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -100,9 +100,10 @@ public class WorkpackagesPageDescription {
                 .headerLabelProvider(labelProvider)
                 .headerIconURLsProvider(vm -> List.of())
                 .headerIndexLabelProvider(vm -> "")
-                .initialHeightProvider(vm -> 40)
+                .initialHeightProvider(vm -> 60)
                 .isResizablePredicate(vm -> true)
                 .depthLevelProvider(vm -> 0)
+                .hasChildrenProvider(vm -> true)
                 .build();
 
         WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
@@ -118,7 +119,7 @@ public class WorkpackagesPageDescription {
                 .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(ProjectmgmtFactory.eINSTANCE.createWorkpackage())))
                 .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
                 .iconURLsProvider(vm -> List.of())
-                .enableSubRows(true)
+                .enableSubRows(false)
                 .pageSizeOptionsProvider(vm -> List.of(10, 20))
                 .defaultPageSizeIndexProvider(vm -> 20)
                 .build();

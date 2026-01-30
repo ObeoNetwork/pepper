@@ -27,7 +27,7 @@ import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
 
 /**
- * Used to test if an editing context is capable of supporting an ontology project.
+ * Used to test if an editing context is capable of supporting a pepper project.
  * @author lfasani ncouvert
  */
 @Service
