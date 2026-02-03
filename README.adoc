@@ -1,14 +1,23 @@
-= pepper
+= Pepper
 
 Pepper stands for "Plan Progress Review", a project management tool.
 
-image::PepperScreenshot.png[Pepper] 
+Here is a video showing quick overview of what can be done with pepper. Click to open Youtube.
+
+[#video-pepper,link=https://www.youtube.com/watch?v=j81UG2FyNCQ]
+image::PepperScreenshotVideo.png[Pepper]
 
 Pepper is a web application based on https://www.eclipse.org/sirius/sirius-web.html[Eclipse Sirius-Web].
 
 It allows to create data related to your project and represents the data with Gantt, Form and boards like Daily, Kanban or OKR.
-Follow the link for https://github.com/ObeoNetwork/pepper/blob/main/doc/user.adoc[User documentation].
 
+Follow the links below for more informations :
+
+* https://github.com/ObeoNetwork/pepper/blob/main/doc/user.adoc[User documentation] 
+* https://blog.obeosoft.com/pepper-a-case-of-open-innovation-with-sirius-web[Blog post presenting Pepper]
+
+
+= Starting with Pepper
 
 This repository is a mono repo containing both frontend and backend components.
 
@@ -201,7 +210,7 @@ backend/deeplab-resources/checkstyle/CheckstyleConfiguration.xml
 backend/deeplab-resources/editor
 ----
 
-[#backend-launch-config,reftext=Launch configuration]
+[#backend-launch-config, reftext=Launch configuration]
 [start=6]
 .  Create Launch Configuration for Pepper server
 * Start the server with `DeeplabWeb.java` class.
