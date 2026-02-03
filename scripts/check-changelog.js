@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022, 2023 Obeo.
+ * Copyright (c) 2022, 2026 Obeo.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -57,7 +57,7 @@ for (let index = 0; index < lines.length; index++) {
 
       const tagAsNumber = Number(tag);
       if (!isNaN(tagAsNumber)) {
-        const issueURL = `https://github.com/eclipse-sirius/sirius-web/issues/${tagAsNumber}`;
+        const issueURL = `https://github.com/ObeoNetwork/pepper/issues/${tagAsNumber}`;
 
         if (!changelog.includes(issueURL)) {
           missingIssuesInChangelog.push(issueURL);
