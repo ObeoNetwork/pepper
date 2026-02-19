@@ -57,8 +57,8 @@ jobs:
 
       - name: Copy frontend artifacts
         run: |
-          mkdir -p backend/deeplab-frontend/src/main/resources/static
-          cp -R frontend/deeplab-web/dist/* backend/deeplab-frontend/src/main/resources/static
+          mkdir -p backend/pepper-frontend/src/main/resources/static
+          cp -R frontend/pepper-web/dist/* backend/pepper-frontend/src/main/resources/static
 
       - name: Build the backend
         env:
@@ -78,4 +78,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: application fat jar
-          path: backend/deeplab-application/target/deeplab-application-${{ env.app_version_latest }}.jar
+          path: backend/pepper-application/target/pepper-application-${{ env.app_version_latest }}.jar

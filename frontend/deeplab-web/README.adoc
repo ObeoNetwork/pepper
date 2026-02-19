@@ -1,4 +1,0 @@
-= Deeplab Frontend
-
-This project contains the frontend of the deeplab appliation.
-This frontend relies on Sirius-Web frontend

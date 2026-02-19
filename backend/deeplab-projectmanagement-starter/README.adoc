@@ -1,5 +1,0 @@
-= deeplab-projectmanagement-starter
-
-== Goal
-
-This project provides an autoconfiguration for Project Management meta-model and representations based on this meta-model.

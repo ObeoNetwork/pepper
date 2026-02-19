@@ -1,0 +1,5 @@
+= pepper-starter
+
+== Goal
+
+This project provides an autoconfiguration for Pepper meta-model and representations based on this meta-model.

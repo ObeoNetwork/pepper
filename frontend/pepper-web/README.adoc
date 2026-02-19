@@ -1,0 +1,4 @@
+= Pepper Frontend
+
+This project contains the frontend of the pepper appliation.
+This frontend relies on Sirius-Web frontend
