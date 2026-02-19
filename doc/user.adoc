@@ -1,7 +1,7 @@
 ifndef::imagesdir[:imagesdir: images]
 
 = User documentation
-Pepper v{deeplab-version} - {git-commit-id-abbrev}
+Pepper v{pepper-version} - {git-commit-id-abbrev}
 
 :toc:
 
@@ -39,7 +39,7 @@ By default, a blank model is created.
 You can add a new model by adding a blank or a sample model.
 The sample model is useful to see the concepts that are possible to create.
 
-image::create-projectmgmt-project.png[Create Project] 
+image::create-peppermm-project.png[Create Project] 
 
 image::create-model-button.png[Create Model Button] 
 

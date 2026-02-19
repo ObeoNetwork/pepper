@@ -52,11 +52,11 @@ If you do not have Docker or want to use an existing PostgreSQL installation, ad
 
 2. Start the application:
 +
-Get the `deeplab-application-{$version}.jar` from the last successful build on https://github.com/ObeoNetwork/pepper[pepper github]
+Get the `pepper-application-{$version}.jar` from the last successful build on https://github.com/ObeoNetwork/pepper[pepper github]
 +
 [source,sh]
 ----
-java -jar deeplab-application-{$version}.jar \
+java -jar pepper-application-{$version}.jar \
           --spring.datasource.url=jdbc:postgresql://localhost:5439/pepper-db \
           --spring.datasource.username=dbuser \
           --spring.datasource.password=dbpwd
@@ -156,8 +156,8 @@ NOTE: In case of npm ERR! Lifecycle script `format-lint` failed with error, try 
 +
 [source,sh]
 ----
-mkdir -p backend/deeplab-frontend/src/main/resources/static
-cp -R frontend/deeplab-web/dist/* backend/deeplab-frontend/src/main/resources/static
+mkdir -p backend/pepper-frontend/src/main/resources/static
+cp -R frontend/pepper-web/dist/* backend/pepper-frontend/src/main/resources/static
 ----
 
 . Build the backend ([.small]#from the `backend` subfolder of Pepper main location#):
@@ -167,7 +167,7 @@ cp -R frontend/deeplab-web/dist/* backend/deeplab-frontend/src/main/resources/st
 mvn clean verify
 ----
 +
-The result is a ready-to-run, Spring Boot "fat JAR" in backend/deeplab-application/target/deeplab-application-<VERSION>.jar. Refer to the instructions in the "Quick Start" section above to launch it.
+The result is a ready-to-run, Spring Boot "fat JAR" in backend/pepper-application/target/pepper-application-<VERSION>.jar. Refer to the instructions in the "Quick Start" section above to launch it.
 
 [Dev-env]
 === Development environment
@@ -200,20 +200,20 @@ The set up of the Github token is required for setting up back end and front (se
 +
 [source]
 ----
-backend/deeplab-resources/checkstyle/CheckstyleConfiguration.xml
+backend/pepper-resources/checkstyle/CheckstyleConfiguration.xml
 ----
 
 ** Editor configurations
 +
 [source]
 ----
-backend/deeplab-resources/editor
+backend/pepper-resources/editor
 ----
 
 [#backend-launch-config, reftext=Launch configuration]
 [start=6]
 .  Create Launch Configuration for Pepper server
-* Start the server with `DeeplabWeb.java` class.
+* Start the server with `PepperWeb.java` class.
 * For debugging, add the following environment variable `spring.profiles.active=dev`
 
 ==== Frontend set up

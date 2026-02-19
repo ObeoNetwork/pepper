@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2024 CEA LIST.&#xA;This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v2.0&#xA;which accompanies this distribution, and is available at&#xA;https://www.eclipse.org/legal/epl-2.0/&#xA;&#xA;SPDX-License-Identifier: EPL-2.0&#xA;&#xA;Contributors:&#xA;    Obeo - initial API and implementation"
+    modelDirectory="/pepper-mm/src/main/java" creationIcons="false" editDirectory="/pepper-edit/src/main/java"
+    editorDirectory="" modelPluginID="pepper-mm" modelName="Pepper" editPluginClass="pepper.peppermm.provider.PepperEditPlugin"
+    editorPluginClass="pepper.presentation.PepperEditorPlugin" updateClasspath="false"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    commentFormatting="true" testsDirectory="" testSuiteClass="pepper.tests.PepperAllTests"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="17.0"
+    copyrightFields="false" editPluginID="pepper-edit" editorPluginID="pepper-editor"
+    testsPluginID="pepper-editor" importOrganizing="true" cleanup="true">
+  <foreignModel>pepper.ecore</foreignModel>
+  <genPackages prefix="Pepper" basePackage="pepper" disposableProviderFactory="true"
+      ecorePackage="pepper.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//WorkpackageArtefactNature">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Delivrable"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Decisional"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ProjectReview"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Action"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Invoicing"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ExpenseStatement"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ClientSatisfaction"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Other"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//RiskKind">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Manpower"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Machine"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Material"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Measurement"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Method"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Mission"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Management"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Maintenance"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//RiskState">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/OnGoing"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/UnderInstruction"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/StopBeforeTerm"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/Completed"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//ProjectState">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/OnGoing"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/UnderInstruction"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/StopBeforeTerm"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/Completed"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="pepper.ecore#//Instant"/>
+    <genDataTypes ecoreDataType="pepper.ecore#//Date"/>
+    <genClasses ecoreClass="pepper.ecore#//Organization">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Organization/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Organization/ownedProjects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Organization/ownedResourceFolders"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pepper.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Resource/name"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//ResourceFolder">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//ResourceFolder/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//ResourceFolder/ownedResources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//ResourceFolder/subFolders"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Team">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Team/members"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//InternalStakeholder"/>
+    <genClasses ecoreClass="pepper.ecore#//ExternalStakeholder">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//ExternalStakeholder/goals"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Person/alias"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Person/biography"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Person/imageUrl"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pepper.ecore#//AbstractTask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/startTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/endTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/computeStartEndDynamically"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/tags"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedPersons"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedTeams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/subTasks"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//TagFolder">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TagFolder/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//TagFolder/ownedTags"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//TagFolder/subFolders"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//TaskTag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TaskTag/prefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TaskTag/suffix"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Task">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Task/dependencies"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Objective">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Objective/ownedKeyResults"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//KeyResult"/>
+    <genClasses ecoreClass="pepper.ecore#//Project">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/ownedWorkpackages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/ownedObjectives"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/ownedTagFolders"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/ownedRisks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/reference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/description"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/leadingUnit"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/participantUnits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/plannifiedClientCopilMeetings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/mainProgramBrick"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/state"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/clients"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/partners"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/isTransverse"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/leader"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Project/members"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/isSensitive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/contractualStartDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/contractualEndDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/effectiveStartDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/effectiveEndDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/contractTermExtension"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/globalCost"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/fundingRate"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/funding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/manpower"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/eOTP"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/statisticOrder"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/internalNeed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Project/clientNeed"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Workpackage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/startDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/endDate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/leader"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/participants"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/effort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/outputs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/ownedTasks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/ownedObjectives"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/progress"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//WorkpackageArtefact">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/nature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/plannedDeadline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/effectiveDeadLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/isInvoiceTrigger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/invoiceAmount"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//WorkpackageArtefact/responsible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/isObsolete"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Risk">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/criticity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/action"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Risk/responsible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/operationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/state"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Risk/workpackages"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

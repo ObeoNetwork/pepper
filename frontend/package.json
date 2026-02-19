@@ -12,7 +12,7 @@
   },
   "packageManager": "npm@10.9.2",
   "workspaces": [
-    "deeplab-web"
+    "pepper-web"
   ],
   "engines": {
     "node": "22.16.0",

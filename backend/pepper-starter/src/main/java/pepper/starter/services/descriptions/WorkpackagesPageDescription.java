@@ -1,0 +1,196 @@
+/*******************************************************************************
+ * Copyright (c) 2024, 2026 CEA LIST.
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     Obeo - initial API and implementation
+ ******************************************************************************/
+
+package pepper.starter.services.descriptions;
+
+import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.MessageConstants;
+import pepper.peppermm.Project;
+import pepper.peppermm.PepperFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
+import org.eclipse.sirius.components.core.api.IIdentityService;
+import org.eclipse.sirius.components.core.api.ILabelService;
+import org.eclipse.sirius.components.core.api.IObjectSearchService;
+import org.eclipse.sirius.components.core.api.labels.StyledString;
+import org.eclipse.sirius.components.emf.tables.CursorBasedNavigationServices;
+import org.eclipse.sirius.components.forms.ButtonStyle;
+import org.eclipse.sirius.components.forms.WidgetIdProvider;
+import org.eclipse.sirius.components.forms.description.AbstractControlDescription;
+import org.eclipse.sirius.components.forms.description.ButtonDescription;
+import org.eclipse.sirius.components.forms.description.GroupDescription;
+import org.eclipse.sirius.components.forms.description.PageDescription;
+import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
+import org.eclipse.sirius.components.representations.Success;
+import org.eclipse.sirius.components.representations.VariableManager;
+import org.eclipse.sirius.components.tables.descriptions.LineDescription;
+import org.eclipse.sirius.components.tables.descriptions.PaginatedData;
+import org.eclipse.sirius.components.tables.descriptions.TableDescription;
+
+/**
+ * This class is used to provide the project page description for the project workpackages.
+ *
+ * @author lfasani
+ */
+public class WorkpackagesPageDescription {
+
+    private final ILabelService labelService;
+
+    private final IIdentityService identityService;
+
+    private final IObjectSearchService objectSearchService;
+
+    private final CursorBasedNavigationServices cursorBasedNavigationServices;
+
+    private final ComposedAdapterFactory composedAdapterFactory;
+
+    private final IPepperMMMessageService pepperMMMessageService;
+
+    private final IFeedbackMessageService feedbackMessageService;
+
+    public WorkpackagesPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
+            IPepperMMMessageService pepperMMMessageService, IFeedbackMessageService feedbackMessageService) {
+        this.labelService = labelService;
+        this.identityService = identityService;
+        this.objectSearchService = objectSearchService;
+        this.cursorBasedNavigationServices = cursorBasedNavigationServices;
+        this.composedAdapterFactory = composedAdapterFactory;
+        this.pepperMMMessageService = pepperMMMessageService;
+        this.feedbackMessageService = feedbackMessageService;
+    }
+
+    private Function<VariableManager, PaginatedData> getSemanticElementsProvider() {
+        return variableManager -> variableManager.get(VariableManager.SELF, Project.class)
+                .map(Project::getOwnedWorkpackages)
+                .map(workpackages -> this.cursorBasedNavigationServices.toPaginatedData(workpackages.stream().map(Object.class::cast).toList(),
+                        variableManager.get("cursor", Object.class).orElse(null),
+                        variableManager.get("direction", String.class).orElse(null),
+                        variableManager.get("size", Integer.class).orElse(10)))
+                .orElseGet(() -> new PaginatedData(List.of(), false, false, 0));
+    }
+
+
+    PageDescription getWorkpackagesPageDescription() {
+        List<AbstractControlDescription> controlDescriptions = new ArrayList<>();
+
+        Function<VariableManager, String> labelProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class)
+                .map(this.labelService::getStyledLabel).map(StyledString::toString)
+                .orElse(null);
+
+        LineDescription lineDescription = LineDescription.newLineDescription("Table - Line")
+                .targetObjectIdProvider(this::getTargetObjectId)
+                .targetObjectKindProvider(this::getTargetObjectKind)
+                .semanticElementsProvider(this.getSemanticElementsProvider())
+                .headerLabelProvider(labelProvider)
+                .headerIconURLsProvider(vm -> List.of())
+                .headerIndexLabelProvider(vm -> "")
+                .initialHeightProvider(vm -> 60)
+                .isResizablePredicate(vm -> true)
+                .depthLevelProvider(vm -> 0)
+                .hasChildrenProvider(vm -> true)
+                .build();
+
+        WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this::getTargetObjectId, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
+                this.pepperMMMessageService, this.feedbackMessageService);
+        TableDescription tableDescription = TableDescription.newTableDescription("workpackagesTableId")
+                .label("")
+                .canCreatePredicate(vm -> true)
+                .targetObjectIdProvider(this::getTargetObjectId)
+                .targetObjectKindProvider(this::getTargetObjectKind)
+                .labelProvider(labelProvider)
+                .isStripeRowPredicate(vm -> true)
+                .lineDescription(lineDescription)
+                .columnDescriptions(List.of(widgetDescriptionBuilderHelper.buildFeaturesColumnDescription(PepperFactory.eINSTANCE.createWorkpackage())))
+                .cellDescriptions(widgetDescriptionBuilderHelper.buildCellDescription())
+                .iconURLsProvider(vm -> List.of())
+                .enableSubRows(false)
+                .pageSizeOptionsProvider(vm -> List.of(10, 20))
+                .defaultPageSizeIndexProvider(vm -> 20)
+                .build();
+
+        TableWidgetDescription tableWidgetDescription = TableWidgetDescription.newTableWidgetDescription("workpackagesTableWidgetId")
+                .idProvider(new WidgetIdProvider())
+                .labelProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.PAGE_WORKPACKAGES_TITLE))
+                .targetObjectIdProvider(this::getTargetObjectId)
+                .diagnosticsProvider(variableManager -> List.of())
+                .kindProvider(object -> "")
+                .messageProvider(object -> "")
+                .tableDescription(tableDescription)
+                .build();
+
+        controlDescriptions.add(tableWidgetDescription);
+
+        GroupDescription workpackagesGroup = GroupDescription.newGroupDescription("workpackagesGroupId")
+                .idProvider(variableManager -> "workpackagesGroupId")
+                .labelProvider(variableManager -> "")
+                .semanticElementsProvider(variableManager -> Collections.singletonList(variableManager.getVariables().get(VariableManager.SELF)))
+                .controlDescriptions(controlDescriptions)
+                .toolbarActionDescriptions(List.of(this.getCreateWorkpackageButtonDescription()))
+                .build();
+
+        return PageDescription.newPageDescription("workpackagesPageId")
+                .idProvider(variableManager -> "workpackagesPageId")
+                .labelProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.PAGE_WORKPACKAGES))
+                .semanticElementsProvider(variableManager -> Collections.singletonList(variableManager.getVariables().get(VariableManager.SELF)))
+                .groupDescriptions(List.of(workpackagesGroup))
+                .canCreatePredicate(variableManager -> true)
+                .build();
+    }
+
+    private ButtonDescription getCreateWorkpackageButtonDescription() {
+        return ButtonDescription.newButtonDescription("createWorkpackage")
+                .idProvider(new WidgetIdProvider())
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class)
+                        .map(this.labelService::getStyledLabel)
+                        .map(StyledString::toString)
+                        .orElse(null))
+                .labelProvider(variableManager -> "Create New Workpackage")
+                .iconURLProvider(variableManager -> List.of())
+                .isReadOnlyProvider(variableManager -> false)
+                .buttonLabelProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.CREATE_NEW_WORKPACKAGE))
+                .imageURLProvider(variableManager -> "icons/full/obj16/Workpackage.svg")
+                .pushButtonHandler(variableManager -> {
+                    var project = variableManager.get(VariableManager.SELF, Project.class).get();
+                    project.getOwnedWorkpackages().add(PepperFactory.eINSTANCE.createWorkpackage());
+                    return new Success();
+                })
+                .diagnosticsProvider(variableManager -> List.of())
+                .kindProvider(variableManager -> "")
+                .messageProvider(variableManager -> "")
+                .styleProvider(variableManager -> ButtonStyle.newButtonStyle()
+                        .backgroundColor("#ffffff")
+                        .foregroundColor("#261E58")
+                        .build()
+                )
+                .helpTextProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.CREATE_NEW_WORKPACKAGE_HELP))
+                .build();
+    }
+
+    private String getTargetObjectId(VariableManager variableManager) {
+        return variableManager.get(VariableManager.SELF, Object.class)
+                .map(this.identityService::getId)
+                .orElse(null);
+    }
+
+    private String getTargetObjectKind(VariableManager variableManager) {
+        return variableManager.get(VariableManager.SELF, Object.class)
+                .map(this.identityService::getId)
+                .orElse(null);
+    }
+}
