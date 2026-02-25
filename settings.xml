@@ -30,6 +30,11 @@
           <name>Sirius EMF JSON - Maven Packages</name>
           <url>https://maven.pkg.github.com/eclipse-sirius/sirius-emf-json</url>
         </repository>
+        <repository>
+          <id>github-pepper-mm</id>
+          <name>Pepper metamodel - Maven Packages</name>
+          <url>https://maven.pkg.github.com/ObeoNetwork/pepper-mm</url>
+        </repository>
       </repositories>
     </profile>
   </profiles>
@@ -47,6 +52,11 @@
     </server>
     <server>
       <id>github-pepper</id>
+      <username>${env.USERNAME}</username>
+      <password>${env.PASSWORD}</password>
+    </server>
+    <server>
+      <id>github-pepper-mm</id>
       <username>${env.USERNAME}</username>
       <password>${env.PASSWORD}</password>
     </server>
