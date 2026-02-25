@@ -52,12 +52,27 @@
 			<id>github-sirius-web</id>
 			<url>https://maven.pkg.github.com/eclipse-web/sirius-web</url>
 		</repository>
+		<repository>
+			<id>github-pepper-mm</id>
+			<url>https://maven.pkg.github.com/ObeoNetwork/pepper-mm</url>
+		</repository>
 	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Sirius Components -->
+			<!-- Pepper -->
+			<dependency>
+				<groupId>pepper-mm</groupId>
+				<artifactId>pepper-mm</artifactId>
+				<version>2026.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>pepper-mm</groupId>
+				<artifactId>pepper-edit</artifactId>
+				<version>2026.3.0</version>
+			</dependency>
 
+			<!-- Sirius Components -->
 			<dependency>
 				<groupId>org.eclipse.sirius</groupId>
 				<artifactId>sirius-components-forms</artifactId>
