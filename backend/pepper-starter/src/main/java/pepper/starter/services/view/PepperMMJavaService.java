@@ -106,7 +106,7 @@ public class PepperMMJavaService {
             // The new task follows the context task and has the same duration than the context task.
             if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
                 newWorkpackage.setStartDate(workpackage.getEndDate().plusDays(1));
-                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay()));
+                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
             }
 
             EObject parent = context.eContainer();
