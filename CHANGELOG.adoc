@@ -11,9 +11,11 @@
 - https://github.com/ObeoNetwork/pepper/issues/13[#13] Add checkbox cells to WorkpackageArtefactPageDescription instead of the old text field
 - https://github.com/ObeoNetwork/pepper/issues/6[#6] Use "00:00" as default value for Start Time and "23:59" as default value for End Time
 - https://github.com/ObeoNetwork/pepper/issues/5[#5] In calendar widget, improve default values of "Start Date", "End Date", "Start Time" and "End Time"
+- https://github.com/ObeoNetwork/pepper/issues/14[#14] Week number are now displayed centered between week separation line
+
 
 === Bug fixes
-
+- https://github.com/ObeoNetwork/pepper/issues/35[#35] Workpackages created from another in the Gantt panel now have the same duration as the original one.
 
 
 == v2024.11.0
