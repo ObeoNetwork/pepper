@@ -104,6 +104,7 @@ const toEllipseNode = (
     isListChild: isListLayoutStrategy(gqlParentNode?.style.childrenLayoutStrategy),
     isDraggedNode: false,
     isDropNodeTarget: false,
+    isDragNodeSource: false,
     isDropNodeCandidate: false,
     isHovered: false,
     nodeAppearanceData: {
@@ -118,6 +119,7 @@ const toEllipseNode = (
 
   data.insideLabel = convertInsideLabel(
     insideLabel,
+    gqlDiagram.layoutData.labelLayoutData,
     data,
     `${style.borderSize}px ${style.borderStyle} ${style.borderColor}`
   );

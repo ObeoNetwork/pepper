@@ -61,7 +61,8 @@ public class PepperTableEditCellHandler implements IEditCellHandler {
 
     @Override
     public boolean canHandle(TableDescription tableDescription) {
-        return tableDescription.getId().equals("workpackagesTableId");
+        String tableId = tableDescription.getId();
+        return tableId.equals("workpackagesTableId") || tableId.equals("workpackageArtefactsTableId") || tableId.equals("risksTableId");
     }
 
     @Override
