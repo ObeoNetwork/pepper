@@ -1,6 +1,6 @@
 = Changelog
 
-== v2026.1.0
+== v2026.3.0
 
 === Dependency update
 
