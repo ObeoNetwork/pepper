@@ -32,7 +32,7 @@
 		<java.version>17</java.version>
 		<sirius.web.version>2026.3.0</sirius.web.version>
 		<sirius.version>7.4.14-SNAPSHOT</sirius.version>
-		<revision>2026.1.0</revision>
+		<revision>2026.3.0</revision>
 	</properties>
 
 	<distributionManagement>
