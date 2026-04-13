@@ -27,13 +27,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class PepperMMProjectTemplateProvider implements IProjectTemplateProvider {
 
-    public static final String PEPPERMM_EXAMPLE_TEMPLATE_ID = "pepper-template";
+    public static final String PEPPERMM_EXAMPLE_TEMPLATE_ID = "pepper-sample";
+    public static final String PEPPERMM_PEPPER_SAMPLE = "Pepper Sample";
+
+    public static final String PEPPERMM_EMPTY_TEMPLATE_ID = "pepper-empty-project";
+    public static final String PEPPERMM_EMPTY = "Pepper Empty Project";
 
     public static final String PEPPERMM_NATURE = "siriusWeb://nature?kind=peppermm";
 
     @Override
     public List<ProjectTemplate> getProjectTemplates() {
-        var pepperMMTemplate = new ProjectTemplate(PEPPERMM_EXAMPLE_TEMPLATE_ID, "Pepper", "/project-templates/PepperMM-Template.png", List.of(new ProjectTemplateNature(PEPPERMM_NATURE)));
-        return List.of(pepperMMTemplate);
+        var pepperMMTemplate = new ProjectTemplate(PEPPERMM_EXAMPLE_TEMPLATE_ID, PEPPERMM_PEPPER_SAMPLE, "/project-templates/PepperMM-Sample.png", List.of(new ProjectTemplateNature(PEPPERMM_NATURE)));
+        var pepperMMEmptyTemplate = new ProjectTemplate(PEPPERMM_EMPTY_TEMPLATE_ID, PEPPERMM_EMPTY, "/project-templates/PepperMM-EmptyProject.png", List.of(new ProjectTemplateNature(PEPPERMM_NATURE)));
+        return List.of(pepperMMTemplate, pepperMMEmptyTemplate);
     }
 }

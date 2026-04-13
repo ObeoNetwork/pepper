@@ -8,6 +8,9 @@
 
 === Improvements
 
+- https://github.com/ObeoNetwork/pepper/issues/43[#43] Add an empty pepper template to the home menu
+
+
 === Bug fixes
 - https://github.com/ObeoNetwork/pepper/issues/50[#50] Stop extending DefaultLabelService
 
