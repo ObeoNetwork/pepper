@@ -71,7 +71,11 @@
 			<artifactId>sirius-components-tests</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.eclipse.sirius</groupId>
+            <artifactId>sirius-components-collaborative-gantt</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
