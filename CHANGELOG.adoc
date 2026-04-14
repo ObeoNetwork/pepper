@@ -9,7 +9,7 @@
 === Improvements
 
 - https://github.com/ObeoNetwork/pepper/issues/43[#43] Add an empty pepper template to the home menu
-
+- https://github.com/ObeoNetwork/pepper/issues/44[#44] Add a Gantt Diagram to the first workpackage of the Gantt Sample Template
 
 === Bug fixes
 - https://github.com/ObeoNetwork/pepper/issues/50[#50] Stop extending DefaultLabelService
