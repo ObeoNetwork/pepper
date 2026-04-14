@@ -1,5 +1,16 @@
 = Changelog
 
+== v2026.5.0
+
+=== Dependency update
+
+=== New features
+
+=== Improvements
+
+=== Bug fixes
+
+
 == v2026.3.0
 
 === Dependency update
