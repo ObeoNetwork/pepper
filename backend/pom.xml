@@ -34,7 +34,7 @@
 
 	<!-- reminder
 	
-	 Update version: mvn versions:set -DnewVersion=xxx.y.z
+	 Update version: mvn versions:set -DnewVersion="xxx.y.z"
 	 
 	  -->
 	<modules>

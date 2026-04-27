@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>pepper</groupId>
 		<artifactId>pepper-parent</artifactId>
-		<version>${revision}</version>
+		<version>2026.3.0</version>
 		<relativePath>../pepper-parent</relativePath>
 	</parent>
 	<artifactId>pepper-application</artifactId>
