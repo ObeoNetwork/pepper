@@ -59,6 +59,7 @@ const toEllipseNode = (
     labelEditable,
     deletable,
     customizedStyleProperties,
+    decorators,
   } = gqlNode;
 
   const handleLayoutData: GQLHandleLayoutData[] = gqlDiagram.layoutData.nodeLayoutData
@@ -115,6 +116,8 @@ const toEllipseNode = (
     minComputedWidth: gqlNodeLayoutData?.minComputedSize.width ?? null,
     minComputedHeight: gqlNodeLayoutData?.minComputedSize.height ?? null,
     isLastNodeSelected: false,
+    moving: false,
+    decorators,
   };
 
   data.insideLabel = convertInsideLabel(
