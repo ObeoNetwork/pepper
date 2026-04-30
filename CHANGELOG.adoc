@@ -4,6 +4,8 @@
 
 === Dependency update
 
+- [releng] Switch to Sirius-Web 2026.5.0
+
 === New features
 
 === Improvements
