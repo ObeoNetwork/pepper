@@ -12,12 +12,21 @@
  ******************************************************************************/
 package pepper.starter.services.descriptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.sirius.components.collaborative.api.IRepresentationDescriptionsProvider;
-import org.eclipse.sirius.components.collaborative.api.RepresentationDescriptionMetadata;
+import org.eclipse.sirius.components.collaborative.dto.RepresentationDescriptionMetadataDTO;
 import org.eclipse.sirius.components.core.api.IEditingContext;
+import org.eclipse.sirius.components.emf.services.api.IEMFEditingContext;
+import org.eclipse.sirius.components.interpreter.AQLInterpreter;
 import org.eclipse.sirius.components.representations.IRepresentationDescription;
+import org.eclipse.sirius.components.representations.VariableManager;
+import org.eclipse.sirius.components.view.RepresentationDescription;
+import org.eclipse.sirius.components.view.View;
+import org.eclipse.sirius.components.view.emf.IJavaServiceProvider;
+import org.eclipse.sirius.components.view.emf.IViewRepresentationDescriptionSearchService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,14 +37,63 @@ import org.springframework.stereotype.Service;
 @Service
 public class TableRepresentationDescriptionMetaDataProvider implements IRepresentationDescriptionsProvider {
 
+    private final IViewRepresentationDescriptionSearchService viewRepresentationDescriptionSearchService;
+
+    private final List<IJavaServiceProvider> javaServiceProviders;
+
+    public TableRepresentationDescriptionMetaDataProvider(IViewRepresentationDescriptionSearchService viewRepresentationDescriptionSearchService, List<IJavaServiceProvider> javaServiceProviders) {
+        this.viewRepresentationDescriptionSearchService = viewRepresentationDescriptionSearchService;
+        this.javaServiceProviders = javaServiceProviders;
+    }
+
     @Override
     public boolean canHandle(IRepresentationDescription representationDescription) {
         return PepperMMEditingContextDescriptionProvider.PROJECT_FORM_ID.equals(representationDescription.getId());
     }
 
     @Override
-    public List<RepresentationDescriptionMetadata> handle(IEditingContext editingContext, Object object, IRepresentationDescription representationDescription) {
-        return List.of(new RepresentationDescriptionMetadata(representationDescription.getId(), representationDescription.getLabel(), representationDescription.getLabel()));
+    public List<RepresentationDescriptionMetadataDTO> handle(IEditingContext editingContext, Object object, IRepresentationDescription representationDescription) {
+        List<RepresentationDescriptionMetadataDTO> result = new ArrayList<>();
+        var viewRepresentationDescription = this.viewRepresentationDescriptionSearchService.findById(editingContext, representationDescription.getId());
+        if (viewRepresentationDescription.isPresent()) {
+            String defaultName = viewRepresentationDescription.map(view -> this.getDefaultName(view, editingContext, object)).orElse(representationDescription.getLabel());
+            String documentation = viewRepresentationDescription.map(RepresentationDescription::getEndUserDocumentation).orElse("");
+            result.add(new RepresentationDescriptionMetadataDTO(representationDescription.getId(), representationDescription.getLabel(), defaultName, documentation));
+        }
+
+        return result;
+    }
+
+
+    private List<EPackage> getAccessibleEPackages(IEditingContext editingContext) {
+        if (editingContext instanceof IEMFEditingContext) {
+            EPackage.Registry packageRegistry = ((IEMFEditingContext) editingContext).getDomain().getResourceSet().getPackageRegistry();
+            return packageRegistry.values().stream()
+                    .filter(EPackage.class::isInstance)
+                    .map(EPackage.class::cast)
+                    .toList();
+        } else {
+            return List.of();
+        }
+    }
+
+    private String getDefaultName(org.eclipse.sirius.components.view.RepresentationDescription viewRepresentationDescription, IEditingContext editingContext, Object self) {
+        String titleExpression = viewRepresentationDescription.getTitleExpression();
+        if (titleExpression != null && !titleExpression.isBlank()) {
+            List<EPackage> accessibleEPackages = this.getAccessibleEPackages(editingContext);
+            AQLInterpreter interpreter = this.createInterpreter((View) viewRepresentationDescription.eContainer(), accessibleEPackages);
+            VariableManager variableManager = new VariableManager();
+            variableManager.put(VariableManager.SELF, self);
+            return interpreter.evaluateExpression(variableManager.getVariables(), titleExpression).asString().orElse(null);
+        }
+        return null;
+    }
+
+    private AQLInterpreter createInterpreter(View view, List<EPackage> visibleEPackages) {
+        List<Class<?>> serviceClasses = this.javaServiceProviders.stream()
+                .flatMap(provider -> provider.getServiceClasses(view).stream())
+                .toList();
+        return new AQLInterpreter(serviceClasses, visibleEPackages);
     }
 
 }
