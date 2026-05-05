@@ -24,6 +24,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/40[#40] Use the end date of an existing task to initialize a new task
 - https://github.com/ObeoNetwork/pepper/issues/41[#41] Incorrect initialization of end time for a new task
 - https://github.com/ObeoNetwork/pepper/issues/26[#26] The creation of tasks is affected by the user time zone
+- https://github.com/ObeoNetwork/pepper/issues/48[#48] Fix dependencies of workpackages
 
 == v2026.3.0
 
