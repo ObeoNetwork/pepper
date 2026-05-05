@@ -100,7 +100,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newDeleteTaskTool()
                 .name("Delete Task")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:self.deleteTask()")
+                        .expression("aql:self.deleteDependencyRelatedObject()")
                         .build())
                 .build();
     }
@@ -183,6 +183,8 @@ public class ViewGanttDescriptionBuilder {
         EditTaskTool editTaskTool = this.createEditTaskToolForWorkpackage();
         DeleteTaskTool deleteTaskTool = this.createDeleteTaskTool();
         DropTaskTool dropWorkpackageTool = this.createDropWorkpackageTool();
+        CreateTaskDependencyTool createTaskDependencyTool = this.createTaskDependencyTool();
+        DeleteTaskDependencyTool deleteTaskDependencyTool = this.createDeleteTaskDependencyTool();
 
         GanttDescription ganttDescription = new GanttBuilders().newGanttDescription()
                 .name(PROJECT_GANTT_REP_DESC_NAME)
@@ -193,6 +195,8 @@ public class ViewGanttDescriptionBuilder {
                 .editTool(editTaskTool)
                 .deleteTool(deleteTaskTool)
                 .dropTool(dropWorkpackageTool)
+                .createTaskDependencyTool(createTaskDependencyTool)
+                .deleteTaskDependencyTool(deleteTaskDependencyTool)
                 .dateRoundingExpression("1D")
                 .build();
 
@@ -209,7 +213,7 @@ public class ViewGanttDescriptionBuilder {
                 .endTimeExpression("aql:self.endDate")
                 .progressExpression(AQL_SELF_PROGRESS)
                 .computeStartEndDynamicallyExpression("aql:false")
-                .taskDependenciesExpression("")
+                .taskDependenciesExpression(AQL_SELF_DEPENDENCIES)
                 .build();
     }
 
