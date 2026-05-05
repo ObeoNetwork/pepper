@@ -14,6 +14,7 @@ package pepper.starter.services.view;
 
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
+import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.KeyResult;
 import pepper.peppermm.Objective;
 import pepper.peppermm.Project;
@@ -108,7 +109,7 @@ public class PepperMMJavaService {
                         task.setEndTime(newEndTime);
                     }
                     if (!startPointed || !endPointed) {
-                        followTaskMoveDependency(task);
+                        followMoveDependency(task);
                     }
                 }
             }
@@ -156,10 +157,12 @@ public class PepperMMJavaService {
         }
     }
 
-    public void deleteTask(EObject context) {
-        if (context instanceof Task sourceTask) {
-            deleteTasksRecursive(sourceTask);
-            EcoreUtil.delete(sourceTask, true);
+    public void deleteDependencyRelatedObject(EObject context) {
+        if (context instanceof DependencyRelatedObject source) {
+            if (source instanceof Task task) {
+                deleteTasksRecursive(task);
+            }
+            EcoreUtil.delete(source, true);
         }
     }
 
@@ -177,9 +180,9 @@ public class PepperMMJavaService {
     }
 
     public void deleteDependencyLink(EObject target, EObject source) {
-        if (target instanceof Task targetTask) {
-            if (source instanceof Task sourceTask) {
-                targetTask.getDependencies().removeIf(dep -> (dep.getSource() instanceof Task dependency) && dependency.equals(sourceTask));
+        if (target instanceof DependencyRelatedObject targetObject) {
+            if (source instanceof DependencyRelatedObject sourceObject) {
+                targetObject.getDependencies().removeIf(dep -> dep.getSource().equals(sourceObject));
             }
         }
     }
@@ -197,67 +200,114 @@ public class PepperMMJavaService {
         } else {
             dependencyLink.setTargetKind(StartOrEnd.END);
         }
-        if (source instanceof Task sourceTask) {
-            dependencyLink.setSource(sourceTask);
-            if (target instanceof Task targetTask) {
+        if (source instanceof DependencyRelatedObject sourceObject) {
+            dependencyLink.setSource(sourceObject);
+            if (target instanceof DependencyRelatedObject targetObject) {
                 //Ensure no dependency already exists between source and target to prevent duplicates or cycles
-                if (!isDuplicateOrCycle(sourceTask, targetTask)) {
-                    targetTask.getDependencies().add(dependencyLink);
-                    this.followTaskMoveDependency(sourceTask);
-                } else {
-                    this.feedbackMessageService.addFeedbackMessage(new Message("Creating a dependency that is duplicate or cyclic is not possible.", MessageLevel.ERROR));
+                if (!this.isDuplicateOrCycle(sourceObject, targetObject)) {
+                    targetObject.getDependencies().add(dependencyLink);
+                    this.followMoveDependency(sourceObject);
                 }
             }
         }
     }
 
-    private static boolean isCycle(Task sourceTask, Task targetTask) {
+    private static boolean isCycle(DependencyRelatedObject sourceObject, DependencyRelatedObject targetObject) {
         boolean isCycle = false;
-        for (DependencyLink dep : sourceTask.getDependencies()) {
-            Task sourceDependency = (Task) dep.getSource();
-            if (sourceDependency.equals(targetTask)) {
+        for (DependencyLink dep : sourceObject.getDependencies()) {
+            if (dep.getSource().equals(targetObject)) {
                 isCycle = true;
             } else if (!isCycle) {
-                isCycle = isCycle(sourceDependency, targetTask);
+                isCycle = isCycle(dep.getSource(), targetObject);
             }
         }
         return isCycle;
     }
 
-    private static boolean isDuplicateOrCycle(Task sourceTask, Task targetTask) {
+    private boolean isDuplicateOrCycle(DependencyRelatedObject sourceObject, DependencyRelatedObject targetObject) {
         //to prevent cycles
-        boolean isCycle = isCycle(sourceTask, targetTask);
-        //to prevent duplicates
-        boolean isDuplicate = false;
-        for (DependencyLink dep : targetTask.getDependencies()) {
-            if (dep.getSource().equals(sourceTask)) {
-                isDuplicate = true;
-                break;
+        boolean isCycle = isCycle(sourceObject, targetObject);
+        if (isCycle) {
+            this.feedbackMessageService.addFeedbackMessage(new Message("Creating a cyclic dependency is not possible.", MessageLevel.ERROR));
+            return true;
+        } else {
+            //to prevent duplicates
+            boolean isDuplicate = false;
+            for (DependencyLink dep : targetObject.getDependencies()) {
+                if (dep.getSource().equals(sourceObject)) {
+                    isDuplicate = true;
+                    break;
+                }
             }
+            if (isDuplicate) {
+                this.feedbackMessageService.addFeedbackMessage(new Message("Creating a duplicated dependency is not possible.", MessageLevel.ERROR));
+            }
+            return isDuplicate;
         }
-        return isDuplicate || isCycle;
     }
 
-    private void followTaskMoveDependency(Task sourceTask) {
-        List<Task> dependencies = new ArrayList<>();
+    private void followMoveDependency(DependencyRelatedObject sourceObject) {
         List<Task> targetTasks = new ArrayList<>();
+        List<Workpackage> targetWorkpackages = new ArrayList<>();
         //get all tasks pointed by sourceTask
-        for (var inverseReference : simpleCrossReferenceProvider.getInverseReferences(sourceTask)) {
+        for (var inverseReference : simpleCrossReferenceProvider.getInverseReferences(sourceObject)) {
+            var objectClass = sourceObject.getClass();
             if (inverseReference.getEObject() instanceof DependencyLink dep) {
                 for (var inverseReferenceDependencyLink : simpleCrossReferenceProvider.getInverseReferences(dep)) {
-                    if (inverseReferenceDependencyLink.getEObject() instanceof Task targetTask) {
+                    var target = inverseReferenceDependencyLink.getEObject();
+                    if (target instanceof Task targetTask && sourceObject instanceof Task) {
                         targetTasks.add(targetTask);
+                    } else if (target instanceof Workpackage targetWorkpackage && sourceObject instanceof Workpackage) {
+                        targetWorkpackages.add(targetWorkpackage);
                     }
                 }
             }
         }
+        if (sourceObject instanceof Task sourceTask) {
+            this.followTaskMoveDependencyTask(targetTasks, sourceTask);
+        }
+        if (sourceObject instanceof Workpackage sourceWorkpackage) {
+            this.followTaskMoveDependencyWorkpackage(targetWorkpackages, sourceWorkpackage);
+        }
+    }
+
+    private void followTaskMoveDependencyWorkpackage(List<Workpackage> targetWorkpackages, Workpackage sourceWorkpackage) {
+        List<Workpackage> dependencies = new ArrayList<>();
+        for (Workpackage workpackage : targetWorkpackages) {
+            //Get the strongest dependency link
+            DependencyLink winner = null;
+            LocalDate latterLocalDate = null;
+            for (DependencyLink dep : workpackage.getDependencies()) {
+                LocalDate newLocalDate = getLatterLocalDate(dep);
+                if (latterLocalDate == null || latterLocalDate.isBefore(newLocalDate)) {
+                    latterLocalDate = newLocalDate;
+                    winner = dep;
+                }
+            }
+            for (DependencyLink dep : workpackage.getDependencies()) {
+                if (dep.equals(winner)) {
+                    Workpackage bestSourceTask = (Workpackage) dep.getSource();
+                    setWorkpackageNewDates(workpackage, dep);
+                    if (bestSourceTask == sourceWorkpackage) {
+                        dependencies.add(workpackage);
+                    }
+                }
+            }
+        }
+        for (Workpackage workpackage : dependencies) {
+            this.followMoveDependency(workpackage);
+        }
+    }
+
+    private void followTaskMoveDependencyTask(List<Task> targetTasks, Task sourceTask) {
+        List<Task> dependencies = new ArrayList<>();
         for (Task task : targetTasks) {
             //Get the strongest dependency link
             DependencyLink winner = null;
             Instant latterInstant = null;
             for (DependencyLink dep : task.getDependencies()) {
                 Instant newInstant = getLatterInstant(dep);
-                if (latterInstant == null || latterInstant.compareTo(newInstant) < 0) {
+                if (latterInstant == null || latterInstant.isBefore(newInstant)) {
                     latterInstant = newInstant;
                     winner = dep;
                 }
@@ -273,7 +323,7 @@ public class PepperMMJavaService {
             }
         }
         for (Task task : dependencies) {
-            followTaskMoveDependency(task);
+            this.followMoveDependency(task);
         }
     }
 
@@ -319,6 +369,45 @@ public class PepperMMJavaService {
         }
     }
 
+    private void setWorkpackageNewDates(Workpackage workpackage, DependencyLink dep) {
+        Workpackage bestSourceworkpackage = (Workpackage) dep.getSource();
+        LocalDate sourceStart = bestSourceworkpackage.getStartDate();
+        LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
+        LocalDate oldWorkpackageStart = workpackage.getStartDate();
+        LocalDate oldWorkpackageEnd = workpackage.getEndDate();
+        long duration = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
+        StartOrEnd sourceStartOrEnd = dep.getSourceKind();
+        StartOrEnd targetStartOrEnd = dep.getTargetKind();
+        int delay = dep.getDuration();
+        if (targetStartOrEnd.equals(StartOrEnd.START)) {
+            delay += 1;
+        }
+        if (sourceStartOrEnd.equals(StartOrEnd.START)) {
+            delay -= 1;
+        }
+        if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
+            LocalDate newWorkpackageStart = sourceEnd.plusDays(delay);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            workpackage.setEndDate(newWorkpackageEnd);
+            workpackage.setStartDate(newWorkpackageStart);
+        } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
+            LocalDate newWorkpackageStart = sourceStart.plusDays(delay);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            workpackage.setEndDate(newWorkpackageEnd);
+            workpackage.setStartDate(newWorkpackageStart);
+        } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
+            LocalDate newWorkpackageEnd = sourceEnd.plusDays(delay);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            workpackage.setEndDate(newWorkpackageEnd);
+            workpackage.setStartDate(newWorkpackageStart);
+        } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
+            LocalDate newWorkpackageEnd = sourceStart.plusDays(delay);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            workpackage.setEndDate(newWorkpackageEnd);
+            workpackage.setStartDate(newWorkpackageStart);
+        }
+    }
+
     private static Instant getLatterInstant(DependencyLink dep) {
         Instant laterInstant = null;
         Task source = (Task) dep.getSource();
@@ -328,6 +417,17 @@ public class PepperMMJavaService {
             laterInstant = source.getStartTime().plus(dep.getDuration(), ChronoUnit.HOURS);
         }
         return laterInstant;
+    }
+
+    private LocalDate getLatterLocalDate(DependencyLink dep) {
+        LocalDate latterLocalDate = null;
+        Workpackage source = (Workpackage) dep.getSource();
+        if (dep.getSourceKind() == StartOrEnd.END) {
+            latterLocalDate = source.getEndDate().plusDays(dep.getDuration());
+        } else if (dep.getSourceKind() == StartOrEnd.START) {
+            latterLocalDate = source.getStartDate().plusDays(dep.getDuration());
+        }
+        return latterLocalDate;
     }
 
     public List<Task> getTasksWithTag(TaskTag tag, Workpackage workpackage) {
@@ -412,6 +512,86 @@ public class PepperMMJavaService {
                 workpackage.getOwnedTasks().add(indexInTarget, sourceTask);
             }
         }
+    }
+
+
+    public void createWorkpackage(EObject context) {
+        Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        newWorkpackage.setName("New Workpackage");
+        if (context instanceof Workpackage workpackage) {
+            // The new task follows the context task and has the same duration than the context task.
+            if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
+                newWorkpackage.setStartDate(workpackage.getEndDate().plusDays(1));
+                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
+            }
+
+            EObject parent = context.eContainer();
+            if (parent instanceof Project project) {
+                int index = project.getOwnedWorkpackages().indexOf(context);
+                project.getOwnedWorkpackages().add(index + 1, newWorkpackage);
+            }
+        } else if (context instanceof Project project) {
+            LocalDate now = LocalDate.now();
+            newWorkpackage.setStartDate(now);
+            newWorkpackage.setEndDate(now.plusDays(28));
+
+            project.getOwnedWorkpackages().add(newWorkpackage);
+        }
+    }
+
+    public void deleteWorkpackage(EObject context) {
+        if (context instanceof Workpackage sourceWorkpackage) {
+            EcoreUtil.delete(sourceWorkpackage, true);
+        }
+    }
+
+    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress) {
+        if (eObject instanceof Workpackage workpackage) {
+            if (name != null) {
+                workpackage.setName(name);
+            }
+            if (description != null) {
+                workpackage.setDescription(description);
+            }
+            if (endDate != null && startDate != null) {
+                long differenceEnd = ChronoUnit.DAYS.between(endDate, workpackage.getEndDate());
+                long differenceStart = ChronoUnit.DAYS.between(startDate, workpackage.getStartDate());
+                boolean endPointed = false;
+                boolean startPointed = false;
+                List<DependencyLink> dependencies = workpackage.getDependencies();
+                for (DependencyLink dep : dependencies) {
+                    if (dep.getTargetKind() == StartOrEnd.END) {
+                        endPointed = true;
+                    } else {
+                        startPointed = true;
+                    }
+                }
+                if (dependencies.isEmpty() || differenceEnd != differenceStart) {
+                    if (startPointed && !endPointed) {
+                        this.workpackageSetDuration(workpackage, startDate, endDate);
+                        workpackage.setEndDate(endDate.plusDays(differenceStart));
+                    } else if (endPointed && !startPointed) {
+                        this.workpackageSetDuration(workpackage, startDate, endDate);
+                        workpackage.setStartDate(startDate.plusDays(differenceEnd));
+                    } else if (!startPointed && !endPointed) {
+                        this.workpackageSetDuration(workpackage, startDate, endDate);
+                        workpackage.setStartDate(startDate);
+                        workpackage.setEndDate(endDate);
+                    }
+                    if (!startPointed || !endPointed) {
+                        followMoveDependency(workpackage);
+                    }
+                }
+            }
+            if (progress != null) {
+                workpackage.setProgress(progress);
+            }
+        }
+    }
+
+    private void workpackageSetDuration(Workpackage workpackage, LocalDate start, LocalDate end) {
+        int duration = (int) ChronoUnit.DAYS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
+        workpackage.setDuration(duration);
     }
 
     public void moveWorkpackageInProject(Workpackage sourceWorkpackage, Project project, int indexInTarget) {
@@ -569,25 +749,5 @@ public class PepperMMJavaService {
             newIndex = tagFolder.getOwnedTags().indexOf(lastTag) + 1;
         }
         return newIndex;
-    }
-
-    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress) {
-        if (eObject instanceof Workpackage workpackage) {
-            if (name != null) {
-                workpackage.setName(name);
-            }
-            if (description != null) {
-                workpackage.setDescription(description);
-            }
-            if (startDate != null) {
-                workpackage.setStartDate(startDate);
-            }
-            if (endDate != null) {
-                workpackage.setEndDate(endDate);
-            }
-            if (progress != null) {
-                workpackage.setProgress(progress);
-            }
-        }
     }
 }

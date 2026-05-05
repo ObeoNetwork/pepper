@@ -25,6 +25,7 @@ import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -303,8 +304,52 @@ public class PepperMMJavaServiceTests {
         workpackage.getOwnedTasks().add(task2);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
 
-        service.deleteTask(task1);
+        service.deleteDependencyRelatedObject(task1);
         assertThat(workpackage.getOwnedTasks()).hasSize(1);
         assertThat(task2.getDependencies()).hasSize(0);
+    }
+
+    @Test
+    public void createWorkpackage() {
+        Project project = PepperFactory.eINSTANCE.createProject();
+        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        workpackage.setStartDate(LocalDate.ofYearDay(2026, 1));
+        workpackage.setEndDate(LocalDate.ofYearDay(2026, 3));
+        project.getOwnedWorkpackages().add(workpackage);
+
+        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+        service.createWorkpackage(workpackage);
+        assertThat(project.getOwnedWorkpackages()).hasSize(2);
+        assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 4));
+        assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(LocalDate.ofYearDay(2026, 6));
+    }
+
+    @Test
+    public void editWorkpackage() {
+        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        workpackage.setStartDate(LocalDate.ofYearDay(2026, 5));
+        workpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
+
+        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, LocalDate.ofYearDay(2026, 1), LocalDate.ofYearDay(2026, 3), 10);
+        assertThat(workpackage.getName()).isEqualTo(NEW_NAME);
+        assertThat(workpackage.getDescription()).isEqualTo(NEW_DESCRIPTION);
+        assertThat(workpackage.getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 1));
+        assertThat(workpackage.getEndDate()).isEqualTo(LocalDate.ofYearDay(2026, 3));
+        assertThat(workpackage.getProgress()).isEqualTo(10);
+    }
+
+    @Test
+    public void deleteWorkpackage() {
+        Project project = PepperFactory.eINSTANCE.createProject();
+        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        workpackage.setStartDate(LocalDate.ofYearDay(2026, 5));
+        workpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
+        project.getOwnedWorkpackages().add(workpackage);
+        assertThat(project.getOwnedWorkpackages()).hasSize(1);
+
+        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+        service.deleteWorkpackage(workpackage);
+        assertThat(project.getOwnedWorkpackages()).hasSize(0);
     }
 }
