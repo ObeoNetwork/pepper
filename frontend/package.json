@@ -26,5 +26,28 @@
   },
   "devDependencies": {
     "turbo": "2.4.4"
+  },
+  "dependencies": {
+    "@eclipse-sirius/sirius-components-browser": "file:.yalc/@eclipse-sirius/sirius-components-browser",
+    "@eclipse-sirius/sirius-components-charts": "file:.yalc/@eclipse-sirius/sirius-components-charts",
+    "@eclipse-sirius/sirius-components-core": "file:.yalc/@eclipse-sirius/sirius-components-core",
+    "@eclipse-sirius/sirius-components-datatree": "file:.yalc/@eclipse-sirius/sirius-components-datatree",
+    "@eclipse-sirius/sirius-components-deck": "file:.yalc/@eclipse-sirius/sirius-components-deck",
+    "@eclipse-sirius/sirius-components-diagrams": "file:.yalc/@eclipse-sirius/sirius-components-diagrams",
+    "@eclipse-sirius/sirius-components-formdescriptioneditors": "file:.yalc/@eclipse-sirius/sirius-components-formdescriptioneditors",
+    "@eclipse-sirius/sirius-components-forms": "file:.yalc/@eclipse-sirius/sirius-components-forms",
+    "@eclipse-sirius/sirius-components-gantt": "file:.yalc/@eclipse-sirius/sirius-components-gantt",
+    "@eclipse-sirius/sirius-components-impactanalysis": "file:.yalc/@eclipse-sirius/sirius-components-impactanalysis",
+    "@eclipse-sirius/sirius-components-omnibox": "file:.yalc/@eclipse-sirius/sirius-components-omnibox",
+    "@eclipse-sirius/sirius-components-palette": "file:.yalc/@eclipse-sirius/sirius-components-palette",
+    "@eclipse-sirius/sirius-components-portals": "file:.yalc/@eclipse-sirius/sirius-components-portals",
+    "@eclipse-sirius/sirius-components-selection": "file:.yalc/@eclipse-sirius/sirius-components-selection",
+    "@eclipse-sirius/sirius-components-tables": "file:.yalc/@eclipse-sirius/sirius-components-tables",
+    "@eclipse-sirius/sirius-components-trees": "file:.yalc/@eclipse-sirius/sirius-components-trees",
+    "@eclipse-sirius/sirius-components-validation": "file:.yalc/@eclipse-sirius/sirius-components-validation",
+    "@eclipse-sirius/sirius-components-widget-reference": "file:.yalc/@eclipse-sirius/sirius-components-widget-reference",
+    "@eclipse-sirius/sirius-components-widget-table": "file:.yalc/@eclipse-sirius/sirius-components-widget-table",
+    "@eclipse-sirius/sirius-web-application": "file:.yalc/@eclipse-sirius/sirius-web-application",
+    "@eclipse-sirius/sirius-web-view-fork": "file:.yalc/@eclipse-sirius/sirius-web-view-fork"
   }
 }

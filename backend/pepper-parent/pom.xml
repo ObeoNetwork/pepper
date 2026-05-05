@@ -30,7 +30,7 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<sirius.web.version>2026.3.3</sirius.web.version>
+		<sirius.web.version>2026.3.8</sirius.web.version>
 		<sirius.version>7.4.14-SNAPSHOT</sirius.version>
 	</properties>
 
