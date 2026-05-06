@@ -9,7 +9,7 @@
 === Improvements
 
 === Bug fixes
-
+- https://github.com/ObeoNetwork/pepper/issues/50[#50] Stop extending DefaultLabelService
 
 == v2026.3.0
 
