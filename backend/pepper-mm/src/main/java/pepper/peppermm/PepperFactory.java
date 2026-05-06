@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EFactory;
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a create method for each non-abstract class of
  * the model. <!-- end-user-doc -->
  * 
- * @see pepper.peppermm.PepperPackage
+ * @see PepperPackage
  * @generated
  */
 public interface PepperFactory extends EFactory {
@@ -148,6 +148,14 @@ public interface PepperFactory extends EFactory {
      * @generated
      */
     Risk createRisk();
+
+    /**
+     * Returns a new object of class '<em>Dependency Link</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Dependency Link</em>'.
+     * @generated
+     */
+    DependencyLink createDependencyLink();
 
     /**
      * Returns the package supported by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->

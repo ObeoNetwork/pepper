@@ -28,8 +28,8 @@ import pepper.peppermm.TaskTag;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.TaskTagImpl#getPrefix <em>Prefix</em>}</li>
- * <li>{@link pepper.peppermm.impl.TaskTagImpl#getSuffix <em>Suffix</em>}</li>
+ * <li>{@link TaskTagImpl#getPrefix <em>Prefix</em>}</li>
+ * <li>{@link TaskTagImpl#getSuffix <em>Suffix</em>}</li>
  * </ul>
  *
  * @generated

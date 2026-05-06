@@ -41,14 +41,14 @@ import pepper.peppermm.Workpackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getKind <em>Kind</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getCriticity <em>Criticity</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getAction <em>Action</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getResponsible <em>Responsible</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getOperationDate <em>Operation Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getState <em>State</em>}</li>
- * <li>{@link pepper.peppermm.impl.RiskImpl#getWorkpackages <em>Workpackages</em>}</li>
+ * <li>{@link RiskImpl#getKind <em>Kind</em>}</li>
+ * <li>{@link RiskImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link RiskImpl#getCriticity <em>Criticity</em>}</li>
+ * <li>{@link RiskImpl#getAction <em>Action</em>}</li>
+ * <li>{@link RiskImpl#getResponsible <em>Responsible</em>}</li>
+ * <li>{@link RiskImpl#getOperationDate <em>Operation Date</em>}</li>
+ * <li>{@link RiskImpl#getState <em>State</em>}</li>
+ * <li>{@link RiskImpl#getWorkpackages <em>Workpackages</em>}</li>
  * </ul>
  *
  * @generated

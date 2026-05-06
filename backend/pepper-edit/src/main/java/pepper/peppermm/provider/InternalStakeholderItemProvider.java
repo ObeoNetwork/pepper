@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import pepper.peppermm.InternalStakeholder;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.InternalStakeholder} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link InternalStakeholder} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * 
  * @generated

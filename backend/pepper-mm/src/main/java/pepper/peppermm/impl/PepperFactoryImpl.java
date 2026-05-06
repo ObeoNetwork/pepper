@@ -29,13 +29,13 @@ import pepper.peppermm.*;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
- *
+ * 
  * @generated
  */
 public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     /**
      * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public static PepperFactory init() {
@@ -52,7 +52,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public PepperFactoryImpl() {
@@ -61,7 +61,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -97,6 +97,8 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
                 return createWorkpackageArtefact();
             case PepperPackage.RISK:
                 return createRisk();
+            case PepperPackage.DEPENDENCY_LINK:
+                return createDependencyLink();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -104,24 +106,28 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
-            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
-                return createWorkpackageArtefactNatureFromString(eDataType, initialValue);
+            case PepperPackage.PROJECT_STATE:
+                return createProjectStateFromString(eDataType, initialValue);
             case PepperPackage.RISK_KIND:
                 return createRiskKindFromString(eDataType, initialValue);
             case PepperPackage.RISK_STATE:
                 return createRiskStateFromString(eDataType, initialValue);
-            case PepperPackage.PROJECT_STATE:
-                return createProjectStateFromString(eDataType, initialValue);
-            case PepperPackage.INSTANT:
-                return createInstantFromString(eDataType, initialValue);
+            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
+                return createWorkpackageArtefactNatureFromString(eDataType, initialValue);
+            case PepperPackage.START_OR_END:
+                return createStartOrEndFromString(eDataType, initialValue);
+            case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
+                return createTaskTimeBoundariesConstraintFromString(eDataType, initialValue);
             case PepperPackage.DATE:
                 return createDateFromString(eDataType, initialValue);
+            case PepperPackage.INSTANT:
+                return createInstantFromString(eDataType, initialValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -129,24 +135,28 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
-            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
-                return convertWorkpackageArtefactNatureToString(eDataType, instanceValue);
+            case PepperPackage.PROJECT_STATE:
+                return convertProjectStateToString(eDataType, instanceValue);
             case PepperPackage.RISK_KIND:
                 return convertRiskKindToString(eDataType, instanceValue);
             case PepperPackage.RISK_STATE:
                 return convertRiskStateToString(eDataType, instanceValue);
-            case PepperPackage.PROJECT_STATE:
-                return convertProjectStateToString(eDataType, instanceValue);
-            case PepperPackage.INSTANT:
-                return convertInstantToString(eDataType, instanceValue);
+            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
+                return convertWorkpackageArtefactNatureToString(eDataType, instanceValue);
+            case PepperPackage.START_OR_END:
+                return convertStartOrEndToString(eDataType, instanceValue);
+            case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
+                return convertTaskTimeBoundariesConstraintToString(eDataType, instanceValue);
             case PepperPackage.DATE:
                 return convertDateToString(eDataType, instanceValue);
+            case PepperPackage.INSTANT:
+                return convertInstantToString(eDataType, instanceValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -154,7 +164,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -165,7 +175,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -176,7 +186,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -187,7 +197,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -198,7 +208,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -209,7 +219,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -220,7 +230,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -231,7 +241,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -242,7 +252,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -253,7 +263,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -264,7 +274,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -275,7 +285,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -286,7 +296,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -297,7 +307,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -308,13 +318,24 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public Risk createRisk() {
         RiskImpl risk = new RiskImpl();
         return risk;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public DependencyLink createDependencyLink() {
+        DependencyLinkImpl dependencyLink = new DependencyLinkImpl();
+        return dependencyLink;
     }
 
     /**
@@ -332,10 +353,52 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String convertWorkpackageArtefactNatureToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public StartOrEnd createStartOrEndFromString(EDataType eDataType, String initialValue) {
+        StartOrEnd result = StartOrEnd.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertStartOrEndToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public TaskTimeBoundariesConstraint createTaskTimeBoundariesConstraintFromString(EDataType eDataType, String initialValue) {
+        TaskTimeBoundariesConstraint result = TaskTimeBoundariesConstraint.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertTaskTimeBoundariesConstraintToString(EDataType eDataType, Object instanceValue) {
         return instanceValue == null ? null : instanceValue.toString();
     }
 
@@ -347,13 +410,14 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     public RiskKind createRiskKindFromString(EDataType eDataType, String initialValue) {
         RiskKind result = RiskKind.get(initialValue);
         // if (result == null)
-        //    throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        // throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" +
+        // eDataType.getName() + "'");
         return result;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String convertRiskKindToString(EDataType eDataType, Object instanceValue) {
@@ -367,14 +431,15 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
      */
     public RiskState createRiskStateFromString(EDataType eDataType, String initialValue) {
         RiskState result = RiskState.get(initialValue);
-        //    if (result == null)
-        //        throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        // if (result == null)
+        // throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" +
+        // eDataType.getName() + "'");
         return result;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String convertRiskStateToString(EDataType eDataType, Object instanceValue) {
@@ -388,14 +453,15 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
      */
     public ProjectState createProjectStateFromString(EDataType eDataType, String initialValue) {
         ProjectState result = ProjectState.get(initialValue);
-        //    if (result == null)
-        //        throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        // if (result == null)
+        // throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" +
+        // eDataType.getName() + "'");
         return result;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String convertProjectStateToString(EDataType eDataType, Object instanceValue) {
@@ -452,7 +518,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -462,7 +528,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @deprecated
      * @generated
      */

@@ -51,7 +51,7 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     protected ComposedAdapterFactory parentAdapterFactory;
 
     /**
-     * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}. <!-- begin-user-doc --> <!--
+     * This is used to implement {@link IChangeNotifier}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
@@ -414,6 +414,29 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.DependencyLink} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected DependencyLinkItemProvider dependencyLinkItemProvider;
+
+    /**
+     * This creates an adapter for a {@link pepper.peppermm.DependencyLink}. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @generated
+     */
+    @Override
+    public Adapter createDependencyLinkAdapter() {
+        if (dependencyLinkItemProvider == null) {
+            dependencyLinkItemProvider = new DependencyLinkItemProvider(this);
+        }
+
+        return dependencyLinkItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
@@ -543,6 +566,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
             workpackageArtefactItemProvider.dispose();
         if (riskItemProvider != null)
             riskItemProvider.dispose();
+        if (dependencyLinkItemProvider != null)
+            dependencyLinkItemProvider.dispose();
     }
 
 }

@@ -18,14 +18,16 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.Task} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link Task} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated
@@ -50,19 +52,38 @@ public class TaskItemProvider extends AbstractTaskItemProvider {
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addDependenciesPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Dependencies feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+     * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
      * 
      * @generated
      */
-    protected void addDependenciesPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_Task_dependencies_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Task_dependencies_feature", "_UI_Task_type"), PepperPackage.Literals.TASK__DEPENDENCIES, true, false, true, null, null, null));
+    @Override
+    public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+        if (childrenFeatures == null) {
+            super.getChildrenFeatures(object);
+            childrenFeatures.add(PepperPackage.Literals.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES);
+        }
+        return childrenFeatures;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EStructuralFeature getChildFeature(Object object, Object child) {
+        // Check the type of the specified child object and return the proper feature to use for
+        // adding (see {@link AddCommand}) it as a child.
+
+        return super.getChildFeature(object, child);
     }
 
     /**
@@ -106,7 +127,15 @@ public class TaskItemProvider extends AbstractTaskItemProvider {
     @Override
     public void notifyChanged(Notification notification) {
         updateChildren(notification);
-        super.notifyChanged(notification);
+
+        switch (notification.getFeatureID(Task.class)) {
+            case PepperPackage.TASK__DEPENDENCIES:
+                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+                return;
+            default:
+                super.notifyChanged(notification);
+                return;
+        }
     }
 
     /**
@@ -118,6 +147,8 @@ public class TaskItemProvider extends AbstractTaskItemProvider {
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
+
+        newChildDescriptors.add(createChildParameter(PepperPackage.Literals.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES, PepperFactory.eINSTANCE.createDependencyLink()));
     }
 
 }

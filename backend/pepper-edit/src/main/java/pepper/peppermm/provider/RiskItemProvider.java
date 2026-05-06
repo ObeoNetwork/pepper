@@ -36,7 +36,7 @@ import pepper.peppermm.Risk;
 import pepper.peppermm.RiskKind;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.Risk} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link Risk} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated

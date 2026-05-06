@@ -30,7 +30,7 @@ import pepper.peppermm.PepperPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.ExternalStakeholderImpl#getGoals <em>Goals</em>}</li>
+ * <li>{@link ExternalStakeholderImpl#getGoals <em>Goals</em>}</li>
  * </ul>
  *
  * @generated

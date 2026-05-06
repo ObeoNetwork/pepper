@@ -31,10 +31,12 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import pepper.peppermm.DependencyLink;
 import pepper.peppermm.Objective;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.WorkpackageArtefact;
 
@@ -44,22 +46,35 @@ import pepper.peppermm.WorkpackageArtefact;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getStartDate <em>Start Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getEndDate <em>End Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getLeader <em>Leader</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getParticipants <em>Participants</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getEffort <em>Effort</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getOutputs <em>Outputs</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getOwnedTasks <em>Owned Tasks</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getOwnedObjectives <em>Owned Objectives</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageImpl#getProgress <em>Progress</em>}</li>
+ * <li>{@link WorkpackageImpl#getDependencies <em>Dependencies</em>}</li>
+ * <li>{@link WorkpackageImpl#getName <em>Name</em>}</li>
+ * <li>{@link WorkpackageImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link WorkpackageImpl#getStartDate <em>Start Date</em>}</li>
+ * <li>{@link WorkpackageImpl#getEndDate <em>End Date</em>}</li>
+ * <li>{@link WorkpackageImpl#getLeader <em>Leader</em>}</li>
+ * <li>{@link WorkpackageImpl#getParticipants <em>Participants</em>}</li>
+ * <li>{@link WorkpackageImpl#getEffort <em>Effort</em>}</li>
+ * <li>{@link WorkpackageImpl#getOutputs <em>Outputs</em>}</li>
+ * <li>{@link WorkpackageImpl#getOwnedTasks <em>Owned Tasks</em>}</li>
+ * <li>{@link WorkpackageImpl#getOwnedObjectives <em>Owned Objectives</em>}</li>
+ * <li>{@link WorkpackageImpl#getProgress <em>Progress</em>}</li>
+ * <li>{@link WorkpackageImpl#getCalculationOption <em>Calculation Option</em>}</li>
+ * <li>{@link WorkpackageImpl#getDuration <em>Duration</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Workpackage {
+    /**
+     * The cached value of the '{@link #getDependencies() <em>Dependencies</em>}' containment reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getDependencies()
+     * @generated
+     * @ordered
+     */
+    protected EList<DependencyLink> dependencies;
+
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
@@ -231,6 +246,46 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     protected int progress = PROGRESS_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getCalculationOption()
+     * @generated
+     * @ordered
+     */
+    protected static final TaskTimeBoundariesConstraint CALCULATION_OPTION_EDEFAULT = TaskTimeBoundariesConstraint.START_END;
+
+    /**
+     * The cached value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getCalculationOption()
+     * @generated
+     * @ordered
+     */
+    protected TaskTimeBoundariesConstraint calculationOption = CALCULATION_OPTION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getDuration()
+     * @generated
+     * @ordered
+     */
+    protected static final int DURATION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getDuration()
+     * @generated
+     * @ordered
+     */
+    protected int duration = DURATION_EDEFAULT;
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
@@ -247,6 +302,19 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     @Override
     protected EClass eStaticClass() {
         return PepperPackage.Literals.WORKPACKAGE;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EList<DependencyLink> getDependencies() {
+        if (dependencies == null) {
+            dependencies = new EObjectContainmentEList<DependencyLink>(DependencyLink.class, this, PepperPackage.WORKPACKAGE__DEPENDENCIES);
+        }
+        return dependencies;
     }
 
     /**
@@ -485,8 +553,56 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
      * @generated
      */
     @Override
+    public TaskTimeBoundariesConstraint getCalculationOption() {
+        return calculationOption;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void setCalculationOption(TaskTimeBoundariesConstraint newCalculationOption) {
+        TaskTimeBoundariesConstraint oldCalculationOption = calculationOption;
+        calculationOption = newCalculationOption == null ? CALCULATION_OPTION_EDEFAULT : newCalculationOption;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__CALCULATION_OPTION, oldCalculationOption, calculationOption));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void setDuration(int newDuration) {
+        int oldDuration = duration;
+        duration = newDuration;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DURATION, oldDuration, duration));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
+                return ((InternalEList<?>) getDependencies()).basicRemove(otherEnd, msgs);
             case PepperPackage.WORKPACKAGE__OUTPUTS:
                 return ((InternalEList<?>) getOutputs()).basicRemove(otherEnd, msgs);
             case PepperPackage.WORKPACKAGE__OWNED_TASKS:
@@ -506,6 +622,8 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
+                return getDependencies();
             case PepperPackage.WORKPACKAGE__NAME:
                 return getName();
             case PepperPackage.WORKPACKAGE__DESCRIPTION:
@@ -530,6 +648,10 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
                 return getOwnedObjectives();
             case PepperPackage.WORKPACKAGE__PROGRESS:
                 return getProgress();
+            case PepperPackage.WORKPACKAGE__CALCULATION_OPTION:
+                return getCalculationOption();
+            case PepperPackage.WORKPACKAGE__DURATION:
+                return getDuration();
             default:
                 return super.eGet(featureID, resolve, coreType);
         }
@@ -544,6 +666,10 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
+                getDependencies().clear();
+                getDependencies().addAll((Collection<? extends DependencyLink>) newValue);
+                return;
             case PepperPackage.WORKPACKAGE__NAME:
                 setName((String) newValue);
                 return;
@@ -581,6 +707,12 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
             case PepperPackage.WORKPACKAGE__PROGRESS:
                 setProgress((Integer) newValue);
                 return;
+            case PepperPackage.WORKPACKAGE__CALCULATION_OPTION:
+                setCalculationOption((TaskTimeBoundariesConstraint) newValue);
+                return;
+            case PepperPackage.WORKPACKAGE__DURATION:
+                setDuration((Integer) newValue);
+                return;
             default:
                 super.eSet(featureID, newValue);
                 return;
@@ -595,6 +727,9 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
+                getDependencies().clear();
+                return;
             case PepperPackage.WORKPACKAGE__NAME:
                 setName(NAME_EDEFAULT);
                 return;
@@ -628,6 +763,12 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
             case PepperPackage.WORKPACKAGE__PROGRESS:
                 setProgress(PROGRESS_EDEFAULT);
                 return;
+            case PepperPackage.WORKPACKAGE__CALCULATION_OPTION:
+                setCalculationOption(CALCULATION_OPTION_EDEFAULT);
+                return;
+            case PepperPackage.WORKPACKAGE__DURATION:
+                setDuration(DURATION_EDEFAULT);
+                return;
             default:
                 super.eUnset(featureID);
                 return;
@@ -642,6 +783,8 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
+                return dependencies != null && !dependencies.isEmpty();
             case PepperPackage.WORKPACKAGE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case PepperPackage.WORKPACKAGE__DESCRIPTION:
@@ -664,6 +807,10 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
                 return ownedObjectives != null && !ownedObjectives.isEmpty();
             case PepperPackage.WORKPACKAGE__PROGRESS:
                 return progress != PROGRESS_EDEFAULT;
+            case PepperPackage.WORKPACKAGE__CALCULATION_OPTION:
+                return calculationOption != CALCULATION_OPTION_EDEFAULT;
+            case PepperPackage.WORKPACKAGE__DURATION:
+                return duration != DURATION_EDEFAULT;
             default:
                 return super.eIsSet(featureID);
         }
@@ -692,6 +839,10 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
         result.append(effort);
         result.append(", progress: ");
         result.append(progress);
+        result.append(", calculationOption: ");
+        result.append(calculationOption);
+        result.append(", duration: ");
+        result.append(duration);
         result.append(')');
         return result.toString();
     }

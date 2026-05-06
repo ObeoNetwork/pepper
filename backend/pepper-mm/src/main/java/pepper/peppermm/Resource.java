@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.Resource#getName <em>Name</em>}</li>
+ * <li>{@link Resource#getName <em>Name</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getResource()
+ * @see PepperPackage#getResource()
  * @model abstract="true"
  * @generated
  */
@@ -34,14 +34,14 @@ public interface Resource extends EObject {
      * 
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
-     * @see pepper.peppermm.PepperPackage#getResource_Name()
+     * @see PepperPackage#getResource_Name()
      * @model
      * @generated
      */
     String getName();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Resource#getName <em>Name</em>}' attribute. <!-- begin-user-doc -->
+     * Sets the value of the '{@link Resource#getName <em>Name</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @param value

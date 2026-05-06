@@ -14,12 +14,16 @@ package pepper.peppermm.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import pepper.peppermm.DependencyLink;
+import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 
@@ -29,21 +33,21 @@ import pepper.peppermm.Task;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.TaskImpl#getDependencies <em>Dependencies</em>}</li>
+ * <li>{@link TaskImpl#getDependencies <em>Dependencies</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TaskImpl extends AbstractTaskImpl implements Task {
     /**
-     * The cached value of the '{@link #getDependencies() <em>Dependencies</em>}' reference list. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
+     * The cached value of the '{@link #getDependencies() <em>Dependencies</em>}' containment reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDependencies()
      * @generated
      * @ordered
      */
-    protected EList<Task> dependencies;
+    protected EList<DependencyLink> dependencies;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -70,11 +74,26 @@ public class TaskImpl extends AbstractTaskImpl implements Task {
      * @generated
      */
     @Override
-    public EList<Task> getDependencies() {
+    public EList<DependencyLink> getDependencies() {
         if (dependencies == null) {
-            dependencies = new EObjectResolvingEList<Task>(Task.class, this, PepperPackage.TASK__DEPENDENCIES);
+            dependencies = new EObjectContainmentEList<DependencyLink>(DependencyLink.class, this, PepperPackage.TASK__DEPENDENCIES);
         }
         return dependencies;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case PepperPackage.TASK__DEPENDENCIES:
+                return ((InternalEList<?>) getDependencies()).basicRemove(otherEnd, msgs);
+            default:
+                return super.eInverseRemove(otherEnd, featureID, msgs);
+        }
     }
 
     /**
@@ -103,7 +122,7 @@ public class TaskImpl extends AbstractTaskImpl implements Task {
         switch (featureID) {
             case PepperPackage.TASK__DEPENDENCIES:
                 getDependencies().clear();
-                getDependencies().addAll((Collection<? extends Task>) newValue);
+                getDependencies().addAll((Collection<? extends DependencyLink>) newValue);
                 return;
             default:
                 super.eSet(featureID, newValue);
@@ -141,6 +160,42 @@ public class TaskImpl extends AbstractTaskImpl implements Task {
             default:
                 return super.eIsSet(featureID);
         }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == DependencyRelatedObject.class) {
+            switch (derivedFeatureID) {
+                case PepperPackage.TASK__DEPENDENCIES:
+                    return PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
+                default:
+                    return -1;
+            }
+        }
+        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == DependencyRelatedObject.class) {
+            switch (baseFeatureID) {
+                case PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES:
+                    return PepperPackage.TASK__DEPENDENCIES;
+                default:
+                    return -1;
+            }
+        }
+        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
 } // TaskImpl

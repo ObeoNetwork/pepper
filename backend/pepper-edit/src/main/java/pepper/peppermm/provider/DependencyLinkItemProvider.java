@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2024, 2026 CEA LIST.
+ * Copyright (c) 2026 Obeo.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -20,8 +20,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -33,24 +31,24 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import pepper.peppermm.PepperFactory;
+import pepper.peppermm.DependencyLink;
 import pepper.peppermm.PepperPackage;
-import pepper.peppermm.ResourceFolder;
+import pepper.peppermm.StartOrEnd;
 
 /**
- * This is the item provider adapter for a {@link ResourceFolder} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link DependencyLink} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated
  */
-public class ResourceFolderItemProvider extends ItemProviderAdapter
+public class DependencyLinkItemProvider extends ItemProviderAdapter
         implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    public ResourceFolderItemProvider(AdapterFactory adapterFactory) {
+    public DependencyLinkItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -64,61 +62,66 @@ public class ResourceFolderItemProvider extends ItemProviderAdapter
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addNamePropertyDescriptor(object);
+            addTargetKindPropertyDescriptor(object);
+            addSourceKindPropertyDescriptor(object);
+            addSourcePropertyDescriptor(object);
+            addDurationPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Name feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This adds a property descriptor for the Target Kind feature. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    protected void addNamePropertyDescriptor(Object object) {
+    protected void addTargetKindPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_ResourceFolder_name_feature"), getString("_UI_PropertyDescriptor_description", "_UI_ResourceFolder_name_feature", "_UI_ResourceFolder_type"),
-                PepperPackage.Literals.RESOURCE_FOLDER__NAME, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_DependencyLink_targetKind_feature"), getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_targetKind_feature", "_UI_DependencyLink_type"),
+                PepperPackage.Literals.DEPENDENCY_LINK__TARGET_KIND, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-     * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * This adds a property descriptor for the Source Kind feature. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    @Override
-    public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-        if (childrenFeatures == null) {
-            super.getChildrenFeatures(object);
-            childrenFeatures.add(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES);
-            childrenFeatures.add(PepperPackage.Literals.RESOURCE_FOLDER__SUB_FOLDERS);
-        }
-        return childrenFeatures;
+    protected void addSourceKindPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_DependencyLink_sourceKind_feature"), getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_sourceKind_feature", "_UI_DependencyLink_type"),
+                PepperPackage.Literals.DEPENDENCY_LINK__SOURCE_KIND, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This adds a property descriptor for the Source feature. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    @Override
-    protected EStructuralFeature getChildFeature(Object object, Object child) {
-        // Check the type of the specified child object and return the proper feature to use for
-        // adding (see {@link AddCommand}) it as a child.
-
-        return super.getChildFeature(object, child);
+    protected void addSourcePropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_DependencyLink_source_feature"), getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_source_feature", "_UI_DependencyLink_type"),
+                PepperPackage.Literals.DEPENDENCY_LINK__SOURCE, true, false, false, null, null, null));
     }
 
     /**
-     * This returns ResourceFolder.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected void addDurationPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_DependencyLink_duration_feature"), getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_duration_feature", "_UI_DependencyLink_type"),
+                PepperPackage.Literals.DEPENDENCY_LINK__DURATION, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
+    }
+
+    /**
+     * This returns DependencyLink.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
      *
      * @generated NOT
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/ResourceFolder.svg"));
+        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/DependencyLink.svg"));
     }
 
     /**
@@ -138,8 +141,9 @@ public class ResourceFolderItemProvider extends ItemProviderAdapter
      */
     @Override
     public String getText(Object object) {
-        String label = ((ResourceFolder) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_ResourceFolder_type") : getString("_UI_ResourceFolder_type") + " " + label;
+        StartOrEnd labelValue = ((DependencyLink) object).getTargetKind();
+        String label = labelValue == null ? null : labelValue.toString();
+        return label == null || label.length() == 0 ? getString("_UI_DependencyLink_type") : getString("_UI_DependencyLink_type") + " " + label;
     }
 
     /**
@@ -153,13 +157,12 @@ public class ResourceFolderItemProvider extends ItemProviderAdapter
     public void notifyChanged(Notification notification) {
         updateChildren(notification);
 
-        switch (notification.getFeatureID(ResourceFolder.class)) {
-            case PepperPackage.RESOURCE_FOLDER__NAME:
+        switch (notification.getFeatureID(DependencyLink.class)) {
+            case PepperPackage.DEPENDENCY_LINK__TARGET_KIND:
+            case PepperPackage.DEPENDENCY_LINK__SOURCE_KIND:
+            case PepperPackage.DEPENDENCY_LINK__SOURCE:
+            case PepperPackage.DEPENDENCY_LINK__DURATION:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-                return;
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
             default:
                 super.notifyChanged(notification);
@@ -170,22 +173,12 @@ public class ResourceFolderItemProvider extends ItemProviderAdapter
     /**
      * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
      * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated NOT
+     * 
+     * @generated
      */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createPerson()));
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createTeam()));
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createInternalStakeholder()));
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createExternalStakeholder()));
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__SUB_FOLDERS, PepperFactory.eINSTANCE.createResourceFolder()));
     }
 
     /**
