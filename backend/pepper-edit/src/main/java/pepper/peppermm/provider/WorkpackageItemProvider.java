@@ -13,6 +13,8 @@
 package pepper.peppermm.provider;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
@@ -318,8 +320,10 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
                 }
             } else {
                 if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                    String startTime = workpackage.getStartDate().toString() + "T00:00:00.00Z";
-                    String endTime = workpackage.getEndDate().toString() + "T23:59:00.00Z";
+                    ZonedDateTime zdt = workpackage.getStartDate().atStartOfDay(ZoneId.systemDefault());
+                    String zone = zdt.getOffset().toString();
+                    String startTime = workpackage.getStartDate().toString() + "T00:00:00.00" + zone;
+                    String endTime = workpackage.getEndDate().toString() + "T23:59:00.00" + zone;
                     Instant startInstant = Instant.parse(startTime);
                     Instant endInstant = Instant.parse(endTime);
                     task.setStartTime(startInstant);
