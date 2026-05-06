@@ -107,10 +107,16 @@ public class PepperMMJavaService {
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setName(NEW_TASK);
         if (context instanceof AbstractTask abstractTask) {
-            // The new task follows the context task and has the same duration as the context task.
+            // The new task follows the context task and has the same duration than the context task.
             if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
-                task.setStartTime(abstractTask.getEndTime());
-                task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()));
+                if (abstractTask.getEndTime().equals(abstractTask.getStartTime())) {
+                    // If the task is a Milestone
+                    task.setStartTime(abstractTask.getEndTime());
+                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()));
+                } else {
+                    task.setStartTime(abstractTask.getEndTime().plus(1, ChronoUnit.MINUTES));
+                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+                }
             }
 
             EObject parent = context.eContainer();
