@@ -211,12 +211,12 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createTask() {
         Task task11 = PepperFactory.eINSTANCE.createTask();
-        task11.setStartTime(Instant.ofEpochSecond(1704067200));
-        task11.setEndTime(Instant.ofEpochSecond(1704157260));
+        task11.setStartTime(Instant.parse("2024-01-01T00:00:00Z"));
+        task11.setEndTime(Instant.parse("2024-01-01T23:59:00Z"));
 
         Task task1 = PepperFactory.eINSTANCE.createTask();
-        task1.setStartTime(Instant.ofEpochSecond(1704067200));
-        task1.setEndTime(Instant.ofEpochSecond(1704157260));
+        task1.setStartTime(Instant.parse("2024-01-01T00:00:00Z"));
+        task1.setEndTime(Instant.parse("2024-01-01T23:59:00Z"));
         task1.getSubTasks().add(task11);
 
         Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
@@ -228,13 +228,13 @@ public class PepperMMJavaServiceTests {
 
         service.createTask(task1);
         assertThat(workpackage.getOwnedTasks()).hasSize(3);
-        assertThat(workpackage.getOwnedTasks().get(1).getStartTime()).isEqualTo(Instant.ofEpochSecond(1704157260));
-        assertThat(workpackage.getOwnedTasks().get(1).getEndTime()).isEqualTo(Instant.ofEpochSecond(2L * 1704157260 - 1704067200));
+        assertThat(workpackage.getOwnedTasks().get(1).getStartTime()).isEqualTo(Instant.parse("2024-01-02T00:00:00Z"));
+        assertThat(workpackage.getOwnedTasks().get(1).getEndTime()).isEqualTo(Instant.parse("2024-01-02T23:59:00Z"));
 
         service.createTask(task11);
         assertThat(task1.getSubTasks()).hasSize(2);
-        assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.ofEpochSecond(1704157260));
-        assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.ofEpochSecond(2L * 1704157260 - 1704067200));
+        assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.parse("2024-01-02T00:00:00Z"));
+        assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.parse("2024-01-02T23:59:00Z"));
     }
 
     @Test

@@ -15,8 +15,12 @@
 - https://github.com/ObeoNetwork/pepper/issues/43[#43] Add an empty pepper template to the home menu
 - https://github.com/ObeoNetwork/pepper/issues/44[#44] Add a Gantt Diagram to the first workpackage of the Gantt Sample Template
 - https://github.com/ObeoNetwork/pepper/issues/18[#18] Enhance the ergonomy of contextual menu in Gantt
+
 === Bug fixes
 - https://github.com/ObeoNetwork/pepper/issues/50[#50] Stop extending DefaultLabelService
+
+- https://github.com/ObeoNetwork/pepper/issues/40[#40] Use the end date of an existing task to initialize a new task
+- https://github.com/ObeoNetwork/pepper/issues/41[#41] Incorrect initialization of end time for a new task
 
 == v2026.3.0
 

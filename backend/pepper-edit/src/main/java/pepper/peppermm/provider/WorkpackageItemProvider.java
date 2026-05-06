@@ -13,6 +13,7 @@
 package pepper.peppermm.provider;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,16 +42,16 @@ import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
 
 /**
- * This is the item provider adapter for a {@link Workpackage} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.Workpackage} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
+ *
  * @generated
  */
 public class WorkpackageItemProvider extends ItemProviderAdapter
         implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public WorkpackageItemProvider(AdapterFactory adapterFactory) {
@@ -59,7 +60,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -83,7 +84,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Name feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addNamePropertyDescriptor(Object object) {
@@ -94,7 +95,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Description feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addDescriptionPropertyDescriptor(Object object) {
@@ -105,7 +106,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Start Date feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addStartDatePropertyDescriptor(Object object) {
@@ -116,7 +117,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the End Date feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addEndDatePropertyDescriptor(Object object) {
@@ -127,7 +128,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Leader feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addLeaderPropertyDescriptor(Object object) {
@@ -138,7 +139,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Participants feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addParticipantsPropertyDescriptor(Object object) {
@@ -149,7 +150,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Effort feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addEffortPropertyDescriptor(Object object) {
@@ -160,7 +161,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Progress feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addProgressPropertyDescriptor(Object object) {
@@ -171,7 +172,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Calculation Option feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addCalculationOptionPropertyDescriptor(Object object) {
@@ -182,7 +183,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected void addDurationPropertyDescriptor(Object object) {
@@ -196,7 +197,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -213,7 +214,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -236,7 +237,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -246,7 +247,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -259,7 +260,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
      * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -307,15 +308,20 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
             if (optionalTask.isPresent()) {
                 Task lastTask = optionalTask.get();
-                task.setStartTime(lastTask.getEndTime());
-                task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()));
+                if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
+                    // If the last task is a Milestone
+                    task.setStartTime(lastTask.getEndTime());
+                    task.setEndTime(lastTask.getEndTime());
+                } else {
+                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
+                    task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+                }
             } else {
-                String localDateToInstantString = "T00:00:00.00Z";
                 if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                    String endTime = workpackage.getEndDate().toString() + localDateToInstantString;
-                    String startTime = workpackage.getStartDate().toString() + localDateToInstantString;
-                    Instant endInstant = Instant.parse(endTime);
+                    String startTime = workpackage.getStartDate().toString() + "T00:00:00.00Z";
+                    String endTime = workpackage.getEndDate().toString() + "T23:59:00.00Z";
                     Instant startInstant = Instant.parse(startTime);
+                    Instant endInstant = Instant.parse(endTime);
                     task.setStartTime(startInstant);
                     task.setEndTime(endInstant);
                 }
@@ -331,7 +337,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 
     /**
      * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
