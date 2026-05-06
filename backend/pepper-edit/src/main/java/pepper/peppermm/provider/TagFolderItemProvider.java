@@ -38,7 +38,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.TagFolder;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.TagFolder} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link TagFolder} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated

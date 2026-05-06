@@ -12,32 +12,14 @@
  ******************************************************************************/
 package pepper.peppermm;
 
-import org.eclipse.emf.common.util.EList;
-
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Task</b></em>'. <!-- end-user-doc -->
  *
- * <p>
- * The following features are supported:
- * </p>
- * <ul>
- * <li>{@link pepper.peppermm.Task#getDependencies <em>Dependencies</em>}</li>
- * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getTask()
+ * @see PepperPackage#getTask()
  * @model
  * @generated
  */
-public interface Task extends AbstractTask {
-    /**
-     * Returns the value of the '<em><b>Dependencies</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.Task}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Dependencies</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getTask_Dependencies()
-     * @model
-     * @generated
-     */
-    EList<Task> getDependencies();
+public interface Task extends AbstractTask, DependencyRelatedObject {
 
 } // Task

@@ -34,7 +34,7 @@ import pepper.peppermm.PepperPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.ObjectiveImpl#getOwnedKeyResults <em>Owned Key Results</em>}</li>
+ * <li>{@link ObjectiveImpl#getOwnedKeyResults <em>Owned Key Results</em>}</li>
  * </ul>
  *
  * @generated

@@ -24,19 +24,19 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getNature <em>Nature</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getPlannedDeadline <em>Planned Deadline</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getIsInvoiceTrigger <em>Is Invoice Trigger</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getInvoiceAmount <em>Invoice Amount</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getResponsible <em>Responsible</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getVersion <em>Version</em>}</li>
- * <li>{@link pepper.peppermm.WorkpackageArtefact#getIsObsolete <em>Is Obsolete</em>}</li>
+ * <li>{@link WorkpackageArtefact#getName <em>Name</em>}</li>
+ * <li>{@link WorkpackageArtefact#getDescription <em>Description</em>}</li>
+ * <li>{@link WorkpackageArtefact#getNature <em>Nature</em>}</li>
+ * <li>{@link WorkpackageArtefact#getPlannedDeadline <em>Planned Deadline</em>}</li>
+ * <li>{@link WorkpackageArtefact#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
+ * <li>{@link WorkpackageArtefact#getIsInvoiceTrigger <em>Is Invoice Trigger</em>}</li>
+ * <li>{@link WorkpackageArtefact#getInvoiceAmount <em>Invoice Amount</em>}</li>
+ * <li>{@link WorkpackageArtefact#getResponsible <em>Responsible</em>}</li>
+ * <li>{@link WorkpackageArtefact#getVersion <em>Version</em>}</li>
+ * <li>{@link WorkpackageArtefact#getIsObsolete <em>Is Obsolete</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact()
+ * @see PepperPackage#getWorkpackageArtefact()
  * @model
  * @generated
  */
@@ -46,14 +46,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Name()
+     * @see PepperPackage#getWorkpackageArtefact_Name()
      * @model
      * @generated
      */
     String getName();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getName <em>Name</em>}' attribute. <!--
+     * Sets the value of the '{@link WorkpackageArtefact#getName <em>Name</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -68,14 +68,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Description()
+     * @see PepperPackage#getWorkpackageArtefact_Description()
      * @model
      * @generated
      */
     String getDescription();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getDescription <em>Description</em>}'
+     * Sets the value of the '{@link WorkpackageArtefact#getDescription <em>Description</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -87,24 +87,24 @@ public interface WorkpackageArtefact extends EObject {
 
     /**
      * Returns the value of the '<em><b>Nature</b></em>' attribute. The literals are from the enumeration
-     * {@link pepper.peppermm.WorkpackageArtefactNature}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link WorkpackageArtefactNature}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Nature</em>' attribute.
-     * @see pepper.peppermm.WorkpackageArtefactNature
+     * @see WorkpackageArtefactNature
      * @see #setNature(WorkpackageArtefactNature)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Nature()
+     * @see PepperPackage#getWorkpackageArtefact_Nature()
      * @model
      * @generated
      */
     WorkpackageArtefactNature getNature();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getNature <em>Nature</em>}' attribute. <!--
+     * Sets the value of the '{@link WorkpackageArtefact#getNature <em>Nature</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
      *            the new value of the '<em>Nature</em>' attribute.
-     * @see pepper.peppermm.WorkpackageArtefactNature
+     * @see WorkpackageArtefactNature
      * @see #getNature()
      * @generated
      */
@@ -116,14 +116,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Planned Deadline</em>' attribute.
      * @see #setPlannedDeadline(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_PlannedDeadline()
+     * @see PepperPackage#getWorkpackageArtefact_PlannedDeadline()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getPlannedDeadline();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getPlannedDeadline <em>Planned Deadline</em>}'
+     * Sets the value of the '{@link WorkpackageArtefact#getPlannedDeadline <em>Planned Deadline</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -139,14 +139,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Effective Dead Line</em>' attribute.
      * @see #setEffectiveDeadLine(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_EffectiveDeadLine()
+     * @see PepperPackage#getWorkpackageArtefact_EffectiveDeadLine()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getEffectiveDeadLine();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getEffectiveDeadLine <em>Effective Dead
+     * Sets the value of the '{@link WorkpackageArtefact#getEffectiveDeadLine <em>Effective Dead
      * Line</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -162,14 +162,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Is Invoice Trigger</em>' attribute.
      * @see #setIsInvoiceTrigger(Boolean)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_IsInvoiceTrigger()
+     * @see PepperPackage#getWorkpackageArtefact_IsInvoiceTrigger()
      * @model
      * @generated
      */
     Boolean getIsInvoiceTrigger();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getIsInvoiceTrigger <em>Is Invoice
+     * Sets the value of the '{@link WorkpackageArtefact#getIsInvoiceTrigger <em>Is Invoice
      * Trigger</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -185,14 +185,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Invoice Amount</em>' attribute.
      * @see #setInvoiceAmount(Integer)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_InvoiceAmount()
+     * @see PepperPackage#getWorkpackageArtefact_InvoiceAmount()
      * @model
      * @generated
      */
     Integer getInvoiceAmount();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getInvoiceAmount <em>Invoice Amount</em>}'
+     * Sets the value of the '{@link WorkpackageArtefact#getInvoiceAmount <em>Invoice Amount</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -207,14 +207,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Responsible</em>' reference.
      * @see #setResponsible(Person)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Responsible()
+     * @see PepperPackage#getWorkpackageArtefact_Responsible()
      * @model
      * @generated
      */
     Person getResponsible();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getResponsible <em>Responsible</em>}'
+     * Sets the value of the '{@link WorkpackageArtefact#getResponsible <em>Responsible</em>}'
      * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -229,14 +229,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Version</em>' attribute.
      * @see #setVersion(String)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Version()
+     * @see PepperPackage#getWorkpackageArtefact_Version()
      * @model
      * @generated
      */
     String getVersion();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getVersion <em>Version</em>}' attribute. <!--
+     * Sets the value of the '{@link WorkpackageArtefact#getVersion <em>Version</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -251,14 +251,14 @@ public interface WorkpackageArtefact extends EObject {
      * 
      * @return the value of the '<em>Is Obsolete</em>' attribute.
      * @see #setIsObsolete(Boolean)
-     * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_IsObsolete()
+     * @see PepperPackage#getWorkpackageArtefact_IsObsolete()
      * @model
      * @generated
      */
     Boolean getIsObsolete();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getIsObsolete <em>Is Obsolete</em>}' attribute.
+     * Sets the value of the '{@link WorkpackageArtefact#getIsObsolete <em>Is Obsolete</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value

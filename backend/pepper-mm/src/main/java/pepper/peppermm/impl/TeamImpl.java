@@ -30,7 +30,7 @@ import pepper.peppermm.Team;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.TeamImpl#getMembers <em>Members</em>}</li>
+ * <li>{@link TeamImpl#getMembers <em>Members</em>}</li>
  * </ul>
  *
  * @generated

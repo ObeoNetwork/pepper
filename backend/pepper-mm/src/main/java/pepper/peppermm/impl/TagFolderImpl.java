@@ -38,9 +38,9 @@ import pepper.peppermm.TaskTag;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.TagFolderImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.TagFolderImpl#getOwnedTags <em>Owned Tags</em>}</li>
- * <li>{@link pepper.peppermm.impl.TagFolderImpl#getSubFolders <em>Sub Folders</em>}</li>
+ * <li>{@link TagFolderImpl#getName <em>Name</em>}</li>
+ * <li>{@link TagFolderImpl#getOwnedTags <em>Owned Tags</em>}</li>
+ * <li>{@link TagFolderImpl#getSubFolders <em>Sub Folders</em>}</li>
  * </ul>
  *
  * @generated

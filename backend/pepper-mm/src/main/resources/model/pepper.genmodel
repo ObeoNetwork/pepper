@@ -12,15 +12,11 @@
   <foreignModel>pepper.ecore</foreignModel>
   <genPackages prefix="Pepper" basePackage="pepper" disposableProviderFactory="true"
       ecorePackage="pepper.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//WorkpackageArtefactNature">
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Delivrable"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Decisional"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ProjectReview"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Action"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Invoicing"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ExpenseStatement"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ClientSatisfaction"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Other"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//ProjectState">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/OnGoing"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/UnderInstruction"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/StopBeforeTerm"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/Completed"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//RiskKind">
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskKind/Manpower"/>
@@ -38,14 +34,27 @@
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/StopBeforeTerm"/>
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//RiskState/Completed"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//ProjectState">
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/OnGoing"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/UnderInstruction"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/StopBeforeTerm"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//ProjectState/Completed"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//WorkpackageArtefactNature">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Delivrable"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Decisional"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ProjectReview"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Action"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Invoicing"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ExpenseStatement"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/ClientSatisfaction"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//WorkpackageArtefactNature/Other"/>
     </genEnums>
-    <genDataTypes ecoreDataType="pepper.ecore#//Instant"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//StartOrEnd">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//StartOrEnd/Start"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//StartOrEnd/End"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//TaskTimeBoundariesConstraint">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartEnd"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/EndDuration"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartDuration"/>
+    </genEnums>
     <genDataTypes ecoreDataType="pepper.ecore#//Date"/>
+    <genDataTypes ecoreDataType="pepper.ecore#//Instant"/>
     <genClasses ecoreClass="pepper.ecore#//Organization">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Organization/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Organization/ownedProjects"/>
@@ -82,6 +91,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedPersons"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedTeams"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/subTasks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/calculationOption"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/duration"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//TagFolder">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TagFolder/name"/>
@@ -92,9 +103,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TaskTag/prefix"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TaskTag/suffix"/>
     </genClasses>
-    <genClasses ecoreClass="pepper.ecore#//Task">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Task/dependencies"/>
-    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//Task"/>
     <genClasses ecoreClass="pepper.ecore#//Objective">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Objective/ownedKeyResults"/>
     </genClasses>
@@ -145,6 +154,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/ownedTasks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/ownedObjectives"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/calculationOption"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/duration"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//WorkpackageArtefact">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//WorkpackageArtefact/name"/>
@@ -167,6 +178,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/operationDate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Risk/state"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Risk/workpackages"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//DependencyLink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/targetKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/sourceKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference pepper.ecore#//DependencyLink/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/duration"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pepper.ecore#//DependencyRelatedObject">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//DependencyRelatedObject/dependencies"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -47,6 +47,9 @@
         eType="#//Team"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subTasks" upperBound="-1"
         eType="#//Task" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationOption" eType="#//TaskTimeBoundariesConstraint"
+        defaultValueLiteral="START_END"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TagFolder">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -59,10 +62,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//AbstractTask">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
-        eType="#//Task"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//AbstractTask #//DependencyRelatedObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="Objective" eSuperTypes="#//AbstractTask">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedKeyResults" upperBound="-1"
         eType="#//KeyResult" containment="true"/>
@@ -114,7 +114,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Workpackage">
+  <eClassifiers xsi:type="ecore:EClass" name="Workpackage" eSuperTypes="#//DependencyRelatedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="#//Date"/>
@@ -130,9 +130,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedObjectives" upperBound="-1"
         eType="#//Objective" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="progress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationOption" eType="#//TaskTimeBoundariesConstraint"
+        defaultValueLiteral="START_END"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Instant" instanceClassName="java.time.Instant"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.time.LocalDate"/>
   <eClassifiers xsi:type="ecore:EClass" name="WorkpackageArtefact">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -145,16 +146,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isObsolete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="WorkpackageArtefactNature">
-    <eLiterals name="Delivrable" literal="DELIVRABLE"/>
-    <eLiterals name="Decisional" value="1" literal="DECISIONAL"/>
-    <eLiterals name="ProjectReview" value="2" literal="PROJECT_REVIEW"/>
-    <eLiterals name="Action" value="3" literal="ACTION"/>
-    <eLiterals name="Invoicing" value="4" literal="INVOICING"/>
-    <eLiterals name="ExpenseStatement" value="5" literal="EXPENSE_STATEMENT"/>
-    <eLiterals name="ClientSatisfaction" value="6" literal="CLIENT_SATISFACTION"/>
-    <eLiterals name="Other" value="7" literal="OTHER"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Risk">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//RiskKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -165,6 +156,26 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//RiskState"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="workpackages" upperBound="-1"
         eType="#//Workpackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DependencyLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetKind" eType="#//StartOrEnd"
+        defaultValueLiteral="START"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceKind" eType="#//StartOrEnd"
+        defaultValueLiteral="END"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//DependencyRelatedObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DependencyRelatedObject" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//DependencyLink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProjectState">
+    <eLiterals name="OnGoing" literal="ON_GOING"/>
+    <eLiterals name="UnderInstruction" value="1" literal="UNDER_INSTRUCTION"/>
+    <eLiterals name="StopBeforeTerm" value="2" literal="STOP_BEFORE_TERM"/>
+    <eLiterals name="Completed" value="3" literal="COMPLETED"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RiskKind">
     <eLiterals name="Manpower" literal="MANPOWER"/>
@@ -182,10 +193,25 @@
     <eLiterals name="StopBeforeTerm" value="2" literal="STOP_BEFORE_TERM"/>
     <eLiterals name="Completed" value="3" literal="COMPLETED"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ProjectState">
-    <eLiterals name="OnGoing" literal="ON_GOING"/>
-    <eLiterals name="UnderInstruction" value="1" literal="UNDER_INSTRUCTION"/>
-    <eLiterals name="StopBeforeTerm" value="2" literal="STOP_BEFORE_TERM"/>
-    <eLiterals name="Completed" value="3" literal="COMPLETED"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="WorkpackageArtefactNature">
+    <eLiterals name="Delivrable" literal="DELIVRABLE"/>
+    <eLiterals name="Decisional" value="1" literal="DECISIONAL"/>
+    <eLiterals name="ProjectReview" value="2" literal="PROJECT_REVIEW"/>
+    <eLiterals name="Action" value="3" literal="ACTION"/>
+    <eLiterals name="Invoicing" value="4" literal="INVOICING"/>
+    <eLiterals name="ExpenseStatement" value="5" literal="EXPENSE_STATEMENT"/>
+    <eLiterals name="ClientSatisfaction" value="6" literal="CLIENT_SATISFACTION"/>
+    <eLiterals name="Other" value="7" literal="OTHER"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StartOrEnd">
+    <eLiterals name="Start" literal="START"/>
+    <eLiterals name="End" value="1" literal="END"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TaskTimeBoundariesConstraint">
+    <eLiterals name="StartEnd" literal="START_END"/>
+    <eLiterals name="EndDuration" value="1" literal="END_DURATION"/>
+    <eLiterals name="StartDuration" value="2" literal="START_DURATION"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.time.LocalDate"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Instant" instanceClassName="java.time.Instant"/>
 </ecore:EPackage>

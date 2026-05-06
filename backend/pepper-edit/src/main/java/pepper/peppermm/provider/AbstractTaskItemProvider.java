@@ -41,7 +41,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.AbstractTask} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link AbstractTask} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated
@@ -76,6 +76,8 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
             addTagsPropertyDescriptor(object);
             addAssignedPersonsPropertyDescriptor(object);
             addAssignedTeamsPropertyDescriptor(object);
+            addCalculationOptionPropertyDescriptor(object);
+            addDurationPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -182,6 +184,28 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
     }
 
     /**
+     * This adds a property descriptor for the Calculation Option feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected void addCalculationOptionPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_AbstractTask_calculationOption_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_calculationOption_feature", "_UI_AbstractTask_type"),
+                PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected void addDurationPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_AbstractTask_duration_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_duration_feature", "_UI_AbstractTask_type"),
+                PepperPackage.Literals.ABSTRACT_TASK__DURATION, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
+    }
+
+    /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
@@ -250,6 +274,8 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
             case PepperPackage.ABSTRACT_TASK__END_TIME:
             case PepperPackage.ABSTRACT_TASK__PROGRESS:
             case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+            case PepperPackage.ABSTRACT_TASK__DURATION:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
@@ -274,8 +300,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setName(getString("_UI_New") + " " + getString("_UI_Task_type"));
         if (object instanceof AbstractTask abstractTask) {
-            Optional<Task> optionalTask = abstractTask.getSubTasks().stream()
-                    .reduce((first, second) -> second)
+            Optional<Task> optionalTask = abstractTask.getSubTasks().stream().reduce((first, second) -> second)
                     .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
 
             if (optionalTask.isPresent()) {
