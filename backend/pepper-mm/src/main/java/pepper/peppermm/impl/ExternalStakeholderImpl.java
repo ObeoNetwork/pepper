@@ -1,0 +1,164 @@
+/*******************************************************************************
+ * Copyright (c) 2024, 2026 CEA LIST.
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     Obeo - initial API and implementation
+ ******************************************************************************/
+package pepper.peppermm.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+
+import pepper.peppermm.ExternalStakeholder;
+import pepper.peppermm.PepperPackage;
+
+/**
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>External Stakeholder</b></em>'. <!--
+ * end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * </p>
+ * <ul>
+ * <li>{@link pepper.peppermm.impl.ExternalStakeholderImpl#getGoals <em>Goals</em>}</li>
+ * </ul>
+ *
+ * @generated
+ */
+public class ExternalStakeholderImpl extends ResourceImpl implements ExternalStakeholder {
+    /**
+     * The cached value of the '{@link #getGoals() <em>Goals</em>}' attribute list. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getGoals()
+     * @generated
+     * @ordered
+     */
+    protected EList<String> goals;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected ExternalStakeholderImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return PepperPackage.Literals.EXTERNAL_STAKEHOLDER;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EList<String> getGoals() {
+        if (goals == null) {
+            goals = new EDataTypeUniqueEList<String>(String.class, this, PepperPackage.EXTERNAL_STAKEHOLDER__GOALS);
+        }
+        return goals;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+                return getGoals();
+            default:
+                return super.eGet(featureID, resolve, coreType);
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+                getGoals().clear();
+                getGoals().addAll((Collection<? extends String>) newValue);
+                return;
+            default:
+                super.eSet(featureID, newValue);
+                return;
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+                getGoals().clear();
+                return;
+            default:
+                super.eUnset(featureID);
+                return;
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+                return goals != null && !goals.isEmpty();
+            default:
+                return super.eIsSet(featureID);
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
+
+        StringBuilder result = new StringBuilder(super.toString());
+        result.append(" (goals: ");
+        result.append(goals);
+        result.append(')');
+        return result.toString();
+    }
+
+} // ExternalStakeholderImpl
