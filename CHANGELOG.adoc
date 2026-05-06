@@ -8,6 +8,8 @@
 
 === New features
 
+- https://github.com/ObeoNetwork/pepper/issues/9[#9] Add DependencyLink to add real delay between dependencies
+
 === Improvements
 
 - https://github.com/ObeoNetwork/pepper/issues/43[#43] Add an empty pepper template to the home menu

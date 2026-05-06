@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '<em><b>Project State</b></em>', and
  * utility methods for working with them. <!-- end-user-doc -->
  * 
- * @see pepper.peppermm.PepperPackage#getProjectState()
+ * @see PepperPackage#getProjectState()
  * @model
  * @generated
  */

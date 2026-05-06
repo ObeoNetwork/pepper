@@ -35,7 +35,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.WorkpackageArtefact;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.WorkpackageArtefact} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link WorkpackageArtefact} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * 
  * @generated

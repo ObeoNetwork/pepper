@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.TaskTag#getPrefix <em>Prefix</em>}</li>
- * <li>{@link pepper.peppermm.TaskTag#getSuffix <em>Suffix</em>}</li>
+ * <li>{@link TaskTag#getPrefix <em>Prefix</em>}</li>
+ * <li>{@link TaskTag#getSuffix <em>Suffix</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getTaskTag()
+ * @see PepperPackage#getTaskTag()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface TaskTag extends EObject {
      * 
      * @return the value of the '<em>Prefix</em>' attribute.
      * @see #setPrefix(String)
-     * @see pepper.peppermm.PepperPackage#getTaskTag_Prefix()
+     * @see PepperPackage#getTaskTag_Prefix()
      * @model
      * @generated
      */
     String getPrefix();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.TaskTag#getPrefix <em>Prefix</em>}' attribute. <!-- begin-user-doc
+     * Sets the value of the '{@link TaskTag#getPrefix <em>Prefix</em>}' attribute. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @param value
@@ -57,14 +57,14 @@ public interface TaskTag extends EObject {
      * 
      * @return the value of the '<em>Suffix</em>' attribute.
      * @see #setSuffix(String)
-     * @see pepper.peppermm.PepperPackage#getTaskTag_Suffix()
+     * @see PepperPackage#getTaskTag_Suffix()
      * @model
      * @generated
      */
     String getSuffix();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.TaskTag#getSuffix <em>Suffix</em>}' attribute. <!-- begin-user-doc
+     * Sets the value of the '{@link TaskTag#getSuffix <em>Suffix</em>}' attribute. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @param value

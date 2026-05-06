@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.DependencyLink;
+import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.ExternalStakeholder;
 import pepper.peppermm.InternalStakeholder;
 import pepper.peppermm.KeyResult;
@@ -40,9 +42,11 @@ import pepper.peppermm.ResourceFolder;
 import pepper.peppermm.Risk;
 import pepper.peppermm.RiskKind;
 import pepper.peppermm.RiskState;
+import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TagFolder;
 import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
+import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.WorkpackageArtefact;
@@ -178,7 +182,35 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
      * 
      * @generated
      */
+    private EClass dependencyLinkEClass = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EClass dependencyRelatedObjectEClass = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     private EEnum workpackageArtefactNatureEEnum = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EEnum startOrEndEEnum = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EEnum taskTimeBoundariesConstraintEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -216,15 +248,15 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     private EDataType dateEDataType = null;
 
     /**
-     * Creates an instance of the model <b>Package</b>, registered with {@link org.eclipse.emf.ecore.EPackage.Registry
+     * Creates an instance of the model <b>Package</b>, registered with {@link Registry
      * EPackage.Registry} by the package package URI value.
      * <p>
      * Note: the correct way to create the package is via the static factory method {@link #init init()}, which also
      * performs initialization of the package, or returns the registered package, if one already exists. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see org.eclipse.emf.ecore.EPackage.Registry
-     * @see pepper.peppermm.PepperPackage#eNS_URI
+     * @see Registry
+     * @see PepperPackage#eNS_URI
      * @see #init()
      * @generated
      */
@@ -254,10 +286,10 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
      */
     public static PepperPackage init() {
         if (isInited)
-            return (PepperPackage) EPackage.Registry.INSTANCE.getEPackage(PepperPackage.eNS_URI);
+            return (PepperPackage) Registry.INSTANCE.getEPackage(PepperPackage.eNS_URI);
 
         // Obtain or create and register package
-        Object registeredPepperPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+        Object registeredPepperPackage = Registry.INSTANCE.get(eNS_URI);
         PepperPackageImpl thePepperPackage = registeredPepperPackage instanceof PepperPackageImpl ? (PepperPackageImpl) registeredPepperPackage : new PepperPackageImpl();
 
         isInited = true;
@@ -272,7 +304,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         thePepperPackage.freeze();
 
         // Update the registry and return the package
-        EPackage.Registry.INSTANCE.put(PepperPackage.eNS_URI, thePepperPackage);
+        Registry.INSTANCE.put(PepperPackage.eNS_URI, thePepperPackage);
         return thePepperPackage;
     }
 
@@ -582,6 +614,26 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
      * @generated
      */
     @Override
+    public EAttribute getAbstractTask_CalculationOption() {
+        return (EAttribute) abstractTaskEClass.getEStructuralFeatures().get(10);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EAttribute getAbstractTask_Duration() {
+        return (EAttribute) abstractTaskEClass.getEStructuralFeatures().get(11);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
     public EClass getTagFolder() {
         return tagFolderEClass;
     }
@@ -654,16 +706,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     @Override
     public EClass getTask() {
         return taskEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    @Override
-    public EReference getTask_Dependencies() {
-        return (EReference) taskEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -1152,6 +1194,26 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
      * @generated
      */
     @Override
+    public EAttribute getWorkpackage_CalculationOption() {
+        return (EAttribute) workpackageEClass.getEStructuralFeatures().get(11);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EAttribute getWorkpackage_Duration() {
+        return (EAttribute) workpackageEClass.getEStructuralFeatures().get(12);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
     public EClass getWorkpackageArtefact() {
         return workpackageArtefactEClass;
     }
@@ -1352,8 +1414,98 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
      * @generated
      */
     @Override
+    public EClass getDependencyLink() {
+        return dependencyLinkEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EAttribute getDependencyLink_TargetKind() {
+        return (EAttribute) dependencyLinkEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EAttribute getDependencyLink_SourceKind() {
+        return (EAttribute) dependencyLinkEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EReference getDependencyLink_Source() {
+        return (EReference) dependencyLinkEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EAttribute getDependencyLink_Duration() {
+        return (EAttribute) dependencyLinkEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EClass getDependencyRelatedObject() {
+        return dependencyRelatedObjectEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EReference getDependencyRelatedObject_Dependencies() {
+        return (EReference) dependencyRelatedObjectEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
     public EEnum getWorkpackageArtefactNature() {
         return workpackageArtefactNatureEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EEnum getStartOrEnd() {
+        return startOrEndEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public EEnum getTaskTimeBoundariesConstraint() {
+        return taskTimeBoundariesConstraintEEnum;
     }
 
     /**
@@ -1472,6 +1624,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         createEReference(abstractTaskEClass, ABSTRACT_TASK__ASSIGNED_PERSONS);
         createEReference(abstractTaskEClass, ABSTRACT_TASK__ASSIGNED_TEAMS);
         createEReference(abstractTaskEClass, ABSTRACT_TASK__SUB_TASKS);
+        createEAttribute(abstractTaskEClass, ABSTRACT_TASK__CALCULATION_OPTION);
+        createEAttribute(abstractTaskEClass, ABSTRACT_TASK__DURATION);
 
         tagFolderEClass = createEClass(TAG_FOLDER);
         createEAttribute(tagFolderEClass, TAG_FOLDER__NAME);
@@ -1483,7 +1637,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         createEAttribute(taskTagEClass, TASK_TAG__SUFFIX);
 
         taskEClass = createEClass(TASK);
-        createEReference(taskEClass, TASK__DEPENDENCIES);
 
         objectiveEClass = createEClass(OBJECTIVE);
         createEReference(objectiveEClass, OBJECTIVE__OWNED_KEY_RESULTS);
@@ -1536,6 +1689,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         createEReference(workpackageEClass, WORKPACKAGE__OWNED_TASKS);
         createEReference(workpackageEClass, WORKPACKAGE__OWNED_OBJECTIVES);
         createEAttribute(workpackageEClass, WORKPACKAGE__PROGRESS);
+        createEAttribute(workpackageEClass, WORKPACKAGE__CALCULATION_OPTION);
+        createEAttribute(workpackageEClass, WORKPACKAGE__DURATION);
 
         workpackageArtefactEClass = createEClass(WORKPACKAGE_ARTEFACT);
         createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__NAME);
@@ -1559,15 +1714,26 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         createEAttribute(riskEClass, RISK__STATE);
         createEReference(riskEClass, RISK__WORKPACKAGES);
 
+        dependencyLinkEClass = createEClass(DEPENDENCY_LINK);
+        createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__TARGET_KIND);
+        createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__SOURCE_KIND);
+        createEReference(dependencyLinkEClass, DEPENDENCY_LINK__SOURCE);
+        createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__DURATION);
+
+        dependencyRelatedObjectEClass = createEClass(DEPENDENCY_RELATED_OBJECT);
+        createEReference(dependencyRelatedObjectEClass, DEPENDENCY_RELATED_OBJECT__DEPENDENCIES);
+
         // Create enums
-        workpackageArtefactNatureEEnum = createEEnum(WORKPACKAGE_ARTEFACT_NATURE);
+        projectStateEEnum = createEEnum(PROJECT_STATE);
         riskKindEEnum = createEEnum(RISK_KIND);
         riskStateEEnum = createEEnum(RISK_STATE);
-        projectStateEEnum = createEEnum(PROJECT_STATE);
+        workpackageArtefactNatureEEnum = createEEnum(WORKPACKAGE_ARTEFACT_NATURE);
+        startOrEndEEnum = createEEnum(START_OR_END);
+        taskTimeBoundariesConstraintEEnum = createEEnum(TASK_TIME_BOUNDARIES_CONSTRAINT);
 
         // Create data types
-        instantEDataType = createEDataType(INSTANT);
         dateEDataType = createEDataType(DATE);
+        instantEDataType = createEDataType(INSTANT);
     }
 
     /**
@@ -1603,8 +1769,10 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         externalStakeholderEClass.getESuperTypes().add(this.getResource());
         personEClass.getESuperTypes().add(this.getResource());
         taskEClass.getESuperTypes().add(this.getAbstractTask());
+        taskEClass.getESuperTypes().add(this.getDependencyRelatedObject());
         objectiveEClass.getESuperTypes().add(this.getAbstractTask());
         keyResultEClass.getESuperTypes().add(this.getAbstractTask());
+        workpackageEClass.getESuperTypes().add(this.getDependencyRelatedObject());
 
         // Initialize classes and features; add operations and parameters
         initEClass(organizationEClass, Organization.class, "Organization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1666,6 +1834,10 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
                 IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getAbstractTask_SubTasks(), this.getTask(), null, "subTasks", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
                 !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getAbstractTask_CalculationOption(), this.getTaskTimeBoundariesConstraint(), "calculationOption", "START_END", 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE,
+                IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getAbstractTask_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
 
         initEClass(tagFolderEClass, TagFolder.class, "TagFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getTagFolder_Name(), ecorePackage.getEString(), "name", null, 0, 1, TagFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
@@ -1682,8 +1854,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
                 IS_ORDERED);
 
         initEClass(taskEClass, Task.class, "Task", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getTask_Dependencies(), this.getTask(), null, "dependencies", null, 0, -1, Task.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(objectiveEClass, Objective.class, "Objective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getObjective_OwnedKeyResults(), this.getKeyResult(), null, "ownedKeyResults", null, 0, -1, Objective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
@@ -1780,6 +1950,10 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
                 !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getWorkpackage_Progress(), ecorePackage.getEInt(), "progress", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
                 !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getWorkpackage_CalculationOption(), this.getTaskTimeBoundariesConstraint(), "calculationOption", "START_END", 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE,
+                IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getWorkpackage_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
 
         initEClass(workpackageArtefactEClass, WorkpackageArtefact.class, "WorkpackageArtefact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getWorkpackageArtefact_Name(), ecorePackage.getEString(), "name", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
@@ -1819,16 +1993,26 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         initEReference(getRisk_Workpackages(), this.getWorkpackage(), null, "workpackages", null, 0, -1, Risk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
                 !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        initEClass(dependencyLinkEClass, DependencyLink.class, "DependencyLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getDependencyLink_TargetKind(), this.getStartOrEnd(), "targetKind", "START", 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+                IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDependencyLink_SourceKind(), this.getStartOrEnd(), "sourceKind", "END", 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+                IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getDependencyLink_Source(), this.getDependencyRelatedObject(), null, "source", null, 1, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDependencyLink_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+                IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(dependencyRelatedObjectEClass, DependencyRelatedObject.class, "DependencyRelatedObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getDependencyRelatedObject_Dependencies(), this.getDependencyLink(), null, "dependencies", null, 0, -1, DependencyRelatedObject.class, !IS_TRANSIENT, !IS_VOLATILE,
+                IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         // Initialize enums and add enum literals
-        initEEnum(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.class, "WorkpackageArtefactNature");
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.DELIVRABLE);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.DECISIONAL);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.PROJECT_REVIEW);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.ACTION);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.INVOICING);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.EXPENSE_STATEMENT);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.CLIENT_SATISFACTION);
-        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.OTHER);
+        initEEnum(projectStateEEnum, ProjectState.class, "ProjectState");
+        addEEnumLiteral(projectStateEEnum, ProjectState.ON_GOING);
+        addEEnumLiteral(projectStateEEnum, ProjectState.UNDER_INSTRUCTION);
+        addEEnumLiteral(projectStateEEnum, ProjectState.STOP_BEFORE_TERM);
+        addEEnumLiteral(projectStateEEnum, ProjectState.COMPLETED);
 
         initEEnum(riskKindEEnum, RiskKind.class, "RiskKind");
         addEEnumLiteral(riskKindEEnum, RiskKind.MANPOWER);
@@ -1846,15 +2030,28 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
         addEEnumLiteral(riskStateEEnum, RiskState.STOP_BEFORE_TERM);
         addEEnumLiteral(riskStateEEnum, RiskState.COMPLETED);
 
-        initEEnum(projectStateEEnum, ProjectState.class, "ProjectState");
-        addEEnumLiteral(projectStateEEnum, ProjectState.ON_GOING);
-        addEEnumLiteral(projectStateEEnum, ProjectState.UNDER_INSTRUCTION);
-        addEEnumLiteral(projectStateEEnum, ProjectState.STOP_BEFORE_TERM);
-        addEEnumLiteral(projectStateEEnum, ProjectState.COMPLETED);
+        initEEnum(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.class, "WorkpackageArtefactNature");
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.DELIVRABLE);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.DECISIONAL);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.PROJECT_REVIEW);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.ACTION);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.INVOICING);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.EXPENSE_STATEMENT);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.CLIENT_SATISFACTION);
+        addEEnumLiteral(workpackageArtefactNatureEEnum, WorkpackageArtefactNature.OTHER);
+
+        initEEnum(startOrEndEEnum, StartOrEnd.class, "StartOrEnd");
+        addEEnumLiteral(startOrEndEEnum, StartOrEnd.START);
+        addEEnumLiteral(startOrEndEEnum, StartOrEnd.END);
+
+        initEEnum(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.class, "TaskTimeBoundariesConstraint");
+        addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.START_END);
+        addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.END_DURATION);
+        addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.START_DURATION);
 
         // Initialize data types
-        initEDataType(instantEDataType, Instant.class, "Instant", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
         initEDataType(dateEDataType, LocalDate.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(instantEDataType, Instant.class, "Instant", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
         // Create resource
         createResource(eNS_URI);

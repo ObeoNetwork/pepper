@@ -27,9 +27,9 @@ import pepper.peppermm.Person;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.PersonImpl#getAlias <em>Alias</em>}</li>
- * <li>{@link pepper.peppermm.impl.PersonImpl#getBiography <em>Biography</em>}</li>
- * <li>{@link pepper.peppermm.impl.PersonImpl#getImageUrl <em>Image Url</em>}</li>
+ * <li>{@link PersonImpl#getAlias <em>Alias</em>}</li>
+ * <li>{@link PersonImpl#getBiography <em>Biography</em>}</li>
+ * <li>{@link PersonImpl#getImageUrl <em>Image Url</em>}</li>
  * </ul>
  *
  * @generated

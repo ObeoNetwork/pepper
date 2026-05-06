@@ -41,7 +41,7 @@ import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.Workpackage} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link Workpackage} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated
@@ -75,6 +75,8 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
             addParticipantsPropertyDescriptor(object);
             addEffortPropertyDescriptor(object);
             addProgressPropertyDescriptor(object);
+            addCalculationOptionPropertyDescriptor(object);
+            addDurationPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -168,6 +170,28 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
     }
 
     /**
+     * This adds a property descriptor for the Calculation Option feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected void addCalculationOptionPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_Workpackage_calculationOption_feature"), getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_calculationOption_feature", "_UI_Workpackage_type"),
+                PepperPackage.Literals.WORKPACKAGE__CALCULATION_OPTION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected void addDurationPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_Workpackage_duration_feature"), getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_duration_feature", "_UI_Workpackage_type"),
+                PepperPackage.Literals.WORKPACKAGE__DURATION, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
+    }
+
+    /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
@@ -179,6 +203,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
     public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
+            childrenFeatures.add(PepperPackage.Literals.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES);
             childrenFeatures.add(PepperPackage.Literals.WORKPACKAGE__OUTPUTS);
             childrenFeatures.add(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS);
             childrenFeatures.add(PepperPackage.Literals.WORKPACKAGE__OWNED_OBJECTIVES);
@@ -248,8 +273,11 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
             case PepperPackage.WORKPACKAGE__END_DATE:
             case PepperPackage.WORKPACKAGE__EFFORT:
             case PepperPackage.WORKPACKAGE__PROGRESS:
+            case PepperPackage.WORKPACKAGE__CALCULATION_OPTION:
+            case PepperPackage.WORKPACKAGE__DURATION:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
+            case PepperPackage.WORKPACKAGE__DEPENDENCIES:
             case PepperPackage.WORKPACKAGE__OUTPUTS:
             case PepperPackage.WORKPACKAGE__OWNED_TASKS:
             case PepperPackage.WORKPACKAGE__OWNED_OBJECTIVES:
@@ -274,8 +302,7 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setName(getString("_UI_New") + " " + getString("_UI_Task_type"));
         if (object instanceof Workpackage workpackage) {
-            Optional<Task> optionalTask = workpackage.getOwnedTasks().stream()
-                    .reduce((first, second) -> second)
+            Optional<Task> optionalTask = workpackage.getOwnedTasks().stream().reduce((first, second) -> second)
                     .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
 
             if (optionalTask.isPresent()) {

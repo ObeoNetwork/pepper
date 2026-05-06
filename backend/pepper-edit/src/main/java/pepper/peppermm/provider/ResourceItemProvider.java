@@ -35,7 +35,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Resource;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.Resource} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link Resource} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated

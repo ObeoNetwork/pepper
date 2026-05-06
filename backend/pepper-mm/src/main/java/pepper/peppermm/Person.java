@@ -19,12 +19,12 @@ package pepper.peppermm;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.Person#getAlias <em>Alias</em>}</li>
- * <li>{@link pepper.peppermm.Person#getBiography <em>Biography</em>}</li>
- * <li>{@link pepper.peppermm.Person#getImageUrl <em>Image Url</em>}</li>
+ * <li>{@link Person#getAlias <em>Alias</em>}</li>
+ * <li>{@link Person#getBiography <em>Biography</em>}</li>
+ * <li>{@link Person#getImageUrl <em>Image Url</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getPerson()
+ * @see PepperPackage#getPerson()
  * @model
  * @generated
  */
@@ -34,14 +34,14 @@ public interface Person extends Resource {
      * 
      * @return the value of the '<em>Alias</em>' attribute.
      * @see #setAlias(String)
-     * @see pepper.peppermm.PepperPackage#getPerson_Alias()
+     * @see PepperPackage#getPerson_Alias()
      * @model
      * @generated
      */
     String getAlias();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Person#getAlias <em>Alias</em>}' attribute. <!-- begin-user-doc -->
+     * Sets the value of the '{@link Person#getAlias <em>Alias</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @param value
@@ -56,14 +56,14 @@ public interface Person extends Resource {
      * 
      * @return the value of the '<em>Biography</em>' attribute.
      * @see #setBiography(String)
-     * @see pepper.peppermm.PepperPackage#getPerson_Biography()
+     * @see PepperPackage#getPerson_Biography()
      * @model
      * @generated
      */
     String getBiography();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Person#getBiography <em>Biography</em>}' attribute. <!--
+     * Sets the value of the '{@link Person#getBiography <em>Biography</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -78,14 +78,14 @@ public interface Person extends Resource {
      * 
      * @return the value of the '<em>Image Url</em>' attribute.
      * @see #setImageUrl(String)
-     * @see pepper.peppermm.PepperPackage#getPerson_ImageUrl()
+     * @see PepperPackage#getPerson_ImageUrl()
      * @model
      * @generated
      */
     String getImageUrl();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Person#getImageUrl <em>Image Url</em>}' attribute. <!--
+     * Sets the value of the '{@link Person#getImageUrl <em>Image Url</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value

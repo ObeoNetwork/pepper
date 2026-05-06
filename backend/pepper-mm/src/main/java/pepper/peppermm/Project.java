@@ -25,41 +25,41 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.Project#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.Project#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
- * <li>{@link pepper.peppermm.Project#getOwnedObjectives <em>Owned Objectives</em>}</li>
- * <li>{@link pepper.peppermm.Project#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
- * <li>{@link pepper.peppermm.Project#getOwnedRisks <em>Owned Risks</em>}</li>
- * <li>{@link pepper.peppermm.Project#getReference <em>Reference</em>}</li>
- * <li>{@link pepper.peppermm.Project#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.Project#getLeadingUnit <em>Leading Unit</em>}</li>
- * <li>{@link pepper.peppermm.Project#getParticipantUnits <em>Participant Units</em>}</li>
- * <li>{@link pepper.peppermm.Project#getPlannifiedClientCopilMeetings <em>Plannified Client Copil Meetings</em>}</li>
- * <li>{@link pepper.peppermm.Project#getMainProgramBrick <em>Main Program Brick</em>}</li>
- * <li>{@link pepper.peppermm.Project#getState <em>State</em>}</li>
- * <li>{@link pepper.peppermm.Project#getClients <em>Clients</em>}</li>
- * <li>{@link pepper.peppermm.Project#getPartners <em>Partners</em>}</li>
- * <li>{@link pepper.peppermm.Project#getIsTransverse <em>Is Transverse</em>}</li>
- * <li>{@link pepper.peppermm.Project#getLeader <em>Leader</em>}</li>
- * <li>{@link pepper.peppermm.Project#getMembers <em>Members</em>}</li>
- * <li>{@link pepper.peppermm.Project#getIsSensitive <em>Is Sensitive</em>}</li>
- * <li>{@link pepper.peppermm.Project#getContractualStartDate <em>Contractual Start Date</em>}</li>
- * <li>{@link pepper.peppermm.Project#getDuration <em>Duration</em>}</li>
- * <li>{@link pepper.peppermm.Project#getContractualEndDate <em>Contractual End Date</em>}</li>
- * <li>{@link pepper.peppermm.Project#getEffectiveStartDate <em>Effective Start Date</em>}</li>
- * <li>{@link pepper.peppermm.Project#getEffectiveEndDate <em>Effective End Date</em>}</li>
- * <li>{@link pepper.peppermm.Project#getContractTermExtension <em>Contract Term Extension</em>}</li>
- * <li>{@link pepper.peppermm.Project#getGlobalCost <em>Global Cost</em>}</li>
- * <li>{@link pepper.peppermm.Project#getFundingRate <em>Funding Rate</em>}</li>
- * <li>{@link pepper.peppermm.Project#getFunding <em>Funding</em>}</li>
- * <li>{@link pepper.peppermm.Project#getManpower <em>Manpower</em>}</li>
- * <li>{@link pepper.peppermm.Project#getEOTP <em>EOTP</em>}</li>
- * <li>{@link pepper.peppermm.Project#getStatisticOrder <em>Statistic Order</em>}</li>
- * <li>{@link pepper.peppermm.Project#getInternalNeed <em>Internal Need</em>}</li>
- * <li>{@link pepper.peppermm.Project#getClientNeed <em>Client Need</em>}</li>
+ * <li>{@link Project#getName <em>Name</em>}</li>
+ * <li>{@link Project#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
+ * <li>{@link Project#getOwnedObjectives <em>Owned Objectives</em>}</li>
+ * <li>{@link Project#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
+ * <li>{@link Project#getOwnedRisks <em>Owned Risks</em>}</li>
+ * <li>{@link Project#getReference <em>Reference</em>}</li>
+ * <li>{@link Project#getDescription <em>Description</em>}</li>
+ * <li>{@link Project#getLeadingUnit <em>Leading Unit</em>}</li>
+ * <li>{@link Project#getParticipantUnits <em>Participant Units</em>}</li>
+ * <li>{@link Project#getPlannifiedClientCopilMeetings <em>Plannified Client Copil Meetings</em>}</li>
+ * <li>{@link Project#getMainProgramBrick <em>Main Program Brick</em>}</li>
+ * <li>{@link Project#getState <em>State</em>}</li>
+ * <li>{@link Project#getClients <em>Clients</em>}</li>
+ * <li>{@link Project#getPartners <em>Partners</em>}</li>
+ * <li>{@link Project#getIsTransverse <em>Is Transverse</em>}</li>
+ * <li>{@link Project#getLeader <em>Leader</em>}</li>
+ * <li>{@link Project#getMembers <em>Members</em>}</li>
+ * <li>{@link Project#getIsSensitive <em>Is Sensitive</em>}</li>
+ * <li>{@link Project#getContractualStartDate <em>Contractual Start Date</em>}</li>
+ * <li>{@link Project#getDuration <em>Duration</em>}</li>
+ * <li>{@link Project#getContractualEndDate <em>Contractual End Date</em>}</li>
+ * <li>{@link Project#getEffectiveStartDate <em>Effective Start Date</em>}</li>
+ * <li>{@link Project#getEffectiveEndDate <em>Effective End Date</em>}</li>
+ * <li>{@link Project#getContractTermExtension <em>Contract Term Extension</em>}</li>
+ * <li>{@link Project#getGlobalCost <em>Global Cost</em>}</li>
+ * <li>{@link Project#getFundingRate <em>Funding Rate</em>}</li>
+ * <li>{@link Project#getFunding <em>Funding</em>}</li>
+ * <li>{@link Project#getManpower <em>Manpower</em>}</li>
+ * <li>{@link Project#getEOTP <em>EOTP</em>}</li>
+ * <li>{@link Project#getStatisticOrder <em>Statistic Order</em>}</li>
+ * <li>{@link Project#getInternalNeed <em>Internal Need</em>}</li>
+ * <li>{@link Project#getClientNeed <em>Client Need</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getProject()
+ * @see PepperPackage#getProject()
  * @model
  * @generated
  */
@@ -69,14 +69,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
-     * @see pepper.peppermm.PepperPackage#getProject_Name()
+     * @see PepperPackage#getProject_Name()
      * @model
      * @generated
      */
     String getName();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getName <em>Name</em>}' attribute. <!-- begin-user-doc -->
+     * Sets the value of the '{@link Project#getName <em>Name</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @param value
@@ -88,10 +88,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Owned Workpackages</b></em>' containment reference list. The list contents are
-     * of type {@link pepper.peppermm.Workpackage}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * of type {@link Workpackage}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Workpackages</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_OwnedWorkpackages()
+     * @see PepperPackage#getProject_OwnedWorkpackages()
      * @model containment="true"
      * @generated
      */
@@ -99,10 +99,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Owned Objectives</b></em>' containment reference list. The list contents are of
-     * type {@link pepper.peppermm.Objective}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * type {@link Objective}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Objectives</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_OwnedObjectives()
+     * @see PepperPackage#getProject_OwnedObjectives()
      * @model containment="true"
      * @generated
      */
@@ -110,10 +110,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Owned Tag Folders</b></em>' containment reference list. The list contents are of
-     * type {@link pepper.peppermm.TagFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * type {@link TagFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Tag Folders</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_OwnedTagFolders()
+     * @see PepperPackage#getProject_OwnedTagFolders()
      * @model containment="true"
      * @generated
      */
@@ -121,10 +121,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Owned Risks</b></em>' containment reference list. The list contents are of type
-     * {@link pepper.peppermm.Risk}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link Risk}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Risks</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_OwnedRisks()
+     * @see PepperPackage#getProject_OwnedRisks()
      * @model containment="true"
      * @generated
      */
@@ -135,14 +135,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Reference</em>' attribute.
      * @see #setReference(String)
-     * @see pepper.peppermm.PepperPackage#getProject_Reference()
+     * @see PepperPackage#getProject_Reference()
      * @model
      * @generated
      */
     String getReference();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getReference <em>Reference</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getReference <em>Reference</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -157,14 +157,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
-     * @see pepper.peppermm.PepperPackage#getProject_Description()
+     * @see PepperPackage#getProject_Description()
      * @model
      * @generated
      */
     String getDescription();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getDescription <em>Description</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getDescription <em>Description</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -179,14 +179,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Leading Unit</em>' reference.
      * @see #setLeadingUnit(InternalStakeholder)
-     * @see pepper.peppermm.PepperPackage#getProject_LeadingUnit()
+     * @see PepperPackage#getProject_LeadingUnit()
      * @model
      * @generated
      */
     InternalStakeholder getLeadingUnit();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getLeadingUnit <em>Leading Unit</em>}' reference. <!--
+     * Sets the value of the '{@link Project#getLeadingUnit <em>Leading Unit</em>}' reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -198,10 +198,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Participant Units</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.InternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link InternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Participant Units</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_ParticipantUnits()
+     * @see PepperPackage#getProject_ParticipantUnits()
      * @model
      * @generated
      */
@@ -213,14 +213,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Plannified Client Copil Meetings</em>' attribute.
      * @see #setPlannifiedClientCopilMeetings(Boolean)
-     * @see pepper.peppermm.PepperPackage#getProject_PlannifiedClientCopilMeetings()
+     * @see PepperPackage#getProject_PlannifiedClientCopilMeetings()
      * @model
      * @generated
      */
     Boolean getPlannifiedClientCopilMeetings();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getPlannifiedClientCopilMeetings <em>Plannified Client
+     * Sets the value of the '{@link Project#getPlannifiedClientCopilMeetings <em>Plannified Client
      * Copil Meetings</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -236,14 +236,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Main Program Brick</em>' attribute.
      * @see #setMainProgramBrick(String)
-     * @see pepper.peppermm.PepperPackage#getProject_MainProgramBrick()
+     * @see PepperPackage#getProject_MainProgramBrick()
      * @model
      * @generated
      */
     String getMainProgramBrick();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getMainProgramBrick <em>Main Program Brick</em>}'
+     * Sets the value of the '{@link Project#getMainProgramBrick <em>Main Program Brick</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -255,24 +255,24 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-     * {@link pepper.peppermm.ProjectState}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link ProjectState}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>State</em>' attribute.
-     * @see pepper.peppermm.ProjectState
+     * @see ProjectState
      * @see #setState(ProjectState)
-     * @see pepper.peppermm.PepperPackage#getProject_State()
+     * @see PepperPackage#getProject_State()
      * @model
      * @generated
      */
     ProjectState getState();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getState <em>State</em>}' attribute. <!-- begin-user-doc
+     * Sets the value of the '{@link Project#getState <em>State</em>}' attribute. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @param value
      *            the new value of the '<em>State</em>' attribute.
-     * @see pepper.peppermm.ProjectState
+     * @see ProjectState
      * @see #getState()
      * @generated
      */
@@ -280,10 +280,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Clients</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.ExternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link ExternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Clients</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_Clients()
+     * @see PepperPackage#getProject_Clients()
      * @model
      * @generated
      */
@@ -291,10 +291,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Partners</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.ExternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link ExternalStakeholder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Partners</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_Partners()
+     * @see PepperPackage#getProject_Partners()
      * @model
      * @generated
      */
@@ -304,7 +304,7 @@ public interface Project extends EObject {
      * Returns the value of the '<em><b>Is Transverse</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Is Transverse</em>' attribute.
-     * @see pepper.peppermm.PepperPackage#getProject_IsTransverse()
+     * @see PepperPackage#getProject_IsTransverse()
      * @model transient="true" changeable="false" volatile="true" derived="true"
      * @generated
      */
@@ -315,14 +315,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Leader</em>' reference.
      * @see #setLeader(Person)
-     * @see pepper.peppermm.PepperPackage#getProject_Leader()
+     * @see PepperPackage#getProject_Leader()
      * @model
      * @generated
      */
     Person getLeader();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getLeader <em>Leader</em>}' reference. <!-- begin-user-doc
+     * Sets the value of the '{@link Project#getLeader <em>Leader</em>}' reference. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @param value
@@ -334,10 +334,10 @@ public interface Project extends EObject {
 
     /**
      * Returns the value of the '<em><b>Members</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Members</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getProject_Members()
+     * @see PepperPackage#getProject_Members()
      * @model
      * @generated
      */
@@ -348,14 +348,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Is Sensitive</em>' attribute.
      * @see #setIsSensitive(Boolean)
-     * @see pepper.peppermm.PepperPackage#getProject_IsSensitive()
+     * @see PepperPackage#getProject_IsSensitive()
      * @model
      * @generated
      */
     Boolean getIsSensitive();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getIsSensitive <em>Is Sensitive</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getIsSensitive <em>Is Sensitive</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -371,14 +371,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Contractual Start Date</em>' attribute.
      * @see #setContractualStartDate(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getProject_ContractualStartDate()
+     * @see PepperPackage#getProject_ContractualStartDate()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getContractualStartDate();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getContractualStartDate <em>Contractual Start Date</em>}'
+     * Sets the value of the '{@link Project#getContractualStartDate <em>Contractual Start Date</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -393,14 +393,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Duration</em>' attribute.
      * @see #setDuration(Integer)
-     * @see pepper.peppermm.PepperPackage#getProject_Duration()
+     * @see PepperPackage#getProject_Duration()
      * @model
      * @generated
      */
     Integer getDuration();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getDuration <em>Duration</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getDuration <em>Duration</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -416,14 +416,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Contractual End Date</em>' attribute.
      * @see #setContractualEndDate(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getProject_ContractualEndDate()
+     * @see PepperPackage#getProject_ContractualEndDate()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getContractualEndDate();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getContractualEndDate <em>Contractual End Date</em>}'
+     * Sets the value of the '{@link Project#getContractualEndDate <em>Contractual End Date</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -439,14 +439,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Effective Start Date</em>' attribute.
      * @see #setEffectiveStartDate(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getProject_EffectiveStartDate()
+     * @see PepperPackage#getProject_EffectiveStartDate()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getEffectiveStartDate();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getEffectiveStartDate <em>Effective Start Date</em>}'
+     * Sets the value of the '{@link Project#getEffectiveStartDate <em>Effective Start Date</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -462,14 +462,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Effective End Date</em>' attribute.
      * @see #setEffectiveEndDate(LocalDate)
-     * @see pepper.peppermm.PepperPackage#getProject_EffectiveEndDate()
+     * @see PepperPackage#getProject_EffectiveEndDate()
      * @model dataType="pepper.peppermm.Date"
      * @generated
      */
     LocalDate getEffectiveEndDate();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getEffectiveEndDate <em>Effective End Date</em>}'
+     * Sets the value of the '{@link Project#getEffectiveEndDate <em>Effective End Date</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -485,14 +485,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Contract Term Extension</em>' attribute.
      * @see #setContractTermExtension(Integer)
-     * @see pepper.peppermm.PepperPackage#getProject_ContractTermExtension()
+     * @see PepperPackage#getProject_ContractTermExtension()
      * @model
      * @generated
      */
     Integer getContractTermExtension();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getContractTermExtension <em>Contract Term Extension</em>}'
+     * Sets the value of the '{@link Project#getContractTermExtension <em>Contract Term Extension</em>}'
      * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -507,14 +507,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Global Cost</em>' attribute.
      * @see #setGlobalCost(Double)
-     * @see pepper.peppermm.PepperPackage#getProject_GlobalCost()
+     * @see PepperPackage#getProject_GlobalCost()
      * @model
      * @generated
      */
     Double getGlobalCost();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getGlobalCost <em>Global Cost</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getGlobalCost <em>Global Cost</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -529,14 +529,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Funding Rate</em>' attribute.
      * @see #setFundingRate(Double)
-     * @see pepper.peppermm.PepperPackage#getProject_FundingRate()
+     * @see PepperPackage#getProject_FundingRate()
      * @model
      * @generated
      */
     Double getFundingRate();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getFundingRate <em>Funding Rate</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getFundingRate <em>Funding Rate</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -550,7 +550,7 @@ public interface Project extends EObject {
      * Returns the value of the '<em><b>Funding</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Funding</em>' attribute.
-     * @see pepper.peppermm.PepperPackage#getProject_Funding()
+     * @see PepperPackage#getProject_Funding()
      * @model transient="true" changeable="false" volatile="true" derived="true"
      * @generated
      */
@@ -561,14 +561,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Manpower</em>' attribute.
      * @see #setManpower(Integer)
-     * @see pepper.peppermm.PepperPackage#getProject_Manpower()
+     * @see PepperPackage#getProject_Manpower()
      * @model
      * @generated
      */
     Integer getManpower();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getManpower <em>Manpower</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getManpower <em>Manpower</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -583,14 +583,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>EOTP</em>' attribute.
      * @see #setEOTP(String)
-     * @see pepper.peppermm.PepperPackage#getProject_EOTP()
+     * @see PepperPackage#getProject_EOTP()
      * @model
      * @generated
      */
     String getEOTP();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getEOTP <em>EOTP</em>}' attribute. <!-- begin-user-doc -->
+     * Sets the value of the '{@link Project#getEOTP <em>EOTP</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @param value
@@ -606,14 +606,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Statistic Order</em>' attribute.
      * @see #setStatisticOrder(String)
-     * @see pepper.peppermm.PepperPackage#getProject_StatisticOrder()
+     * @see PepperPackage#getProject_StatisticOrder()
      * @model
      * @generated
      */
     String getStatisticOrder();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getStatisticOrder <em>Statistic Order</em>}' attribute.
+     * Sets the value of the '{@link Project#getStatisticOrder <em>Statistic Order</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -628,14 +628,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Internal Need</em>' attribute.
      * @see #setInternalNeed(String)
-     * @see pepper.peppermm.PepperPackage#getProject_InternalNeed()
+     * @see PepperPackage#getProject_InternalNeed()
      * @model
      * @generated
      */
     String getInternalNeed();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getInternalNeed <em>Internal Need</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getInternalNeed <em>Internal Need</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -650,14 +650,14 @@ public interface Project extends EObject {
      * 
      * @return the value of the '<em>Client Need</em>' attribute.
      * @see #setClientNeed(String)
-     * @see pepper.peppermm.PepperPackage#getProject_ClientNeed()
+     * @see PepperPackage#getProject_ClientNeed()
      * @model
      * @generated
      */
     String getClientNeed();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.Project#getClientNeed <em>Client Need</em>}' attribute. <!--
+     * Sets the value of the '{@link Project#getClientNeed <em>Client Need</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value

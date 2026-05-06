@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.ResourceFolder#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.ResourceFolder#getOwnedResources <em>Owned Resources</em>}</li>
- * <li>{@link pepper.peppermm.ResourceFolder#getSubFolders <em>Sub Folders</em>}</li>
+ * <li>{@link ResourceFolder#getName <em>Name</em>}</li>
+ * <li>{@link ResourceFolder#getOwnedResources <em>Owned Resources</em>}</li>
+ * <li>{@link ResourceFolder#getSubFolders <em>Sub Folders</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getResourceFolder()
+ * @see PepperPackage#getResourceFolder()
  * @model
  * @generated
  */
@@ -38,14 +38,14 @@ public interface ResourceFolder extends EObject {
      * 
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
-     * @see pepper.peppermm.PepperPackage#getResourceFolder_Name()
+     * @see PepperPackage#getResourceFolder_Name()
      * @model
      * @generated
      */
     String getName();
 
     /**
-     * Sets the value of the '{@link pepper.peppermm.ResourceFolder#getName <em>Name</em>}' attribute. <!--
+     * Sets the value of the '{@link ResourceFolder#getName <em>Name</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
@@ -57,10 +57,10 @@ public interface ResourceFolder extends EObject {
 
     /**
      * Returns the value of the '<em><b>Owned Resources</b></em>' containment reference list. The list contents are of
-     * type {@link pepper.peppermm.Resource}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * type {@link Resource}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Resources</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getResourceFolder_OwnedResources()
+     * @see PepperPackage#getResourceFolder_OwnedResources()
      * @model containment="true"
      * @generated
      */
@@ -68,10 +68,10 @@ public interface ResourceFolder extends EObject {
 
     /**
      * Returns the value of the '<em><b>Sub Folders</b></em>' containment reference list. The list contents are of type
-     * {@link pepper.peppermm.ResourceFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link ResourceFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Sub Folders</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getResourceFolder_SubFolders()
+     * @see PepperPackage#getResourceFolder_SubFolders()
      * @model containment="true"
      * @generated
      */
