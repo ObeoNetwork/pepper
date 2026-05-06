@@ -39,9 +39,9 @@ import pepper.peppermm.ResourceFolder;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.OrganizationImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.OrganizationImpl#getOwnedProjects <em>Owned Projects</em>}</li>
- * <li>{@link pepper.peppermm.impl.OrganizationImpl#getOwnedResourceFolders <em>Owned Resource Folders</em>}</li>
+ * <li>{@link OrganizationImpl#getName <em>Name</em>}</li>
+ * <li>{@link OrganizationImpl#getOwnedProjects <em>Owned Projects</em>}</li>
+ * <li>{@link OrganizationImpl#getOwnedResourceFolders <em>Owned Resource Folders</em>}</li>
  * </ul>
  *
  * @generated

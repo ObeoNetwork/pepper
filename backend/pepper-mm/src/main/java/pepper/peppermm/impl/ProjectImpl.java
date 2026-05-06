@@ -50,39 +50,39 @@ import pepper.peppermm.Workpackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedObjectives <em>Owned Objectives</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedRisks <em>Owned Risks</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getReference <em>Reference</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getLeadingUnit <em>Leading Unit</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getParticipantUnits <em>Participant Units</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getPlannifiedClientCopilMeetings <em>Plannified Client Copil
+ * <li>{@link ProjectImpl#getName <em>Name</em>}</li>
+ * <li>{@link ProjectImpl#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
+ * <li>{@link ProjectImpl#getOwnedObjectives <em>Owned Objectives</em>}</li>
+ * <li>{@link ProjectImpl#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
+ * <li>{@link ProjectImpl#getOwnedRisks <em>Owned Risks</em>}</li>
+ * <li>{@link ProjectImpl#getReference <em>Reference</em>}</li>
+ * <li>{@link ProjectImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link ProjectImpl#getLeadingUnit <em>Leading Unit</em>}</li>
+ * <li>{@link ProjectImpl#getParticipantUnits <em>Participant Units</em>}</li>
+ * <li>{@link ProjectImpl#getPlannifiedClientCopilMeetings <em>Plannified Client Copil
  * Meetings</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getMainProgramBrick <em>Main Program Brick</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getState <em>State</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getClients <em>Clients</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getPartners <em>Partners</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getIsTransverse <em>Is Transverse</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getLeader <em>Leader</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getMembers <em>Members</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getIsSensitive <em>Is Sensitive</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getContractualStartDate <em>Contractual Start Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getDuration <em>Duration</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getContractualEndDate <em>Contractual End Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getEffectiveStartDate <em>Effective Start Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getEffectiveEndDate <em>Effective End Date</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getContractTermExtension <em>Contract Term Extension</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getGlobalCost <em>Global Cost</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getFundingRate <em>Funding Rate</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getFunding <em>Funding</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getManpower <em>Manpower</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getEOTP <em>EOTP</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getStatisticOrder <em>Statistic Order</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getInternalNeed <em>Internal Need</em>}</li>
- * <li>{@link pepper.peppermm.impl.ProjectImpl#getClientNeed <em>Client Need</em>}</li>
+ * <li>{@link ProjectImpl#getMainProgramBrick <em>Main Program Brick</em>}</li>
+ * <li>{@link ProjectImpl#getState <em>State</em>}</li>
+ * <li>{@link ProjectImpl#getClients <em>Clients</em>}</li>
+ * <li>{@link ProjectImpl#getPartners <em>Partners</em>}</li>
+ * <li>{@link ProjectImpl#getIsTransverse <em>Is Transverse</em>}</li>
+ * <li>{@link ProjectImpl#getLeader <em>Leader</em>}</li>
+ * <li>{@link ProjectImpl#getMembers <em>Members</em>}</li>
+ * <li>{@link ProjectImpl#getIsSensitive <em>Is Sensitive</em>}</li>
+ * <li>{@link ProjectImpl#getContractualStartDate <em>Contractual Start Date</em>}</li>
+ * <li>{@link ProjectImpl#getDuration <em>Duration</em>}</li>
+ * <li>{@link ProjectImpl#getContractualEndDate <em>Contractual End Date</em>}</li>
+ * <li>{@link ProjectImpl#getEffectiveStartDate <em>Effective Start Date</em>}</li>
+ * <li>{@link ProjectImpl#getEffectiveEndDate <em>Effective End Date</em>}</li>
+ * <li>{@link ProjectImpl#getContractTermExtension <em>Contract Term Extension</em>}</li>
+ * <li>{@link ProjectImpl#getGlobalCost <em>Global Cost</em>}</li>
+ * <li>{@link ProjectImpl#getFundingRate <em>Funding Rate</em>}</li>
+ * <li>{@link ProjectImpl#getFunding <em>Funding</em>}</li>
+ * <li>{@link ProjectImpl#getManpower <em>Manpower</em>}</li>
+ * <li>{@link ProjectImpl#getEOTP <em>EOTP</em>}</li>
+ * <li>{@link ProjectImpl#getStatisticOrder <em>Statistic Order</em>}</li>
+ * <li>{@link ProjectImpl#getInternalNeed <em>Internal Need</em>}</li>
+ * <li>{@link ProjectImpl#getClientNeed <em>Client Need</em>}</li>
  * </ul>
  *
  * @generated

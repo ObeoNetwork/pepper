@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import pepper.peppermm.KeyResult;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.KeyResult} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link KeyResult} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated

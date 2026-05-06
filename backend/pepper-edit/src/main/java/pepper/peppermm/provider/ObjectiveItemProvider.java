@@ -28,7 +28,7 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.Objective} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link Objective} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
  * 
  * @generated

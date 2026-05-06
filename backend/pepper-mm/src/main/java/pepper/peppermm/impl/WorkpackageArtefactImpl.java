@@ -34,16 +34,16 @@ import pepper.peppermm.WorkpackageArtefactNature;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getNature <em>Nature</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getPlannedDeadline <em>Planned Deadline</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getIsInvoiceTrigger <em>Is Invoice Trigger</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getInvoiceAmount <em>Invoice Amount</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getResponsible <em>Responsible</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getVersion <em>Version</em>}</li>
- * <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getIsObsolete <em>Is Obsolete</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getName <em>Name</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getNature <em>Nature</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getPlannedDeadline <em>Planned Deadline</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getIsInvoiceTrigger <em>Is Invoice Trigger</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getInvoiceAmount <em>Invoice Amount</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getResponsible <em>Responsible</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getVersion <em>Version</em>}</li>
+ * <li>{@link WorkpackageArtefactImpl#getIsObsolete <em>Is Obsolete</em>}</li>
  * </ul>
  *
  * @generated

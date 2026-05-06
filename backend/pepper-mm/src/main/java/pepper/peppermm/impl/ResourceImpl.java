@@ -28,7 +28,7 @@ import pepper.peppermm.Resource;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.ResourceImpl#getName <em>Name</em>}</li>
+ * <li>{@link ResourceImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated

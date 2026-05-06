@@ -22,20 +22,20 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.ExternalStakeholder#getGoals <em>Goals</em>}</li>
+ * <li>{@link ExternalStakeholder#getGoals <em>Goals</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getExternalStakeholder()
+ * @see PepperPackage#getExternalStakeholder()
  * @model
  * @generated
  */
 public interface ExternalStakeholder extends Resource {
     /**
      * Returns the value of the '<em><b>Goals</b></em>' attribute list. The list contents are of type
-     * {@link java.lang.String}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link String}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Goals</em>' attribute list.
-     * @see pepper.peppermm.PepperPackage#getExternalStakeholder_Goals()
+     * @see PepperPackage#getExternalStakeholder_Goals()
      * @model
      * @generated
      */

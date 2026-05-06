@@ -25,7 +25,7 @@ import pepper.peppermm.*;
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter <code>createXXX</code>
  * method for each class of the model. <!-- end-user-doc -->
  * 
- * @see pepper.peppermm.PepperPackage
+ * @see PepperPackage
  * @generated
  */
 public class PepperAdapterFactory extends AdapterFactoryImpl {
@@ -158,6 +158,16 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
+        public Adapter caseDependencyLink(DependencyLink object) {
+            return createDependencyLinkAdapter();
+        }
+
+        @Override
+        public Adapter caseDependencyRelatedObject(DependencyRelatedObject object) {
+            return createDependencyRelatedObjectAdapter();
+        }
+
+        @Override
         public Adapter defaultCase(EObject object) {
             return createEObjectAdapter();
         }
@@ -177,12 +187,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Organization <em>Organization</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Organization <em>Organization</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Organization
+     * @see Organization
      * @generated
      */
     public Adapter createOrganizationAdapter() {
@@ -190,12 +200,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Resource <em>Resource</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Resource <em>Resource</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Resource
+     * @see Resource
      * @generated
      */
     public Adapter createResourceAdapter() {
@@ -203,12 +213,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.ResourceFolder <em>Resource Folder</em>}'.
+     * Creates a new adapter for an object of class '{@link ResourceFolder <em>Resource Folder</em>}'.
      * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
      * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.ResourceFolder
+     * @see ResourceFolder
      * @generated
      */
     public Adapter createResourceFolderAdapter() {
@@ -216,12 +226,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Team <em>Team</em>}'. <!-- begin-user-doc
+     * Creates a new adapter for an object of class '{@link Team <em>Team</em>}'. <!-- begin-user-doc
      * --> This default implementation returns null so that we can easily ignore cases; it's useful to ignore a case
      * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Team
+     * @see Team
      * @generated
      */
     public Adapter createTeamAdapter() {
@@ -229,12 +239,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.InternalStakeholder <em>Internal
+     * Creates a new adapter for an object of class '{@link InternalStakeholder <em>Internal
      * Stakeholder</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore
      * cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.InternalStakeholder
+     * @see InternalStakeholder
      * @generated
      */
     public Adapter createInternalStakeholderAdapter() {
@@ -242,12 +252,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.ExternalStakeholder <em>External
+     * Creates a new adapter for an object of class '{@link ExternalStakeholder <em>External
      * Stakeholder</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore
      * cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.ExternalStakeholder
+     * @see ExternalStakeholder
      * @generated
      */
     public Adapter createExternalStakeholderAdapter() {
@@ -255,12 +265,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Person <em>Person</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Person <em>Person</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Person
+     * @see Person
      * @generated
      */
     public Adapter createPersonAdapter() {
@@ -268,12 +278,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.AbstractTask <em>Abstract Task</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link AbstractTask <em>Abstract Task</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.AbstractTask
+     * @see AbstractTask
      * @generated
      */
     public Adapter createAbstractTaskAdapter() {
@@ -281,12 +291,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.TagFolder <em>Tag Folder</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link TagFolder <em>Tag Folder</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.TagFolder
+     * @see TagFolder
      * @generated
      */
     public Adapter createTagFolderAdapter() {
@@ -294,12 +304,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.TaskTag <em>Task Tag</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link TaskTag <em>Task Tag</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.TaskTag
+     * @see TaskTag
      * @generated
      */
     public Adapter createTaskTagAdapter() {
@@ -307,12 +317,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Task <em>Task</em>}'. <!-- begin-user-doc
+     * Creates a new adapter for an object of class '{@link Task <em>Task</em>}'. <!-- begin-user-doc
      * --> This default implementation returns null so that we can easily ignore cases; it's useful to ignore a case
      * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Task
+     * @see Task
      * @generated
      */
     public Adapter createTaskAdapter() {
@@ -320,12 +330,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Objective <em>Objective</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Objective <em>Objective</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Objective
+     * @see Objective
      * @generated
      */
     public Adapter createObjectiveAdapter() {
@@ -333,12 +343,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.KeyResult <em>Key Result</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link KeyResult <em>Key Result</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.KeyResult
+     * @see KeyResult
      * @generated
      */
     public Adapter createKeyResultAdapter() {
@@ -346,12 +356,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Project <em>Project</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Project <em>Project</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Project
+     * @see Project
      * @generated
      */
     public Adapter createProjectAdapter() {
@@ -359,12 +369,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Workpackage <em>Workpackage</em>}'. <!--
+     * Creates a new adapter for an object of class '{@link Workpackage <em>Workpackage</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Workpackage
+     * @see Workpackage
      * @generated
      */
     public Adapter createWorkpackageAdapter() {
@@ -372,12 +382,12 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.WorkpackageArtefact <em>Workpackage
+     * Creates a new adapter for an object of class '{@link WorkpackageArtefact <em>Workpackage
      * Artefact</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore
      * cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.WorkpackageArtefact
+     * @see WorkpackageArtefact
      * @generated
      */
     public Adapter createWorkpackageArtefactAdapter() {
@@ -385,15 +395,42 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link pepper.peppermm.Risk <em>Risk</em>}'. <!-- begin-user-doc
+     * Creates a new adapter for an object of class '{@link Risk <em>Risk</em>}'. <!-- begin-user-doc
      * --> This default implementation returns null so that we can easily ignore cases; it's useful to ignore a case
      * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see pepper.peppermm.Risk
+     * @see Risk
      * @generated
      */
     public Adapter createRiskAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link DependencyLink <em>Dependency Link</em>}'.
+     * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
+     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+     * 
+     * @return the new adapter.
+     * @see DependencyLink
+     * @generated
+     */
+    public Adapter createDependencyLinkAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link DependencyRelatedObject <em>Dependency
+     * Related Object</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we can easily
+     * ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc
+     * -->
+     * 
+     * @return the new adapter.
+     * @see DependencyRelatedObject
+     * @generated
+     */
+    public Adapter createDependencyRelatedObjectAdapter() {
         return null;
     }
 

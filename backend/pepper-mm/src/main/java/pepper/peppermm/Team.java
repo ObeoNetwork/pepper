@@ -21,20 +21,20 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.Team#getMembers <em>Members</em>}</li>
+ * <li>{@link Team#getMembers <em>Members</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getTeam()
+ * @see PepperPackage#getTeam()
  * @model
  * @generated
  */
 public interface Team extends Resource {
     /**
      * Returns the value of the '<em><b>Members</b></em>' reference list. The list contents are of type
-     * {@link pepper.peppermm.Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Members</em>' reference list.
-     * @see pepper.peppermm.PepperPackage#getTeam_Members()
+     * @see PepperPackage#getTeam_Members()
      * @model
      * @generated
      */

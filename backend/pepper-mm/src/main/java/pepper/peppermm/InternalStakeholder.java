@@ -17,7 +17,7 @@ package pepper.peppermm;
  * end-user-doc -->
  *
  *
- * @see pepper.peppermm.PepperPackage#getInternalStakeholder()
+ * @see PepperPackage#getInternalStakeholder()
  * @model
  * @generated
  */

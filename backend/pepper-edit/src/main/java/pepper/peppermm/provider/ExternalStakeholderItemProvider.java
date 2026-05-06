@@ -27,7 +27,7 @@ import pepper.peppermm.ExternalStakeholder;
 import pepper.peppermm.PepperPackage;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.ExternalStakeholder} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link ExternalStakeholder} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * 
  * @generated

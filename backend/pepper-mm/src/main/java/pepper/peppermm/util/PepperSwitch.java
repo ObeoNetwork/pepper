@@ -25,7 +25,7 @@ import pepper.peppermm.*;
  * starting with the actual class of the object and proceeding up the inheritance hierarchy until a non-null result is
  * returned, which is the result of the switch. <!-- end-user-doc -->
  * 
- * @see pepper.peppermm.PepperPackage
+ * @see PepperPackage
  * @generated
  */
 public class PepperSwitch<T> extends Switch<T> {
@@ -154,6 +154,8 @@ public class PepperSwitch<T> extends Switch<T> {
                 if (result == null)
                     result = caseAbstractTask(task);
                 if (result == null)
+                    result = caseDependencyRelatedObject(task);
+                if (result == null)
                     result = defaultCase(theEObject);
                 return result;
             }
@@ -186,6 +188,8 @@ public class PepperSwitch<T> extends Switch<T> {
                 Workpackage workpackage = (Workpackage) theEObject;
                 T result = caseWorkpackage(workpackage);
                 if (result == null)
+                    result = caseDependencyRelatedObject(workpackage);
+                if (result == null)
                     result = defaultCase(theEObject);
                 return result;
             }
@@ -203,6 +207,20 @@ public class PepperSwitch<T> extends Switch<T> {
                     result = defaultCase(theEObject);
                 return result;
             }
+            case PepperPackage.DEPENDENCY_LINK: {
+                DependencyLink dependencyLink = (DependencyLink) theEObject;
+                T result = caseDependencyLink(dependencyLink);
+                if (result == null)
+                    result = defaultCase(theEObject);
+                return result;
+            }
+            case PepperPackage.DEPENDENCY_RELATED_OBJECT: {
+                DependencyRelatedObject dependencyRelatedObject = (DependencyRelatedObject) theEObject;
+                T result = caseDependencyRelatedObject(dependencyRelatedObject);
+                if (result == null)
+                    result = defaultCase(theEObject);
+                return result;
+            }
             default:
                 return defaultCase(theEObject);
         }
@@ -215,7 +233,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Organization</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseOrganization(Organization object) {
@@ -229,7 +247,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Resource</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseResource(Resource object) {
@@ -244,7 +262,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Resource Folder</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseResourceFolder(ResourceFolder object) {
@@ -258,7 +276,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Team</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseTeam(Team object) {
@@ -273,7 +291,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Internal Stakeholder</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseInternalStakeholder(InternalStakeholder object) {
@@ -288,7 +306,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>External Stakeholder</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseExternalStakeholder(ExternalStakeholder object) {
@@ -302,7 +320,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Person</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T casePerson(Person object) {
@@ -316,7 +334,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Abstract Task</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseAbstractTask(AbstractTask object) {
@@ -330,7 +348,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Tag Folder</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseTagFolder(TagFolder object) {
@@ -344,7 +362,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Task Tag</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseTaskTag(TaskTag object) {
@@ -358,7 +376,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Task</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseTask(Task object) {
@@ -372,7 +390,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Objective</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseObjective(Objective object) {
@@ -386,7 +404,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Key Result</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseKeyResult(KeyResult object) {
@@ -400,7 +418,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Project</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseProject(Project object) {
@@ -414,7 +432,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Workpackage</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseWorkpackage(Workpackage object) {
@@ -429,7 +447,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Workpackage Artefact</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseWorkpackageArtefact(WorkpackageArtefact object) {
@@ -443,10 +461,40 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>Risk</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @see #doSwitch(EObject) doSwitch(EObject)
      * @generated
      */
     public T caseRisk(Risk object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Dependency Link</em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
+     * 
+     * @param object
+     *            the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Dependency Link</em>'.
+     * @see #doSwitch(EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDependencyLink(DependencyLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Dependency Related Object</em>'. <!--
+     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
+     * end-user-doc -->
+     * 
+     * @param object
+     *            the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Dependency Related Object</em>'.
+     * @see #doSwitch(EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDependencyRelatedObject(DependencyRelatedObject object) {
         return null;
     }
 
@@ -458,7 +506,7 @@ public class PepperSwitch<T> extends Switch<T> {
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+     * @see #doSwitch(EObject)
      * @generated
      */
     @Override

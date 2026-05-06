@@ -21,20 +21,20 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.Objective#getOwnedKeyResults <em>Owned Key Results</em>}</li>
+ * <li>{@link Objective#getOwnedKeyResults <em>Owned Key Results</em>}</li>
  * </ul>
  *
- * @see pepper.peppermm.PepperPackage#getObjective()
+ * @see PepperPackage#getObjective()
  * @model
  * @generated
  */
 public interface Objective extends AbstractTask {
     /**
      * Returns the value of the '<em><b>Owned Key Results</b></em>' containment reference list. The list contents are of
-     * type {@link pepper.peppermm.KeyResult}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * type {@link KeyResult}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the value of the '<em>Owned Key Results</em>' containment reference list.
-     * @see pepper.peppermm.PepperPackage#getObjective_OwnedKeyResults()
+     * @see PepperPackage#getObjective_OwnedKeyResults()
      * @model containment="true"
      * @generated
      */

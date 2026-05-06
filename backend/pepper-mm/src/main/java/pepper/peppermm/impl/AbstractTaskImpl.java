@@ -36,6 +36,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
+import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 
 /**
@@ -44,17 +45,19 @@ import pepper.peppermm.Team;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getName <em>Name</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDescription <em>Description</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getStartTime <em>Start Time</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getEndTime <em>End Time</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getProgress <em>Progress</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#isComputeStartEndDynamically <em>Compute Start End
+ * <li>{@link AbstractTaskImpl#getName <em>Name</em>}</li>
+ * <li>{@link AbstractTaskImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link AbstractTaskImpl#getStartTime <em>Start Time</em>}</li>
+ * <li>{@link AbstractTaskImpl#getEndTime <em>End Time</em>}</li>
+ * <li>{@link AbstractTaskImpl#getProgress <em>Progress</em>}</li>
+ * <li>{@link AbstractTaskImpl#isComputeStartEndDynamically <em>Compute Start End
  * Dynamically</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getTags <em>Tags</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedPersons <em>Assigned Persons</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedTeams <em>Assigned Teams</em>}</li>
- * <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
+ * <li>{@link AbstractTaskImpl#getTags <em>Tags</em>}</li>
+ * <li>{@link AbstractTaskImpl#getAssignedPersons <em>Assigned Persons</em>}</li>
+ * <li>{@link AbstractTaskImpl#getAssignedTeams <em>Assigned Teams</em>}</li>
+ * <li>{@link AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
+ * <li>{@link AbstractTaskImpl#getCalculationOption <em>Calculation Option</em>}</li>
+ * <li>{@link AbstractTaskImpl#getDuration <em>Duration</em>}</li>
  * </ul>
  *
  * @generated
@@ -219,6 +222,46 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
      * @ordered
      */
     protected EList<Task> subTasks;
+
+    /**
+     * The default value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getCalculationOption()
+     * @generated
+     * @ordered
+     */
+    protected static final TaskTimeBoundariesConstraint CALCULATION_OPTION_EDEFAULT = TaskTimeBoundariesConstraint.START_END;
+
+    /**
+     * The cached value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getCalculationOption()
+     * @generated
+     * @ordered
+     */
+    protected TaskTimeBoundariesConstraint calculationOption = CALCULATION_OPTION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getDuration()
+     * @generated
+     * @ordered
+     */
+    protected static final int DURATION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getDuration()
+     * @generated
+     * @ordered
+     */
+    protected int duration = DURATION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -437,6 +480,52 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
      * @generated
      */
     @Override
+    public TaskTimeBoundariesConstraint getCalculationOption() {
+        return calculationOption;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void setCalculationOption(TaskTimeBoundariesConstraint newCalculationOption) {
+        TaskTimeBoundariesConstraint oldCalculationOption = calculationOption;
+        calculationOption = newCalculationOption == null ? CALCULATION_OPTION_EDEFAULT : newCalculationOption;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION, oldCalculationOption, calculationOption));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void setDuration(int newDuration) {
+        int oldDuration = duration;
+        duration = newDuration;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
@@ -474,6 +563,10 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
                 return getAssignedTeams();
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
                 return getSubTasks();
+            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+                return getCalculationOption();
+            case PepperPackage.ABSTRACT_TASK__DURATION:
+                return getDuration();
             default:
                 return super.eGet(featureID, resolve, coreType);
         }
@@ -522,6 +615,12 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
                 getSubTasks().clear();
                 getSubTasks().addAll((Collection<? extends Task>) newValue);
                 return;
+            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+                setCalculationOption((TaskTimeBoundariesConstraint) newValue);
+                return;
+            case PepperPackage.ABSTRACT_TASK__DURATION:
+                setDuration((Integer) newValue);
+                return;
             default:
                 super.eSet(featureID, newValue);
                 return;
@@ -566,6 +665,12 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
                 getSubTasks().clear();
                 return;
+            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+                setCalculationOption(CALCULATION_OPTION_EDEFAULT);
+                return;
+            case PepperPackage.ABSTRACT_TASK__DURATION:
+                setDuration(DURATION_EDEFAULT);
+                return;
             default:
                 super.eUnset(featureID);
                 return;
@@ -600,6 +705,10 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
                 return assignedTeams != null && !assignedTeams.isEmpty();
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
                 return subTasks != null && !subTasks.isEmpty();
+            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+                return calculationOption != CALCULATION_OPTION_EDEFAULT;
+            case PepperPackage.ABSTRACT_TASK__DURATION:
+                return duration != DURATION_EDEFAULT;
             default:
                 return super.eIsSet(featureID);
         }
@@ -628,6 +737,10 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
         result.append(progress);
         result.append(", computeStartEndDynamically: ");
         result.append(computeStartEndDynamically);
+        result.append(", calculationOption: ");
+        result.append(calculationOption);
+        result.append(", duration: ");
+        result.append(duration);
         result.append(')');
         return result.toString();
     }
