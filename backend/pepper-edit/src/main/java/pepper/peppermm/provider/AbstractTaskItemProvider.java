@@ -42,16 +42,16 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 
 /**
- * This is the item provider adapter for a {@link pepper.peppermm.AbstractTask} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link AbstractTask} object. <!-- begin-user-doc --> <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class AbstractTaskItemProvider extends ItemProviderAdapter
         implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public AbstractTaskItemProvider(AdapterFactory adapterFactory) {
@@ -60,7 +60,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -85,7 +85,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Name feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addNamePropertyDescriptor(Object object) {
@@ -96,7 +96,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Description feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addDescriptionPropertyDescriptor(Object object) {
@@ -107,7 +107,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Start Time feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addStartTimePropertyDescriptor(Object object) {
@@ -118,7 +118,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the End Time feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addEndTimePropertyDescriptor(Object object) {
@@ -129,7 +129,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Progress feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addProgressPropertyDescriptor(Object object) {
@@ -141,7 +141,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
     /**
      * This adds a property descriptor for the Compute Start End Dynamically feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addComputeStartEndDynamicallyPropertyDescriptor(Object object) {
@@ -153,7 +153,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Tags feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addTagsPropertyDescriptor(Object object) {
@@ -164,7 +164,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Assigned Persons feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addAssignedPersonsPropertyDescriptor(Object object) {
@@ -175,7 +175,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Assigned Teams feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addAssignedTeamsPropertyDescriptor(Object object) {
@@ -186,7 +186,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Calculation Option feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addCalculationOptionPropertyDescriptor(Object object) {
@@ -197,7 +197,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     protected void addDurationPropertyDescriptor(Object object) {
@@ -211,7 +211,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -225,7 +225,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -238,7 +238,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -248,7 +248,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -261,7 +261,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
      * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -327,7 +327,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
 
     /**
      * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override

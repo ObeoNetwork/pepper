@@ -14,6 +14,7 @@ package pepper.peppermm.impl;
 
 import java.time.Instant;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -341,14 +342,27 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public void setStartTime(Instant newStartTime) {
         Instant oldStartTime = startTime;
-        startTime = newStartTime;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
+        if (calculationOption != TaskTimeBoundariesConstraint.END_DURATION) {
+            startTime = newStartTime;
+            if (eNotificationRequired())
+                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
+        }
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END)) {
+            if (endTime != null && startTime != null) {
+                int difference = (int) ChronoUnit.HOURS.between(startTime, endTime);
+                if (ChronoUnit.MINUTES.between(startTime, endTime) % 60 != 0) {
+                    difference +=1 ;
+                }
+                duration = difference;
+            }
+        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
+                endTime = startTime.plus(duration, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
+        }
     }
 
     /**
@@ -364,14 +378,25 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public void setEndTime(Instant newEndTime) {
         Instant oldEndTime = endTime;
-        endTime = newEndTime;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
+        if (calculationOption != TaskTimeBoundariesConstraint.START_DURATION) {
+            endTime = newEndTime;
+            if (eNotificationRequired())
+                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
+        }
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END)) {
+            int difference = (int) ChronoUnit.HOURS.between(startTime, endTime);
+            if (ChronoUnit.MINUTES.between(startTime, endTime) % 60 != 0) {
+                difference += 1;
+            }
+            duration = difference;
+        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && endTime != null) {
+            startTime = endTime.minus(duration, ChronoUnit.HOURS).plus(1, ChronoUnit.MINUTES);
+        }
     }
 
     /**
@@ -510,14 +535,21 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public void setDuration(int newDuration) {
         int oldDuration = duration;
-        duration = newDuration;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
+        if (calculationOption != TaskTimeBoundariesConstraint.START_END) {
+            duration = newDuration;
+            if (eNotificationRequired())
+                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
+        }
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
+            endTime = startTime.plus(duration, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
+        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
+            startTime = endTime.minus(duration, ChronoUnit.HOURS).plus(1, ChronoUnit.MINUTES);
+        }
     }
 
     /**
