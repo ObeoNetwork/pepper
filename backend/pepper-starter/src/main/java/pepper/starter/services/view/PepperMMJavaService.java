@@ -24,9 +24,9 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
 import pepper.peppermm.Workpackage;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,8 +71,18 @@ public class PepperMMJavaService {
                 task.setDescription(description);
             }
             if (endTime != null && startTime != null) {
-                long differenceEnd = task.getEndTime().getEpochSecond() - endTime.getEpochSecond();
-                long differenceStart = task.getStartTime().getEpochSecond() - startTime.getEpochSecond();
+                Instant newStartTime = startTime;
+                Instant newEndTime = endTime;
+                //set the instants to xx:00 for the start time and xx:59 for the end time
+                if ((newEndTime.atZone(ZoneId.systemDefault()).getHour() == 0 || newEndTime.atZone(ZoneId.systemDefault()).getHour() == 12) && !startTime.equals(endTime)) {
+                    newEndTime = newEndTime.minus(1, ChronoUnit.MINUTES);
+                }
+                if (newStartTime.atZone(ZoneId.systemDefault()).getMinute() == 1) {
+                    newStartTime = startTime.minus(1, ChronoUnit.MINUTES);
+                }
+
+                long differenceEnd = task.getEndTime().getEpochSecond() - newEndTime.getEpochSecond();
+                long differenceStart = task.getStartTime().getEpochSecond() - newStartTime.getEpochSecond();
                 List<DependencyLink> dependencies = task.getDependencies();
                 boolean startTimeControlledByDependency =
                         dependencies.stream()
@@ -83,12 +93,17 @@ public class PepperMMJavaService {
                                 .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
                 if (dependencies.isEmpty() || differenceEnd != differenceStart) {
                     if (startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        task.setEndTime(endTime.plus(differenceStart, ChronoUnit.SECONDS));
+                        this.setTaskDuration(task, newStartTime, newEndTime);
+                        newEndTime = newEndTime.plus(differenceStart, ChronoUnit.SECONDS);
+                        task.setEndTime(newEndTime);
                     } else if (!startTimeControlledByDependency && endTimeControlledByDependency) {
-                        task.setStartTime(startTime.plus(differenceEnd, ChronoUnit.SECONDS));
+                        this.setTaskDuration(task, newStartTime, newEndTime);
+                        newStartTime = newStartTime.plus(differenceEnd, ChronoUnit.SECONDS);
+                        task.setStartTime(newStartTime);
                     } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        task.setStartTime(startTime);
-                        task.setEndTime(endTime);
+                        this.setTaskDuration(task, newStartTime, newEndTime);
+                        task.setStartTime(newStartTime);
+                        task.setEndTime(newEndTime);
                     }
                     if (!startTimeControlledByDependency || !endTimeControlledByDependency) {
                         followTaskMoveDependency(task);
@@ -101,11 +116,16 @@ public class PepperMMJavaService {
         }
     }
 
+    private void setTaskDuration(Task task, Instant start, Instant end) {
+        int duration = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
+        task.setDuration(duration);
+    }
+
     public void createTask(EObject context) {
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setName(NEW_TASK);
         if (context instanceof AbstractTask abstractTask) {
-            // The new task follows the context task and has the same duration than the context task.
+            // The new task follows the context task and has the same duration as the context task.
             if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
                 if (abstractTask.getEndTime().equals(abstractTask.getStartTime())) {
                     // If the task is a Milestone
@@ -262,6 +282,30 @@ public class PepperMMJavaService {
         }
     }
 
+    private boolean isMilestone(Task task) {
+        return task.getStartTime().equals(task.getEndTime());
+    }
+
+    private int startAdjustmentMinutes(Task sourceTask) {
+        if (isMilestone(sourceTask)) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+
+    private int endAdjustmentMinutes(Task sourceTask, Task targetTask) {
+        int adjustment = 0;
+        if (isMilestone(sourceTask)) {
+            adjustment--;
+        }
+        if (isMilestone(targetTask)) {
+            adjustment++;
+        }
+        return adjustment;
+    }
+
     private void setTaskNewDates(Task task, DependencyLink dep) {
         Task bestSourceTask = (Task) dep.getSource();
         Instant sourceStart = bestSourceTask.getStartTime();
@@ -272,7 +316,8 @@ public class PepperMMJavaService {
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         StartOrEnd targetStartOrEnd = dep.getTargetKind();
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
-            Instant newTaskStart = sourceEnd.plus(delay, ChronoUnit.HOURS);
+            Instant newTaskStart = sourceEnd.plus(delay, ChronoUnit.HOURS)
+                            .plus(startAdjustmentMinutes(bestSourceTask), ChronoUnit.MINUTES);
             Instant newTaskEnd = Instant.ofEpochSecond(newTaskStart.getEpochSecond() + oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond());
             task.setEndTime(newTaskEnd);
             task.setStartTime(newTaskStart);
@@ -282,12 +327,16 @@ public class PepperMMJavaService {
             task.setEndTime(newTaskEnd);
             task.setStartTime(newTaskStart);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
-            Instant newTaskEnd = sourceEnd.plus(delay, ChronoUnit.HOURS);
+            Instant newTaskEnd = sourceEnd.plus(delay, ChronoUnit.HOURS)
+                            .plus(endAdjustmentMinutes(bestSourceTask, task), ChronoUnit.MINUTES);
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
             task.setEndTime(newTaskEnd);
             task.setStartTime(newTaskStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
-            Instant newTaskEnd = sourceStart.plus(delay, ChronoUnit.HOURS);
+            Instant newTaskEnd = sourceStart.plus(delay, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
+            if (isMilestone(task)) {
+                newTaskEnd = newTaskEnd.plus(1, ChronoUnit.MINUTES);
+            }
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
             task.setEndTime(newTaskEnd);
             task.setStartTime(newTaskStart);
@@ -305,30 +354,6 @@ public class PepperMMJavaService {
         return laterInstant;
     }
 
-    public void createWorkpackage(EObject context) {
-        Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        newWorkpackage.setName("New Workpackage");
-        if (context instanceof Workpackage workpackage) {
-            // The new task follows the context task and has the same duration than the context task.
-            if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                newWorkpackage.setStartDate(workpackage.getEndDate().plusDays(1));
-                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
-            }
-
-            EObject parent = context.eContainer();
-            if (parent instanceof Project project) {
-                int index = project.getOwnedWorkpackages().indexOf(context);
-                project.getOwnedWorkpackages().add(index + 1, newWorkpackage);
-            }
-        } else if (context instanceof Project project) {
-            LocalDate now = LocalDate.now();
-            newWorkpackage.setStartDate(now);
-            newWorkpackage.setEndDate(now.plusDays(28));
-
-            project.getOwnedWorkpackages().add(newWorkpackage);
-        }
-    }
-
     public List<Task> getTasksWithTag(TaskTag tag, Workpackage workpackage) {
         return Optional.of(workpackage).stream()
                 .flatMap(wkP -> {
@@ -343,17 +368,31 @@ public class PepperMMJavaService {
 
     public String computeTaskDurationDays(Task task) {
         String value = "";
-        Instant startTime = task.getStartTime();
-        Instant endTime = task.getEndTime();
-        if (startTime != null && endTime != null) {
-            Duration timeElapsed = Duration.between(startTime, endTime);
-            long dd = timeElapsed.toDaysPart();
-            Duration minusDays = timeElapsed.minusDays(dd);
-            long hh = minusDays.toHoursPart();
-            long mm = minusDays.minusHours(hh).toMinutesPart();
-            value = String.format("%02dd%02dh%02dm", dd, hh, mm);
-        }
+        int duration = task.getDuration();
+        int dd = duration / 24;
+        int hh = duration % 24;
+        value = String.format("%02dd%02dh", dd, hh);
         return value;
+    }
+
+    public void createCard(EObject context) {
+        Task task = PepperFactory.eINSTANCE.createTask();
+        task.setName(NEW_TASK);
+        task.setDescription("new description");
+        if (context instanceof TaskTag tag) {
+            task.getTags().add(tag);
+
+            EObject parent = context.eContainer();
+            if (parent instanceof TagFolder tagFolder) {
+                EObject parent2 = tagFolder.eContainer();
+                if (parent2 instanceof Project project) {
+                    var workpackages = project.getOwnedWorkpackages();
+                    if (!workpackages.isEmpty()) {
+                        workpackages.get(0).getOwnedTasks().add(task);
+                    }
+                }
+            }
+        }
     }
 
     public void editCard(EObject eObject, String title, String description, String label) {

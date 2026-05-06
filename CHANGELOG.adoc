@@ -9,6 +9,7 @@
 === New features
 
 - https://github.com/ObeoNetwork/pepper/issues/9[#9] Add DependencyLink to add real delay between dependencies
+- https://github.com/ObeoNetwork/pepper/issues/8[#8] Determine the end time based on the start time and a duration
 
 === Improvements
 
