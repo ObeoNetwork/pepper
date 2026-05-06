@@ -43,20 +43,18 @@
 			<name>Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/eclipse-sirius/sirius-web</url>
 		</repository>
-		<repository>
-			<id>github-pepper-mm</id>
-			<url>https://maven.pkg.github.com/ObeoNetwork/pepper-mm</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
-			<groupId>pepper-mm</groupId>
+			<groupId>pepper</groupId>
 			<artifactId>pepper-mm</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>pepper-mm</groupId>
+			<groupId>pepper</groupId>
 			<artifactId>pepper-edit</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.sirius</groupId>

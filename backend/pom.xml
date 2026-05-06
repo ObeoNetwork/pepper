@@ -39,6 +39,8 @@
 	  -->
 	<modules>
 		<module>pepper-parent</module>
+		<module>pepper-mm</module>
+		<module>pepper-edit</module>
 		<module>pepper-starter</module>
 		<module>pepper-application</module>
 		<module>pepper-frontend</module>
