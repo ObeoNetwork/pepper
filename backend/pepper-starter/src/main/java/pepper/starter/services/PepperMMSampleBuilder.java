@@ -33,6 +33,9 @@ import pepper.peppermm.WorkpackageArtefact;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +55,21 @@ public class PepperMMSampleBuilder {
     private static final String RELEASE = "Release";
     private static final String SPECIFICATION = "Specification";
     private static final String IDEA = "Idea";
-    private static final String DATE_2023_12_10T00_00_00Z = "2023-12-10T00:00:00Z";
-    private static final String DATE_2023_12_16T00_00_00Z = "2023-12-16T00:00:00Z";
-    private static final String DATE_2023_12_11T00_00_00Z = "2023-12-11T00:00:00Z";
-    private static final String DATE_2023_12_12T23_59_00Z = "2023-12-12T23:59:00Z";
-    private static final String DATE_2023_12_15T23_59_00Z = "2023-12-15T23:59:00Z";
-    private static final String DATE_2023_12_11T23_59_00Z = "2023-12-11T23:59:00Z";
-    private static final String DATE_2023_12_13T00_00_00Z = "2023-12-13T00:00:00Z";
-    private static final String DATE_2023_12_16T23_59_00Z = "2023-12-16T23:59:00Z";
-    private static final String DATE_2023_12_18T00_00_00Z = "2023-12-18T00:00:00Z";
+
+    private static final ZonedDateTime ZONED_DATE_TIME = LocalDateTime
+            .of(2023, 12, 10, 0, 0)
+            .atZone(ZoneId.systemDefault());
+    private static final String ZONE = ZONED_DATE_TIME.getOffset().toString();
+
+    private static final String DATE_2023_12_10T00_00_00Z = "2023-12-10T00:00:00" + ZONE;
+    private static final String DATE_2023_12_16T00_00_00Z = "2023-12-16T00:00:00" + ZONE;
+    private static final String DATE_2023_12_11T00_00_00Z = "2023-12-11T00:00:00" + ZONE;
+    private static final String DATE_2023_12_12T23_59_00Z = "2023-12-12T23:59:00" + ZONE;
+    private static final String DATE_2023_12_15T23_59_00Z = "2023-12-15T23:59:00" + ZONE;
+    private static final String DATE_2023_12_11T23_59_00Z = "2023-12-11T23:59:00" + ZONE;
+    private static final String DATE_2023_12_13T00_00_00Z = "2023-12-13T00:00:00" + ZONE;
+    private static final String DATE_2023_12_16T23_59_00Z = "2023-12-16T23:59:00" + ZONE;
+    private static final String DATE_2023_12_18T00_00_00Z = "2023-12-18T00:00:00" + ZONE;
     private static final String DATE_2023_12_10 = "2023-12-10";
     private static final String DATE_2023_30_10 = "2023-12-30";
 
@@ -155,12 +164,12 @@ public class PepperMMSampleBuilder {
         Task frontDev = PepperFactory.eINSTANCE.createTask();
         frontDev.setName("Front");
         frontDev.setStartTime(Instant.parse(DATE_2023_12_13T00_00_00Z));
-        frontDev.setEndTime(Instant.parse("2023-12-14T23:59:00Z"));
+        frontDev.setEndTime(Instant.parse("2023-12-14T23:59:00" + ZONE));
         frontDev.setProgress(30);
         frontDev.getAssignedPersons().add(peter);
         Task backDev = PepperFactory.eINSTANCE.createTask();
         backDev.setName("Back");
-        backDev.setStartTime(Instant.parse("2023-12-14T12:00:00Z"));
+        backDev.setStartTime(Instant.parse("2023-12-14T12:00:00" + ZONE));
         backDev.setEndTime(Instant.parse(DATE_2023_12_16T23_59_00Z));
         backDev.setProgress(40);
         backDev.getAssignedPersons().add(paul);
