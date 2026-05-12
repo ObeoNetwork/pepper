@@ -12,8 +12,10 @@
  ******************************************************************************/
 package pepper.peppermm.impl;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 
@@ -367,11 +369,43 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public LocalDate getStartDate() {
+        if (ownedTasks != null && !ownedTasks.isEmpty()) {
+            Instant oldestInstant = null;
+            for (Task task : ownedTasks) {
+                Instant newOldestInstant = getOldestInstant(task, null);
+                if (oldestInstant == null || (newOldestInstant != null && newOldestInstant.isBefore(oldestInstant))) {
+                    oldestInstant = newOldestInstant;
+                }
+            }
+            if (oldestInstant != null) {
+                return LocalDate.ofInstant(oldestInstant, ZoneId.systemDefault());
+            }
+        }
         return startDate;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated NOT
+     */
+    private Instant getOldestInstant(Task task, Instant oldestInstant) {
+        Instant startTime = task.getStartTime();
+
+        if (startTime != null && (oldestInstant == null || startTime.isBefore(oldestInstant))) {
+            oldestInstant = startTime;
+        }
+
+        if (task.getSubTasks() != null) {
+            for (Task subTask : task.getSubTasks()) {
+                oldestInstant = getOldestInstant(subTask, oldestInstant);
+            }
+        }
+        return oldestInstant;
     }
 
     /**
@@ -406,11 +440,43 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public LocalDate getEndDate() {
+        if (ownedTasks != null && !ownedTasks.isEmpty()) {
+            Instant latestInstant = null;
+            for (Task task : ownedTasks) {
+                Instant newLattestInstant = getLatestInstant(task, null);
+                if (latestInstant == null || (newLattestInstant != null && newLattestInstant.isAfter(latestInstant))) {
+                    latestInstant = newLattestInstant;
+                }
+            }
+            if (latestInstant != null) {
+                return LocalDate.ofInstant(latestInstant, ZoneId.systemDefault());
+            }
+        }
         return endDate;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated NOT
+     */
+    private Instant getLatestInstant(Task task, Instant latestInstant) {
+        Instant endTime = task.getEndTime();
+
+        if (endTime != null && (latestInstant == null || endTime.isAfter(latestInstant))) {
+            latestInstant = endTime;
+        }
+
+        if (task.getSubTasks() != null) {
+            for (Task subTask : task.getSubTasks()) {
+                latestInstant = getLatestInstant(subTask, latestInstant);
+            }
+        }
+        return latestInstant;
     }
 
     /**
