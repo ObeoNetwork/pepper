@@ -65,6 +65,7 @@ import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.Project;
+import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
@@ -283,7 +284,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.duration";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END)
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || isDateOptionForced(task))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -412,7 +413,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION)
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || isDateOptionForced(task) || isPointed(task, StartOrEnd.START))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -459,7 +460,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION)
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || isDateOptionForced(task) || isPointed(task, StartOrEnd.END))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -471,6 +472,20 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
                 .build();
+    }
+
+    private Boolean isDateOptionForced(AbstractTask task) {
+        return (task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && isPointed(task, StartOrEnd.START))
+                || (task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && isPointed(task, StartOrEnd.END));
+    }
+
+    private Boolean isPointed(AbstractTask task, StartOrEnd startOrEnd) {
+        for (DependencyLink dep : ((DependencyRelatedObject) task).getDependencies()) {
+            if (dep.getTargetKind().equals(startOrEnd)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Function<VariableManager, List<?>> getDependenciesProvider() {

@@ -61,6 +61,7 @@ import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
+import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
@@ -269,7 +270,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.duration";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END)
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || isDateOptionForced(workpackage))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -399,7 +400,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION)
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || isDateOptionForced(workpackage) || isPointed(workpackage, StartOrEnd.START))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -446,7 +447,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION)
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || isDateOptionForced(workpackage) || isPointed(workpackage, StartOrEnd.END))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -458,6 +459,20 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE)
                 .build();
+    }
+
+    private Boolean isDateOptionForced(Workpackage workpackage) {
+        return (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && isPointed(workpackage, StartOrEnd.START))
+                || (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && isPointed(workpackage, StartOrEnd.END));
+    }
+
+    private Boolean isPointed(Workpackage workpackage, StartOrEnd startOrEnd) {
+        for (DependencyLink dep : workpackage.getDependencies()) {
+            if (dep.getTargetKind().equals(startOrEnd)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Function<VariableManager, List<?>> getPersonsProvider() {
