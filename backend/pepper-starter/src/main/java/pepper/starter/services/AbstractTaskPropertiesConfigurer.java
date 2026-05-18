@@ -28,7 +28,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,6 +36,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
+import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.DateTimeType;
@@ -70,6 +70,7 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.services.view.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link AbstractTask} sub classes.
@@ -90,6 +91,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter abstractTaskAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createTaskAdapter();
+
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
 
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
             ILabelService labelService) {
@@ -235,6 +238,23 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             }
         };
 
+        Function<VariableManager, String> optionLabelProvider = variableManager -> {
+            var taskTimeBoundariesConstraintOpt = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class);
+            String label = "";
+            if (taskTimeBoundariesConstraintOpt.isPresent()) {
+                TaskTimeBoundariesConstraint taskTimeBoundariesConstraint = taskTimeBoundariesConstraintOpt.get();
+                if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_END)) {
+                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEnd_feature");
+                }
+                else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
+                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndDuration_feature");
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
+                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartDuration_feature");
+                }
+            }
+            return label;
+        };
+
         String id = "abstractTask.calculationOption";
         return RadioDescription.newRadioDescription(id)
                 .idProvider(variableManager -> id)
@@ -247,9 +267,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
                         .orElse(""))
-                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
-                        .map(Enumerator::getName)
-                        .orElse(""))
+                .optionLabelProvider(optionLabelProvider)
                 .newValueHandler(newValueHandler)
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
@@ -270,7 +288,9 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 } else {
                     try {
                         int integer = Integer.parseInt(newValue);
-                        taskOpt.get().setDuration(integer);
+                        var task = taskOpt.get();
+                        task.setDuration(integer);
+                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
                     } catch (NumberFormatException e) {
                         // Ignore
                     }
@@ -400,7 +420,9 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 } else {
                     try {
                         Instant instant = Instant.parse(newValue);
-                        taskOpt.get().setStartTime(instant);
+                        var task = taskOpt.get();
+                        service.editTask(task, task.getName(), task.getDescription(), instant, task.getEndTime(), task.getProgress(), true);
+
                     } catch (DateTimeParseException e) {
                         // Ignore
                     }
@@ -440,14 +462,15 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, Object.class);
+            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    ((AbstractTask) taskOpt.get()).setEndTime(null);
+                    taskOpt.get().setEndTime(null);
                 } else {
                     try {
                         Instant instant = Instant.parse(newValue);
-                        ((AbstractTask) taskOpt.get()).setEndTime(instant);
+                        var task = taskOpt.get();
+                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), instant, task.getProgress(), true);
                     } catch (DateTimeParseException e) {
                         // Ignore
                     }

@@ -109,7 +109,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newEditTaskTool()
                 .name("Edit Task")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:self.editTask(newName, newDescription, newStartTime, newEndTime, newProgress)")
+                        .expression("aql:self.editTask(newName, newDescription, newStartTime, newEndTime, newProgress, false)")
                         .build())
                 .build();
     }
@@ -230,7 +230,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newEditTaskTool()
                 .name("Edit Workpackage")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:self.editWorkpackage(newName, newDescription, newStartTime, newEndTime, newProgress)")
+                        .expression("aql:self.editWorkpackage(newName, newDescription, newStartTime, newEndTime, newProgress, false)")
                         .build())
                 .build();
     }

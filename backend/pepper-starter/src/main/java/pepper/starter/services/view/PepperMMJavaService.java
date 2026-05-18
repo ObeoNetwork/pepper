@@ -64,7 +64,8 @@ public class PepperMMJavaService {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
     }
 
-    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress) {
+    @SuppressWarnings("checkstyle:NestedIfDepth")
+    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepDuration) {
         if (eObject instanceof Task task) {
             if (name != null) {
                 task.setName(name);
@@ -103,7 +104,9 @@ public class PepperMMJavaService {
                         newStartTime = newStartTime.plus(differenceEnd, ChronoUnit.SECONDS);
                         task.setStartTime(newStartTime);
                     } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        this.setTaskDuration(task, newStartTime, newEndTime);
+                        if (!keepDuration) {
+                            this.setTaskDuration(task, newStartTime, newEndTime);
+                        }
                         task.setStartTime(newStartTime);
                         task.setEndTime(newEndTime);
                     }
@@ -690,6 +693,12 @@ public class PepperMMJavaService {
         return laterLocalDate;
     }
 
+
+    public void editDependencyLinkDuration(DependencyLink depLink, int newDuration) {
+        depLink.setDuration(newDuration);
+        followMoveDependency(depLink.getSource());
+    }
+
     public List<Task> getTasksWithTag(TaskTag tag, Workpackage workpackage) {
         return Optional.of(workpackage).stream()
                 .flatMap(wkP -> {
@@ -805,7 +814,8 @@ public class PepperMMJavaService {
         }
     }
 
-    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress) {
+    @SuppressWarnings("checkstyle:NestedIfDepth")
+    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepDuration) {
         if (eObject instanceof Workpackage workpackage) {
             if (name != null) {
                 workpackage.setName(name);
@@ -832,7 +842,9 @@ public class PepperMMJavaService {
                         this.workpackageSetDuration(workpackage, startDate, endDate);
                         workpackage.setStartDate(startDate.plusDays(differenceEnd));
                     } else if (!startDateControlledByDependency && !endDateControlledByDependency) {
-                        this.workpackageSetDuration(workpackage, startDate, endDate);
+                        if (!keepDuration) {
+                            this.workpackageSetDuration(workpackage, startDate, endDate);
+                        }
                         workpackage.setStartDate(startDate);
                         workpackage.setEndDate(endDate);
                     }

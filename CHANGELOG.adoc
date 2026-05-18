@@ -17,6 +17,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/44[#44] Add a Gantt Diagram to the first workpackage of the Gantt Sample Template
 - https://github.com/ObeoNetwork/pepper/issues/18[#18] Enhance the ergonomy of contextual menu in Gantt
 - https://github.com/ObeoNetwork/pepper/issues/49[#49] Rework the detail views of Task and Workpackage
+- https://github.com/ObeoNetwork/pepper/issues/55[#55] Link detail view updates with Gantt view
 
 === Bug fixes
 

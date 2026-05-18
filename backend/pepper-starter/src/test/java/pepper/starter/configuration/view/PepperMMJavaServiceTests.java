@@ -70,7 +70,7 @@ public class PepperMMJavaServiceTests {
         task.setEndTime(Instant.now());
         workpackage.getOwnedTasks().add(task);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.ofEpochSecond(1704067200), Instant.ofEpochSecond(1704070800), 10);
+        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.ofEpochSecond(1704067200), Instant.ofEpochSecond(1704070800), 10, false);
         assertThat(task.getName()).isEqualTo(NEW_NAME);
         assertThat(task.getDescription()).isEqualTo(NEW_DESCRIPTION);
         assertThat(task.getStartTime().getEpochSecond()).isEqualTo(1704067200);
@@ -119,11 +119,11 @@ public class PepperMMJavaServiceTests {
         taskDependency.getDependencies().add(dependencyLinkOfTaskDependency);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.editTask(taskDependency, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null);
+        service.editTask(taskDependency, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
         assertThat(taskDependency.getStartTime()).isEqualTo(Instant.parse(DATE2024_01_01_T00_00_00));
         assertThat(taskDependency.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_01_T23_59_00));
 
-        service.editTask(masterTask, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null);
+        service.editTask(masterTask, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
         assertThat(masterTask.getStartTime()).isEqualTo(DATE2024_01_02_T00_00_00);
         assertThat(masterTask.getEndTime()).isEqualTo(DATE2024_01_02_T23_59_00);
         assertThat(taskDependency.getStartTime()).isEqualTo(masterTask.getEndTime().plus(1, ChronoUnit.MINUTES));
@@ -363,7 +363,7 @@ public class PepperMMJavaServiceTests {
         workpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, LocalDate.ofYearDay(2026, 1), LocalDate.ofYearDay(2026, 3), 10);
+        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, LocalDate.ofYearDay(2026, 1), LocalDate.ofYearDay(2026, 3), 10, false);
         assertThat(workpackage.getName()).isEqualTo(NEW_NAME);
         assertThat(workpackage.getDescription()).isEqualTo(NEW_DESCRIPTION);
         assertThat(workpackage.getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 1));

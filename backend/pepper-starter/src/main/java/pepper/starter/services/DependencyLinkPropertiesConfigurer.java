@@ -25,13 +25,13 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
+import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.components.SelectComponent;
@@ -59,6 +59,7 @@ import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.services.view.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link DependencyLink} sub classes.
@@ -81,6 +82,8 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter dependencyLinkAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createDependencyLinkAdapter();
+
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
 
     public DependencyLinkPropertiesConfigurer(IIdentityService identityService, ILabelService labelService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService) {
         this.identityService = identityService;
@@ -176,22 +179,39 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
             var dependencyLinkOptional = variableManager.get(VariableManager.SELF, DependencyLink.class);
             if (dependencyLinkOptional.isPresent()) {
+                DependencyLink depLink = dependencyLinkOptional.get();
                 if (newValue == null || newValue.isBlank()) {
-                    dependencyLinkOptional.get().setSourceKind(StartOrEnd.END);
-                    dependencyLinkOptional.get().setTargetKind(StartOrEnd.START);
+                    depLink.setSourceKind(StartOrEnd.END);
+                    depLink.setTargetKind(StartOrEnd.START);
                 } else if (isSource) {
                     int integer = Integer.parseInt(newValue);
                     StartOrEnd newStartOrEnd = StartOrEnd.get(integer);
-                    dependencyLinkOptional.get().setSourceKind(newStartOrEnd);
+                    depLink.setSourceKind(newStartOrEnd);
                 } else {
                     int integer = Integer.parseInt(newValue);
                     StartOrEnd newStartOrEnd = StartOrEnd.get(integer);
-                    dependencyLinkOptional.get().setTargetKind(newStartOrEnd);
+                    depLink.setTargetKind(newStartOrEnd);
                 }
+                service.editDependencyLinkDuration(depLink, depLink.getDuration());
                 return new Success();
             } else {
                 return new Failure("");
             }
+        };
+
+        Function<VariableManager, String> optionLabelProvider = variableManager -> {
+            var startOrEndOpt = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, StartOrEnd.class);
+            String optionLabel = "";
+            if (startOrEndOpt.isPresent()) {
+                StartOrEnd startOrEnd = startOrEndOpt.get();
+                if (startOrEnd.equals(StartOrEnd.START)) {
+                    optionLabel = dependencyLinkAdapter.getString("_UI_StartOrEnd_Start_feature");
+                }
+                else {
+                    optionLabel = dependencyLinkAdapter.getString("_UI_StartOrEnd_End_feature");
+                }
+            }
+            return optionLabel;
         };
 
         return RadioDescription.newRadioDescription(id)
@@ -205,9 +225,7 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                         .map(StartOrEnd::getValue)
                         .map(String::valueOf)
                         .orElse(""))
-                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, StartOrEnd.class)
-                        .map(Enumerator::getName)
-                        .orElse(""))
+                .optionLabelProvider(optionLabelProvider)
                 .newValueHandler(newValueHandler)
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(literal))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
@@ -292,7 +310,8 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                 } else {
                     try {
                         int integer = Integer.parseInt(newValue);
-                        depOpt.get().setDuration(integer);
+                        var depLink = depOpt.get();
+                        service.editDependencyLinkDuration(depLink, integer);
                     } catch (NumberFormatException e) {
                         // Ignore
                     }

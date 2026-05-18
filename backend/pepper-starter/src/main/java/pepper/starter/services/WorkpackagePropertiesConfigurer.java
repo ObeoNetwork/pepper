@@ -28,7 +28,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,6 +36,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
+import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.DateTimeType;
@@ -65,6 +65,7 @@ import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.services.view.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link Workpackage} sub classes.
@@ -85,6 +86,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter workpackageAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createWorkpackageAdapter();
+
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
 
     public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService) {
         this.identityService = identityService;
@@ -221,6 +224,23 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
             }
         };
 
+        Function<VariableManager, String> optionLabelProvider = variableManager -> {
+            var taskTimeBoundariesConstraintOpt = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class);
+            String label = "";
+            if (taskTimeBoundariesConstraintOpt.isPresent()) {
+                TaskTimeBoundariesConstraint taskTimeBoundariesConstraint = taskTimeBoundariesConstraintOpt.get();
+                if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_END)) {
+                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEnd_feature");
+                }
+                else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
+                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndDuration_feature");
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
+                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartDuration_feature");
+                }
+            }
+            return label;
+        };
+
         String id = "workpackage.calculationOption";
         return RadioDescription.newRadioDescription(id)
                 .idProvider(variableManager -> id)
@@ -233,9 +253,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
                         .orElse(""))
-                .optionLabelProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
-                        .map(Enumerator::getName)
-                        .orElse(""))
+                .optionLabelProvider(optionLabelProvider)
                 .newValueHandler(newValueHandler)
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
@@ -256,7 +274,9 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 } else {
                     try {
                         int integer = Integer.parseInt(newValue);
-                        workpackageOpt.get().setDuration(integer);
+                        var workpackage = workpackageOpt.get();
+                        workpackage.setDuration(integer);
+                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getProgress(), true);
                     } catch (NumberFormatException e) {
                         // Ignore
                     }
@@ -387,7 +407,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 } else {
                     try {
                         LocalDate localDate = LocalDate.parse(newValue);
-                        workpackageOpt.get().setStartDate(localDate);
+                        var workpackage = workpackageOpt.get();
+                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
                     } catch (DateTimeParseException e) {
                         // Ignore
                     }
@@ -427,14 +448,15 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Object.class);
+            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
             if (workpackageOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    ((Workpackage) workpackageOpt.get()).setEndDate(null);
+                    workpackageOpt.get().setEndDate(null);
                 } else {
                     try {
                         LocalDate localDate = LocalDate.parse(newValue);
-                        ((Workpackage) workpackageOpt.get()).setEndDate(localDate);
+                        var workpackage = workpackageOpt.get();
+                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
                     } catch (DateTimeParseException e) {
                         // Ignore
                     }
