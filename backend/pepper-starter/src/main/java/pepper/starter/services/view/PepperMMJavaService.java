@@ -12,19 +12,6 @@
  ******************************************************************************/
 package pepper.starter.services.view;
 
-import pepper.peppermm.AbstractTask;
-import pepper.peppermm.DependencyLink;
-import pepper.peppermm.DependencyRelatedObject;
-import pepper.peppermm.KeyResult;
-import pepper.peppermm.Objective;
-import pepper.peppermm.Project;
-import pepper.peppermm.PepperFactory;
-import pepper.peppermm.StartOrEnd;
-import pepper.peppermm.TagFolder;
-import pepper.peppermm.Task;
-import pepper.peppermm.TaskTag;
-import pepper.peppermm.Workpackage;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -46,6 +33,19 @@ import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.interpreter.SimpleCrossReferenceProvider;
 import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
+
+import pepper.peppermm.AbstractTask;
+import pepper.peppermm.DependencyLink;
+import pepper.peppermm.DependencyRelatedObject;
+import pepper.peppermm.KeyResult;
+import pepper.peppermm.Objective;
+import pepper.peppermm.PepperFactory;
+import pepper.peppermm.Project;
+import pepper.peppermm.StartOrEnd;
+import pepper.peppermm.TagFolder;
+import pepper.peppermm.Task;
+import pepper.peppermm.TaskTag;
+import pepper.peppermm.Workpackage;
 
 
 /**
@@ -163,25 +163,35 @@ public class PepperMMJavaService {
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setName(NEW_TASK);
         if (context instanceof AbstractTask abstractTask) {
-            // The new task follows the context task and has the same duration as the context task.
-            if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
-                if (abstractTask.getEndTime().equals(abstractTask.getStartTime())) {
-                    // If the task is a Milestone
-                    task.setStartTime(abstractTask.getEndTime());
-                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()));
+            // The new task follows the last sub-task.
+            Optional<Task> optionalTask = abstractTask.getSubTasks().stream().reduce((first, second) -> second)
+                    .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
+
+            if (optionalTask.isPresent()) {
+                Task lastTask = optionalTask.get();
+                if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
+                    // If the last task is a Milestone
+                    task.setStartTime(lastTask.getEndTime());
+                    task.setEndTime(lastTask.getEndTime());
                 } else {
-                    task.setStartTime(abstractTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
+                    task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+                }
+            } else {
+                if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
+                    task.setStartTime(abstractTask.getStartTime());
+                    task.setEndTime(abstractTask.getEndTime());
                 }
             }
-
-            EObject parent = context.eContainer();
-            if (parent instanceof Workpackage workpackage) {
-                int index = workpackage.getOwnedTasks().indexOf(context);
-                workpackage.getOwnedTasks().add(index + 1, task);
-            } else if (parent instanceof AbstractTask parentTask) {
-                int index = parentTask.getSubTasks().indexOf(context);
-                parentTask.getSubTasks().add(index + 1, task);
+            abstractTask.getSubTasks().add(task);
+            int levelLayer = 1;
+            var parent = context.eContainer();
+            while (!(parent instanceof Workpackage)) {
+                levelLayer++;
+                parent = parent.eContainer();
+            }
+            if (levelLayer == 4) {
+                this.feedbackMessageService.addFeedbackMessage(new Message("Gantt can not display more than 4 levels of tasks. So the created task is not displayed.", MessageLevel.WARNING));
             }
         } else if (context instanceof Workpackage workpackage) {
             long epochSecondStartTime = Instant.now().getEpochSecond();
