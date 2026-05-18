@@ -340,7 +340,7 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * If the task's {@code startTime} is constrained by {@code END_DURATION}, it is not changed
      * 
      * @generated NOT
      */
@@ -382,8 +382,8 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * If the task's {@code endTime} is constrained by {@code START_DURATION}, it is not changed
+     *
      * @generated NOT
      */
     @Override
@@ -545,7 +545,7 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * If the task's {@code duration} is constrained by {@code START_END}, it is not changed
      * 
      * @generated NOT
      */

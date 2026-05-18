@@ -375,7 +375,7 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * If the workpackage's {@code startDate} is constrained by {@code START_END}, it is not changed
      * 
      * @generated NOT
      */
@@ -414,7 +414,7 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * If the workpackage's {@code endDate} is constrained by {@code START_END}, it is not changed
      * 
      * @generated NOT
      */
@@ -612,7 +612,7 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * If the workpackage's {@code duration} is constrained by {@code START_END}, it is not changed
      * 
      * @generated NOT
      */
