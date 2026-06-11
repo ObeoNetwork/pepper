@@ -18,7 +18,6 @@ import org.eclipse.sirius.components.view.View;
 import org.eclipse.sirius.components.view.builder.generated.gantt.GanttBuilders;
 import org.eclipse.sirius.components.view.builder.generated.view.ChangeContextBuilder;
 import org.eclipse.sirius.components.view.builder.generated.view.DeleteElementBuilder;
-import org.eclipse.sirius.components.view.builder.generated.view.SetValueBuilder;
 import org.eclipse.sirius.components.view.builder.generated.view.UnsetValueBuilder;
 import org.eclipse.sirius.components.view.gantt.CreateTaskDependencyTool;
 import org.eclipse.sirius.components.view.gantt.CreateTaskTool;
@@ -123,12 +122,8 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newCreateTaskDependencyTool()
                 .name("Create Task Dependency")
                 .body(new ChangeContextBuilder()
-                    .expression("aql:targetObject")
-                    .children(new SetValueBuilder()
-                        .featureName("dependencies")
-                        .valueExpression("aql:sourceObject")
+                        .expression("aql:targetObject.createDependencyLink(sourceObject, sourceStartOrEnd, targetStartOrEnd)")
                         .build())
-                    .build())
                 .build();
     }
 
@@ -157,7 +152,7 @@ public class ViewGanttDescriptionBuilder {
                 .endTimeExpression("aql:self.endTime")
                 .progressExpression(AQL_SELF_PROGRESS)
                 .computeStartEndDynamicallyExpression("aql:self.computeStartEndDynamically")
-                .taskDependenciesExpression("aql:self.dependencies")
+                .taskDependenciesExpression("aql:self.getDependencies(sourceStartOrEnd.toString(), targetStartOrEnd.toString())")
                 .subTaskElementDescriptions(taskDescriptionInTask)
                 .build();
     }
@@ -172,7 +167,7 @@ public class ViewGanttDescriptionBuilder {
                 .endTimeExpression("aql:self.endTime")
                 .progressExpression(AQL_SELF_PROGRESS)
                 .computeStartEndDynamicallyExpression("aql:self.computeStartEndDynamically")
-                .taskDependenciesExpression("aql:self.dependencies")
+                .taskDependenciesExpression("aql:self.getDependencies(sourceStartOrEnd.toString(), targetStartOrEnd.toString())")
                 .build();
 
         taskDescription.getReusedTaskElementDescriptions().add(taskDescription);

@@ -33,6 +33,7 @@ import java.util.stream.StreamSupport;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
+import org.eclipse.sirius.components.gantt.StartOrEnd;
 import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
 
@@ -98,6 +99,26 @@ public class PepperMMJavaService {
             workpackage.getOwnedTasks().add(task);
         }
     }
+
+    public List<Task> getDependencies(EObject eObject, String sourceStartOrEnd, String targetStartOrEnd) {
+        if (eObject instanceof Task task) {
+            if (sourceStartOrEnd.equals("END") && targetStartOrEnd.equals("START")) {
+                return task.getDependencies();
+            }
+        }
+        return List.of();
+    }
+
+    public void createDependencyLink(EObject target, EObject source, StartOrEnd sourceStartOrEnd, StartOrEnd targetStartOrEnd) {
+        if (target instanceof Task targetTask && source instanceof Task sourceTask) {
+            if (sourceStartOrEnd.equals(StartOrEnd.END) && targetStartOrEnd.equals(StartOrEnd.START)) {
+                targetTask.getDependencies().add(sourceTask);
+            } else {
+                this.feedbackMessageService.addFeedbackMessage(new Message("Forbidden dependency creation. This model only accept END-START dependencies", MessageLevel.ERROR));
+            }
+        }
+    }
+
 
     public void createWorkpackage(EObject context) {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
