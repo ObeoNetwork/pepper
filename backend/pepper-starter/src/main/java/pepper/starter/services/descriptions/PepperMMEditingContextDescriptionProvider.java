@@ -15,6 +15,8 @@ package pepper.starter.services.descriptions;
 import pepper.starter.messages.IPepperMMMessageService;
 import pepper.starter.messages.MessageConstants;
 import pepper.peppermm.Project;
+import pepper.peppermm.Resource;
+import pepper.peppermm.UnavailabilityPeriod;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +46,10 @@ import org.springframework.stereotype.Service;
 public class PepperMMEditingContextDescriptionProvider implements IEditingContextRepresentationDescriptionProvider {
 
     public static final String PROJECT_FORM_ID = "projectFormDescription";
+
+    public static final String RESOURCE_FORM_ID = "resourceFormDescription";
+
+    public static final String UNAVAILABILITY_PERIOD_FORM_ID = "unavailabilityPeriodFormDescription";
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
@@ -84,6 +90,10 @@ public class PepperMMEditingContextDescriptionProvider implements IEditingContex
         PageDescription workpackagesPageDescription = new WorkpackagesPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.pepperMMMessageService, this.feedbackMessageService).getWorkpackagesPageDescription();
         PageDescription workpackageArtefactPageDescription = new WorkpackageArtefactPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.pepperMMMessageService, this.feedbackMessageService).getWorkpackageArtefactsPageDescription();
         PageDescription risksPageDescription = new RisksPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory, this.pepperMMMessageService, this.feedbackMessageService).getRisksPageDescription();
+        PageDescription resourceAvailabilityPageDescription = new ResourceAvailabilityPageDescription(this.labelService, this.identityService, this.objectSearchService, this.cursorBasedNavigationServices, this.composedAdapterFactory,
+                this.pepperMMMessageService, this.feedbackMessageService).getPageDescription();
+        PageDescription unavailabilityPeriodPageDescription = new UnavailabilityPeriodPageDescription(this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory, this.pepperMMMessageService,
+                this.feedbackMessageService).getPageDescription();
 
 
         FormDescription projectFormDescription =  FormDescription.newFormDescription(PROJECT_FORM_ID)
@@ -96,7 +106,25 @@ public class PepperMMEditingContextDescriptionProvider implements IEditingContex
                 .pageDescriptions(List.of(projectPageDescription, customerPageDescription, planningAndCostingPageDescription, workpackagesPageDescription, workpackageArtefactPageDescription, risksPageDescription))
                 .iconURLsProvider(vm -> List.of())
                 .build();
-        return List.of(projectFormDescription);
+        FormDescription resourceFormDescription = FormDescription.newFormDescription(RESOURCE_FORM_ID)
+                .label(this.pepperMMMessageService.getMessage(MessageConstants.RESOURCE_FORM_TITLE))
+                .idProvider(new GetOrCreateRandomIdProvider())
+                .labelProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.RESOURCE_FORM_TITLE))
+                .targetObjectIdProvider(this::getTargetObjectId)
+                .canCreatePredicate(this::canCreateResourceForm)
+                .pageDescriptions(List.of(resourceAvailabilityPageDescription))
+                .iconURLsProvider(vm -> List.of())
+                .build();
+        FormDescription unavailabilityPeriodFormDescription = FormDescription.newFormDescription(UNAVAILABILITY_PERIOD_FORM_ID)
+                .label(this.pepperMMMessageService.getMessage(MessageConstants.UNAVAILABILITY_PERIOD_FORM_TITLE))
+                .idProvider(new GetOrCreateRandomIdProvider())
+                .labelProvider(variableManager -> this.pepperMMMessageService.getMessage(MessageConstants.UNAVAILABILITY_PERIOD_FORM_TITLE))
+                .targetObjectIdProvider(this::getTargetObjectId)
+                .canCreatePredicate(this::canCreateUnavailabilityPeriodForm)
+                .pageDescriptions(List.of(unavailabilityPeriodPageDescription))
+                .iconURLsProvider(vm -> List.of())
+                .build();
+        return List.of(projectFormDescription, resourceFormDescription, unavailabilityPeriodFormDescription);
     }
 
     private String getTargetObjectId(VariableManager variableManager) {
@@ -108,6 +136,18 @@ public class PepperMMEditingContextDescriptionProvider implements IEditingContex
     private boolean canCreate(VariableManager variableManager) {
         return variableManager.get(VariableManager.SELF, EObject.class)
                 .filter(Project.class::isInstance)
+                .isPresent();
+    }
+
+    private boolean canCreateResourceForm(VariableManager variableManager) {
+        return variableManager.get(VariableManager.SELF, EObject.class)
+                .filter(Resource.class::isInstance)
+                .isPresent();
+    }
+
+    private boolean canCreateUnavailabilityPeriodForm(VariableManager variableManager) {
+        return variableManager.get(VariableManager.SELF, EObject.class)
+                .filter(UnavailabilityPeriod.class::isInstance)
                 .isPresent();
     }
 }
