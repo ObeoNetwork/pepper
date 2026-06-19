@@ -338,23 +338,54 @@ public class PepperMMJavaService {
     private void followWorkpackageMoveDependency(List<Workpackage> targetWorkpackages, Workpackage sourceWorkpackage) {
         List<Workpackage> dependencies = new ArrayList<>();
         for (Workpackage workpackage : targetWorkpackages) {
-            //Get the strongest dependency link
-            DependencyLink winner = null;
-            LocalDate latterLocalDate = null;
+            //Get the strongest dependency links
+            DependencyLink winnerStart = null;
+            DependencyLink winnerEnd = null;
+            LocalDate laterStart = null;
+            LocalDate laterEnd = null;
             for (DependencyLink dep : workpackage.getDependencies()) {
-                LocalDate newLocalDate = getLatterLocalDate(dep);
-                if (latterLocalDate == null || latterLocalDate.isBefore(newLocalDate)) {
-                    latterLocalDate = newLocalDate;
-                    winner = dep;
+                if (dep.getTargetKind().equals(StartOrEnd.END)) {
+                    LocalDate newLocalDate = getlaterLocalDate(dep);
+                    if (laterEnd == null || laterEnd.isBefore(newLocalDate)) {
+                        laterEnd = newLocalDate;
+                        winnerEnd = dep;
+                    }
+                }
+                if (dep.getTargetKind().equals(StartOrEnd.START)) {
+                    LocalDate newLocalDate = getlaterLocalDate(dep);
+                    if (laterStart == null || laterStart.isBefore(newLocalDate)) {
+                        laterStart = newLocalDate;
+                        winnerStart = dep;
+                    }
                 }
             }
             for (DependencyLink dep : workpackage.getDependencies()) {
-                if (dep.equals(winner)) {
-                    Workpackage bestSourceTask = (Workpackage) dep.getSource();
+                if ((dep.equals(winnerStart) && winnerEnd == null) || (dep.equals(winnerEnd) && winnerStart == null)) {
+                    Workpackage bestSourceWorkpackage = (Workpackage) dep.getSource();
                     setWorkpackageNewDates(workpackage, dep);
-                    if (bestSourceTask == sourceWorkpackage) {
+                    if (bestSourceWorkpackage == sourceWorkpackage) {
                         dependencies.add(workpackage);
                     }
+                } else if (dep.equals(winnerEnd)) {
+                    Workpackage bestSourceWorkpackage = (Workpackage) dep.getSource();
+                    setWorkpackageNewEndDate(workpackage, dep);
+                    if (bestSourceWorkpackage == sourceWorkpackage) {
+                        dependencies.add(workpackage);
+                    }
+                }
+                else if (dep.equals(winnerStart)) {
+                    Workpackage bestSourceWorkpackage = (Workpackage) dep.getSource();
+                    setWorkpackageNewStartDate(workpackage, dep);
+                    if (bestSourceWorkpackage == sourceWorkpackage) {
+                        dependencies.add(workpackage);
+                    }
+                }
+            }
+            if (winnerEnd != null && winnerStart != null) {
+                if (workpackage.getStartDate().isAfter(workpackage.getEndDate())) {
+                    workpackage.setDuration(1);
+                    workpackage.setEndDate(workpackage.getStartDate().plusDays(1));
+                    this.feedbackMessageService.addFeedbackMessage(new Message("Task dependencies overlap : End date has been changed to avoid to have end date before start date.", MessageLevel.WARNING));
                 }
             }
         }
@@ -372,23 +403,57 @@ public class PepperMMJavaService {
     private void followTaskMoveDependency(List<Task> targetTasks, Task sourceTask) {
         List<Task> dependencies = new ArrayList<>();
         for (Task task : targetTasks) {
-            //Get the strongest dependency link
-            DependencyLink winner = null;
-            Instant latterInstant = null;
+            //Get the strongest dependency links
+            DependencyLink winnerStart = null;
+            DependencyLink winnerEnd = null;
+            Instant laterInstantStart = null;
+            Instant laterInstantEnd = null;
             for (DependencyLink dep : task.getDependencies()) {
-                Instant newInstant = getLatterInstant(dep);
-                if (latterInstant == null || latterInstant.isBefore(newInstant)) {
-                    latterInstant = newInstant;
-                    winner = dep;
+                if (dep.getTargetKind().equals(StartOrEnd.END)) {
+                    Instant newInstant = getlaterInstant(dep);
+                    if (laterInstantEnd == null || laterInstantEnd.isBefore(newInstant)) {
+                        laterInstantEnd = newInstant;
+                        winnerEnd = dep;
+                    }
+                }
+                if (dep.getTargetKind().equals(StartOrEnd.START)) {
+                    Instant newInstant = getlaterInstant(dep);
+                    if (laterInstantStart == null || laterInstantStart.isBefore(newInstant)) {
+                        laterInstantStart = newInstant;
+                        winnerStart = dep;
+                    }
                 }
             }
             for (DependencyLink dep : task.getDependencies()) {
-                if (dep.equals(winner)) {
+                //if the task is only pointed to one extremity
+                if ((dep.equals(winnerStart) && winnerEnd == null) || (dep.equals(winnerEnd) && winnerStart == null)) {
                     Task bestSourceTask = (Task) dep.getSource();
                     setTaskNewDates(task, dep);
                     if (bestSourceTask == sourceTask) {
                         dependencies.add(task);
                     }
+                }
+                else if (dep.equals(winnerEnd)) {
+                    Task bestSourceTask = (Task) dep.getSource();
+                    setTaskNewEndDate(task, dep);
+                    if (bestSourceTask == sourceTask) {
+                        dependencies.add(task);
+                    }
+                }
+                else if (dep.equals(winnerStart)) {
+                    Task bestSourceTask = (Task) dep.getSource();
+                    setTaskNewStartDate(task, dep);
+                    if (bestSourceTask == sourceTask) {
+                        dependencies.add(task);
+                    }
+                }
+            }
+            if (winnerEnd != null && winnerStart != null) {
+                if (task.getEndTime().isBefore(task.getStartTime())) {
+                    Instant newEndTime = task.getStartTime().plus(12, ChronoUnit.HOURS);
+                    setTaskDuration(task, task.getStartTime(), newEndTime);
+                    task.setEndTime(newEndTime.minus(1, ChronoUnit.MINUTES));
+                    this.feedbackMessageService.addFeedbackMessage(new Message("Task dependencies overlap.", MessageLevel.ERROR));
                 }
             }
         }
@@ -421,6 +486,18 @@ public class PepperMMJavaService {
         return adjustment;
     }
 
+    /**
+     * Recalculates and updates the start and end dates of the specified target {@link Task}
+     *  according to the given {@link DependencyLink}.
+     * <p>
+     * The task duration is preserved during the calculation. Only the start and
+     * end instants are shifted to satisfy the dependency constraints.
+     *
+     * @param task the target {@link Task} whose start and end dates must be updated
+     *             according to the dependency
+     * @param dep the {@link DependencyLink} defining the relationship between the source
+     *           and the target tasks, including the dependency type and delay
+     */
     private void setTaskNewDates(Task task, DependencyLink dep) {
         Task bestSourceTask = (Task) dep.getSource();
         Instant sourceStart = bestSourceTask.getStartTime();
@@ -456,6 +533,49 @@ public class PepperMMJavaService {
             task.setEndTime(newTaskEnd);
             task.setStartTime(newTaskStart);
         }
+    }
+
+    /**
+     * Given an XXX-END {@link DependencyLink}, set the new end date of a given {@link Task}
+     */
+    private void setTaskNewEndDate(Task task, DependencyLink dep) {
+        Task bestSourceTask = (Task) dep.getSource();
+        Instant sourceStart = bestSourceTask.getStartTime();
+        Instant sourceEnd = bestSourceTask.getEndTime();
+        int delay = dep.getDuration();
+        StartOrEnd sourceStartOrEnd = dep.getSourceKind();
+        Instant newTaskEnd = task.getEndTime();
+        if (sourceStartOrEnd == StartOrEnd.END) {
+            newTaskEnd = sourceEnd.plus(delay, ChronoUnit.HOURS)
+                    .plus(endAdjustmentMinutes(bestSourceTask, task), ChronoUnit.MINUTES);
+        } else if (sourceStartOrEnd == StartOrEnd.START) {
+            newTaskEnd = sourceStart.plus(delay, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
+            if (isMilestone(task)) {
+                newTaskEnd = newTaskEnd.plus(1, ChronoUnit.MINUTES);
+            }
+        }
+        setTaskDuration(task, task.getStartTime(), newTaskEnd);
+        task.setEndTime(newTaskEnd);
+    }
+
+    /**
+     * Given an XXX-Start {@link DependencyLink}, set the new start date of a given {@link Task}
+     */
+    private void setTaskNewStartDate(Task task, DependencyLink dep) {
+        Task bestSourceTask = (Task) dep.getSource();
+        Instant sourceStart = bestSourceTask.getStartTime();
+        Instant sourceEnd = bestSourceTask.getEndTime();
+        int delay = dep.getDuration();
+        StartOrEnd sourceStartOrEnd = dep.getSourceKind();
+        Instant newTaskStart = task.getStartTime();
+        if (sourceStartOrEnd == StartOrEnd.END) {
+            newTaskStart = sourceEnd.plus(delay, ChronoUnit.HOURS)
+                    .plus(startAdjustmentMinutes(bestSourceTask), ChronoUnit.MINUTES);
+        } else if (sourceStartOrEnd == StartOrEnd.START) {
+            newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
+        }
+        setTaskDuration(task, task.getStartTime(), newTaskStart);
+        task.setStartTime(newTaskStart);
     }
 
     /**
@@ -505,7 +625,50 @@ public class PepperMMJavaService {
         }
     }
 
-    private static Instant getLatterInstant(DependencyLink dep) {
+    /**
+     * Given an XXX-END {@link DependencyLink}, set the new end date of a given {@link Workpackage}
+     */
+    private void setWorkpackageNewEndDate(Workpackage workpackage, DependencyLink dependencyLink) {
+        Workpackage bestSourceworkpackage = (Workpackage) dependencyLink.getSource();
+        LocalDate sourceStart = bestSourceworkpackage.getStartDate();
+        LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
+        LocalDate newWorkpackageEnd = workpackage.getEndDate();
+        StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
+        int delay = dependencyLink.getDuration();
+        if (sourceStartOrEnd.equals(StartOrEnd.START)) {
+            delay -= 1;
+        }
+        if (sourceStartOrEnd == StartOrEnd.END) {
+            newWorkpackageEnd = sourceEnd.plusDays(delay);
+
+        } else if (sourceStartOrEnd == StartOrEnd.START) {
+            newWorkpackageEnd = sourceStart.plusDays(delay);
+        }
+        workpackage.setDuration((int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
+        workpackage.setEndDate(newWorkpackageEnd);
+    }
+
+    /**
+     * Given an XXX-END {@link DependencyLink}, set the new end date of a given {@link Workpackage}
+     */
+    private void setWorkpackageNewStartDate(Workpackage workpackage, DependencyLink dependencyLink) {
+        Workpackage bestSourceworkpackage = (Workpackage) dependencyLink.getSource();
+        LocalDate sourceStart = bestSourceworkpackage.getStartDate();
+        LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
+        LocalDate newWorkpackageStart = workpackage.getEndDate();
+        StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
+        int delay = dependencyLink.getDuration() - 1;
+        if (sourceStartOrEnd == StartOrEnd.END) {
+            newWorkpackageStart = sourceEnd.plusDays(delay);
+
+        } else if (sourceStartOrEnd == StartOrEnd.START) {
+            newWorkpackageStart = sourceStart.plusDays(delay);
+        }
+        workpackage.setDuration((int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
+        workpackage.setStartDate(newWorkpackageStart);
+    }
+
+    private static Instant getlaterInstant(DependencyLink dep) {
         Instant laterInstant = null;
         Task source = (Task) dep.getSource();
         if (dep.getSourceKind() == StartOrEnd.END) {
@@ -516,15 +679,15 @@ public class PepperMMJavaService {
         return laterInstant;
     }
 
-    private LocalDate getLatterLocalDate(DependencyLink dep) {
-        LocalDate latterLocalDate = null;
+    private LocalDate getlaterLocalDate(DependencyLink dep) {
+        LocalDate laterLocalDate = null;
         Workpackage source = (Workpackage) dep.getSource();
         if (dep.getSourceKind() == StartOrEnd.END) {
-            latterLocalDate = source.getEndDate().plusDays(dep.getDuration());
+            laterLocalDate = source.getEndDate().plusDays(dep.getDuration());
         } else if (dep.getSourceKind() == StartOrEnd.START) {
-            latterLocalDate = source.getStartDate().plusDays(dep.getDuration());
+            laterLocalDate = source.getStartDate().plusDays(dep.getDuration());
         }
-        return latterLocalDate;
+        return laterLocalDate;
     }
 
     public List<Task> getTasksWithTag(TaskTag tag, Workpackage workpackage) {
