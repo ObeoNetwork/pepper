@@ -28,6 +28,11 @@ A `Workpackage` contains
 * a list of `Tasks`.
 `Tasks` is a fine-grained concept to describe the `Workpackage` 
 
+You can apply a calculation constraint to the `Workpackages` and `Tasks`. This constrainst influences either the duration, the end or the start date.
+
+image::calculation-option.png[Calculation options] 
+
+
 At root level, you can create `Organizations` that own the `Projects` and `ResourceFolders` which contain `Persons`, `Teams`, `InternalStakeholders` and `ExternalStakeholders`.
 
 image::concepts.png[Concepts] 
@@ -35,15 +40,16 @@ image::concepts.png[Concepts]
 == Starter
 
 To start the user need to create a Sirius project that will contain a model containing the concepts.
-By default, a blank model is created.
 You can add a new model by adding a blank or a sample model.
 The sample model is useful to see the concepts that are possible to create.
 
-image::create-peppermm-project.png[Create Project] 
+image::create-pepper-project.png[Create Project] 
 
 image::create-model-button.png[Create Model Button] 
 
-image::create-model-dialog.png[Create Model Dialog] 
+image::pepper-empty.png[Pepper empty project] 
+
+image::pepper-sample.png[Pepper sample project] 
 
 == Representations
 
@@ -75,9 +81,12 @@ In `Gantt` on `Workpackage`, the Gantt tasks represent the `Tasks` and sub `Task
 
 You can 
 
-* create new tasks
-* change the dates of the task by moving the task or changing in `Details` panel
-* reorder existing tasks or change the parent of a task
+* Create new tasks
+* Change the dates of the task by moving the task or changing in `Details` panel
+* Reorder existing tasks or change the parent of a task
+* Create dependencies between tasks. Dependencies can connect to either the start or end of a task and can originate from either the start or end of the source task.
+
+When multiple dependencies exist, the priority dependency is the one that pushes the task to the latest date.
 
 === Deck on Project and Workpackage
 
