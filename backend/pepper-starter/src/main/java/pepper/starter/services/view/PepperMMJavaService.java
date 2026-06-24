@@ -76,7 +76,7 @@ public class PepperMMJavaService {
             if (endTime != null && startTime != null) {
                 Instant newStartTime = startTime;
                 Instant newEndTime = endTime;
-                //set the instants to xx:00 for the start time and xx:59 for the end time
+                //set the new instants to xx:00 for the start time and xx:59 for the end time
                 if ((newEndTime.atZone(ZoneId.systemDefault()).getHour() == 0 || newEndTime.atZone(ZoneId.systemDefault()).getHour() == 12) && !startTime.equals(endTime)) {
                     newEndTime = newEndTime.minus(1, ChronoUnit.MINUTES);
                 }
@@ -86,15 +86,16 @@ public class PepperMMJavaService {
 
                 long differenceEnd = task.getEndTime().getEpochSecond() - newEndTime.getEpochSecond();
                 long differenceStart = task.getStartTime().getEpochSecond() - newStartTime.getEpochSecond();
+                boolean taskShifted = differenceEnd == differenceStart;
                 List<DependencyLink> dependencies = task.getDependencies();
-                boolean startTimeControlledByDependency =
-                        dependencies.stream()
-                                .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.START);
+                if (dependencies.isEmpty() || !taskShifted) {
+                    boolean startTimeControlledByDependency =
+                            dependencies.stream()
+                                    .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.START);
 
-                boolean endTimeControlledByDependency =
-                        dependencies.stream()
-                                .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
-                if (dependencies.isEmpty() || differenceEnd != differenceStart) {
+                    boolean endTimeControlledByDependency =
+                            dependencies.stream()
+                                    .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
                     if (startTimeControlledByDependency && !endTimeControlledByDependency) {
                         this.setTaskDuration(task, newStartTime, newEndTime);
                         newEndTime = newEndTime.plus(differenceStart, ChronoUnit.SECONDS);
@@ -308,7 +309,7 @@ public class PepperMMJavaService {
      *
      * @param sourceObject the object that has been moved
      */
-    private void followMoveDependency(DependencyRelatedObject sourceObject) {
+    public void followMoveDependency(DependencyRelatedObject sourceObject) {
         List<Task> targetTasks = new ArrayList<>();
         List<Workpackage> targetWorkpackages = new ArrayList<>();
         //get all tasks pointed by sourceTask
@@ -326,6 +327,7 @@ public class PepperMMJavaService {
         }
         if (sourceObject instanceof Task sourceTask) {
             this.followTaskMoveDependency(targetTasks, sourceTask);
+            followMoveDependenciesParent(sourceTask);
         }
         if (sourceObject instanceof Workpackage sourceWorkpackage) {
             this.followWorkpackageMoveDependency(targetWorkpackages, sourceWorkpackage);
@@ -489,6 +491,45 @@ public class PepperMMJavaService {
         return adjustment;
     }
 
+    private static Instant getTaskStartTime(Task task) {
+        if (task.isComputeStartEndDynamically()) {
+            return task.getSubTasks().stream()
+                    .map(PepperMMJavaService::getTaskStartTime)
+                    .min(Instant::compareTo)
+                    .orElse(task.getStartTime());
+        }
+        return task.getStartTime();
+    }
+
+    private static Instant getTaskEndTime(Task task) {
+        if (task.isComputeStartEndDynamically()) {
+            return task.getSubTasks().stream()
+                    .map(PepperMMJavaService::getTaskEndTime)
+                    .max(Instant::compareTo)
+                    .orElse(task.getEndTime());
+        }
+        return task.getEndTime();
+    }
+
+    /**
+     * Propagates dependency updates through the hierarchy of dynamically computed
+     * parent {@link Task}s.
+     * <p>
+     * The parent task hierarchy is traversed recursively and
+     * {@link #followMoveDependency(DependencyRelatedObject)} is invoked on each
+     * parent task.
+     *
+     * @param task the task from which dependency updates are propagated
+     */
+    public void followMoveDependenciesParent(Task task) {
+        if (task.eContainer() instanceof Task parentTask) {
+            if (parentTask.isComputeStartEndDynamically()) {
+                followMoveDependency(parentTask);
+                followMoveDependenciesParent(parentTask);
+            }
+        }
+    }
+
     /**
      * Recalculates and updates the start and end dates of the specified target {@link Task}
      *  according to the given {@link DependencyLink}.
@@ -503,8 +544,8 @@ public class PepperMMJavaService {
      */
     private void setTaskNewDates(Task task, DependencyLink dep) {
         Task bestSourceTask = (Task) dep.getSource();
-        Instant sourceStart = bestSourceTask.getStartTime();
-        Instant sourceEnd = bestSourceTask.getEndTime();
+        Instant sourceStart = getTaskStartTime(bestSourceTask);
+        Instant sourceEnd = getTaskEndTime(bestSourceTask);
         Instant oldTaskStart = task.getStartTime();
         Instant oldTaskEnd = task.getEndTime();
         int delay = dep.getDuration();
@@ -543,8 +584,8 @@ public class PepperMMJavaService {
      */
     private void setTaskNewEndDate(Task task, DependencyLink dep) {
         Task bestSourceTask = (Task) dep.getSource();
-        Instant sourceStart = bestSourceTask.getStartTime();
-        Instant sourceEnd = bestSourceTask.getEndTime();
+        Instant sourceStart = getTaskStartTime(bestSourceTask);
+        Instant sourceEnd = getTaskEndTime(bestSourceTask);
         int delay = dep.getDuration();
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         Instant newTaskEnd = task.getEndTime();
@@ -566,8 +607,8 @@ public class PepperMMJavaService {
      */
     private void setTaskNewStartDate(Task task, DependencyLink dep) {
         Task bestSourceTask = (Task) dep.getSource();
-        Instant sourceStart = bestSourceTask.getStartTime();
-        Instant sourceEnd = bestSourceTask.getEndTime();
+        Instant sourceStart = getTaskStartTime(bestSourceTask);
+        Instant sourceEnd = getTaskEndTime(bestSourceTask);
         int delay = dep.getDuration();
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         Instant newTaskStart = task.getStartTime();
@@ -675,9 +716,9 @@ public class PepperMMJavaService {
         Instant laterInstant = null;
         Task source = (Task) dep.getSource();
         if (dep.getSourceKind() == StartOrEnd.END) {
-            laterInstant = source.getEndTime().plus(dep.getDuration(), ChronoUnit.HOURS);
+            laterInstant = getTaskEndTime(source).plus(dep.getDuration(), ChronoUnit.HOURS);
         } else if (dep.getSourceKind() == StartOrEnd.START) {
-            laterInstant = source.getStartTime().plus(dep.getDuration(), ChronoUnit.HOURS);
+            laterInstant = getTaskStartTime(source).plus(dep.getDuration(), ChronoUnit.HOURS);
         }
         return laterInstant;
     }
