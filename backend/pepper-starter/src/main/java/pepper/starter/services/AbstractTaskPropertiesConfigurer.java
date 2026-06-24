@@ -525,7 +525,11 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     private IfDescription createComputeDynamicallyWidget() {
         CheckboxDescription computeDynamically = this.propertiesWidgetCreationService.createCheckbox("abstractTask.computeDynamically", abstractTaskAdapter.getString("_UI_AbstractTask_computeStartEndDynamically_feature"),
                 task -> ((AbstractTask) task).isComputeStartEndDynamically(),
-                (task, newValue) -> ((AbstractTask) task).setComputeStartEndDynamically(newValue),
+                (object, newValue) -> {
+                    Task task = (Task) object;
+                    task.setComputeStartEndDynamically(newValue);
+                    service.followMoveDependency(task);
+                },
                 PepperPackage.Literals.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY,
                 Optional.empty());
 

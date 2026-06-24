@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.gantt.StartOrEnd;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -60,11 +61,21 @@ public class PepperMMJavaServiceTests {
     private static final String DATE2024_01_02_T00_00_00 = "2024-01-02T00:00:00" + ZONE;
     private static final String DATE2024_01_02_T23_59_00 = "2024-01-02T23:59:00" + ZONE;
 
+    private final Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
+
+    @BeforeEach
+    public void beforeEach() {
+        ResourceSet resourceSet = new ResourceSetImpl();
+        Resource resource = new ResourceImpl();
+        resourceSet.getResources().add(resource);
+        ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
+        resourceSet.eAdapters().add(adapter);
+        resource.getContents().add(workpackage);
+    }
 
 
     @Test
     public void editTask() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setStartTime(Instant.now());
         task.setEndTime(Instant.now());
@@ -80,15 +91,6 @@ public class PepperMMJavaServiceTests {
 
     @Test
     public void editTaskWithDependency() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-
-        ResourceSet resourceSet = new ResourceSetImpl();
-        Resource resource = new ResourceImpl();
-        resourceSet.getResources().add(resource);
-        ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
-        resourceSet.eAdapters().add(adapter);
-        resource.getContents().add(workpackage);
-
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
         task.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
@@ -133,19 +135,50 @@ public class PepperMMJavaServiceTests {
         assertThat(task.getEndTime()).isEqualTo(taskDependency.getEndTime().plus(1, ChronoUnit.DAYS));
     }
 
+    @Test
+    public void editSubTaskOfDynamicTaskWithDependency() {
+        Task task1 = PepperFactory.eINSTANCE.createTask();
+        task1.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
+        task1.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
+
+        Task task2 = PepperFactory.eINSTANCE.createTask();
+        task2.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
+        task2.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
+
+        Task task3 = PepperFactory.eINSTANCE.createTask();
+        task3.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
+        task3.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
+
+        Task task31 = PepperFactory.eINSTANCE.createTask();
+        task31.setStartTime(Instant.parse(DATE2024_01_02_T00_00_00));
+        task31.setEndTime(Instant.parse(DATE2024_01_02_T23_59_00));
+
+        workpackage.getOwnedTasks().add(task1);
+        workpackage.getOwnedTasks().add(task2);
+        workpackage.getOwnedTasks().add(task3);
+        task3.getSubTasks().add(task31);
+        task3.setComputeStartEndDynamically(true);
+
+        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+
+        DependencyLink dependencyLinkFromTask3ToTask1 = PepperFactory.eINSTANCE.createDependencyLink();
+        dependencyLinkFromTask3ToTask1.setDuration(0);
+        dependencyLinkFromTask3ToTask1.setTargetKind(pepper.peppermm.StartOrEnd.START);
+        dependencyLinkFromTask3ToTask1.setSourceKind(pepper.peppermm.StartOrEnd.END);
+        dependencyLinkFromTask3ToTask1.setSource(task3);
+        task1.getDependencies().add(dependencyLinkFromTask3ToTask1);
+
+        service.editTask(task31, null, null, task31.getStartTime(), task31.getEndTime().plus(1, ChronoUnit.DAYS), null, true);
+
+        assertThat(task3.getSubTasks().size()).isEqualTo(1);
+        assertThat(task31.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00).plus(1, ChronoUnit.DAYS));
+        assertThat(task1.getStartTime()).isEqualTo(task31.getEndTime().plus(1, ChronoUnit.MINUTES));
+    }
+
 
 
     @Test
     public void createDependencyLink() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-
-        ResourceSet resourceSet = new ResourceSetImpl();
-        Resource resource = new ResourceImpl();
-        resourceSet.getResources().add(resource);
-        ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
-        resourceSet.eAdapters().add(adapter);
-        resource.getContents().add(workpackage);
-
         Task task = PepperFactory.eINSTANCE.createTask();
         task.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
         task.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
@@ -187,14 +220,6 @@ public class PepperMMJavaServiceTests {
 
     @Test
     public void deleteDependencyLink() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-
-        ResourceSet resourceSet = new ResourceSetImpl();
-        Resource resource = new ResourceImpl();
-        resourceSet.getResources().add(resource);
-        ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
-        resourceSet.eAdapters().add(adapter);
-        resource.getContents().add(workpackage);
 
         Task task1 = PepperFactory.eINSTANCE.createTask();
         task1.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
@@ -219,12 +244,12 @@ public class PepperMMJavaServiceTests {
         dependencyLinkFromTask1ToTask2.setSource(task2);
         task1.getDependencies().add(dependencyLinkFromTask1ToTask2);
 
-        DependencyLink dependencyLinkFromTask1ToTask3 = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkFromTask1ToTask3.setDuration(0);
-        dependencyLinkFromTask1ToTask3.setTargetKind(pepper.peppermm.StartOrEnd.START);
-        dependencyLinkFromTask1ToTask3.setSourceKind(pepper.peppermm.StartOrEnd.END);
-        dependencyLinkFromTask1ToTask3.setSource(task3);
-        task1.getDependencies().add(dependencyLinkFromTask1ToTask3);
+        DependencyLink dependencyLinkFromTask3ToTask1 = PepperFactory.eINSTANCE.createDependencyLink();
+        dependencyLinkFromTask3ToTask1.setDuration(0);
+        dependencyLinkFromTask3ToTask1.setTargetKind(pepper.peppermm.StartOrEnd.START);
+        dependencyLinkFromTask3ToTask1.setSourceKind(pepper.peppermm.StartOrEnd.END);
+        dependencyLinkFromTask3ToTask1.setSource(task3);
+        task1.getDependencies().add(dependencyLinkFromTask3ToTask1);
         assertThat(task1.getDependencies().size()).isEqualTo(2);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
@@ -258,8 +283,8 @@ public class PepperMMJavaServiceTests {
         TaskTag tag = PepperFactory.eINSTANCE.createTaskTag();
         TagFolder tagFolder = PepperFactory.eINSTANCE.createTagFolder();
         Project project = PepperFactory.eINSTANCE.createProject();
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        project.getOwnedWorkpackages().add(workpackage);
+        Workpackage projectWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        project.getOwnedWorkpackages().add(projectWorkpackage);
         project.getOwnedTagFolders().add(tagFolder);
         project.getOwnedTagFolders().get(0).getOwnedTags().add(tag);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
@@ -281,7 +306,6 @@ public class PepperMMJavaServiceTests {
         task1.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
         task1.getSubTasks().add(task11);
 
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.getOwnedTasks().add(task1);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
 
@@ -301,15 +325,6 @@ public class PepperMMJavaServiceTests {
 
     @Test
     public void deleteTask() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-
-        ResourceSet resourceSet = new ResourceSetImpl();
-        Resource resource = new ResourceImpl();
-        resourceSet.getResources().add(resource);
-        ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
-        resourceSet.eAdapters().add(adapter);
-        resource.getContents().add(workpackage);
-
         Task task11 = PepperFactory.eINSTANCE.createTask();
         task11.setStartTime(Instant.parse(DATE2024_01_01_T00_00_00));
         task11.setEndTime(Instant.parse(DATE2024_01_01_T23_59_00));
@@ -344,13 +359,13 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createWorkpackage() {
         Project project = PepperFactory.eINSTANCE.createProject();
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        workpackage.setStartDate(LocalDate.ofYearDay(2026, 1));
-        workpackage.setEndDate(LocalDate.ofYearDay(2026, 3));
-        project.getOwnedWorkpackages().add(workpackage);
+        Workpackage projectWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        projectWorkpackage.setStartDate(LocalDate.ofYearDay(2026, 1));
+        projectWorkpackage.setEndDate(LocalDate.ofYearDay(2026, 3));
+        project.getOwnedWorkpackages().add(projectWorkpackage);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.createWorkpackage(workpackage);
+        service.createWorkpackage(projectWorkpackage);
         assertThat(project.getOwnedWorkpackages()).hasSize(2);
         assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 4));
         assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(LocalDate.ofYearDay(2026, 6));
@@ -358,7 +373,6 @@ public class PepperMMJavaServiceTests {
 
     @Test
     public void editWorkpackage() {
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.setStartDate(LocalDate.ofYearDay(2026, 5));
         workpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
 
@@ -374,14 +388,14 @@ public class PepperMMJavaServiceTests {
     @Test
     public void deleteWorkpackage() {
         Project project = PepperFactory.eINSTANCE.createProject();
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        workpackage.setStartDate(LocalDate.ofYearDay(2026, 5));
-        workpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
-        project.getOwnedWorkpackages().add(workpackage);
+        Workpackage projectWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        projectWorkpackage.setStartDate(LocalDate.ofYearDay(2026, 5));
+        projectWorkpackage.setEndDate(LocalDate.ofYearDay(2026, 8));
+        project.getOwnedWorkpackages().add(projectWorkpackage);
         assertThat(project.getOwnedWorkpackages()).hasSize(1);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.deleteWorkpackage(workpackage);
+        service.deleteWorkpackage(projectWorkpackage);
         assertThat(project.getOwnedWorkpackages()).hasSize(0);
     }
 }
