@@ -50,6 +50,20 @@ public final class MessageConstants {
 
     public static final String PAGE_RISKS_TITLE = "PAGE_RISKS_TITLE";
 
+    public static final String RESOURCE_FORM_TITLE = "RESOURCE_FORM_TITLE";
+
+    public static final String PAGE_RESOURCE_AVAILABILITY = "PAGE_RESOURCE_AVAILABILITY";
+
+    public static final String PAGE_RESOURCE_AVAILABILITY_TITLE = "PAGE_RESOURCE_AVAILABILITY_TITLE";
+
+    public static final String UNAVAILABILITY_PERIOD_FORM_TITLE = "UNAVAILABILITY_PERIOD_FORM_TITLE";
+
+    public static final String CREATE_NEW_UNAVAILABILITY_PERIOD = "CREATE_NEW_UNAVAILABILITY_PERIOD";
+
+    public static final String CREATE_NEW_UNAVAILABILITY_PERIOD_HELP = "CREATE_NEW_UNAVAILABILITY_PERIOD_HELP";
+
+    public static final String DELETE_UNAVAILABILITY_PERIOD = "DELETE_UNAVAILABILITY_PERIOD";
+
     public static final String INVALID_INPUT = "INVALID_INPUT";
 
     public static final String CREATE_NEW_WORKPACKAGE = "CREATE_NEW_WORKPACKAGE";
