@@ -1,5 +1,19 @@
 = Changelog
 
+== v2026.X.X
+
+=== Dependency update
+
+
+=== New features
+- https://github.com/ObeoNetwork/pepper/issues/54[#54] Add an option to choose task time granularity
+
+=== Improvements
+
+
+=== Bug fixes
+
+
 == v2026.6.1
 
 === Dependency update

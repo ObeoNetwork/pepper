@@ -62,6 +62,7 @@ import org.springframework.stereotype.Service;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
+import pepper.peppermm.DurationViewMode;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.Project;
@@ -160,6 +161,9 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
         var endTime = this.getEndTimeWidget();
         controls.add(endTime);
+
+        var viewDurationMode = this.getViewDurationModeWidget();
+        controls.add(viewDurationMode);
 
         var duration = this.getDurationWidget();
         controls.add(duration);
@@ -275,11 +279,93 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .build();
     }
 
+    private RadioDescription getViewDurationModeWidget() {
+        Function<VariableManager, Boolean> optionSelectedProvider = variableManager -> {
+            var optionalDurationViewMode = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, DurationViewMode.class);
+            if (optionalDurationViewMode.isPresent()) {
+                DurationViewMode durationViewMode = optionalDurationViewMode.get();
+                String optionLitteralId = Integer.valueOf(durationViewMode.getValue()).toString();
+                var optionalValue = variableManager.get(VariableManager.SELF, AbstractTask.class)
+                        .map(AbstractTask::getDurationViewMode)
+                        .map(DurationViewMode::getValue)
+                        .map(String::valueOf);
+                if (optionalValue.isPresent()) {
+                    String value = optionalValue.get();
+                    return optionLitteralId.equals(value);
+                }
+            }
+            return false;
+        };
+
+        BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
+            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
+            if (taskOpt.isPresent()) {
+                if (newValue == null || newValue.isBlank()) {
+                    taskOpt.get().setDurationViewMode(DurationViewMode.HOURS);
+                } else {
+                    int integer = Integer.parseInt(newValue);
+                    DurationViewMode newMode = DurationViewMode.get(integer);
+                    taskOpt.get().setDurationViewMode(newMode);
+                }
+                return new Success();
+            } else {
+                return new Failure("");
+            }
+        };
+
+        Function<VariableManager, String> optionLabelProvider = variableManager -> {
+            var durationViewModeOpt = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, DurationViewMode.class);
+            String label = "";
+            if (durationViewModeOpt.isPresent()) {
+                DurationViewMode durationViewMode = durationViewModeOpt.get();
+                if (durationViewMode.equals(DurationViewMode.DAYS)) {
+                    label = abstractTaskAdapter.getString("_UI_DurationViewMode_Days_feature");
+                }
+                else {
+                    label = abstractTaskAdapter.getString("_UI_DurationViewMode_Hours_feature");
+                }
+            }
+            return label;
+        };
+
+        String id = "abstractTask.durationViewMode";
+        return RadioDescription.newRadioDescription(id)
+                .idProvider(variableManager -> id)
+                .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
+                .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_durationViewMode_feature"))
+                .isReadOnlyProvider(variableManager -> false)
+                .optionSelectedProvider(optionSelectedProvider)
+                .optionsProvider(variableManager -> DurationViewMode.VALUES)
+                .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, DurationViewMode.class)
+                        .map(DurationViewMode::getValue)
+                        .map(String::valueOf)
+                        .orElse(""))
+                .optionLabelProvider(optionLabelProvider)
+                .newValueHandler(newValueHandler)
+                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__DURATION_VIEW_MODE))
+                .kindProvider(this.propertiesConfigurerService.getKindProvider())
+                .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .build();
+    }
+
     private TextfieldDescription getDurationWidget() {
-        Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
-                .map(AbstractTask::getDuration)
-                .map(String::valueOf)
-                .orElse("0");
+        Function<VariableManager, String> valueProvider = variableManager -> {
+            var durationOpt = variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(AbstractTask::getDuration);
+            var durationViewModeOpt = variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(AbstractTask::getDurationViewMode);
+            String value = "0";
+            if (durationOpt.isPresent() && durationViewModeOpt.isPresent()) {
+                int duration = durationOpt.get();
+                DurationViewMode durationViewMode = durationViewModeOpt.get();
+                if (durationViewMode.equals(DurationViewMode.DAYS)) {
+                    value = String.valueOf((duration / 12) * 0.5);
+                } else {
+                    value = String.valueOf(duration);
+                }
+            }
+            return value;
+        };
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
             var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
@@ -287,10 +373,16 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                     taskOpt.get().setDuration(0);
                 } else {
                     try {
-                        int integer = Integer.parseInt(newValue);
+                        int integer;
                         var task = taskOpt.get();
+                        DurationViewMode durationViewMode = taskOpt.get().getDurationViewMode();
+                        if (durationViewMode.equals(DurationViewMode.DAYS)) {
+                            integer = (int) (Float.parseFloat(newValue) * 24);
+                        } else {
+                            integer = Integer.parseInt(newValue);
+                        }
                         task.setDuration(integer);
-                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
+                        service.followMoveDependency((DependencyRelatedObject) task);
                     } catch (NumberFormatException e) {
                         // Ignore
                     }
@@ -301,6 +393,17 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             }
         };
 
+        Function<VariableManager, String> labelProvider = variableManager -> {
+            var durationViewModeOpt = variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(AbstractTask::getDurationViewMode);
+            String label = abstractTaskAdapter.getString("_UI_AbstractTask_duration_feature");
+            DurationViewMode durationViewMode = durationViewModeOpt.get();
+            if (durationViewMode.equals(DurationViewMode.DAYS)) {
+                return abstractTaskAdapter.getString("_UI_AbstractTask_duration_Days_feature");
+            }
+            return label;
+        };
+
         String id = "abstractTask.duration";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
@@ -308,7 +411,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
-                .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_duration_feature"))
+                .labelProvider(labelProvider)
                 .valueProvider(valueProvider)
                 .newValueHandler(newValueHandler)
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__DURATION))

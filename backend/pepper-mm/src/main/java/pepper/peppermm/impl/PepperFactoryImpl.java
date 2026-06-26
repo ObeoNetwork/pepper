@@ -124,6 +124,8 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
                 return createStartOrEndFromString(eDataType, initialValue);
             case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
                 return createTaskTimeBoundariesConstraintFromString(eDataType, initialValue);
+            case PepperPackage.DURATION_VIEW_MODE:
+                return createDurationViewModeFromString(eDataType, initialValue);
             case PepperPackage.DATE:
                 return createDateFromString(eDataType, initialValue);
             case PepperPackage.INSTANT:
@@ -153,6 +155,8 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
                 return convertStartOrEndToString(eDataType, instanceValue);
             case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
                 return convertTaskTimeBoundariesConstraintToString(eDataType, instanceValue);
+            case PepperPackage.DURATION_VIEW_MODE:
+                return convertDurationViewModeToString(eDataType, instanceValue);
             case PepperPackage.DATE:
                 return convertDateToString(eDataType, instanceValue);
             case PepperPackage.INSTANT:
@@ -399,6 +403,27 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
      * @generated
      */
     public String convertTaskTimeBoundariesConstraintToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public DurationViewMode createDurationViewModeFromString(EDataType eDataType, String initialValue) {
+        DurationViewMode result = DurationViewMode.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertDurationViewModeToString(EDataType eDataType, Object instanceValue) {
         return instanceValue == null ? null : instanceValue.toString();
     }
 

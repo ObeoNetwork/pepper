@@ -50,6 +50,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationOption" eType="#//TaskTimeBoundariesConstraint"
         defaultValueLiteral="START_END"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="durationViewMode" eType="#//DurationViewMode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TagFolder">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -214,4 +215,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.time.LocalDate"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Instant" instanceClassName="java.time.Instant"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DurationViewMode">
+    <eLiterals name="Hours" literal="HOURS"/>
+    <eLiterals name="Days" value="1" literal="DAYS"/>
+  </eClassifiers>
 </ecore:EPackage>

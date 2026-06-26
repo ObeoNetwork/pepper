@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.DurationViewMode;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.Task;
@@ -263,6 +264,26 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
      * @ordered
      */
     protected int duration = DURATION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getDurationViewMode() <em>Duration View Mode</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @see #getDurationViewMode()
+     * @generated
+     * @ordered
+     */
+    protected static final DurationViewMode DURATION_VIEW_MODE_EDEFAULT = DurationViewMode.HOURS;
+
+    /**
+     * The cached value of the '{@link #getDurationViewMode() <em>Duration View Mode</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @see #getDurationViewMode()
+     * @generated
+     * @ordered
+     */
+    protected DurationViewMode durationViewMode = DURATION_VIEW_MODE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -572,6 +593,29 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    @Override
+    public DurationViewMode getDurationViewMode() {
+        return durationViewMode;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    @Override
+    public void setDurationViewMode(DurationViewMode newDurationViewMode) {
+        DurationViewMode oldDurationViewMode = durationViewMode;
+        durationViewMode = newDurationViewMode == null ? DURATION_VIEW_MODE_EDEFAULT : newDurationViewMode;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE, oldDurationViewMode, durationViewMode));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
@@ -617,6 +661,8 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
                 return getCalculationOption();
             case PepperPackage.ABSTRACT_TASK__DURATION:
                 return getDuration();
+            case PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE:
+                return getDurationViewMode();
             default:
                 return super.eGet(featureID, resolve, coreType);
         }
@@ -671,6 +717,9 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
             case PepperPackage.ABSTRACT_TASK__DURATION:
                 setDuration((Integer) newValue);
                 return;
+            case PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE:
+                setDurationViewMode((DurationViewMode) newValue);
+                return;
             default:
                 super.eSet(featureID, newValue);
                 return;
@@ -721,6 +770,9 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
             case PepperPackage.ABSTRACT_TASK__DURATION:
                 setDuration(DURATION_EDEFAULT);
                 return;
+            case PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE:
+                setDurationViewMode(DURATION_VIEW_MODE_EDEFAULT);
+                return;
             default:
                 super.eUnset(featureID);
                 return;
@@ -759,6 +811,8 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
                 return calculationOption != CALCULATION_OPTION_EDEFAULT;
             case PepperPackage.ABSTRACT_TASK__DURATION:
                 return duration != DURATION_EDEFAULT;
+            case PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE:
+                return durationViewMode != DURATION_VIEW_MODE_EDEFAULT;
             default:
                 return super.eIsSet(featureID);
         }
@@ -791,6 +845,8 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
         result.append(calculationOption);
         result.append(", duration: ");
         result.append(duration);
+        result.append(", durationViewMode: ");
+        result.append(durationViewMode);
         result.append(')');
         return result.toString();
     }

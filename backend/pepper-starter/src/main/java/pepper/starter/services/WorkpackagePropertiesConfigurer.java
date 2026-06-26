@@ -276,7 +276,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                         int integer = Integer.parseInt(newValue);
                         var workpackage = workpackageOpt.get();
                         workpackage.setDuration(integer);
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getProgress(), true);
+                        service.followMoveDependency(workpackage);
                     } catch (NumberFormatException e) {
                         // Ignore
                     }
