@@ -12,6 +12,7 @@
  ******************************************************************************/
 package pepper.starter.services.view;
 
+import graphql.util.Pair;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -25,11 +26,13 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
 import pepper.peppermm.Workpackage;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -131,17 +134,16 @@ public class PepperMMJavaService {
                     if (startTimeControlledByDependency && !endTimeControlledByDependency) {
                         this.setTaskDuration(task, newStartTime, newEndTime);
                         newEndTime = newEndTime.plus(differenceStart, ChronoUnit.SECONDS);
-                        task.setEndTime(newEndTime);
+                        adjustTaskTimesHoliday(task, task.getStartTime(), newEndTime);
                     } else if (!startTimeControlledByDependency && endTimeControlledByDependency) {
                         this.setTaskDuration(task, newStartTime, newEndTime);
                         newStartTime = newStartTime.plus(differenceEnd, ChronoUnit.SECONDS);
-                        task.setStartTime(newStartTime);
+                        adjustTaskTimesHoliday(task, newStartTime, task.getEndTime());
                     } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
                         if (!keepDuration) {
                             this.setTaskDuration(task, newStartTime, newEndTime);
                         }
-                        task.setStartTime(newStartTime);
-                        task.setEndTime(newEndTime);
+                        adjustTaskTimesHoliday(task, newStartTime, newEndTime);
                     }
                     if (!startTimeControlledByDependency || !endTimeControlledByDependency) {
                         followMoveDependency(task);
@@ -165,13 +167,13 @@ public class PepperMMJavaService {
         if (context instanceof AbstractTask abstractTask) {
             // The new task follows the context task and has the same duration as the context task.
             if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
+                Instant start = abstractTask.getEndTime();
+                Instant end = Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond());
                 if (abstractTask.getEndTime().equals(abstractTask.getStartTime())) {
                     // If the task is a Milestone
-                    task.setStartTime(abstractTask.getEndTime());
-                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()));
+                    adjustTaskTimesHoliday(task, start, end);
                 } else {
-                    task.setStartTime(abstractTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-                    task.setEndTime(Instant.ofEpochSecond(2 * abstractTask.getEndTime().getEpochSecond() - abstractTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+                    adjustTaskTimesHoliday(task, start.plus(1, ChronoUnit.MINUTES), end.plus(1, ChronoUnit.MINUTES));
                 }
             }
 
@@ -183,12 +185,57 @@ public class PepperMMJavaService {
                 int index = parentTask.getSubTasks().indexOf(context);
                 parentTask.getSubTasks().add(index + 1, task);
             }
-        } else if (context instanceof Workpackage workpackage) {
-            long epochSecondStartTime = Instant.now().getEpochSecond();
-            task.setStartTime(Instant.ofEpochMilli(epochSecondStartTime));
-            task.setEndTime(Instant.ofEpochMilli(epochSecondStartTime + 3600 * 4));
+        }
+    }
 
-            workpackage.getOwnedTasks().add(task);
+    private void adjustTaskTimesHoliday(Task task, Instant start, Instant end) {
+        Pair<Instant, Instant> startEnd = new Pair<>(start, end);
+        if (isInstantHoliday(start, true) || isInstantHoliday(end, false)) {
+            startEnd = adjustTaskHoliday(start, end);
+        }
+        task.setStartTime(startEnd.first);
+        task.setEndTime(startEnd.second);
+    }
+
+    private Pair<Instant, Instant> adjustTaskHoliday(Instant start, Instant end) {
+        Instant newStart = start;
+        Instant newEnd = end;
+
+        while (isInstantHoliday(newStart, true)) {
+            newStart = newStart.plus(12, ChronoUnit.HOURS); //TEMPORAIRE
+        }
+        long durationChange = newStart.getEpochSecond() - start.getEpochSecond();
+        newEnd = newEnd.plusSeconds(durationChange);
+        while (isInstantHoliday(newEnd, false)) {
+            newEnd = newEnd.plus(12, ChronoUnit.HOURS); //TEMPORAIRE
+        }
+
+        return new Pair<>(newStart, newEnd);
+    }
+
+    private boolean isNonWorkingDay(Temporal temporal) {
+        LocalDate date = null;
+        if (temporal instanceof Instant instant) {
+            date = LocalDate.ofInstant(instant, ZoneId.systemDefault());
+        } else if (temporal instanceof LocalDate localDate) {
+            date = localDate;
+        }
+        return date != null && (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY));
+    }
+
+    private boolean isInstantHoliday(Instant instant, boolean isStartOfTask) {
+        boolean isNonWorkingDay = isNonWorkingDay(instant);
+        boolean isPreviousNonWorkingDay = isNonWorkingDay(instant.minus(1, ChronoUnit.DAYS));
+        if (isStartOfTask) {
+            return isNonWorkingDay;
+        } else {
+            int hours = instant.atZone(ZoneId.systemDefault()).getHour();
+            int minutes = instant.atZone(ZoneId.systemDefault()).getMinute();
+            boolean isDayStart = hours == 0 && minutes == 0;
+            boolean cond1 = isNonWorkingDay && !isPreviousNonWorkingDay && !isDayStart;
+            boolean cond2 = isNonWorkingDay && isPreviousNonWorkingDay;
+            boolean cond3 = !isNonWorkingDay && isPreviousNonWorkingDay && isDayStart;
+            return cond1 || cond2 || cond3;
         }
     }
 
@@ -587,27 +634,23 @@ public class PepperMMJavaService {
             Instant newTaskStart = sourceEnd.plus(delay, ChronoUnit.HOURS)
                             .plus(startAdjustmentMinutes(bestSourceTask), ChronoUnit.MINUTES);
             Instant newTaskEnd = Instant.ofEpochSecond(newTaskStart.getEpochSecond() + oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond());
-            task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            adjustTaskTimesHoliday(task, newTaskStart, newTaskEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             Instant newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
             Instant newTaskEnd = Instant.ofEpochSecond(newTaskStart.getEpochSecond() + oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond());
-            task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            adjustTaskTimesHoliday(task, newTaskStart, newTaskEnd);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             Instant newTaskEnd = sourceEnd.plus(delay, ChronoUnit.HOURS)
                             .plus(endAdjustmentMinutes(bestSourceTask, task), ChronoUnit.MINUTES);
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
-            task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            adjustTaskTimesHoliday(task, newTaskStart, newTaskEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             Instant newTaskEnd = sourceStart.plus(delay, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
             if (isMilestone(task)) {
                 newTaskEnd = newTaskEnd.plus(1, ChronoUnit.MINUTES);
             }
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
-            task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            adjustTaskTimesHoliday(task, newTaskStart, newTaskEnd);
         }
     }
 
@@ -631,7 +674,7 @@ public class PepperMMJavaService {
             }
         }
         setTaskDuration(task, task.getStartTime(), newTaskEnd);
-        task.setEndTime(newTaskEnd);
+        adjustTaskTimesHoliday(task, task.getStartTime(), newTaskEnd);
     }
 
     /**
@@ -651,7 +694,7 @@ public class PepperMMJavaService {
             newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
         }
         setTaskDuration(task, task.getStartTime(), newTaskStart);
-        task.setStartTime(newTaskStart);
+        adjustTaskTimesHoliday(task, newTaskStart, task.getEndTime());
     }
 
     /**
@@ -681,23 +724,19 @@ public class PepperMMJavaService {
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceEnd.plusDays(delay);
             LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            adjustWorkpackageDatesHoliday(workpackage, newWorkpackageStart, newWorkpackageEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceStart.plusDays(delay);
             LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            adjustWorkpackageDatesHoliday(workpackage, newWorkpackageStart, newWorkpackageEnd);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceEnd.plusDays(delay);
             LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            adjustWorkpackageDatesHoliday(workpackage, newWorkpackageStart, newWorkpackageEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceStart.plusDays(delay);
             LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            adjustWorkpackageDatesHoliday(workpackage, newWorkpackageStart, newWorkpackageEnd);
         }
     }
 
@@ -721,7 +760,7 @@ public class PepperMMJavaService {
             newWorkpackageEnd = sourceStart.plusDays(delay);
         }
         workpackage.setDuration((int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
-        workpackage.setEndDate(newWorkpackageEnd);
+        adjustWorkpackageDatesHoliday(workpackage, workpackage.getStartDate(), newWorkpackageEnd);
     }
 
     /**
@@ -741,7 +780,7 @@ public class PepperMMJavaService {
             newWorkpackageStart = sourceStart.plusDays(delay);
         }
         workpackage.setDuration((int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
-        workpackage.setStartDate(newWorkpackageStart);
+        adjustWorkpackageDatesHoliday(workpackage, newWorkpackageStart, workpackage.getEndDate());
     }
 
     private static Instant getlaterInstant(DependencyLink dep) {
@@ -861,10 +900,11 @@ public class PepperMMJavaService {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
         newWorkpackage.setName("New Workpackage");
         if (context instanceof Workpackage workpackage) {
-            // The new task follows the context task and has the same duration than the context task.
+            // The new task follows the context task and has the same duration as the context task.
             if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                newWorkpackage.setStartDate(workpackage.getEndDate().plusDays(1));
-                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
+                LocalDate start = workpackage.getEndDate().plusDays(1);
+                LocalDate end = workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1);
+                adjustWorkpackageDatesHoliday(newWorkpackage, start, end);
             }
 
             EObject parent = context.eContainer();
@@ -872,12 +912,6 @@ public class PepperMMJavaService {
                 int index = project.getOwnedWorkpackages().indexOf(context);
                 project.getOwnedWorkpackages().add(index + 1, newWorkpackage);
             }
-        } else if (context instanceof Project project) {
-            LocalDate now = LocalDate.now();
-            newWorkpackage.setStartDate(now);
-            newWorkpackage.setEndDate(now.plusDays(28));
-
-            project.getOwnedWorkpackages().add(newWorkpackage);
         }
     }
 
@@ -910,16 +944,15 @@ public class PepperMMJavaService {
                 if (dependencies.isEmpty() || differenceEnd != differenceStart) {
                     if (startDateControlledByDependency && !endDateControlledByDependency) {
                         this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackage.setEndDate(endDate.plusDays(differenceStart));
+                        adjustWorkpackageDatesHoliday(workpackage, workpackage.getStartDate(), endDate.plusDays(differenceStart));
                     } else if (endDateControlledByDependency && !startDateControlledByDependency) {
                         this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackage.setStartDate(startDate.plusDays(differenceEnd));
+                        adjustWorkpackageDatesHoliday(workpackage, startDate.plusDays(differenceEnd), workpackage.getEndDate());
                     } else if (!startDateControlledByDependency && !endDateControlledByDependency) {
                         if (!keepDuration) {
                             this.workpackageSetDuration(workpackage, startDate, endDate);
                         }
-                        workpackage.setStartDate(startDate);
-                        workpackage.setEndDate(endDate);
+                        adjustWorkpackageDatesHoliday(workpackage, startDate, endDate);
                     }
                     if (!startDateControlledByDependency || !endDateControlledByDependency) {
                         followMoveDependency(workpackage);
@@ -930,6 +963,32 @@ public class PepperMMJavaService {
                 workpackage.setProgress(progress);
             }
         }
+    }
+
+    private void adjustWorkpackageDatesHoliday(Workpackage workpackage, LocalDate start, LocalDate end) {
+        Pair<LocalDate, LocalDate> startEnd = new Pair<>(start, end);
+        if (isNonWorkingDay(start) || isNonWorkingDay(end)) {
+            startEnd = adjustWorkpackageHoliday(start, end);
+        }
+        workpackage.setStartDate(startEnd.first);
+        workpackage.setEndDate(startEnd.second);
+    }
+
+    private Pair<LocalDate, LocalDate> adjustWorkpackageHoliday(LocalDate start, LocalDate end) {
+        LocalDate newStart = start;
+        LocalDate newEnd = end;
+
+        while (isNonWorkingDay(newStart)) {
+            newStart = newStart.plusDays(1); //TEMPORAIRE
+        }
+
+        long durationChange = newStart.toEpochDay() - start.toEpochDay();
+        newEnd = newEnd.plusDays(durationChange);
+        while (isNonWorkingDay(newEnd)) {
+            newEnd = newEnd.plusDays(1); //TEMPORAIRE
+        }
+
+        return new Pair<>(newStart, newEnd);
     }
 
     private void workpackageSetDuration(Workpackage workpackage, LocalDate start, LocalDate end) {
