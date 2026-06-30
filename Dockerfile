@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine-3.20
+FROM eclipse-temurin:21-jre
 RUN adduser --disabled-password pepperuser
 COPY ./backend/pepper-application/target/pepper-application.jar /opt/app/pepper-application.jar
 
