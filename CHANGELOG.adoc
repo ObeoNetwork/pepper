@@ -12,6 +12,7 @@
 
 === Bug fixes
 
+- https://github.com/ObeoNetwork/pepper/issues/74[#74] Improve dates in Pepper Sample template
 
 == v2026.6.0
 

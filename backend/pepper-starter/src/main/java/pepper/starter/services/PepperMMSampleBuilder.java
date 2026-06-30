@@ -67,6 +67,7 @@ public class PepperMMSampleBuilder {
     private static final String DATE_2023_12_12T23_59_00Z = "2023-12-12T23:59:00" + ZONE;
     private static final String DATE_2023_12_15T23_59_00Z = "2023-12-15T23:59:00" + ZONE;
     private static final String DATE_2023_12_11T23_59_00Z = "2023-12-11T23:59:00" + ZONE;
+    private static final String DATE_2023_12_14T23_59_00Z = "2023-12-14T23:59:00" + ZONE;
     private static final String DATE_2023_12_13T00_00_00Z = "2023-12-13T00:00:00" + ZONE;
     private static final String DATE_2023_12_16T23_59_00Z = "2023-12-16T23:59:00" + ZONE;
     private static final String DATE_2023_12_18T00_00_00Z = "2023-12-18T00:00:00" + ZONE;
@@ -136,14 +137,14 @@ public class PepperMMSampleBuilder {
         Task idea = PepperFactory.eINSTANCE.createTask();
         idea.setName(IDEA);
         idea.setDescription("Description of the Idea");
-        idea.setStartTime(Instant.parse(DATE_2023_12_10T00_00_00Z));
-        idea.setEndTime(Instant.parse(DATE_2023_12_11T23_59_00Z));
+        idea.setStartTime(Instant.parse(DATE_2023_12_11T00_00_00Z));
+        idea.setEndTime(Instant.parse(DATE_2023_12_12T23_59_00Z));
         idea.setProgress(50);
         Task spec = PepperFactory.eINSTANCE.createTask();
         spec.setName(SPECIFICATION);
         spec.setDescription("Description of the Specification");
-        spec.setStartTime(Instant.parse(DATE_2023_12_11T00_00_00Z));
-        spec.setEndTime(Instant.parse(DATE_2023_12_12T23_59_00Z));
+        spec.setStartTime(Instant.parse(DATE_2023_12_13T00_00_00Z));
+        spec.setEndTime(Instant.parse(DATE_2023_12_14T23_59_00Z));
         spec.setProgress(50);
 
         DependencyLink depSpecToIdea = PepperFactory.eINSTANCE.createDependencyLink();
@@ -155,10 +156,6 @@ public class PepperMMSampleBuilder {
         development.setStartTime(Instant.parse(DATE_2023_12_13T00_00_00Z));
         development.setEndTime(Instant.parse(DATE_2023_12_16T23_59_00Z));
         development.setComputeStartEndDynamically(true);
-
-        DependencyLink depDevelopmentToSpec = PepperFactory.eINSTANCE.createDependencyLink();
-        depDevelopmentToSpec.setSource(spec);
-        development.getDependencies().add(depDevelopmentToSpec);
 
         Task codeDev = createCodeDev(peter);
         Task frontDev = PepperFactory.eINSTANCE.createTask();
