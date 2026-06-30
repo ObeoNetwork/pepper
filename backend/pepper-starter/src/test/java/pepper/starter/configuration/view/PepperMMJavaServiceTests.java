@@ -81,11 +81,11 @@ public class PepperMMJavaServiceTests {
         task.setEndTime(Instant.now());
         workpackage.getOwnedTasks().add(task);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
-        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.ofEpochSecond(1704067200), Instant.ofEpochSecond(1704070800), 10, false);
+        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.parse(DATE2024_01_01_T00_00_00), Instant.parse(DATE2024_01_01_T23_59_00), 10, false);
         assertThat(task.getName()).isEqualTo(NEW_NAME);
         assertThat(task.getDescription()).isEqualTo(NEW_DESCRIPTION);
-        assertThat(task.getStartTime().getEpochSecond()).isEqualTo(1704067200);
-        assertThat(task.getEndTime().getEpochSecond()).isEqualTo(1704070800);
+        assertThat(task.getStartTime()).isEqualTo(Instant.parse(DATE2024_01_01_T00_00_00));
+        assertThat(task.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_01_T23_59_00));
         assertThat(task.getProgress()).isEqualTo(10);
     }
 
