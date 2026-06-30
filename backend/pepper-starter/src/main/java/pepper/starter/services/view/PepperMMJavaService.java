@@ -28,6 +28,7 @@ import pepper.peppermm.Workpackage;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +61,8 @@ public class PepperMMJavaService {
 
     private final IFeedbackMessageService feedbackMessageService;
 
+    private final ZoneId zone = ZoneId.systemDefault();
+
     public PepperMMJavaService(IFeedbackMessageService feedbackMessageService) {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
     }
@@ -74,14 +77,43 @@ public class PepperMMJavaService {
                 task.setDescription(description);
             }
             if (endTime != null && startTime != null) {
-                Instant newStartTime = startTime;
-                Instant newEndTime = endTime;
                 //set the new instants to xx:00 for the start time and xx:59 for the end time
-                if ((newEndTime.atZone(ZoneId.systemDefault()).getHour() == 0 || newEndTime.atZone(ZoneId.systemDefault()).getHour() == 12) && !startTime.equals(endTime)) {
-                    newEndTime = newEndTime.minus(1, ChronoUnit.MINUTES);
+                ZonedDateTime zonedDateTimeStart = startTime.atZone(zone);
+                Instant newStartTime;
+                if (zonedDateTimeStart.getHour() < 6) {
+                    newStartTime = zonedDateTimeStart.withHour(0)
+                            .withMinute(0)
+                            .toInstant();
+                } else if (zonedDateTimeStart.getHour() <= 18) {
+                    newStartTime = zonedDateTimeStart.withHour(12)
+                            .withMinute(0)
+                            .toInstant();
+                } else {
+                    newStartTime = zonedDateTimeStart.withHour(0)
+                            .withMinute(0)
+                            .toInstant()
+                            .plus(1, ChronoUnit.DAYS);
                 }
-                if (newStartTime.atZone(ZoneId.systemDefault()).getMinute() == 1) {
-                    newStartTime = startTime.minus(1, ChronoUnit.MINUTES);
+
+                ZonedDateTime zonedDateTimeEnd = endTime.atZone(zone);
+                Instant newEndTime;
+                //if the task becomes a milestone
+                if (endTime.equals(startTime)) {
+                    newEndTime = newStartTime;
+                } else if (zonedDateTimeEnd.getHour() < 6) {
+                    newEndTime = zonedDateTimeEnd.withHour(23)
+                            .withMinute(59)
+                            .toInstant()
+                            .minus(1, ChronoUnit.DAYS);
+                }
+                else if (zonedDateTimeEnd.getHour() <= 18) {
+                    newEndTime = zonedDateTimeEnd.withHour(11)
+                            .withMinute(59)
+                            .toInstant();
+                } else {
+                    newEndTime = zonedDateTimeEnd.withHour(23)
+                            .withMinute(59)
+                            .toInstant();
                 }
 
                 long differenceEnd = task.getEndTime().getEpochSecond() - newEndTime.getEpochSecond();

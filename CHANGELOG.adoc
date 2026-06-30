@@ -9,6 +9,8 @@
 
 === Improvements
 
+- https://github.com/ObeoNetwork/pepper/issues/76[#76] Round task time should support rounded dates
+
 
 === Bug fixes
 
