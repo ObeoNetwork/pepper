@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link AbstractTask#getSubTasks <em>Sub Tasks</em>}</li>
  * <li>{@link AbstractTask#getCalculationOption <em>Calculation Option</em>}</li>
  * <li>{@link AbstractTask#getDuration <em>Duration</em>}</li>
+ * <li>{@link AbstractTask#getDurationViewMode <em>Duration View Mode</em>}</li>
  * </ul>
  *
  * @see PepperPackage#getAbstractTask()
@@ -268,5 +269,30 @@ public interface AbstractTask extends EObject {
      * @generated
      */
     void setDuration(int value);
+
+    /**
+     * Returns the value of the '<em><b>Duration View Mode</b></em>' attribute. The literals are from the enumeration
+     * {@link DurationViewMode}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the value of the '<em>Duration View Mode</em>' attribute.
+     * @see DurationViewMode
+     * @see #setDurationViewMode(DurationViewMode)
+     * @see PepperPackage#getAbstractTask_DurationViewMode()
+     * @model
+     * @generated
+     */
+    DurationViewMode getDurationViewMode();
+
+    /**
+     * Sets the value of the '{@link AbstractTask#getDurationViewMode <em>Duration View Mode</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Duration View Mode</em>' attribute.
+     * @see DurationViewMode
+     * @see #getDurationViewMode()
+     * @generated
+     */
+    void setDurationViewMode(DurationViewMode value);
 
 } // AbstractTask

@@ -436,13 +436,22 @@ public interface PepperPackage extends EPackage {
     int ABSTRACT_TASK__DURATION = 11;
 
     /**
+     * The feature id for the '<em><b>Duration View Mode</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_TASK__DURATION_VIEW_MODE = 12;
+
+    /**
      * The number of structural features of the '<em>Abstract Task</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int ABSTRACT_TASK_FEATURE_COUNT = 12;
+    int ABSTRACT_TASK_FEATURE_COUNT = 13;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
@@ -635,6 +644,15 @@ public interface PepperPackage extends EPackage {
     int TASK__DURATION = ABSTRACT_TASK__DURATION;
 
     /**
+     * The feature id for the '<em><b>Duration View Mode</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int TASK__DURATION_VIEW_MODE = ABSTRACT_TASK__DURATION_VIEW_MODE;
+
+    /**
      * The feature id for the '<em><b>Dependencies</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
@@ -761,6 +779,15 @@ public interface PepperPackage extends EPackage {
      * @ordered
      */
     int OBJECTIVE__DURATION = ABSTRACT_TASK__DURATION;
+
+    /**
+     * The feature id for the '<em><b>Duration View Mode</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int OBJECTIVE__DURATION_VIEW_MODE = ABSTRACT_TASK__DURATION_VIEW_MODE;
 
     /**
      * The feature id for the '<em><b>Owned Key Results</b></em>' containment reference list. <!-- begin-user-doc -->
@@ -890,6 +917,15 @@ public interface PepperPackage extends EPackage {
      * @ordered
      */
     int KEY_RESULT__DURATION = ABSTRACT_TASK__DURATION;
+
+    /**
+     * The feature id for the '<em><b>Duration View Mode</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int KEY_RESULT__DURATION_VIEW_MODE = ABSTRACT_TASK__DURATION_VIEW_MODE;
 
     /**
      * The number of structural features of the '<em>Key Result</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1618,7 +1654,17 @@ public interface PepperPackage extends EPackage {
     int TASK_TIME_BOUNDARIES_CONSTRAINT = 24;
 
     /**
-     * The meta object id for the '{@link RiskKind <em>Risk Kind</em>}' enum. <!-- begin-user-doc -->
+     * The meta object id for the '{@link pepper.peppermm.DurationViewMode <em>Duration View Mode</em>}' enum. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @see pepper.peppermm.DurationViewMode
+     * @see pepper.peppermm.impl.PepperPackageImpl#getDurationViewMode()
+     * @generated
+     */
+    int DURATION_VIEW_MODE = 25;
+
+    /**
+     * The meta object id for the '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}' enum. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @see RiskKind
@@ -1654,7 +1700,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getInstant()
      * @generated
      */
-    int INSTANT = 26;
+    int INSTANT = 27;
 
     /**
      * The meta object id for the '<em>Date</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1663,7 +1709,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getDate()
      * @generated
      */
-    int DATE = 25;
+    int DATE = 26;
 
     /**
      * Returns the meta object for class '{@link Organization <em>Organization</em>}'. <!--
@@ -2012,7 +2058,18 @@ public interface PepperPackage extends EPackage {
     EAttribute getAbstractTask_Duration();
 
     /**
-     * Returns the meta object for class '{@link TagFolder <em>Tag Folder</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link pepper.peppermm.AbstractTask#getDurationViewMode <em>Duration
+     * View Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute '<em>Duration View Mode</em>'.
+     * @see pepper.peppermm.AbstractTask#getDurationViewMode()
+     * @see #getAbstractTask()
+     * @generated
+     */
+    EAttribute getAbstractTask_DurationViewMode();
+
+    /**
+     * Returns the meta object for class '{@link pepper.peppermm.TagFolder <em>Tag Folder</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @return the meta object for class '<em>Tag Folder</em>'.
@@ -2967,7 +3024,17 @@ public interface PepperPackage extends EPackage {
     EEnum getTaskTimeBoundariesConstraint();
 
     /**
-     * Returns the meta object for enum '{@link RiskKind <em>Risk Kind</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for enum '{@link pepper.peppermm.DurationViewMode <em>Duration View Mode</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for enum '<em>Duration View Mode</em>'.
+     * @see pepper.peppermm.DurationViewMode
+     * @generated
+     */
+    EEnum getDurationViewMode();
+
+    /**
+     * Returns the meta object for enum '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @return the meta object for enum '<em>Risk Kind</em>'.
@@ -3310,6 +3377,14 @@ public interface PepperPackage extends EPackage {
          * @generated
          */
         EAttribute ABSTRACT_TASK__DURATION = eINSTANCE.getAbstractTask_Duration();
+
+        /**
+         * The meta object literal for the '<em><b>Duration View Mode</b></em>' attribute feature. <!-- begin-user-doc
+         * --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EAttribute ABSTRACT_TASK__DURATION_VIEW_MODE = eINSTANCE.getAbstractTask_DurationViewMode();
 
         /**
          * The meta object literal for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
@@ -4044,8 +4119,18 @@ public interface PepperPackage extends EPackage {
         EEnum TASK_TIME_BOUNDARIES_CONSTRAINT = eINSTANCE.getTaskTimeBoundariesConstraint();
 
         /**
-         * The meta object literal for the '{@link RiskKind <em>Risk Kind</em>}' enum. <!--
-         * begin-user-doc --> <!-- end-user-doc -->
+         * The meta object literal for the '{@link pepper.peppermm.DurationViewMode <em>Duration View Mode</em>}' enum.
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @see pepper.peppermm.DurationViewMode
+         * @see pepper.peppermm.impl.PepperPackageImpl#getDurationViewMode()
+         * @generated
+         */
+        EEnum DURATION_VIEW_MODE = eINSTANCE.getDurationViewMode();
+
+        /**
+         * The meta object literal for the '{@link RiskKind <em>Risk Kind</em>}' enum. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
          * 
          * @see RiskKind
          * @see pepper.peppermm.impl.PepperPackageImpl#getRiskKind()

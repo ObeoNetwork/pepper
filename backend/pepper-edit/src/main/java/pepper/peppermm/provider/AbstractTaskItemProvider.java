@@ -79,6 +79,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
             addAssignedTeamsPropertyDescriptor(object);
             addCalculationOptionPropertyDescriptor(object);
             addDurationPropertyDescriptor(object);
+			addDurationViewModePropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -206,6 +207,22 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
                 PepperPackage.Literals.ABSTRACT_TASK__DURATION, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
     }
 
+	/**
+	 * This adds a property descriptor for the Duration View Mode feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	protected void addDurationViewModePropertyDescriptor(Object object) {
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_AbstractTask_durationViewMode_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_durationViewMode_feature",
+								"_UI_AbstractTask_type"),
+						PepperPackage.Literals.ABSTRACT_TASK__DURATION_VIEW_MODE, true, false, false,
+						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	}
+
     /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
@@ -277,6 +294,7 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
             case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
             case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
             case PepperPackage.ABSTRACT_TASK__DURATION:
+			case PepperPackage.ABSTRACT_TASK__DURATION_VIEW_MODE:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
             case PepperPackage.ABSTRACT_TASK__SUB_TASKS:

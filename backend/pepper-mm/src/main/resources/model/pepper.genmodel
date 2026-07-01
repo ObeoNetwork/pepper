@@ -53,6 +53,10 @@
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/EndDuration"/>
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartDuration"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//DurationViewMode">
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//DurationViewMode/Hours"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//DurationViewMode/Days"/>
+    </genEnums>
     <genDataTypes ecoreDataType="pepper.ecore#//Date"/>
     <genDataTypes ecoreDataType="pepper.ecore#//Instant"/>
     <genClasses ecoreClass="pepper.ecore#//Organization">
@@ -93,6 +97,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/subTasks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/calculationOption"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/durationViewMode"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//TagFolder">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TagFolder/name"/>
