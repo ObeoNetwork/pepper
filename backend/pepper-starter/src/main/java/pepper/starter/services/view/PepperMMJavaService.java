@@ -287,8 +287,13 @@ public class PepperMMJavaService {
             if (target instanceof DependencyRelatedObject targetObject) {
                 //Ensure no dependency already exists between source and target to prevent duplicates or cycles
                 if (!this.isDuplicateOrCycle(sourceObject, targetObject)) {
-                    targetObject.getDependencies().add(dependencyLink);
-                    this.followMoveDependency(sourceObject);
+                    //Ensure the target task is not computed dynamically
+                    if (targetObject instanceof Task targetTask && targetTask.isComputeStartEndDynamically()) {
+                        this.feedbackMessageService.addFeedbackMessage(new Message("Creating a dependency targeting a dynamically computed task is not possible.", MessageLevel.ERROR));
+                    } else {
+                        targetObject.getDependencies().add(dependencyLink);
+                        this.followMoveDependency(sourceObject);
+                    }
                 }
             }
         }
