@@ -313,14 +313,14 @@ public class PepperMMJavaServiceTests {
         assertThat(workpackage.getOwnedTasks()).hasSize(2);
 
         service.createTask(task1);
-        assertThat(workpackage.getOwnedTasks()).hasSize(3);
-        assertThat(workpackage.getOwnedTasks().get(1).getStartTime()).isEqualTo(Instant.parse(DATE2024_01_02_T00_00_00));
-        assertThat(workpackage.getOwnedTasks().get(1).getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00));
-
-        service.createTask(task11);
         assertThat(task1.getSubTasks()).hasSize(2);
         assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.parse(DATE2024_01_02_T00_00_00));
         assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00));
+
+        service.createTask(task11);
+        assertThat(task11.getSubTasks()).hasSize(1);
+        assertThat(task11.getSubTasks().get(0).getStartTime()).isEqualTo(task11.getStartTime());
+        assertThat(task11.getSubTasks().get(0).getEndTime()).isEqualTo(task11.getEndTime());
     }
 
     @Test

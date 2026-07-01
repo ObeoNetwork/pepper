@@ -1,5 +1,20 @@
 = Changelog
 
+== v2026.X.X
+
+=== Dependency update
+
+
+=== New features
+
+
+=== Improvements
+- https://github.com/ObeoNetwork/pepper/issues/52[#52] Change task creation in Gantt
+Change task creation in Gantt from creating a sibling task to a child task.
+
+=== Bug fixes
+
+
 == v2026.6.1
 
 === Dependency update
@@ -34,6 +49,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/18[#18] Enhance the ergonomy of contextual menu in Gantt
 - https://github.com/ObeoNetwork/pepper/issues/49[#49] Rework the detail views of Task and Workpackage
 - https://github.com/ObeoNetwork/pepper/issues/55[#55] Link detail view updates with Gantt view
+
 
 === Bug fixes
 
