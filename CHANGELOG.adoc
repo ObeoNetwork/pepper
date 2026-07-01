@@ -1,6 +1,6 @@
 = Changelog
 
-== v2026.X.X
+== v2026.8.0
 
 === Dependency update
 
@@ -14,6 +14,8 @@
 
 === Bug fixes
 
+- https://github.com/ObeoNetwork/pepper/issues/68[#68] Prevent cyclic dependencies creation
+Prevent dependency creation between a task and one of its child and a task depending on one of the target task's parent
 
 == v2026.6.1
 
