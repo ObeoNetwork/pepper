@@ -1,5 +1,20 @@
 = Changelog
 
+== v2026.X.X
+
+=== Dependency update
+
+=== New features
+
+
+=== Improvements
+
+
+=== Bug fixes
+
+- https://github.com/ObeoNetwork/pepper/issues/25[#25] Add holiday adjustment to prevent tasks from starting or ending on weekends.
+Bug: Tasks with dependencies may incorrectly extend indefinitely. If a task is repeatedly moved backward by less than two days and this causes the end date of one of its dependencies to fall on a weekend, the dependent task may keep growing on each recalculation.
+
 == v2026.6.1
 
 === Dependency update
