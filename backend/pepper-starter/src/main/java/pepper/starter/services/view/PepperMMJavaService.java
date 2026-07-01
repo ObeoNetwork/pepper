@@ -287,14 +287,39 @@ public class PepperMMJavaService {
             if (target instanceof DependencyRelatedObject targetObject) {
                 //Ensure no dependency already exists between source and target to prevent duplicates or cycles
                 if (!this.isDuplicateOrCycle(sourceObject, targetObject)) {
-                    targetObject.getDependencies().add(dependencyLink);
-                    this.followMoveDependency(sourceObject);
+                    //Ensure the target task is not computed dynamically
+                    if (targetObject instanceof Task targetTask && targetTask.isComputeStartEndDynamically()) {
+                        this.feedbackMessageService.addFeedbackMessage(new Message("Creating a dependency targeting a dynamically computed task is not possible.", MessageLevel.ERROR));
+                    } else {
+                        targetObject.getDependencies().add(dependencyLink);
+                        this.followMoveDependency(sourceObject);
+                    }
                 }
             }
         }
     }
 
-    private static boolean isCycle(DependencyRelatedObject sourceObject, DependencyRelatedObject targetObject) {
+    /**
+     * Checks if the source task already depends on one of the target task's ancestor tasks.
+     *
+     * @param sourceObject the {@link DependencyRelatedObject} source
+     * @param parent the parent {@link Task} of the target
+     * @return {@code true} if the source already depends on the specified parent or one of its ancestors; {@code false} otherwise
+     */
+    private boolean isParentCycle(DependencyRelatedObject sourceObject, Task parent) {
+        for (DependencyLink dep : sourceObject.getDependencies()) {
+            if (dep.getSource().equals(parent)) {
+                return true;
+            }
+        }
+        boolean isParentCycle = false;
+        if (parent.eContainer() instanceof Task grandParent) {
+            isParentCycle = isParentCycle(sourceObject, grandParent);
+        }
+        return isParentCycle;
+    }
+
+    private boolean isCycle(DependencyRelatedObject sourceObject, DependencyRelatedObject targetObject) {
         boolean isCycle = false;
         for (DependencyLink dep : sourceObject.getDependencies()) {
             if (dep.getSource().equals(targetObject)) {
@@ -315,9 +340,25 @@ public class PepperMMJavaService {
      */
     private boolean isDuplicateOrCycle(DependencyRelatedObject sourceObject, DependencyRelatedObject targetObject) {
         //to prevent cycles
+        boolean isParentChildDependency = sourceObject.equals(targetObject.eContainer()) || targetObject.equals(sourceObject.eContainer());
+        boolean isParentCycle = false;
+        if (targetObject.eContainer() instanceof Task parent) {
+            isParentCycle = isParentCycle(sourceObject, parent);
+        }
+
         boolean isCycle = isCycle(sourceObject, targetObject);
+
+        if (isParentChildDependency) {
+            this.feedbackMessageService.addFeedbackMessage(new Message("Creating a dependency between a parent task and one of its children is not possible.", MessageLevel.ERROR));
+        }
+        if (isParentCycle) {
+            this.feedbackMessageService.addFeedbackMessage(new Message("Creating a dependency when the source task already depends on one of the target task's parent tasks is not possible", MessageLevel.ERROR));
+        }
         if (isCycle) {
             this.feedbackMessageService.addFeedbackMessage(new Message("Creating a cyclic dependency is not possible.", MessageLevel.ERROR));
+        }
+
+        if (isCycle || isParentCycle || isParentChildDependency) {
             return true;
         } else {
             //to prevent duplicates

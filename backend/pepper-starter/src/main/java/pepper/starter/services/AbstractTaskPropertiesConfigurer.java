@@ -523,15 +523,39 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     }
 
     private IfDescription createComputeDynamicallyWidget() {
-        CheckboxDescription computeDynamically = this.propertiesWidgetCreationService.createCheckbox("abstractTask.computeDynamically", abstractTaskAdapter.getString("_UI_AbstractTask_computeStartEndDynamically_feature"),
-                task -> ((AbstractTask) task).isComputeStartEndDynamically(),
-                (object, newValue) -> {
-                    Task task = (Task) object;
-                    task.setComputeStartEndDynamically(newValue);
-                    service.followMoveDependency(task);
-                },
-                PepperPackage.Literals.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY,
-                Optional.empty());
+        Function<VariableManager, Boolean> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
+                .map(AbstractTask::isComputeStartEndDynamically)
+                .orElse(false);
+
+        Function<VariableManager, Boolean> isReadOnlyProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
+                .map(task -> !((Task) task).getDependencies().isEmpty())
+                .orElse(true);
+
+        BiFunction<VariableManager, Boolean, IStatus> newValueHandler = (variableManager, newValue) -> {
+            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
+            if (taskOpt.isPresent()) {
+                Task task = (Task) taskOpt.get();
+                task.setComputeStartEndDynamically(newValue != null && newValue);
+                service.followMoveDependency(task);
+                return new Success();
+            } else {
+                return new Failure("");
+            }
+        };
+
+        String id = "abstractTask.computeDynamically";
+        CheckboxDescription computeDynamically = CheckboxDescription.newCheckboxDescription(id)
+                .idProvider(variableManager -> id)
+                .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
+                .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_computeStartEndDynamically_feature"))
+                .iconURLProvider(variableManager -> List.of())
+                .isReadOnlyProvider(isReadOnlyProvider)
+                .valueProvider(valueProvider)
+                .newValueHandler(newValueHandler)
+                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY))
+                .kindProvider(this.propertiesConfigurerService.getKindProvider())
+                .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .build();
 
         return IfDescription.newIfDescription("if.abstractTask.computeDynamically")
                 .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
