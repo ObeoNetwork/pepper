@@ -1,5 +1,19 @@
 = Changelog
 
+== v2026.X.X
+
+=== Dependency update
+
+
+=== New features
+
+
+=== Improvements
+- https://github.com/ObeoNetwork/pepper/issues/42[#42] Change behavior for start and end dates of a work package
+
+=== Bug fixes
+
+
 == v2026.6.1
 
 === Dependency update

@@ -290,7 +290,10 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.duration";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || isDateOptionForced(workpackage))
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END
+                                || isDateOptionForced(workpackage)
+                                || !workpackage.getOwnedTasks().isEmpty()
+                        )
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -357,36 +360,6 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .build();
     }
 
-    private Optional<Object> getItem(VariableManager variableManager) {
-        return variableManager.get(ReferenceWidgetComponent.ITEM_VARIABLE, Object.class);
-    }
-
-    private List<?> getReferenceValue(VariableManager variableManager, Object feature) {
-        List<?> value = List.of();
-        EStructuralFeature.Setting setting = this.resolveSetting(variableManager, feature);
-        if (setting != null) {
-            var rawValue = setting.get(true);
-            if (setting.getEStructuralFeature().isMany()) {
-                value = (List<?>) rawValue;
-            } else if (rawValue != null) {
-                value = List.of(rawValue);
-            } else {
-                value = List.of();
-            }
-        }
-        return value;
-    }
-
-    private EStructuralFeature.Setting resolveSetting(VariableManager variableManager, Object feature) {
-        EObject referenceOwner = variableManager.get(VariableManager.SELF, EObject.class).orElse(null);
-        if (referenceOwner != null && feature instanceof EReference reference) {
-            return ((InternalEObject) referenceOwner).eSetting(reference);
-        } else {
-            return null;
-        }
-    }
-
-
     private DateTimeDescription getStartDateWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, Workpackage.class)
                 .map(workpackage -> {
@@ -421,7 +394,11 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || isDateOptionForced(workpackage) || isPointed(workpackage, StartOrEnd.START))
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION
+                                || isDateOptionForced(workpackage)
+                                || isPointed(workpackage, StartOrEnd.START)
+                                || !workpackage.getOwnedTasks().isEmpty()
+                                )
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -469,7 +446,11 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         String id = "workpackage.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || isDateOptionForced(workpackage) || isPointed(workpackage, StartOrEnd.END))
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION
+                                || isDateOptionForced(workpackage)
+                                || isPointed(workpackage, StartOrEnd.END)
+                                || !workpackage.getOwnedTasks().isEmpty()
+                        )
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -495,6 +476,35 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
             }
         }
         return false;
+    }
+
+    private Optional<Object> getItem(VariableManager variableManager) {
+        return variableManager.get(ReferenceWidgetComponent.ITEM_VARIABLE, Object.class);
+    }
+
+    private List<?> getReferenceValue(VariableManager variableManager, Object feature) {
+        List<?> value = List.of();
+        EStructuralFeature.Setting setting = this.resolveSetting(variableManager, feature);
+        if (setting != null) {
+            var rawValue = setting.get(true);
+            if (setting.getEStructuralFeature().isMany()) {
+                value = (List<?>) rawValue;
+            } else if (rawValue != null) {
+                value = List.of(rawValue);
+            } else {
+                value = List.of();
+            }
+        }
+        return value;
+    }
+
+    private EStructuralFeature.Setting resolveSetting(VariableManager variableManager, Object feature) {
+        EObject referenceOwner = variableManager.get(VariableManager.SELF, EObject.class).orElse(null);
+        if (referenceOwner != null && feature instanceof EReference reference) {
+            return ((InternalEObject) referenceOwner).eSetting(reference);
+        } else {
+            return null;
+        }
     }
 
     private Function<VariableManager, List<?>> getPersonsProvider() {
