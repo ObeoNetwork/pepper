@@ -12,6 +12,38 @@
  ******************************************************************************/
 package pepper.peppermm.provider;
 
+import pepper.peppermm.provider.spec.WorkpackageItemProviderSpec;
+
+import pepper.peppermm.provider.spec.WorkpackageArtefactItemProviderSpec;
+
+import pepper.peppermm.provider.spec.TeamItemProviderSpec;
+
+import pepper.peppermm.provider.spec.TaskTagItemProviderSpec;
+
+import pepper.peppermm.provider.spec.TaskItemProviderSpec;
+
+import pepper.peppermm.provider.spec.TagFolderItemProviderSpec;
+
+import pepper.peppermm.provider.spec.RiskItemProviderSpec;
+
+import pepper.peppermm.provider.spec.ResourceFolderItemProviderSpec;
+
+import pepper.peppermm.provider.spec.ProjectItemProviderSpec;
+
+import pepper.peppermm.provider.spec.PersonItemProviderSpec;
+
+import pepper.peppermm.provider.spec.OrganizationItemProviderSpec;
+
+import pepper.peppermm.provider.spec.ObjectiveItemProviderSpec;
+
+import pepper.peppermm.provider.spec.KeyResultItemProviderSpec;
+
+import pepper.peppermm.provider.spec.InternalStakeholderItemProviderSpec;
+
+import pepper.peppermm.provider.spec.ExternalStakeholderItemProviderSpec;
+
+import pepper.peppermm.provider.spec.DependencyLinkItemProviderSpec;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -90,12 +122,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Organization}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createOrganizationAdapter() {
         if (organizationItemProvider == null) {
-            organizationItemProvider = new OrganizationItemProvider(this);
+            organizationItemProvider = new OrganizationItemProviderSpec(this);
         }
 
         return organizationItemProvider;
@@ -113,12 +145,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
      * This creates an adapter for a {@link pepper.peppermm.ResourceFolder}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createResourceFolderAdapter() {
         if (resourceFolderItemProvider == null) {
-            resourceFolderItemProvider = new ResourceFolderItemProvider(this);
+            resourceFolderItemProvider = new ResourceFolderItemProviderSpec(this);
         }
 
         return resourceFolderItemProvider;
@@ -135,12 +167,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Team}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createTeamAdapter() {
         if (teamItemProvider == null) {
-            teamItemProvider = new TeamItemProvider(this);
+            teamItemProvider = new TeamItemProviderSpec(this);
         }
 
         return teamItemProvider;
@@ -158,12 +190,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
      * This creates an adapter for a {@link pepper.peppermm.InternalStakeholder}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createInternalStakeholderAdapter() {
         if (internalStakeholderItemProvider == null) {
-            internalStakeholderItemProvider = new InternalStakeholderItemProvider(this);
+            internalStakeholderItemProvider = new InternalStakeholderItemProviderSpec(this);
         }
 
         return internalStakeholderItemProvider;
@@ -181,12 +213,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
      * This creates an adapter for a {@link pepper.peppermm.ExternalStakeholder}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createExternalStakeholderAdapter() {
         if (externalStakeholderItemProvider == null) {
-            externalStakeholderItemProvider = new ExternalStakeholderItemProvider(this);
+            externalStakeholderItemProvider = new ExternalStakeholderItemProviderSpec(this);
         }
 
         return externalStakeholderItemProvider;
@@ -203,12 +235,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createPersonAdapter() {
         if (personItemProvider == null) {
-            personItemProvider = new PersonItemProvider(this);
+            personItemProvider = new PersonItemProviderSpec(this);
         }
 
         return personItemProvider;
@@ -225,12 +257,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.TagFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createTagFolderAdapter() {
         if (tagFolderItemProvider == null) {
-            tagFolderItemProvider = new TagFolderItemProvider(this);
+            tagFolderItemProvider = new TagFolderItemProviderSpec(this);
         }
 
         return tagFolderItemProvider;
@@ -247,12 +279,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.TaskTag}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createTaskTagAdapter() {
         if (taskTagItemProvider == null) {
-            taskTagItemProvider = new TaskTagItemProvider(this);
+            taskTagItemProvider = new TaskTagItemProviderSpec(this);
         }
 
         return taskTagItemProvider;
@@ -269,12 +301,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Task}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createTaskAdapter() {
         if (taskItemProvider == null) {
-            taskItemProvider = new TaskItemProvider(this);
+            taskItemProvider = new TaskItemProviderSpec(this);
         }
 
         return taskItemProvider;
@@ -291,12 +323,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Objective}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createObjectiveAdapter() {
         if (objectiveItemProvider == null) {
-            objectiveItemProvider = new ObjectiveItemProvider(this);
+            objectiveItemProvider = new ObjectiveItemProviderSpec(this);
         }
 
         return objectiveItemProvider;
@@ -313,12 +345,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.KeyResult}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createKeyResultAdapter() {
         if (keyResultItemProvider == null) {
-            keyResultItemProvider = new KeyResultItemProvider(this);
+            keyResultItemProvider = new KeyResultItemProviderSpec(this);
         }
 
         return keyResultItemProvider;
@@ -335,12 +367,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Project}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createProjectAdapter() {
         if (projectItemProvider == null) {
-            projectItemProvider = new ProjectItemProvider(this);
+            projectItemProvider = new ProjectItemProviderSpec(this);
         }
 
         return projectItemProvider;
@@ -357,12 +389,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Workpackage}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createWorkpackageAdapter() {
         if (workpackageItemProvider == null) {
-            workpackageItemProvider = new WorkpackageItemProvider(this);
+            workpackageItemProvider = new WorkpackageItemProviderSpec(this);
         }
 
         return workpackageItemProvider;
@@ -380,12 +412,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
      * This creates an adapter for a {@link pepper.peppermm.WorkpackageArtefact}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createWorkpackageArtefactAdapter() {
         if (workpackageArtefactItemProvider == null) {
-            workpackageArtefactItemProvider = new WorkpackageArtefactItemProvider(this);
+            workpackageArtefactItemProvider = new WorkpackageArtefactItemProviderSpec(this);
         }
 
         return workpackageArtefactItemProvider;
@@ -402,12 +434,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     /**
      * This creates an adapter for a {@link pepper.peppermm.Risk}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createRiskAdapter() {
         if (riskItemProvider == null) {
-            riskItemProvider = new RiskItemProvider(this);
+            riskItemProvider = new RiskItemProviderSpec(this);
         }
 
         return riskItemProvider;
@@ -425,12 +457,12 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
      * This creates an adapter for a {@link pepper.peppermm.DependencyLink}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
+     * @generated NOT
      */
     @Override
     public Adapter createDependencyLinkAdapter() {
         if (dependencyLinkItemProvider == null) {
-            dependencyLinkItemProvider = new DependencyLinkItemProvider(this);
+            dependencyLinkItemProvider = new DependencyLinkItemProviderSpec(this);
         }
 
         return dependencyLinkItemProvider;
