@@ -25,56 +25,55 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link AbstractTask#getName <em>Name</em>}</li>
- * <li>{@link AbstractTask#getDescription <em>Description</em>}</li>
- * <li>{@link AbstractTask#getStartTime <em>Start Time</em>}</li>
- * <li>{@link AbstractTask#getEndTime <em>End Time</em>}</li>
- * <li>{@link AbstractTask#getProgress <em>Progress</em>}</li>
- * <li>{@link AbstractTask#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}</li>
- * <li>{@link AbstractTask#getTags <em>Tags</em>}</li>
- * <li>{@link AbstractTask#getAssignedPersons <em>Assigned Persons</em>}</li>
- * <li>{@link AbstractTask#getAssignedTeams <em>Assigned Teams</em>}</li>
- * <li>{@link AbstractTask#getSubTasks <em>Sub Tasks</em>}</li>
- * <li>{@link AbstractTask#getCalculationOption <em>Calculation Option</em>}</li>
- * <li>{@link AbstractTask#getDuration <em>Duration</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getName <em>Name</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getDescription <em>Description</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getStartTime <em>Start Time</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getEndTime <em>End Time</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getProgress <em>Progress</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getTags <em>Tags</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getAssignedPersons <em>Assigned Persons</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getAssignedTeams <em>Assigned Teams</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getSubTasks <em>Sub Tasks</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getCalculationOption <em>Calculation Option</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getDuration <em>Duration</em>}</li>
  * </ul>
  *
- * @see PepperPackage#getAbstractTask()
+ * @see pepper.peppermm.PepperPackage#getAbstractTask()
  * @model abstract="true"
  * @generated
  */
 public interface AbstractTask extends EObject {
     /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Name</em>' attribute.
-     * @see #setName(String)
-     * @see PepperPackage#getAbstractTask_Name()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Name()
+	 * @model
+	 * @generated
+	 */
     String getName();
 
     /**
-     * Sets the value of the '{@link AbstractTask#getName <em>Name</em>}' attribute. <!-- begin-user-doc
+	 * Sets the value of the '{@link pepper.peppermm.AbstractTask#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
     void setName(String value);
 
     /**
-     * Returns the value of the '<em><b>Description</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Description</em>' attribute.
-     * @see #setDescription(String)
-     * @see PepperPackage#getAbstractTask_Description()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Description()
+	 * @model
+	 * @generated
+	 */
     String getDescription();
 
     /**
@@ -89,14 +88,14 @@ public interface AbstractTask extends EObject {
     void setDescription(String value);
 
     /**
-     * Returns the value of the '<em><b>Start Time</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Start Time</em>' attribute.
-     * @see #setStartTime(Instant)
-     * @see PepperPackage#getAbstractTask_StartTime()
-     * @model dataType="pepper.peppermm.Instant"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Start Time</em>' attribute.
+	 * @see #setStartTime(Instant)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_StartTime()
+	 * @model dataType="pepper.peppermm.Instant"
+	 * @generated
+	 */
     Instant getStartTime();
 
     /**
@@ -111,14 +110,14 @@ public interface AbstractTask extends EObject {
     void setStartTime(Instant value);
 
     /**
-     * Returns the value of the '<em><b>End Time</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>End Time</em>' attribute.
-     * @see #setEndTime(Instant)
-     * @see PepperPackage#getAbstractTask_EndTime()
-     * @model dataType="pepper.peppermm.Instant"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>End Time</em>' attribute.
+	 * @see #setEndTime(Instant)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_EndTime()
+	 * @model dataType="pepper.peppermm.Instant"
+	 * @generated
+	 */
     Instant getEndTime();
 
     /**
@@ -133,14 +132,14 @@ public interface AbstractTask extends EObject {
     void setEndTime(Instant value);
 
     /**
-     * Returns the value of the '<em><b>Progress</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Progress</em>' attribute.
-     * @see #setProgress(int)
-     * @see PepperPackage#getAbstractTask_Progress()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Progress</em>' attribute.
+	 * @see #setProgress(int)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Progress()
+	 * @model
+	 * @generated
+	 */
     int getProgress();
 
     /**
@@ -155,107 +154,103 @@ public interface AbstractTask extends EObject {
     void setProgress(int value);
 
     /**
-     * Returns the value of the '<em><b>Compute Start End Dynamically</b></em>' attribute. The default value is
-     * <code>"false"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Compute Start End Dynamically</em>' attribute.
-     * @see #setComputeStartEndDynamically(boolean)
-     * @see PepperPackage#getAbstractTask_ComputeStartEndDynamically()
-     * @model default="false"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Compute Start End Dynamically</em>' attribute.
+	 * @see #setComputeStartEndDynamically(boolean)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_ComputeStartEndDynamically()
+	 * @model default="false"
+	 * @generated
+	 */
     boolean isComputeStartEndDynamically();
 
     /**
-     * Sets the value of the '{@link AbstractTask#isComputeStartEndDynamically <em>Compute Start End
-     * Dynamically</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Compute Start End Dynamically</em>' attribute.
-     * @see #isComputeStartEndDynamically()
-     * @generated
-     */
+	 * Sets the value of the '{@link pepper.peppermm.AbstractTask#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Compute Start End Dynamically</em>' attribute.
+	 * @see #isComputeStartEndDynamically()
+	 * @generated
+	 */
     void setComputeStartEndDynamically(boolean value);
 
     /**
-     * Returns the value of the '<em><b>Tags</b></em>' reference list. The list contents are of type
-     * {@link TaskTag}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Tags</em>' reference list.
-     * @see PepperPackage#getAbstractTask_Tags()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Tags</b></em>' reference list.
+	 * The list contents are of type {@link pepper.peppermm.TaskTag}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Tags</em>' reference list.
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Tags()
+	 * @model
+	 * @generated
+	 */
     EList<TaskTag> getTags();
 
     /**
-     * Returns the value of the '<em><b>Assigned Persons</b></em>' reference list. The list contents are of type
-     * {@link Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Assigned Persons</em>' reference list.
-     * @see PepperPackage#getAbstractTask_AssignedPersons()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Assigned Persons</b></em>' reference list.
+	 * The list contents are of type {@link pepper.peppermm.Person}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Assigned Persons</em>' reference list.
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_AssignedPersons()
+	 * @model
+	 * @generated
+	 */
     EList<Person> getAssignedPersons();
 
     /**
-     * Returns the value of the '<em><b>Assigned Teams</b></em>' reference list. The list contents are of type
-     * {@link Team}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Assigned Teams</em>' reference list.
-     * @see PepperPackage#getAbstractTask_AssignedTeams()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Assigned Teams</b></em>' reference list.
+	 * The list contents are of type {@link pepper.peppermm.Team}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Assigned Teams</em>' reference list.
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_AssignedTeams()
+	 * @model
+	 * @generated
+	 */
     EList<Team> getAssignedTeams();
 
     /**
-     * Returns the value of the '<em><b>Sub Tasks</b></em>' containment reference list. The list contents are of type
-     * {@link Task}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Sub Tasks</em>' containment reference list.
-     * @see PepperPackage#getAbstractTask_SubTasks()
-     * @model containment="true"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Sub Tasks</b></em>' containment reference list.
+	 * The list contents are of type {@link pepper.peppermm.Task}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Sub Tasks</em>' containment reference list.
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_SubTasks()
+	 * @model containment="true"
+	 * @generated
+	 */
     EList<Task> getSubTasks();
 
     /**
-     * Returns the value of the '<em><b>Calculation Option</b></em>' attribute. The default value is
-     * <code>"START_END"</code>. The literals are from the enumeration
-     * {@link TaskTimeBoundariesConstraint}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Calculation Option</em>' attribute.
-     * @see TaskTimeBoundariesConstraint
-     * @see #setCalculationOption(TaskTimeBoundariesConstraint)
-     * @see PepperPackage#getAbstractTask_CalculationOption()
-     * @model default="START_END"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Calculation Option</b></em>' attribute.
+	 * The default value is <code>"START_END"</code>.
+	 * The literals are from the enumeration {@link pepper.peppermm.TaskTimeBoundariesConstraint}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Calculation Option</em>' attribute.
+	 * @see pepper.peppermm.TaskTimeBoundariesConstraint
+	 * @see #setCalculationOption(TaskTimeBoundariesConstraint)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_CalculationOption()
+	 * @model default="START_END"
+	 * @generated
+	 */
     TaskTimeBoundariesConstraint getCalculationOption();
 
     /**
-     * Sets the value of the '{@link AbstractTask#getCalculationOption <em>Calculation Option</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Calculation Option</em>' attribute.
-     * @see TaskTimeBoundariesConstraint
-     * @see #getCalculationOption()
-     * @generated
-     */
+	 * Sets the value of the '{@link pepper.peppermm.AbstractTask#getCalculationOption <em>Calculation Option</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Calculation Option</em>' attribute.
+	 * @see pepper.peppermm.TaskTimeBoundariesConstraint
+	 * @see #getCalculationOption()
+	 * @generated
+	 */
     void setCalculationOption(TaskTimeBoundariesConstraint value);
 
     /**
-     * Returns the value of the '<em><b>Duration</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Duration</em>' attribute.
-     * @see #setDuration(int)
-     * @see PepperPackage#getAbstractTask_Duration()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Duration</em>' attribute.
+	 * @see #setDuration(int)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Duration()
+	 * @model
+	 * @generated
+	 */
     int getDuration();
 
     /**

@@ -16,7 +16,7 @@ package pepper.peppermm;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Key Result</b></em>'. <!-- end-user-doc -->
  *
  *
- * @see PepperPackage#getKeyResult()
+ * @see pepper.peppermm.PepperPackage#getKeyResult()
  * @model
  * @generated
  */

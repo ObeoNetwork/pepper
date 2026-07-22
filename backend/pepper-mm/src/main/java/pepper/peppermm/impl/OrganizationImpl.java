@@ -39,9 +39,9 @@ import pepper.peppermm.ResourceFolder;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link OrganizationImpl#getName <em>Name</em>}</li>
- * <li>{@link OrganizationImpl#getOwnedProjects <em>Owned Projects</em>}</li>
- * <li>{@link OrganizationImpl#getOwnedResourceFolders <em>Owned Resource Folders</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.OrganizationImpl#getName <em>Name</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.OrganizationImpl#getOwnedProjects <em>Owned Projects</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.OrganizationImpl#getOwnedResourceFolders <em>Owned Resource Folders</em>}</li>
  * </ul>
  *
  * @generated
@@ -78,202 +78,181 @@ public class OrganizationImpl extends MinimalEObjectImpl.Container implements Or
     protected EList<Project> ownedProjects;
 
     /**
-     * The cached value of the '{@link #getOwnedResourceFolders() <em>Owned Resource Folders</em>}' containment
-     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #getOwnedResourceFolders()
-     * @generated
-     * @ordered
-     */
+	 * The cached value of the '{@link #getOwnedResourceFolders() <em>Owned Resource Folders</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getOwnedResourceFolders()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<ResourceFolder> ownedResourceFolders;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected OrganizationImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.ORGANIZATION;
-    }
+		return PepperPackage.Literals.ORGANIZATION;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getName() {
-        return name;
-    }
+		return name;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setName(String newName) {
-        String oldName = name;
-        name = newName;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ORGANIZATION__NAME, oldName, name));
-    }
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ORGANIZATION__NAME, oldName, name));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<Project> getOwnedProjects() {
-        if (ownedProjects == null) {
-            ownedProjects = new EObjectContainmentEList<Project>(Project.class, this, PepperPackage.ORGANIZATION__OWNED_PROJECTS);
-        }
-        return ownedProjects;
-    }
+		if (ownedProjects == null) {
+			ownedProjects = new EObjectContainmentEList<Project>(Project.class, this, PepperPackage.ORGANIZATION__OWNED_PROJECTS);
+		}
+		return ownedProjects;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<ResourceFolder> getOwnedResourceFolders() {
-        if (ownedResourceFolders == null) {
-            ownedResourceFolders = new EObjectContainmentEList<ResourceFolder>(ResourceFolder.class, this, PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS);
-        }
-        return ownedResourceFolders;
-    }
+		if (ownedResourceFolders == null) {
+			ownedResourceFolders = new EObjectContainmentEList<ResourceFolder>(ResourceFolder.class, this, PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS);
+		}
+		return ownedResourceFolders;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
-                return ((InternalEList<?>) getOwnedProjects()).basicRemove(otherEnd, msgs);
-            case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
-                return ((InternalEList<?>) getOwnedResourceFolders()).basicRemove(otherEnd, msgs);
-            default:
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
+				return ((InternalEList<?>)getOwnedProjects()).basicRemove(otherEnd, msgs);
+			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
+				return ((InternalEList<?>)getOwnedResourceFolders()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.ORGANIZATION__NAME:
-                return getName();
-            case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
-                return getOwnedProjects();
-            case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
-                return getOwnedResourceFolders();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ORGANIZATION__NAME:
+				return getName();
+			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
+				return getOwnedProjects();
+			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
+				return getOwnedResourceFolders();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.ORGANIZATION__NAME:
-                setName((String) newValue);
-                return;
-            case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
-                getOwnedProjects().clear();
-                getOwnedProjects().addAll((Collection<? extends Project>) newValue);
-                return;
-            case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
-                getOwnedResourceFolders().clear();
-                getOwnedResourceFolders().addAll((Collection<? extends ResourceFolder>) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ORGANIZATION__NAME:
+				setName((String)newValue);
+				return;
+			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
+				getOwnedProjects().clear();
+				getOwnedProjects().addAll((Collection<? extends Project>)newValue);
+				return;
+			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
+				getOwnedResourceFolders().clear();
+				getOwnedResourceFolders().addAll((Collection<? extends ResourceFolder>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.ORGANIZATION__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
-                getOwnedProjects().clear();
-                return;
-            case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
-                getOwnedResourceFolders().clear();
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ORGANIZATION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
+				getOwnedProjects().clear();
+				return;
+			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
+				getOwnedResourceFolders().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.ORGANIZATION__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
-                return ownedProjects != null && !ownedProjects.isEmpty();
-            case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
-                return ownedResourceFolders != null && !ownedResourceFolders.isEmpty();
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ORGANIZATION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
+				return ownedProjects != null && !ownedProjects.isEmpty();
+			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
+				return ownedResourceFolders != null && !ownedResourceFolders.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (name: ");
-        result.append(name);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
+	}
 
 } // OrganizationImpl

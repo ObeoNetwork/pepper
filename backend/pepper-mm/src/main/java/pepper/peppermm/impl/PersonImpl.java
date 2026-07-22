@@ -27,22 +27,22 @@ import pepper.peppermm.Person;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link PersonImpl#getAlias <em>Alias</em>}</li>
- * <li>{@link PersonImpl#getBiography <em>Biography</em>}</li>
- * <li>{@link PersonImpl#getImageUrl <em>Image Url</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.PersonImpl#getAlias <em>Alias</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.PersonImpl#getBiography <em>Biography</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.PersonImpl#getImageUrl <em>Image Url</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PersonImpl extends ResourceImpl implements Person {
     /**
-     * The default value of the '{@link #getAlias() <em>Alias</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getAlias() <em>Alias</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getAlias()
-     * @generated
-     * @ordered
-     */
+	 * @see #getAlias()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String ALIAS_EDEFAULT = null;
 
     /**
@@ -56,236 +56,216 @@ public class PersonImpl extends ResourceImpl implements Person {
     protected String alias = ALIAS_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getBiography() <em>Biography</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getBiography() <em>Biography</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getBiography()
-     * @generated
-     * @ordered
-     */
+	 * @see #getBiography()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String BIOGRAPHY_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getBiography() <em>Biography</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getBiography() <em>Biography</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getBiography()
-     * @generated
-     * @ordered
-     */
+	 * @see #getBiography()
+	 * @generated
+	 * @ordered
+	 */
     protected String biography = BIOGRAPHY_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getImageUrl() <em>Image Url</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getImageUrl() <em>Image Url</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getImageUrl()
-     * @generated
-     * @ordered
-     */
+	 * @see #getImageUrl()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String IMAGE_URL_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getImageUrl() <em>Image Url</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getImageUrl() <em>Image Url</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getImageUrl()
-     * @generated
-     * @ordered
-     */
+	 * @see #getImageUrl()
+	 * @generated
+	 * @ordered
+	 */
     protected String imageUrl = IMAGE_URL_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected PersonImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.PERSON;
-    }
+		return PepperPackage.Literals.PERSON;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getAlias() {
-        return alias;
-    }
+		return alias;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setAlias(String newAlias) {
-        String oldAlias = alias;
-        alias = newAlias;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__ALIAS, oldAlias, alias));
-    }
+		String oldAlias = alias;
+		alias = newAlias;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__ALIAS, oldAlias, alias));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getBiography() {
-        return biography;
-    }
+		return biography;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setBiography(String newBiography) {
-        String oldBiography = biography;
-        biography = newBiography;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__BIOGRAPHY, oldBiography, biography));
-    }
+		String oldBiography = biography;
+		biography = newBiography;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__BIOGRAPHY, oldBiography, biography));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getImageUrl() {
-        return imageUrl;
-    }
+		return imageUrl;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setImageUrl(String newImageUrl) {
-        String oldImageUrl = imageUrl;
-        imageUrl = newImageUrl;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__IMAGE_URL, oldImageUrl, imageUrl));
-    }
+		String oldImageUrl = imageUrl;
+		imageUrl = newImageUrl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PERSON__IMAGE_URL, oldImageUrl, imageUrl));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.PERSON__ALIAS:
-                return getAlias();
-            case PepperPackage.PERSON__BIOGRAPHY:
-                return getBiography();
-            case PepperPackage.PERSON__IMAGE_URL:
-                return getImageUrl();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.PERSON__ALIAS:
+				return getAlias();
+			case PepperPackage.PERSON__BIOGRAPHY:
+				return getBiography();
+			case PepperPackage.PERSON__IMAGE_URL:
+				return getImageUrl();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.PERSON__ALIAS:
-                setAlias((String) newValue);
-                return;
-            case PepperPackage.PERSON__BIOGRAPHY:
-                setBiography((String) newValue);
-                return;
-            case PepperPackage.PERSON__IMAGE_URL:
-                setImageUrl((String) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.PERSON__ALIAS:
+				setAlias((String)newValue);
+				return;
+			case PepperPackage.PERSON__BIOGRAPHY:
+				setBiography((String)newValue);
+				return;
+			case PepperPackage.PERSON__IMAGE_URL:
+				setImageUrl((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.PERSON__ALIAS:
-                setAlias(ALIAS_EDEFAULT);
-                return;
-            case PepperPackage.PERSON__BIOGRAPHY:
-                setBiography(BIOGRAPHY_EDEFAULT);
-                return;
-            case PepperPackage.PERSON__IMAGE_URL:
-                setImageUrl(IMAGE_URL_EDEFAULT);
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.PERSON__ALIAS:
+				setAlias(ALIAS_EDEFAULT);
+				return;
+			case PepperPackage.PERSON__BIOGRAPHY:
+				setBiography(BIOGRAPHY_EDEFAULT);
+				return;
+			case PepperPackage.PERSON__IMAGE_URL:
+				setImageUrl(IMAGE_URL_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.PERSON__ALIAS:
-                return ALIAS_EDEFAULT == null ? alias != null : !ALIAS_EDEFAULT.equals(alias);
-            case PepperPackage.PERSON__BIOGRAPHY:
-                return BIOGRAPHY_EDEFAULT == null ? biography != null : !BIOGRAPHY_EDEFAULT.equals(biography);
-            case PepperPackage.PERSON__IMAGE_URL:
-                return IMAGE_URL_EDEFAULT == null ? imageUrl != null : !IMAGE_URL_EDEFAULT.equals(imageUrl);
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.PERSON__ALIAS:
+				return ALIAS_EDEFAULT == null ? alias != null : !ALIAS_EDEFAULT.equals(alias);
+			case PepperPackage.PERSON__BIOGRAPHY:
+				return BIOGRAPHY_EDEFAULT == null ? biography != null : !BIOGRAPHY_EDEFAULT.equals(biography);
+			case PepperPackage.PERSON__IMAGE_URL:
+				return IMAGE_URL_EDEFAULT == null ? imageUrl != null : !IMAGE_URL_EDEFAULT.equals(imageUrl);
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (alias: ");
-        result.append(alias);
-        result.append(", biography: ");
-        result.append(biography);
-        result.append(", imageUrl: ");
-        result.append(imageUrl);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (alias: ");
+		result.append(alias);
+		result.append(", biography: ");
+		result.append(biography);
+		result.append(", imageUrl: ");
+		result.append(imageUrl);
+		result.append(')');
+		return result.toString();
+	}
 
 } // PersonImpl

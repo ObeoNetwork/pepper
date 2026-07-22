@@ -24,22 +24,20 @@ import pepper.peppermm.PepperPackage;
  */
 public class KeyResultImpl extends AbstractTaskImpl implements KeyResult {
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected KeyResultImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.KEY_RESULT;
-    }
+		return PepperPackage.Literals.KEY_RESULT;
+	}
 
 } // KeyResultImpl

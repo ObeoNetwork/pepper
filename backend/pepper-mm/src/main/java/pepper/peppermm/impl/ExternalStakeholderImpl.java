@@ -30,135 +30,120 @@ import pepper.peppermm.PepperPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link ExternalStakeholderImpl#getGoals <em>Goals</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.ExternalStakeholderImpl#getGoals <em>Goals</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ExternalStakeholderImpl extends ResourceImpl implements ExternalStakeholder {
     /**
-     * The cached value of the '{@link #getGoals() <em>Goals</em>}' attribute list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getGoals() <em>Goals</em>}' attribute list.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getGoals()
-     * @generated
-     * @ordered
-     */
+	 * @see #getGoals()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<String> goals;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected ExternalStakeholderImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.EXTERNAL_STAKEHOLDER;
-    }
+		return PepperPackage.Literals.EXTERNAL_STAKEHOLDER;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<String> getGoals() {
-        if (goals == null) {
-            goals = new EDataTypeUniqueEList<String>(String.class, this, PepperPackage.EXTERNAL_STAKEHOLDER__GOALS);
-        }
-        return goals;
-    }
+		if (goals == null) {
+			goals = new EDataTypeUniqueEList<String>(String.class, this, PepperPackage.EXTERNAL_STAKEHOLDER__GOALS);
+		}
+		return goals;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
-                return getGoals();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+				return getGoals();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
-                getGoals().clear();
-                getGoals().addAll((Collection<? extends String>) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+				getGoals().clear();
+				getGoals().addAll((Collection<? extends String>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
-                getGoals().clear();
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+				getGoals().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
-                return goals != null && !goals.isEmpty();
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.EXTERNAL_STAKEHOLDER__GOALS:
+				return goals != null && !goals.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (goals: ");
-        result.append(goals);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (goals: ");
+		result.append(goals);
+		result.append(')');
+		return result.toString();
+	}
 
 } // ExternalStakeholderImpl

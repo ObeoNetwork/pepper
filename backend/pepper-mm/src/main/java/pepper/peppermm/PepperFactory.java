@@ -17,152 +17,151 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a create method for each non-abstract class of
  * the model. <!-- end-user-doc -->
- * 
- * @see PepperPackage
+ * @see pepper.peppermm.PepperPackage
  * @generated
  */
 public interface PepperFactory extends EFactory {
     /**
-     * The singleton instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     PepperFactory eINSTANCE = pepper.peppermm.impl.PepperFactoryImpl.init();
 
     /**
-     * Returns a new object of class '<em>Organization</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Organization</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Organization</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Organization</em>'.
+	 * @generated
+	 */
     Organization createOrganization();
 
     /**
-     * Returns a new object of class '<em>Resource Folder</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Resource Folder</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Resource Folder</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resource Folder</em>'.
+	 * @generated
+	 */
     ResourceFolder createResourceFolder();
 
     /**
-     * Returns a new object of class '<em>Team</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Team</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Team</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Team</em>'.
+	 * @generated
+	 */
     Team createTeam();
 
     /**
-     * Returns a new object of class '<em>Internal Stakeholder</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Internal Stakeholder</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Internal Stakeholder</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Internal Stakeholder</em>'.
+	 * @generated
+	 */
     InternalStakeholder createInternalStakeholder();
 
     /**
-     * Returns a new object of class '<em>External Stakeholder</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>External Stakeholder</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>External Stakeholder</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>External Stakeholder</em>'.
+	 * @generated
+	 */
     ExternalStakeholder createExternalStakeholder();
 
     /**
-     * Returns a new object of class '<em>Person</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Person</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Person</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Person</em>'.
+	 * @generated
+	 */
     Person createPerson();
 
     /**
-     * Returns a new object of class '<em>Tag Folder</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Tag Folder</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Tag Folder</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tag Folder</em>'.
+	 * @generated
+	 */
     TagFolder createTagFolder();
 
     /**
-     * Returns a new object of class '<em>Task Tag</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Task Tag</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Task Tag</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Task Tag</em>'.
+	 * @generated
+	 */
     TaskTag createTaskTag();
 
     /**
-     * Returns a new object of class '<em>Task</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Task</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Task</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Task</em>'.
+	 * @generated
+	 */
     Task createTask();
 
     /**
-     * Returns a new object of class '<em>Objective</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Objective</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Objective</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Objective</em>'.
+	 * @generated
+	 */
     Objective createObjective();
 
     /**
-     * Returns a new object of class '<em>Key Result</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Key Result</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Key Result</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Key Result</em>'.
+	 * @generated
+	 */
     KeyResult createKeyResult();
 
     /**
-     * Returns a new object of class '<em>Project</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Project</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Project</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Project</em>'.
+	 * @generated
+	 */
     Project createProject();
 
     /**
-     * Returns a new object of class '<em>Workpackage</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Workpackage</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Workpackage</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Workpackage</em>'.
+	 * @generated
+	 */
     Workpackage createWorkpackage();
 
     /**
-     * Returns a new object of class '<em>Workpackage Artefact</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Workpackage Artefact</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Workpackage Artefact</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Workpackage Artefact</em>'.
+	 * @generated
+	 */
     WorkpackageArtefact createWorkpackageArtefact();
 
     /**
-     * Returns a new object of class '<em>Risk</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Risk</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Risk</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Risk</em>'.
+	 * @generated
+	 */
     Risk createRisk();
 
     /**
-     * Returns a new object of class '<em>Dependency Link</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Dependency Link</em>'.
-     * @generated
-     */
+	 * Returns a new object of class '<em>Dependency Link</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dependency Link</em>'.
+	 * @generated
+	 */
     DependencyLink createDependencyLink();
 
     /**
-     * Returns the package supported by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the package supported by this factory.
-     * @generated
-     */
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
     PepperPackage getPepperPackage();
 
 } // PepperFactory

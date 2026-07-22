@@ -46,19 +46,18 @@ import pepper.peppermm.Team;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link AbstractTaskImpl#getName <em>Name</em>}</li>
- * <li>{@link AbstractTaskImpl#getDescription <em>Description</em>}</li>
- * <li>{@link AbstractTaskImpl#getStartTime <em>Start Time</em>}</li>
- * <li>{@link AbstractTaskImpl#getEndTime <em>End Time</em>}</li>
- * <li>{@link AbstractTaskImpl#getProgress <em>Progress</em>}</li>
- * <li>{@link AbstractTaskImpl#isComputeStartEndDynamically <em>Compute Start End
- * Dynamically</em>}</li>
- * <li>{@link AbstractTaskImpl#getTags <em>Tags</em>}</li>
- * <li>{@link AbstractTaskImpl#getAssignedPersons <em>Assigned Persons</em>}</li>
- * <li>{@link AbstractTaskImpl#getAssignedTeams <em>Assigned Teams</em>}</li>
- * <li>{@link AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
- * <li>{@link AbstractTaskImpl#getCalculationOption <em>Calculation Option</em>}</li>
- * <li>{@link AbstractTaskImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getName <em>Name</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getStartTime <em>Start Time</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getEndTime <em>End Time</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getProgress <em>Progress</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getTags <em>Tags</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedPersons <em>Assigned Persons</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedTeams <em>Assigned Teams</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getCalculationOption <em>Calculation Option</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDuration <em>Duration</em>}</li>
  * </ul>
  *
  * @generated
@@ -85,113 +84,111 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     protected String name = NAME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getDescription() <em>Description</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getDescription()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String DESCRIPTION_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getDescription()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
     protected String description = DESCRIPTION_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getStartTime() <em>Start Time</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getStartTime() <em>Start Time</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getStartTime()
-     * @generated
-     * @ordered
-     */
+	 * @see #getStartTime()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Instant START_TIME_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getStartTime() <em>Start Time</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getStartTime() <em>Start Time</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getStartTime()
-     * @generated
-     * @ordered
-     */
+	 * @see #getStartTime()
+	 * @generated
+	 * @ordered
+	 */
     protected Instant startTime = START_TIME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getEndTime() <em>End Time</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getEndTime() <em>End Time</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getEndTime()
-     * @generated
-     * @ordered
-     */
+	 * @see #getEndTime()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Instant END_TIME_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getEndTime() <em>End Time</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getEndTime() <em>End Time</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getEndTime()
-     * @generated
-     * @ordered
-     */
+	 * @see #getEndTime()
+	 * @generated
+	 * @ordered
+	 */
     protected Instant endTime = END_TIME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getProgress() <em>Progress</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getProgress() <em>Progress</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getProgress()
-     * @generated
-     * @ordered
-     */
+	 * @see #getProgress()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int PROGRESS_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getProgress() <em>Progress</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getProgress() <em>Progress</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getProgress()
-     * @generated
-     * @ordered
-     */
+	 * @see #getProgress()
+	 * @generated
+	 * @ordered
+	 */
     protected int progress = PROGRESS_EDEFAULT;
 
     /**
-     * The default value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isComputeStartEndDynamically()
-     * @generated
-     * @ordered
-     */
+	 * The default value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isComputeStartEndDynamically()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean COMPUTE_START_END_DYNAMICALLY_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isComputeStartEndDynamically()
-     * @generated
-     * @ordered
-     */
+	 * The cached value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isComputeStartEndDynamically()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean computeStartEndDynamically = COMPUTE_START_END_DYNAMICALLY_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getTags() <em>Tags</em>}' reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getTags() <em>Tags</em>}' reference list.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getTags()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTags()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<TaskTag> tags;
 
     /**
@@ -205,13 +202,13 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     protected EList<Person> assignedPersons;
 
     /**
-     * The cached value of the '{@link #getAssignedTeams() <em>Assigned Teams</em>}' reference list. <!-- begin-user-doc
+	 * The cached value of the '{@link #getAssignedTeams() <em>Assigned Teams</em>}' reference list.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @see #getAssignedTeams()
-     * @generated
-     * @ordered
-     */
+	 * @see #getAssignedTeams()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<Team> assignedTeams;
 
     /**
@@ -245,99 +242,92 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     protected TaskTimeBoundariesConstraint calculationOption = CALCULATION_OPTION_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getDuration()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int DURATION_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getDuration()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
     protected int duration = DURATION_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected AbstractTaskImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.ABSTRACT_TASK;
-    }
+		return PepperPackage.Literals.ABSTRACT_TASK;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getName() {
-        return name;
-    }
+		return name;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setName(String newName) {
-        String oldName = name;
-        name = newName;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__NAME, oldName, name));
-    }
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__NAME, oldName, name));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getDescription() {
-        return description;
-    }
+		return description;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setDescription(String newDescription) {
-        String oldDescription = description;
-        description = newDescription;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DESCRIPTION, oldDescription, description));
-    }
+		String oldDescription = description;
+		description = newDescription;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DESCRIPTION, oldDescription, description));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Instant getStartTime() {
-        return startTime;
-    }
+		return startTime;
+	}
 
     /**
      * If the task's {@code startTime} is constrained by {@code END_DURATION}, it is not changed
@@ -372,14 +362,13 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Instant getEndTime() {
-        return endTime;
-    }
+		return endTime;
+	}
 
     /**
      * If the task's {@code endTime} is constrained by {@code START_DURATION}, it is not changed
@@ -412,14 +401,13 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public int getProgress() {
-        return progress;
-    }
+		return progress;
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -437,112 +425,103 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean isComputeStartEndDynamically() {
-        return computeStartEndDynamically;
-    }
+		return computeStartEndDynamically;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setComputeStartEndDynamically(boolean newComputeStartEndDynamically) {
-        boolean oldComputeStartEndDynamically = computeStartEndDynamically;
-        computeStartEndDynamically = newComputeStartEndDynamically;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY, oldComputeStartEndDynamically, computeStartEndDynamically));
-    }
+		boolean oldComputeStartEndDynamically = computeStartEndDynamically;
+		computeStartEndDynamically = newComputeStartEndDynamically;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY, oldComputeStartEndDynamically, computeStartEndDynamically));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<TaskTag> getTags() {
-        if (tags == null) {
-            tags = new EObjectResolvingEList<TaskTag>(TaskTag.class, this, PepperPackage.ABSTRACT_TASK__TAGS);
-        }
-        return tags;
-    }
+		if (tags == null) {
+			tags = new EObjectResolvingEList<TaskTag>(TaskTag.class, this, PepperPackage.ABSTRACT_TASK__TAGS);
+		}
+		return tags;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<Person> getAssignedPersons() {
-        if (assignedPersons == null) {
-            assignedPersons = new EObjectResolvingEList<Person>(Person.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS);
-        }
-        return assignedPersons;
-    }
+		if (assignedPersons == null) {
+			assignedPersons = new EObjectResolvingEList<Person>(Person.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS);
+		}
+		return assignedPersons;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<Team> getAssignedTeams() {
-        if (assignedTeams == null) {
-            assignedTeams = new EObjectResolvingEList<Team>(Team.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS);
-        }
-        return assignedTeams;
-    }
+		if (assignedTeams == null) {
+			assignedTeams = new EObjectResolvingEList<Team>(Team.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS);
+		}
+		return assignedTeams;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<Task> getSubTasks() {
-        if (subTasks == null) {
-            subTasks = new EObjectContainmentEList<Task>(Task.class, this, PepperPackage.ABSTRACT_TASK__SUB_TASKS);
-        }
-        return subTasks;
-    }
+		if (subTasks == null) {
+			subTasks = new EObjectContainmentEList<Task>(Task.class, this, PepperPackage.ABSTRACT_TASK__SUB_TASKS);
+		}
+		return subTasks;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public TaskTimeBoundariesConstraint getCalculationOption() {
-        return calculationOption;
-    }
+		return calculationOption;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setCalculationOption(TaskTimeBoundariesConstraint newCalculationOption) {
-        TaskTimeBoundariesConstraint oldCalculationOption = calculationOption;
-        calculationOption = newCalculationOption == null ? CALCULATION_OPTION_EDEFAULT : newCalculationOption;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION, oldCalculationOption, calculationOption));
-    }
+		TaskTimeBoundariesConstraint oldCalculationOption = calculationOption;
+		calculationOption = newCalculationOption == null ? CALCULATION_OPTION_EDEFAULT : newCalculationOption;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION, oldCalculationOption, calculationOption));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public int getDuration() {
-        return duration;
-    }
+		return duration;
+	}
 
     /**
      * If the task's {@code duration} is constrained by {@code START_END}, it is not changed
@@ -571,228 +550,214 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                return ((InternalEList<?>) getSubTasks()).basicRemove(otherEnd, msgs);
-            default:
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				return ((InternalEList<?>)getSubTasks()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.ABSTRACT_TASK__NAME:
-                return getName();
-            case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-                return getDescription();
-            case PepperPackage.ABSTRACT_TASK__START_TIME:
-                return getStartTime();
-            case PepperPackage.ABSTRACT_TASK__END_TIME:
-                return getEndTime();
-            case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                return getProgress();
-            case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                return isComputeStartEndDynamically();
-            case PepperPackage.ABSTRACT_TASK__TAGS:
-                return getTags();
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-                return getAssignedPersons();
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-                return getAssignedTeams();
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                return getSubTasks();
-            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                return getCalculationOption();
-            case PepperPackage.ABSTRACT_TASK__DURATION:
-                return getDuration();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ABSTRACT_TASK__NAME:
+				return getName();
+			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
+				return getDescription();
+			case PepperPackage.ABSTRACT_TASK__START_TIME:
+				return getStartTime();
+			case PepperPackage.ABSTRACT_TASK__END_TIME:
+				return getEndTime();
+			case PepperPackage.ABSTRACT_TASK__PROGRESS:
+				return getProgress();
+			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+				return isComputeStartEndDynamically();
+			case PepperPackage.ABSTRACT_TASK__TAGS:
+				return getTags();
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
+				return getAssignedPersons();
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
+				return getAssignedTeams();
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				return getSubTasks();
+			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+				return getCalculationOption();
+			case PepperPackage.ABSTRACT_TASK__DURATION:
+				return getDuration();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.ABSTRACT_TASK__NAME:
-                setName((String) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-                setDescription((String) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__START_TIME:
-                setStartTime((Instant) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__END_TIME:
-                setEndTime((Instant) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                setProgress((Integer) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                setComputeStartEndDynamically((Boolean) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__TAGS:
-                getTags().clear();
-                getTags().addAll((Collection<? extends TaskTag>) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-                getAssignedPersons().clear();
-                getAssignedPersons().addAll((Collection<? extends Person>) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-                getAssignedTeams().clear();
-                getAssignedTeams().addAll((Collection<? extends Team>) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                getSubTasks().clear();
-                getSubTasks().addAll((Collection<? extends Task>) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                setCalculationOption((TaskTimeBoundariesConstraint) newValue);
-                return;
-            case PepperPackage.ABSTRACT_TASK__DURATION:
-                setDuration((Integer) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ABSTRACT_TASK__NAME:
+				setName((String)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__START_TIME:
+				setStartTime((Instant)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__END_TIME:
+				setEndTime((Instant)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__PROGRESS:
+				setProgress((Integer)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+				setComputeStartEndDynamically((Boolean)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__TAGS:
+				getTags().clear();
+				getTags().addAll((Collection<? extends TaskTag>)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
+				getAssignedPersons().clear();
+				getAssignedPersons().addAll((Collection<? extends Person>)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
+				getAssignedTeams().clear();
+				getAssignedTeams().addAll((Collection<? extends Team>)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				getSubTasks().clear();
+				getSubTasks().addAll((Collection<? extends Task>)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+				setCalculationOption((TaskTimeBoundariesConstraint)newValue);
+				return;
+			case PepperPackage.ABSTRACT_TASK__DURATION:
+				setDuration((Integer)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.ABSTRACT_TASK__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__START_TIME:
-                setStartTime(START_TIME_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__END_TIME:
-                setEndTime(END_TIME_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                setProgress(PROGRESS_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                setComputeStartEndDynamically(COMPUTE_START_END_DYNAMICALLY_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__TAGS:
-                getTags().clear();
-                return;
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-                getAssignedPersons().clear();
-                return;
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-                getAssignedTeams().clear();
-                return;
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                getSubTasks().clear();
-                return;
-            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                setCalculationOption(CALCULATION_OPTION_EDEFAULT);
-                return;
-            case PepperPackage.ABSTRACT_TASK__DURATION:
-                setDuration(DURATION_EDEFAULT);
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ABSTRACT_TASK__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__START_TIME:
+				setStartTime(START_TIME_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__END_TIME:
+				setEndTime(END_TIME_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__PROGRESS:
+				setProgress(PROGRESS_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+				setComputeStartEndDynamically(COMPUTE_START_END_DYNAMICALLY_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__TAGS:
+				getTags().clear();
+				return;
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
+				getAssignedPersons().clear();
+				return;
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
+				getAssignedTeams().clear();
+				return;
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				getSubTasks().clear();
+				return;
+			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+				setCalculationOption(CALCULATION_OPTION_EDEFAULT);
+				return;
+			case PepperPackage.ABSTRACT_TASK__DURATION:
+				setDuration(DURATION_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.ABSTRACT_TASK__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case PepperPackage.ABSTRACT_TASK__START_TIME:
-                return START_TIME_EDEFAULT == null ? startTime != null : !START_TIME_EDEFAULT.equals(startTime);
-            case PepperPackage.ABSTRACT_TASK__END_TIME:
-                return END_TIME_EDEFAULT == null ? endTime != null : !END_TIME_EDEFAULT.equals(endTime);
-            case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                return progress != PROGRESS_EDEFAULT;
-            case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                return computeStartEndDynamically != COMPUTE_START_END_DYNAMICALLY_EDEFAULT;
-            case PepperPackage.ABSTRACT_TASK__TAGS:
-                return tags != null && !tags.isEmpty();
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-                return assignedPersons != null && !assignedPersons.isEmpty();
-            case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-                return assignedTeams != null && !assignedTeams.isEmpty();
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                return subTasks != null && !subTasks.isEmpty();
-            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                return calculationOption != CALCULATION_OPTION_EDEFAULT;
-            case PepperPackage.ABSTRACT_TASK__DURATION:
-                return duration != DURATION_EDEFAULT;
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.ABSTRACT_TASK__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case PepperPackage.ABSTRACT_TASK__START_TIME:
+				return START_TIME_EDEFAULT == null ? startTime != null : !START_TIME_EDEFAULT.equals(startTime);
+			case PepperPackage.ABSTRACT_TASK__END_TIME:
+				return END_TIME_EDEFAULT == null ? endTime != null : !END_TIME_EDEFAULT.equals(endTime);
+			case PepperPackage.ABSTRACT_TASK__PROGRESS:
+				return progress != PROGRESS_EDEFAULT;
+			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+				return computeStartEndDynamically != COMPUTE_START_END_DYNAMICALLY_EDEFAULT;
+			case PepperPackage.ABSTRACT_TASK__TAGS:
+				return tags != null && !tags.isEmpty();
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
+				return assignedPersons != null && !assignedPersons.isEmpty();
+			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
+				return assignedTeams != null && !assignedTeams.isEmpty();
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				return subTasks != null && !subTasks.isEmpty();
+			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+				return calculationOption != CALCULATION_OPTION_EDEFAULT;
+			case PepperPackage.ABSTRACT_TASK__DURATION:
+				return duration != DURATION_EDEFAULT;
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (name: ");
-        result.append(name);
-        result.append(", description: ");
-        result.append(description);
-        result.append(", startTime: ");
-        result.append(startTime);
-        result.append(", endTime: ");
-        result.append(endTime);
-        result.append(", progress: ");
-        result.append(progress);
-        result.append(", computeStartEndDynamically: ");
-        result.append(computeStartEndDynamically);
-        result.append(", calculationOption: ");
-        result.append(calculationOption);
-        result.append(", duration: ");
-        result.append(duration);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", description: ");
+		result.append(description);
+		result.append(", startTime: ");
+		result.append(startTime);
+		result.append(", endTime: ");
+		result.append(endTime);
+		result.append(", progress: ");
+		result.append(progress);
+		result.append(", computeStartEndDynamically: ");
+		result.append(computeStartEndDynamically);
+		result.append(", calculationOption: ");
+		result.append(calculationOption);
+		result.append(", duration: ");
+		result.append(duration);
+		result.append(')');
+		return result.toString();
+	}
 
 } // AbstractTaskImpl

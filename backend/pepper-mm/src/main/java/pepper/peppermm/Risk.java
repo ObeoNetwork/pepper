@@ -25,55 +25,54 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link Risk#getKind <em>Kind</em>}</li>
- * <li>{@link Risk#getDescription <em>Description</em>}</li>
- * <li>{@link Risk#getCriticity <em>Criticity</em>}</li>
- * <li>{@link Risk#getAction <em>Action</em>}</li>
- * <li>{@link Risk#getResponsible <em>Responsible</em>}</li>
- * <li>{@link Risk#getOperationDate <em>Operation Date</em>}</li>
- * <li>{@link Risk#getState <em>State</em>}</li>
- * <li>{@link Risk#getWorkpackages <em>Workpackages</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getKind <em>Kind</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getDescription <em>Description</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getCriticity <em>Criticity</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getAction <em>Action</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getResponsible <em>Responsible</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getOperationDate <em>Operation Date</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getState <em>State</em>}</li>
+ *   <li>{@link pepper.peppermm.Risk#getWorkpackages <em>Workpackages</em>}</li>
  * </ul>
  *
- * @see PepperPackage#getRisk()
+ * @see pepper.peppermm.PepperPackage#getRisk()
  * @model
  * @generated
  */
 public interface Risk extends EObject {
     /**
-     * Returns the value of the '<em><b>Kind</b></em>' attribute. The literals are from the enumeration
-     * {@link RiskKind}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Kind</em>' attribute.
-     * @see RiskKind
-     * @see #setKind(RiskKind)
-     * @see PepperPackage#getRisk_Kind()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
+	 * The literals are from the enumeration {@link pepper.peppermm.RiskKind}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Kind</em>' attribute.
+	 * @see pepper.peppermm.RiskKind
+	 * @see #setKind(RiskKind)
+	 * @see pepper.peppermm.PepperPackage#getRisk_Kind()
+	 * @model
+	 * @generated
+	 */
     RiskKind getKind();
 
     /**
-     * Sets the value of the '{@link Risk#getKind <em>Kind</em>}' attribute. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link pepper.peppermm.Risk#getKind <em>Kind</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Kind</em>' attribute.
-     * @see RiskKind
-     * @see #getKind()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Kind</em>' attribute.
+	 * @see pepper.peppermm.RiskKind
+	 * @see #getKind()
+	 * @generated
+	 */
     void setKind(RiskKind value);
 
     /**
-     * Returns the value of the '<em><b>Description</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Description</em>' attribute.
-     * @see #setDescription(String)
-     * @see PepperPackage#getRisk_Description()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see pepper.peppermm.PepperPackage#getRisk_Description()
+	 * @model
+	 * @generated
+	 */
     String getDescription();
 
     /**
@@ -88,14 +87,14 @@ public interface Risk extends EObject {
     void setDescription(String value);
 
     /**
-     * Returns the value of the '<em><b>Criticity</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Criticity</em>' attribute.
-     * @see #setCriticity(Integer)
-     * @see PepperPackage#getRisk_Criticity()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Criticity</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Criticity</em>' attribute.
+	 * @see #setCriticity(Integer)
+	 * @see pepper.peppermm.PepperPackage#getRisk_Criticity()
+	 * @model
+	 * @generated
+	 */
     Integer getCriticity();
 
     /**
@@ -110,36 +109,35 @@ public interface Risk extends EObject {
     void setCriticity(Integer value);
 
     /**
-     * Returns the value of the '<em><b>Action</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Action</em>' attribute.
-     * @see #setAction(String)
-     * @see PepperPackage#getRisk_Action()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Action</em>' attribute.
+	 * @see #setAction(String)
+	 * @see pepper.peppermm.PepperPackage#getRisk_Action()
+	 * @model
+	 * @generated
+	 */
     String getAction();
 
     /**
-     * Sets the value of the '{@link Risk#getAction <em>Action</em>}' attribute. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link pepper.peppermm.Risk#getAction <em>Action</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Action</em>' attribute.
-     * @see #getAction()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Action</em>' attribute.
+	 * @see #getAction()
+	 * @generated
+	 */
     void setAction(String value);
 
     /**
-     * Returns the value of the '<em><b>Responsible</b></em>' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Responsible</em>' reference.
-     * @see #setResponsible(Person)
-     * @see PepperPackage#getRisk_Responsible()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Responsible</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Responsible</em>' reference.
+	 * @see #setResponsible(Person)
+	 * @see pepper.peppermm.PepperPackage#getRisk_Responsible()
+	 * @model
+	 * @generated
+	 */
     Person getResponsible();
 
     /**
@@ -177,39 +175,38 @@ public interface Risk extends EObject {
     void setOperationDate(LocalDate value);
 
     /**
-     * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-     * {@link RiskState}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>State</em>' attribute.
-     * @see RiskState
-     * @see #setState(RiskState)
-     * @see PepperPackage#getRisk_State()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>State</b></em>' attribute.
+	 * The literals are from the enumeration {@link pepper.peppermm.RiskState}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>State</em>' attribute.
+	 * @see pepper.peppermm.RiskState
+	 * @see #setState(RiskState)
+	 * @see pepper.peppermm.PepperPackage#getRisk_State()
+	 * @model
+	 * @generated
+	 */
     RiskState getState();
 
     /**
-     * Sets the value of the '{@link Risk#getState <em>State</em>}' attribute. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link pepper.peppermm.Risk#getState <em>State</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>State</em>' attribute.
-     * @see RiskState
-     * @see #getState()
-     * @generated
-     */
+	 * @param value the new value of the '<em>State</em>' attribute.
+	 * @see pepper.peppermm.RiskState
+	 * @see #getState()
+	 * @generated
+	 */
     void setState(RiskState value);
 
     /**
-     * Returns the value of the '<em><b>Workpackages</b></em>' reference list. The list contents are of type
-     * {@link Workpackage}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Workpackages</em>' reference list.
-     * @see PepperPackage#getRisk_Workpackages()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Workpackages</b></em>' reference list.
+	 * The list contents are of type {@link pepper.peppermm.Workpackage}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Workpackages</em>' reference list.
+	 * @see pepper.peppermm.PepperPackage#getRisk_Workpackages()
+	 * @model
+	 * @generated
+	 */
     EList<Workpackage> getWorkpackages();
 
 } // Risk

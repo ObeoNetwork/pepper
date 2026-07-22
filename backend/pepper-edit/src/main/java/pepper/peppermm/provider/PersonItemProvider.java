@@ -26,101 +26,132 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 
 /**
- * This is the item provider adapter for a {@link Person} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.Person} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class PersonItemProvider extends ResourceItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public PersonItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-            addAliasPropertyDescriptor(object);
-            addBiographyPropertyDescriptor(object);
-            addImageUrlPropertyDescriptor(object);
-        }
-        return itemPropertyDescriptors;
-    }
+			addAliasPropertyDescriptor(object);
+			addBiographyPropertyDescriptor(object);
+			addImageUrlPropertyDescriptor(object);
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This adds a property descriptor for the Alias feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Alias feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addAliasPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_Person_alias_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Person_alias_feature", "_UI_Person_type"), PepperPackage.Literals.PERSON__ALIAS, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Person_alias_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_alias_feature", "_UI_Person_type"),
+				 PepperPackage.Literals.PERSON__ALIAS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Biography feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Biography feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addBiographyPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_Person_biography_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Person_biography_feature", "_UI_Person_type"), PepperPackage.Literals.PERSON__BIOGRAPHY, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Person_biography_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_biography_feature", "_UI_Person_type"),
+				 PepperPackage.Literals.PERSON__BIOGRAPHY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Image Url feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Image Url feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addImageUrlPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_Person_imageUrl_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Person_imageUrl_feature", "_UI_Person_type"), PepperPackage.Literals.PERSON__IMAGE_URL, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Person_imageUrl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_imageUrl_feature", "_UI_Person_type"),
+				 PepperPackage.Literals.PERSON__IMAGE_URL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This returns Person.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
+	 * This returns Person.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/Person.svg"));
-    }
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Person"));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected boolean shouldComposeCreationImage() {
-        return true;
-    }
+		return true;
+	}
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getText(Object object) {
-        String label = ((Person) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_Person_type") : getString("_UI_Person_type") + " " + label;
-    }
+		String label = ((Person)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Person_type") :
+			getString("_UI_Person_type") + " " + label;
+	}
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
@@ -131,29 +162,27 @@ public class PersonItemProvider extends ResourceItemProvider {
      */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
+		updateChildren(notification);
 
-        switch (notification.getFeatureID(Person.class)) {
-            case PepperPackage.PERSON__ALIAS:
-            case PepperPackage.PERSON__BIOGRAPHY:
-            case PepperPackage.PERSON__IMAGE_URL:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-                return;
-            default:
-                super.notifyChanged(notification);
-                return;
-        }
-    }
+		switch (notification.getFeatureID(Person.class)) {
+			case PepperPackage.PERSON__ALIAS:
+			case PepperPackage.PERSON__BIOGRAPHY:
+			case PepperPackage.PERSON__IMAGE_URL:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
-     * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-    }
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
 }

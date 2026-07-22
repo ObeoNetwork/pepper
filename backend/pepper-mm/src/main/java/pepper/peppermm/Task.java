@@ -16,7 +16,7 @@ package pepper.peppermm;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Task</b></em>'. <!-- end-user-doc -->
  *
  *
- * @see PepperPackage#getTask()
+ * @see pepper.peppermm.PepperPackage#getTask()
  * @model
  * @generated
  */

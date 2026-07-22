@@ -24,76 +24,88 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Team;
 
 /**
- * This is the item provider adapter for a {@link Team} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.Team} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class TeamItemProvider extends ResourceItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public TeamItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-            addMembersPropertyDescriptor(object);
-        }
-        return itemPropertyDescriptors;
-    }
+			addMembersPropertyDescriptor(object);
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This adds a property descriptor for the Members feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Members feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addMembersPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_Team_members_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Team_members_feature", "_UI_Team_type"), PepperPackage.Literals.TEAM__MEMBERS, true, false, true, null, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Team_members_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Team_members_feature", "_UI_Team_type"),
+				 PepperPackage.Literals.TEAM__MEMBERS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
 
     /**
-     * This returns Team.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
+	 * This returns Team.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/Team.svg"));
-    }
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Team"));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected boolean shouldComposeCreationImage() {
-        return true;
-    }
+		return true;
+	}
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getText(Object object) {
-        String label = ((Team) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_Team_type") : getString("_UI_Team_type") + " " + label;
-    }
+		String label = ((Team)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Team_type") :
+			getString("_UI_Team_type") + " " + label;
+	}
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
@@ -104,19 +116,19 @@ public class TeamItemProvider extends ResourceItemProvider {
      */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
-        super.notifyChanged(notification);
-    }
+		updateChildren(notification);
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
-     * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-    }
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
 }
