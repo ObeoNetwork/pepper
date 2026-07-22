@@ -24,235 +24,201 @@ import pepper.peppermm.*;
  * {@link #doSwitch(EObject) doSwitch(object)} to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object and proceeding up the inheritance hierarchy until a non-null result is
  * returned, which is the result of the switch. <!-- end-user-doc -->
- * 
- * @see PepperPackage
+ * @see pepper.peppermm.PepperPackage
  * @generated
  */
 public class PepperSwitch<T> extends Switch<T> {
     /**
-     * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * The cached model package
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected static PepperPackage modelPackage;
 
     /**
-     * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public PepperSwitch() {
-        if (modelPackage == null) {
-            modelPackage = PepperPackage.eINSTANCE;
-        }
-    }
+		if (modelPackage == null) {
+			modelPackage = PepperPackage.eINSTANCE;
+		}
+	}
 
     /**
-     * Checks whether this is a switch for the given package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param ePackage
-     *            the package in question.
-     * @return whether this is a switch for the given package.
-     * @generated
-     */
+	 * Checks whether this is a switch for the given package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param ePackage the package in question.
+	 * @return whether this is a switch for the given package.
+	 * @generated
+	 */
     @Override
     protected boolean isSwitchFor(EPackage ePackage) {
-        return ePackage == modelPackage;
-    }
+		return ePackage == modelPackage;
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
-     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
-        switch (classifierID) {
-            case PepperPackage.ORGANIZATION: {
-                Organization organization = (Organization) theEObject;
-                T result = caseOrganization(organization);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.RESOURCE: {
-                Resource resource = (Resource) theEObject;
-                T result = caseResource(resource);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.RESOURCE_FOLDER: {
-                ResourceFolder resourceFolder = (ResourceFolder) theEObject;
-                T result = caseResourceFolder(resourceFolder);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.TEAM: {
-                Team team = (Team) theEObject;
-                T result = caseTeam(team);
-                if (result == null)
-                    result = caseResource(team);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.INTERNAL_STAKEHOLDER: {
-                InternalStakeholder internalStakeholder = (InternalStakeholder) theEObject;
-                T result = caseInternalStakeholder(internalStakeholder);
-                if (result == null)
-                    result = caseResource(internalStakeholder);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.EXTERNAL_STAKEHOLDER: {
-                ExternalStakeholder externalStakeholder = (ExternalStakeholder) theEObject;
-                T result = caseExternalStakeholder(externalStakeholder);
-                if (result == null)
-                    result = caseResource(externalStakeholder);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.PERSON: {
-                Person person = (Person) theEObject;
-                T result = casePerson(person);
-                if (result == null)
-                    result = caseResource(person);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.ABSTRACT_TASK: {
-                AbstractTask abstractTask = (AbstractTask) theEObject;
-                T result = caseAbstractTask(abstractTask);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.TAG_FOLDER: {
-                TagFolder tagFolder = (TagFolder) theEObject;
-                T result = caseTagFolder(tagFolder);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.TASK_TAG: {
-                TaskTag taskTag = (TaskTag) theEObject;
-                T result = caseTaskTag(taskTag);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.TASK: {
-                Task task = (Task) theEObject;
-                T result = caseTask(task);
-                if (result == null)
-                    result = caseAbstractTask(task);
-                if (result == null)
-                    result = caseDependencyRelatedObject(task);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.OBJECTIVE: {
-                Objective objective = (Objective) theEObject;
-                T result = caseObjective(objective);
-                if (result == null)
-                    result = caseAbstractTask(objective);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.KEY_RESULT: {
-                KeyResult keyResult = (KeyResult) theEObject;
-                T result = caseKeyResult(keyResult);
-                if (result == null)
-                    result = caseAbstractTask(keyResult);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.PROJECT: {
-                Project project = (Project) theEObject;
-                T result = caseProject(project);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.WORKPACKAGE: {
-                Workpackage workpackage = (Workpackage) theEObject;
-                T result = caseWorkpackage(workpackage);
-                if (result == null)
-                    result = caseDependencyRelatedObject(workpackage);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.WORKPACKAGE_ARTEFACT: {
-                WorkpackageArtefact workpackageArtefact = (WorkpackageArtefact) theEObject;
-                T result = caseWorkpackageArtefact(workpackageArtefact);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.RISK: {
-                Risk risk = (Risk) theEObject;
-                T result = caseRisk(risk);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.DEPENDENCY_LINK: {
-                DependencyLink dependencyLink = (DependencyLink) theEObject;
-                T result = caseDependencyLink(dependencyLink);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case PepperPackage.DEPENDENCY_RELATED_OBJECT: {
-                DependencyRelatedObject dependencyRelatedObject = (DependencyRelatedObject) theEObject;
-                T result = caseDependencyRelatedObject(dependencyRelatedObject);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            default:
-                return defaultCase(theEObject);
-        }
-    }
+		switch (classifierID) {
+			case PepperPackage.ORGANIZATION: {
+				Organization organization = (Organization)theEObject;
+				T result = caseOrganization(organization);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.RESOURCE: {
+				Resource resource = (Resource)theEObject;
+				T result = caseResource(resource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.RESOURCE_FOLDER: {
+				ResourceFolder resourceFolder = (ResourceFolder)theEObject;
+				T result = caseResourceFolder(resourceFolder);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.TEAM: {
+				Team team = (Team)theEObject;
+				T result = caseTeam(team);
+				if (result == null) result = caseResource(team);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.INTERNAL_STAKEHOLDER: {
+				InternalStakeholder internalStakeholder = (InternalStakeholder)theEObject;
+				T result = caseInternalStakeholder(internalStakeholder);
+				if (result == null) result = caseResource(internalStakeholder);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.EXTERNAL_STAKEHOLDER: {
+				ExternalStakeholder externalStakeholder = (ExternalStakeholder)theEObject;
+				T result = caseExternalStakeholder(externalStakeholder);
+				if (result == null) result = caseResource(externalStakeholder);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.PERSON: {
+				Person person = (Person)theEObject;
+				T result = casePerson(person);
+				if (result == null) result = caseResource(person);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.ABSTRACT_TASK: {
+				AbstractTask abstractTask = (AbstractTask)theEObject;
+				T result = caseAbstractTask(abstractTask);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.TAG_FOLDER: {
+				TagFolder tagFolder = (TagFolder)theEObject;
+				T result = caseTagFolder(tagFolder);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.TASK_TAG: {
+				TaskTag taskTag = (TaskTag)theEObject;
+				T result = caseTaskTag(taskTag);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.TASK: {
+				Task task = (Task)theEObject;
+				T result = caseTask(task);
+				if (result == null) result = caseAbstractTask(task);
+				if (result == null) result = caseDependencyRelatedObject(task);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.OBJECTIVE: {
+				Objective objective = (Objective)theEObject;
+				T result = caseObjective(objective);
+				if (result == null) result = caseAbstractTask(objective);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.KEY_RESULT: {
+				KeyResult keyResult = (KeyResult)theEObject;
+				T result = caseKeyResult(keyResult);
+				if (result == null) result = caseAbstractTask(keyResult);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.PROJECT: {
+				Project project = (Project)theEObject;
+				T result = caseProject(project);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.WORKPACKAGE: {
+				Workpackage workpackage = (Workpackage)theEObject;
+				T result = caseWorkpackage(workpackage);
+				if (result == null) result = caseDependencyRelatedObject(workpackage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.WORKPACKAGE_ARTEFACT: {
+				WorkpackageArtefact workpackageArtefact = (WorkpackageArtefact)theEObject;
+				T result = caseWorkpackageArtefact(workpackageArtefact);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.RISK: {
+				Risk risk = (Risk)theEObject;
+				T result = caseRisk(risk);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.DEPENDENCY_LINK: {
+				DependencyLink dependencyLink = (DependencyLink)theEObject;
+				T result = caseDependencyLink(dependencyLink);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PepperPackage.DEPENDENCY_RELATED_OBJECT: {
+				DependencyRelatedObject dependencyRelatedObject = (DependencyRelatedObject)theEObject;
+				T result = caseDependencyRelatedObject(dependencyRelatedObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
+		}
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Organization</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Organization</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Organization</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Organization</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseOrganization(Organization object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Resource</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Resource</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Resource</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseResource(Resource object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>Resource Folder</em>'. <!-- begin-user-doc
@@ -266,22 +232,21 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseResourceFolder(ResourceFolder object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Team</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Team</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Team</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Team</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseTeam(Team object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>Internal Stakeholder</em>'. <!--
@@ -295,8 +260,8 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseInternalStakeholder(InternalStakeholder object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>External Stakeholder</em>'. <!--
@@ -310,134 +275,125 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseExternalStakeholder(ExternalStakeholder object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Person</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Person</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Person</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Person</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T casePerson(Person object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Abstract Task</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Task</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Abstract Task</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Task</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseAbstractTask(AbstractTask object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Tag Folder</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Tag Folder</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Tag Folder</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Tag Folder</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseTagFolder(TagFolder object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Task Tag</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Task Tag</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Task Tag</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Task Tag</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseTaskTag(TaskTag object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Task</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Task</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Task</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Task</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseTask(Task object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Objective</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Objective</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Objective</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Objective</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseObjective(Objective object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Key Result</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Key Result</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Key Result</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Key Result</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseKeyResult(KeyResult object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Project</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Project</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Project</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Project</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseProject(Project object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Workpackage</em>'. <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Workpackage</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Workpackage</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Workpackage</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseWorkpackage(Workpackage object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>Workpackage Artefact</em>'. <!--
@@ -451,22 +407,21 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseWorkpackageArtefact(WorkpackageArtefact object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Risk</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>Risk</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Risk</em>'.
-     * @see #doSwitch(EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Risk</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseRisk(Risk object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>Dependency Link</em>'. <!-- begin-user-doc
@@ -480,8 +435,8 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDependencyLink(DependencyLink object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Returns the result of interpreting the object as an instance of '<em>Dependency Related Object</em>'. <!--
@@ -495,23 +450,22 @@ public class PepperSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDependencyRelatedObject(DependencyRelatedObject object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'. <!-- begin-user-doc --> This
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc --> This
      * implementation returns null; returning a non-null result will terminate the switch, but this is the last case
      * anyway. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
-     * @see #doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
     @Override
     public T defaultCase(EObject object) {
-        return null;
-    }
+		return null;
+	}
 
 } // PepperSwitch

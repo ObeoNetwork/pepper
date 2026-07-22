@@ -33,7 +33,7 @@ import pepper.peppermm.Task;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link TaskImpl#getDependencies <em>Dependencies</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.TaskImpl#getDependencies <em>Dependencies</em>}</li>
  * </ul>
  *
  * @generated
@@ -50,152 +50,131 @@ public class TaskImpl extends AbstractTaskImpl implements Task {
     protected EList<DependencyLink> dependencies;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected TaskImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.TASK;
-    }
+		return PepperPackage.Literals.TASK;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<DependencyLink> getDependencies() {
-        if (dependencies == null) {
-            dependencies = new EObjectContainmentEList<DependencyLink>(DependencyLink.class, this, PepperPackage.TASK__DEPENDENCIES);
-        }
-        return dependencies;
-    }
+		if (dependencies == null) {
+			dependencies = new EObjectContainmentEList<DependencyLink>(DependencyLink.class, this, PepperPackage.TASK__DEPENDENCIES);
+		}
+		return dependencies;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PepperPackage.TASK__DEPENDENCIES:
-                return ((InternalEList<?>) getDependencies()).basicRemove(otherEnd, msgs);
-            default:
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK__DEPENDENCIES:
+				return ((InternalEList<?>)getDependencies()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.TASK__DEPENDENCIES:
-                return getDependencies();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK__DEPENDENCIES:
+				return getDependencies();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.TASK__DEPENDENCIES:
-                getDependencies().clear();
-                getDependencies().addAll((Collection<? extends DependencyLink>) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK__DEPENDENCIES:
+				getDependencies().clear();
+				getDependencies().addAll((Collection<? extends DependencyLink>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.TASK__DEPENDENCIES:
-                getDependencies().clear();
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK__DEPENDENCIES:
+				getDependencies().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.TASK__DEPENDENCIES:
-                return dependencies != null && !dependencies.isEmpty();
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK__DEPENDENCIES:
+				return dependencies != null && !dependencies.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-        if (baseClass == DependencyRelatedObject.class) {
-            switch (derivedFeatureID) {
-                case PepperPackage.TASK__DEPENDENCIES:
-                    return PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
-                default:
-                    return -1;
-            }
-        }
-        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-    }
+		if (baseClass == DependencyRelatedObject.class) {
+			switch (derivedFeatureID) {
+				case PepperPackage.TASK__DEPENDENCIES: return PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-        if (baseClass == DependencyRelatedObject.class) {
-            switch (baseFeatureID) {
-                case PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES:
-                    return PepperPackage.TASK__DEPENDENCIES;
-                default:
-                    return -1;
-            }
-        }
-        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-    }
+		if (baseClass == DependencyRelatedObject.class) {
+			switch (baseFeatureID) {
+				case PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES: return PepperPackage.TASK__DEPENDENCIES;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
 } // TaskImpl

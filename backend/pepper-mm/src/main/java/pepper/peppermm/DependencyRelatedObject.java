@@ -24,23 +24,23 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link DependencyRelatedObject#getDependencies <em>Dependencies</em>}</li>
+ *   <li>{@link pepper.peppermm.DependencyRelatedObject#getDependencies <em>Dependencies</em>}</li>
  * </ul>
  *
- * @see PepperPackage#getDependencyRelatedObject()
+ * @see pepper.peppermm.PepperPackage#getDependencyRelatedObject()
  * @model interface="true" abstract="true"
  * @generated
  */
 public interface DependencyRelatedObject extends EObject {
     /**
-     * Returns the value of the '<em><b>Dependencies</b></em>' containment reference list. The list contents are of type
-     * {@link DependencyLink}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Dependencies</em>' containment reference list.
-     * @see PepperPackage#getDependencyRelatedObject_Dependencies()
-     * @model containment="true"
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Dependencies</b></em>' containment reference list.
+	 * The list contents are of type {@link pepper.peppermm.DependencyLink}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Dependencies</em>' containment reference list.
+	 * @see pepper.peppermm.PepperPackage#getDependencyRelatedObject_Dependencies()
+	 * @model containment="true"
+	 * @generated
+	 */
     EList<DependencyLink> getDependencies();
 
 } // DependencyRelatedObject

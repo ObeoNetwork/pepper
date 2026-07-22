@@ -19,47 +19,46 @@ package pepper.peppermm;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link Person#getAlias <em>Alias</em>}</li>
- * <li>{@link Person#getBiography <em>Biography</em>}</li>
- * <li>{@link Person#getImageUrl <em>Image Url</em>}</li>
+ *   <li>{@link pepper.peppermm.Person#getAlias <em>Alias</em>}</li>
+ *   <li>{@link pepper.peppermm.Person#getBiography <em>Biography</em>}</li>
+ *   <li>{@link pepper.peppermm.Person#getImageUrl <em>Image Url</em>}</li>
  * </ul>
  *
- * @see PepperPackage#getPerson()
+ * @see pepper.peppermm.PepperPackage#getPerson()
  * @model
  * @generated
  */
 public interface Person extends Resource {
     /**
-     * Returns the value of the '<em><b>Alias</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Alias</em>' attribute.
-     * @see #setAlias(String)
-     * @see PepperPackage#getPerson_Alias()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Alias</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Alias</em>' attribute.
+	 * @see #setAlias(String)
+	 * @see pepper.peppermm.PepperPackage#getPerson_Alias()
+	 * @model
+	 * @generated
+	 */
     String getAlias();
 
     /**
-     * Sets the value of the '{@link Person#getAlias <em>Alias</em>}' attribute. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link pepper.peppermm.Person#getAlias <em>Alias</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Alias</em>' attribute.
-     * @see #getAlias()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Alias</em>' attribute.
+	 * @see #getAlias()
+	 * @generated
+	 */
     void setAlias(String value);
 
     /**
-     * Returns the value of the '<em><b>Biography</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Biography</em>' attribute.
-     * @see #setBiography(String)
-     * @see PepperPackage#getPerson_Biography()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Biography</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Biography</em>' attribute.
+	 * @see #setBiography(String)
+	 * @see pepper.peppermm.PepperPackage#getPerson_Biography()
+	 * @model
+	 * @generated
+	 */
     String getBiography();
 
     /**
@@ -74,14 +73,14 @@ public interface Person extends Resource {
     void setBiography(String value);
 
     /**
-     * Returns the value of the '<em><b>Image Url</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the value of the '<em>Image Url</em>' attribute.
-     * @see #setImageUrl(String)
-     * @see PepperPackage#getPerson_ImageUrl()
-     * @model
-     * @generated
-     */
+	 * Returns the value of the '<em><b>Image Url</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Image Url</em>' attribute.
+	 * @see #setImageUrl(String)
+	 * @see pepper.peppermm.PepperPackage#getPerson_ImageUrl()
+	 * @model
+	 * @generated
+	 */
     String getImageUrl();
 
     /**

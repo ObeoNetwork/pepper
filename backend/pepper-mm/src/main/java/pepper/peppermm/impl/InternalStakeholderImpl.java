@@ -25,22 +25,20 @@ import pepper.peppermm.PepperPackage;
  */
 public class InternalStakeholderImpl extends ResourceImpl implements InternalStakeholder {
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected InternalStakeholderImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.INTERNAL_STAKEHOLDER;
-    }
+		return PepperPackage.Literals.INTERNAL_STAKEHOLDER;
+	}
 
 } // InternalStakeholderImpl

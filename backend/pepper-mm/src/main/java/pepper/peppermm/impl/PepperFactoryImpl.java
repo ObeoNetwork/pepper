@@ -29,314 +29,279 @@ import pepper.peppermm.*;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     /**
-     * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public static PepperFactory init() {
-        try {
-            PepperFactory thePepperFactory = (PepperFactory) EPackage.Registry.INSTANCE.getEFactory(PepperPackage.eNS_URI);
-            if (thePepperFactory != null) {
-                return thePepperFactory;
-            }
-        } catch (Exception exception) {
-            EcorePlugin.INSTANCE.log(exception);
-        }
-        return new PepperFactoryImpl();
-    }
+		try {
+			PepperFactory thePepperFactory = (PepperFactory)EPackage.Registry.INSTANCE.getEFactory(PepperPackage.eNS_URI);
+			if (thePepperFactory != null) {
+				return thePepperFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new PepperFactoryImpl();
+	}
 
     /**
-     * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public PepperFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case PepperPackage.ORGANIZATION:
-                return createOrganization();
-            case PepperPackage.RESOURCE_FOLDER:
-                return createResourceFolder();
-            case PepperPackage.TEAM:
-                return createTeam();
-            case PepperPackage.INTERNAL_STAKEHOLDER:
-                return createInternalStakeholder();
-            case PepperPackage.EXTERNAL_STAKEHOLDER:
-                return createExternalStakeholder();
-            case PepperPackage.PERSON:
-                return createPerson();
-            case PepperPackage.TAG_FOLDER:
-                return createTagFolder();
-            case PepperPackage.TASK_TAG:
-                return createTaskTag();
-            case PepperPackage.TASK:
-                return createTask();
-            case PepperPackage.OBJECTIVE:
-                return createObjective();
-            case PepperPackage.KEY_RESULT:
-                return createKeyResult();
-            case PepperPackage.PROJECT:
-                return createProject();
-            case PepperPackage.WORKPACKAGE:
-                return createWorkpackage();
-            case PepperPackage.WORKPACKAGE_ARTEFACT:
-                return createWorkpackageArtefact();
-            case PepperPackage.RISK:
-                return createRisk();
-            case PepperPackage.DEPENDENCY_LINK:
-                return createDependencyLink();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case PepperPackage.ORGANIZATION: return createOrganization();
+			case PepperPackage.RESOURCE_FOLDER: return createResourceFolder();
+			case PepperPackage.TEAM: return createTeam();
+			case PepperPackage.INTERNAL_STAKEHOLDER: return createInternalStakeholder();
+			case PepperPackage.EXTERNAL_STAKEHOLDER: return createExternalStakeholder();
+			case PepperPackage.PERSON: return createPerson();
+			case PepperPackage.TAG_FOLDER: return createTagFolder();
+			case PepperPackage.TASK_TAG: return createTaskTag();
+			case PepperPackage.TASK: return createTask();
+			case PepperPackage.OBJECTIVE: return createObjective();
+			case PepperPackage.KEY_RESULT: return createKeyResult();
+			case PepperPackage.PROJECT: return createProject();
+			case PepperPackage.WORKPACKAGE: return createWorkpackage();
+			case PepperPackage.WORKPACKAGE_ARTEFACT: return createWorkpackageArtefact();
+			case PepperPackage.RISK: return createRisk();
+			case PepperPackage.DEPENDENCY_LINK: return createDependencyLink();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object createFromString(EDataType eDataType, String initialValue) {
-        switch (eDataType.getClassifierID()) {
-            case PepperPackage.PROJECT_STATE:
-                return createProjectStateFromString(eDataType, initialValue);
-            case PepperPackage.RISK_KIND:
-                return createRiskKindFromString(eDataType, initialValue);
-            case PepperPackage.RISK_STATE:
-                return createRiskStateFromString(eDataType, initialValue);
-            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
-                return createWorkpackageArtefactNatureFromString(eDataType, initialValue);
-            case PepperPackage.START_OR_END:
-                return createStartOrEndFromString(eDataType, initialValue);
-            case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
-                return createTaskTimeBoundariesConstraintFromString(eDataType, initialValue);
-            case PepperPackage.DATE:
-                return createDateFromString(eDataType, initialValue);
-            case PepperPackage.INSTANT:
-                return createInstantFromString(eDataType, initialValue);
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eDataType.getClassifierID()) {
+			case PepperPackage.PROJECT_STATE:
+				return createProjectStateFromString(eDataType, initialValue);
+			case PepperPackage.RISK_KIND:
+				return createRiskKindFromString(eDataType, initialValue);
+			case PepperPackage.RISK_STATE:
+				return createRiskStateFromString(eDataType, initialValue);
+			case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
+				return createWorkpackageArtefactNatureFromString(eDataType, initialValue);
+			case PepperPackage.START_OR_END:
+				return createStartOrEndFromString(eDataType, initialValue);
+			case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
+				return createTaskTimeBoundariesConstraintFromString(eDataType, initialValue);
+			case PepperPackage.DATE:
+				return createDateFromString(eDataType, initialValue);
+			case PepperPackage.INSTANT:
+				return createInstantFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String convertToString(EDataType eDataType, Object instanceValue) {
-        switch (eDataType.getClassifierID()) {
-            case PepperPackage.PROJECT_STATE:
-                return convertProjectStateToString(eDataType, instanceValue);
-            case PepperPackage.RISK_KIND:
-                return convertRiskKindToString(eDataType, instanceValue);
-            case PepperPackage.RISK_STATE:
-                return convertRiskStateToString(eDataType, instanceValue);
-            case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
-                return convertWorkpackageArtefactNatureToString(eDataType, instanceValue);
-            case PepperPackage.START_OR_END:
-                return convertStartOrEndToString(eDataType, instanceValue);
-            case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
-                return convertTaskTimeBoundariesConstraintToString(eDataType, instanceValue);
-            case PepperPackage.DATE:
-                return convertDateToString(eDataType, instanceValue);
-            case PepperPackage.INSTANT:
-                return convertInstantToString(eDataType, instanceValue);
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eDataType.getClassifierID()) {
+			case PepperPackage.PROJECT_STATE:
+				return convertProjectStateToString(eDataType, instanceValue);
+			case PepperPackage.RISK_KIND:
+				return convertRiskKindToString(eDataType, instanceValue);
+			case PepperPackage.RISK_STATE:
+				return convertRiskStateToString(eDataType, instanceValue);
+			case PepperPackage.WORKPACKAGE_ARTEFACT_NATURE:
+				return convertWorkpackageArtefactNatureToString(eDataType, instanceValue);
+			case PepperPackage.START_OR_END:
+				return convertStartOrEndToString(eDataType, instanceValue);
+			case PepperPackage.TASK_TIME_BOUNDARIES_CONSTRAINT:
+				return convertTaskTimeBoundariesConstraintToString(eDataType, instanceValue);
+			case PepperPackage.DATE:
+				return convertDateToString(eDataType, instanceValue);
+			case PepperPackage.INSTANT:
+				return convertInstantToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Organization createOrganization() {
-        OrganizationImpl organization = new OrganizationImpl();
-        return organization;
-    }
+		OrganizationImpl organization = new OrganizationImpl();
+		return organization;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public ResourceFolder createResourceFolder() {
-        ResourceFolderImpl resourceFolder = new ResourceFolderImpl();
-        return resourceFolder;
-    }
+		ResourceFolderImpl resourceFolder = new ResourceFolderImpl();
+		return resourceFolder;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Team createTeam() {
-        TeamImpl team = new TeamImpl();
-        return team;
-    }
+		TeamImpl team = new TeamImpl();
+		return team;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public InternalStakeholder createInternalStakeholder() {
-        InternalStakeholderImpl internalStakeholder = new InternalStakeholderImpl();
-        return internalStakeholder;
-    }
+		InternalStakeholderImpl internalStakeholder = new InternalStakeholderImpl();
+		return internalStakeholder;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public ExternalStakeholder createExternalStakeholder() {
-        ExternalStakeholderImpl externalStakeholder = new ExternalStakeholderImpl();
-        return externalStakeholder;
-    }
+		ExternalStakeholderImpl externalStakeholder = new ExternalStakeholderImpl();
+		return externalStakeholder;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Person createPerson() {
-        PersonImpl person = new PersonImpl();
-        return person;
-    }
+		PersonImpl person = new PersonImpl();
+		return person;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public TagFolder createTagFolder() {
-        TagFolderImpl tagFolder = new TagFolderImpl();
-        return tagFolder;
-    }
+		TagFolderImpl tagFolder = new TagFolderImpl();
+		return tagFolder;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public TaskTag createTaskTag() {
-        TaskTagImpl taskTag = new TaskTagImpl();
-        return taskTag;
-    }
+		TaskTagImpl taskTag = new TaskTagImpl();
+		return taskTag;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Task createTask() {
-        TaskImpl task = new TaskImpl();
-        return task;
-    }
+		TaskImpl task = new TaskImpl();
+		return task;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Objective createObjective() {
-        ObjectiveImpl objective = new ObjectiveImpl();
-        return objective;
-    }
+		ObjectiveImpl objective = new ObjectiveImpl();
+		return objective;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public KeyResult createKeyResult() {
-        KeyResultImpl keyResult = new KeyResultImpl();
-        return keyResult;
-    }
+		KeyResultImpl keyResult = new KeyResultImpl();
+		return keyResult;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Project createProject() {
-        ProjectImpl project = new ProjectImpl();
-        return project;
-    }
+		ProjectImpl project = new ProjectImpl();
+		return project;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Workpackage createWorkpackage() {
-        WorkpackageImpl workpackage = new WorkpackageImpl();
-        return workpackage;
-    }
+		WorkpackageImpl workpackage = new WorkpackageImpl();
+		return workpackage;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public WorkpackageArtefact createWorkpackageArtefact() {
-        WorkpackageArtefactImpl workpackageArtefact = new WorkpackageArtefactImpl();
-        return workpackageArtefact;
-    }
+		WorkpackageArtefactImpl workpackageArtefact = new WorkpackageArtefactImpl();
+		return workpackageArtefact;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Risk createRisk() {
-        RiskImpl risk = new RiskImpl();
-        return risk;
-    }
+		RiskImpl risk = new RiskImpl();
+		return risk;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public DependencyLink createDependencyLink() {
-        DependencyLinkImpl dependencyLink = new DependencyLinkImpl();
-        return dependencyLink;
-    }
+		DependencyLinkImpl dependencyLink = new DependencyLinkImpl();
+		return dependencyLink;
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -352,55 +317,48 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertWorkpackageArtefactNatureToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public StartOrEnd createStartOrEndFromString(EDataType eDataType, String initialValue) {
-        StartOrEnd result = StartOrEnd.get(initialValue);
-        if (result == null)
-            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-    }
+		StartOrEnd result = StartOrEnd.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertStartOrEndToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public TaskTimeBoundariesConstraint createTaskTimeBoundariesConstraintFromString(EDataType eDataType, String initialValue) {
-        TaskTimeBoundariesConstraint result = TaskTimeBoundariesConstraint.get(initialValue);
-        if (result == null)
-            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-    }
+		TaskTimeBoundariesConstraint result = TaskTimeBoundariesConstraint.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertTaskTimeBoundariesConstraintToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -416,13 +374,12 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertRiskKindToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -438,13 +395,12 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertRiskStateToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -460,13 +416,12 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public String convertProjectStateToString(EDataType eDataType, Object instanceValue) {
-        return instanceValue == null ? null : instanceValue.toString();
-    }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -517,24 +472,22 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public PepperPackage getPepperPackage() {
-        return (PepperPackage) getEPackage();
-    }
+		return (PepperPackage)getEPackage();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @deprecated
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @deprecated
+	 * @generated
+	 */
     @Deprecated
     public static PepperPackage getPackage() {
-        return PepperPackage.eINSTANCE;
-    }
+		return PepperPackage.eINSTANCE;
+	}
 
 } // PepperFactoryImpl

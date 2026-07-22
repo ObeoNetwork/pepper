@@ -22,65 +22,66 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import pepper.peppermm.KeyResult;
 
 /**
- * This is the item provider adapter for a {@link KeyResult} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.KeyResult} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class KeyResultItemProvider extends AbstractTaskItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public KeyResultItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-        }
-        return itemPropertyDescriptors;
-    }
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This returns KeyResult.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
+	 * This returns KeyResult.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/KeyResult.svg"));
-    }
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/KeyResult"));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected boolean shouldComposeCreationImage() {
-        return true;
-    }
+		return true;
+	}
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getText(Object object) {
-        String label = ((KeyResult) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_KeyResult_type") : getString("_UI_KeyResult_type") + " " + label;
-    }
+		String label = ((KeyResult)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_KeyResult_type") :
+			getString("_UI_KeyResult_type") + " " + label;
+	}
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
@@ -91,19 +92,19 @@ public class KeyResultItemProvider extends AbstractTaskItemProvider {
      */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
-        super.notifyChanged(notification);
-    }
+		updateChildren(notification);
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
-     * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-    }
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
 }

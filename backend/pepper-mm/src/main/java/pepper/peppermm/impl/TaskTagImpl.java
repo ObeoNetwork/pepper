@@ -28,209 +28,191 @@ import pepper.peppermm.TaskTag;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link TaskTagImpl#getPrefix <em>Prefix</em>}</li>
- * <li>{@link TaskTagImpl#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.TaskTagImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.TaskTagImpl#getSuffix <em>Suffix</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TaskTagImpl extends MinimalEObjectImpl.Container implements TaskTag {
     /**
-     * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getPrefix()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPrefix()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String PREFIX_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getPrefix()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPrefix()
+	 * @generated
+	 * @ordered
+	 */
     protected String prefix = PREFIX_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getSuffix()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSuffix()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String SUFFIX_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @see #getSuffix()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSuffix()
+	 * @generated
+	 * @ordered
+	 */
     protected String suffix = SUFFIX_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected TaskTagImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.TASK_TAG;
-    }
+		return PepperPackage.Literals.TASK_TAG;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getPrefix() {
-        return prefix;
-    }
+		return prefix;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setPrefix(String newPrefix) {
-        String oldPrefix = prefix;
-        prefix = newPrefix;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.TASK_TAG__PREFIX, oldPrefix, prefix));
-    }
+		String oldPrefix = prefix;
+		prefix = newPrefix;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.TASK_TAG__PREFIX, oldPrefix, prefix));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getSuffix() {
-        return suffix;
-    }
+		return suffix;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setSuffix(String newSuffix) {
-        String oldSuffix = suffix;
-        suffix = newSuffix;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.TASK_TAG__SUFFIX, oldSuffix, suffix));
-    }
+		String oldSuffix = suffix;
+		suffix = newSuffix;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.TASK_TAG__SUFFIX, oldSuffix, suffix));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.TASK_TAG__PREFIX:
-                return getPrefix();
-            case PepperPackage.TASK_TAG__SUFFIX:
-                return getSuffix();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK_TAG__PREFIX:
+				return getPrefix();
+			case PepperPackage.TASK_TAG__SUFFIX:
+				return getSuffix();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.TASK_TAG__PREFIX:
-                setPrefix((String) newValue);
-                return;
-            case PepperPackage.TASK_TAG__SUFFIX:
-                setSuffix((String) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK_TAG__PREFIX:
+				setPrefix((String)newValue);
+				return;
+			case PepperPackage.TASK_TAG__SUFFIX:
+				setSuffix((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.TASK_TAG__PREFIX:
-                setPrefix(PREFIX_EDEFAULT);
-                return;
-            case PepperPackage.TASK_TAG__SUFFIX:
-                setSuffix(SUFFIX_EDEFAULT);
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK_TAG__PREFIX:
+				setPrefix(PREFIX_EDEFAULT);
+				return;
+			case PepperPackage.TASK_TAG__SUFFIX:
+				setSuffix(SUFFIX_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.TASK_TAG__PREFIX:
-                return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
-            case PepperPackage.TASK_TAG__SUFFIX:
-                return SUFFIX_EDEFAULT == null ? suffix != null : !SUFFIX_EDEFAULT.equals(suffix);
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.TASK_TAG__PREFIX:
+				return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
+			case PepperPackage.TASK_TAG__SUFFIX:
+				return SUFFIX_EDEFAULT == null ? suffix != null : !SUFFIX_EDEFAULT.equals(suffix);
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (prefix: ");
-        result.append(prefix);
-        result.append(", suffix: ");
-        result.append(suffix);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (prefix: ");
+		result.append(prefix);
+		result.append(", suffix: ");
+		result.append(suffix);
+		result.append(')');
+		return result.toString();
+	}
 
 } // TaskTagImpl

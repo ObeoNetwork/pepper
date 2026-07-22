@@ -75,19 +75,19 @@ import pepper.peppermm.util.PepperAdapterFactory;
  */
 public class PepperItemProviderAdapterFactory extends PepperAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
     /**
-     * This keeps track of the root adapter factory that delegates to this adapter factory. <!-- begin-user-doc --> <!--
+	 * This keeps track of the root adapter factory that delegates to this adapter factory.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected ComposedAdapterFactory parentAdapterFactory;
 
     /**
-     * This is used to implement {@link IChangeNotifier}. <!-- begin-user-doc --> <!--
+	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
     /**
@@ -99,17 +99,17 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
     /**
-     * This constructs an instance. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public PepperItemProviderAdapterFactory() {
-        supportedTypes.add(IEditingDomainItemProvider.class);
-        supportedTypes.add(IStructuredItemContentProvider.class);
-        supportedTypes.add(ITreeItemContentProvider.class);
-        supportedTypes.add(IItemLabelProvider.class);
-        supportedTypes.add(IItemPropertySource.class);
-    }
+		supportedTypes.add(IEditingDomainItemProvider.class);
+		supportedTypes.add(IStructuredItemContentProvider.class);
+		supportedTypes.add(ITreeItemContentProvider.class);
+		supportedTypes.add(IItemLabelProvider.class);
+		supportedTypes.add(IItemPropertySource.class);
+	}
 
     /**
      * This keeps track of the one adapter used for all {@link pepper.peppermm.Organization} instances. <!--
@@ -157,11 +157,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Team} instances. <!-- begin-user-doc -->
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Team} instances.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected TeamItemProvider teamItemProvider;
 
     /**
@@ -225,11 +225,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Person} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Person} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected PersonItemProvider personItemProvider;
 
     /**
@@ -247,11 +247,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.TagFolder} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TagFolder} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected TagFolderItemProvider tagFolderItemProvider;
 
     /**
@@ -269,11 +269,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.TaskTag} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TaskTag} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected TaskTagItemProvider taskTagItemProvider;
 
     /**
@@ -291,11 +291,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Task} instances. <!-- begin-user-doc -->
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Task} instances.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected TaskItemProvider taskItemProvider;
 
     /**
@@ -313,11 +313,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Objective} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Objective} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected ObjectiveItemProvider objectiveItemProvider;
 
     /**
@@ -335,11 +335,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.KeyResult} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.KeyResult} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected KeyResultItemProvider keyResultItemProvider;
 
     /**
@@ -357,11 +357,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Project} instances. <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Project} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected ProjectItemProvider projectItemProvider;
 
     /**
@@ -424,11 +424,11 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Risk} instances. <!-- begin-user-doc -->
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Risk} instances.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected RiskItemProvider riskItemProvider;
 
     /**
@@ -469,137 +469,119 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This returns the root adapter factory that contains this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the root adapter factory that contains this factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public ComposeableAdapterFactory getRootAdapterFactory() {
-        return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-    }
+		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+	}
 
     /**
-     * This sets the composed adapter factory that contains this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This sets the composed adapter factory that contains this factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-        this.parentAdapterFactory = parentAdapterFactory;
-    }
+		this.parentAdapterFactory = parentAdapterFactory;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean isFactoryForType(Object type) {
-        return supportedTypes.contains(type) || super.isFactoryForType(type);
-    }
+		return supportedTypes.contains(type) || super.isFactoryForType(type);
+	}
 
     /**
-     * This implementation substitutes the factory itself as the key for the adapter. <!-- begin-user-doc --> <!--
+	 * This implementation substitutes the factory itself as the key for the adapter.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter adapt(Notifier notifier, Object type) {
-        return super.adapt(notifier, this);
-    }
+		return super.adapt(notifier, this);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object adapt(Object object, Object type) {
-        if (isFactoryForType(type)) {
-            Object adapter = super.adapt(object, type);
-            if (!(type instanceof Class<?>) || (((Class<?>) type).isInstance(adapter))) {
-                return adapter;
-            }
-        }
+		if (isFactoryForType(type)) {
+			Object adapter = super.adapt(object, type);
+			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+				return adapter;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * This adds a listener. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a listener.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void addListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.addListener(notifyChangedListener);
-    }
+		changeNotifier.addListener(notifyChangedListener);
+	}
 
     /**
-     * This removes a listener. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This removes a listener.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void removeListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.removeListener(notifyChangedListener);
-    }
+		changeNotifier.removeListener(notifyChangedListener);
+	}
 
     /**
-     * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}. <!-- begin-user-doc --> <!--
+	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void fireNotifyChanged(Notification notification) {
-        changeNotifier.fireNotifyChanged(notification);
+		changeNotifier.fireNotifyChanged(notification);
 
-        if (parentAdapterFactory != null) {
-            parentAdapterFactory.fireNotifyChanged(notification);
-        }
-    }
+		if (parentAdapterFactory != null) {
+			parentAdapterFactory.fireNotifyChanged(notification);
+		}
+	}
 
     /**
-     * This disposes all of the item providers created by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This disposes all of the item providers created by this factory. 
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void dispose() {
-        if (organizationItemProvider != null)
-            organizationItemProvider.dispose();
-        if (resourceFolderItemProvider != null)
-            resourceFolderItemProvider.dispose();
-        if (teamItemProvider != null)
-            teamItemProvider.dispose();
-        if (internalStakeholderItemProvider != null)
-            internalStakeholderItemProvider.dispose();
-        if (externalStakeholderItemProvider != null)
-            externalStakeholderItemProvider.dispose();
-        if (personItemProvider != null)
-            personItemProvider.dispose();
-        if (tagFolderItemProvider != null)
-            tagFolderItemProvider.dispose();
-        if (taskTagItemProvider != null)
-            taskTagItemProvider.dispose();
-        if (taskItemProvider != null)
-            taskItemProvider.dispose();
-        if (objectiveItemProvider != null)
-            objectiveItemProvider.dispose();
-        if (keyResultItemProvider != null)
-            keyResultItemProvider.dispose();
-        if (projectItemProvider != null)
-            projectItemProvider.dispose();
-        if (workpackageItemProvider != null)
-            workpackageItemProvider.dispose();
-        if (workpackageArtefactItemProvider != null)
-            workpackageArtefactItemProvider.dispose();
-        if (riskItemProvider != null)
-            riskItemProvider.dispose();
-        if (dependencyLinkItemProvider != null)
-            dependencyLinkItemProvider.dispose();
-    }
+		if (organizationItemProvider != null) organizationItemProvider.dispose();
+		if (resourceFolderItemProvider != null) resourceFolderItemProvider.dispose();
+		if (teamItemProvider != null) teamItemProvider.dispose();
+		if (internalStakeholderItemProvider != null) internalStakeholderItemProvider.dispose();
+		if (externalStakeholderItemProvider != null) externalStakeholderItemProvider.dispose();
+		if (personItemProvider != null) personItemProvider.dispose();
+		if (tagFolderItemProvider != null) tagFolderItemProvider.dispose();
+		if (taskTagItemProvider != null) taskTagItemProvider.dispose();
+		if (taskItemProvider != null) taskItemProvider.dispose();
+		if (objectiveItemProvider != null) objectiveItemProvider.dispose();
+		if (keyResultItemProvider != null) keyResultItemProvider.dispose();
+		if (projectItemProvider != null) projectItemProvider.dispose();
+		if (workpackageItemProvider != null) workpackageItemProvider.dispose();
+		if (workpackageArtefactItemProvider != null) workpackageArtefactItemProvider.dispose();
+		if (riskItemProvider != null) riskItemProvider.dispose();
+		if (dependencyLinkItemProvider != null) dependencyLinkItemProvider.dispose();
+	}
 
 }

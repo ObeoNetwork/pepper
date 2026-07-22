@@ -34,133 +34,117 @@ import pepper.peppermm.PepperPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link ObjectiveImpl#getOwnedKeyResults <em>Owned Key Results</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.ObjectiveImpl#getOwnedKeyResults <em>Owned Key Results</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ObjectiveImpl extends AbstractTaskImpl implements Objective {
     /**
-     * The cached value of the '{@link #getOwnedKeyResults() <em>Owned Key Results</em>}' containment reference list.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #getOwnedKeyResults()
-     * @generated
-     * @ordered
-     */
+	 * The cached value of the '{@link #getOwnedKeyResults() <em>Owned Key Results</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getOwnedKeyResults()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<KeyResult> ownedKeyResults;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected ObjectiveImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.OBJECTIVE;
-    }
+		return PepperPackage.Literals.OBJECTIVE;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<KeyResult> getOwnedKeyResults() {
-        if (ownedKeyResults == null) {
-            ownedKeyResults = new EObjectContainmentEList<KeyResult>(KeyResult.class, this, PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS);
-        }
-        return ownedKeyResults;
-    }
+		if (ownedKeyResults == null) {
+			ownedKeyResults = new EObjectContainmentEList<KeyResult>(KeyResult.class, this, PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS);
+		}
+		return ownedKeyResults;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                return ((InternalEList<?>) getOwnedKeyResults()).basicRemove(otherEnd, msgs);
-            default:
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				return ((InternalEList<?>)getOwnedKeyResults()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                return getOwnedKeyResults();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				return getOwnedKeyResults();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                getOwnedKeyResults().clear();
-                getOwnedKeyResults().addAll((Collection<? extends KeyResult>) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				getOwnedKeyResults().clear();
+				getOwnedKeyResults().addAll((Collection<? extends KeyResult>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                getOwnedKeyResults().clear();
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				getOwnedKeyResults().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                return ownedKeyResults != null && !ownedKeyResults.isEmpty();
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				return ownedKeyResults != null && !ownedKeyResults.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } // ObjectiveImpl

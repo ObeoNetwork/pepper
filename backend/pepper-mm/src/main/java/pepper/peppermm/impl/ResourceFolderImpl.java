@@ -88,192 +88,172 @@ public class ResourceFolderImpl extends MinimalEObjectImpl.Container implements 
     protected EList<ResourceFolder> subFolders;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected ResourceFolderImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PepperPackage.Literals.RESOURCE_FOLDER;
-    }
+		return PepperPackage.Literals.RESOURCE_FOLDER;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getName() {
-        return name;
-    }
+		return name;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setName(String newName) {
-        String oldName = name;
-        name = newName;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.RESOURCE_FOLDER__NAME, oldName, name));
-    }
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.RESOURCE_FOLDER__NAME, oldName, name));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<Resource> getOwnedResources() {
-        if (ownedResources == null) {
-            ownedResources = new EObjectContainmentEList<Resource>(Resource.class, this, PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES);
-        }
-        return ownedResources;
-    }
+		if (ownedResources == null) {
+			ownedResources = new EObjectContainmentEList<Resource>(Resource.class, this, PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES);
+		}
+		return ownedResources;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<ResourceFolder> getSubFolders() {
-        if (subFolders == null) {
-            subFolders = new EObjectContainmentEList<ResourceFolder>(ResourceFolder.class, this, PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS);
-        }
-        return subFolders;
-    }
+		if (subFolders == null) {
+			subFolders = new EObjectContainmentEList<ResourceFolder>(ResourceFolder.class, this, PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS);
+		}
+		return subFolders;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-                return ((InternalEList<?>) getOwnedResources()).basicRemove(otherEnd, msgs);
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                return ((InternalEList<?>) getSubFolders()).basicRemove(otherEnd, msgs);
-            default:
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
+				return ((InternalEList<?>)getOwnedResources()).basicRemove(otherEnd, msgs);
+			case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
+				return ((InternalEList<?>)getSubFolders()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PepperPackage.RESOURCE_FOLDER__NAME:
-                return getName();
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-                return getOwnedResources();
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                return getSubFolders();
-            default:
-                return super.eGet(featureID, resolve, coreType);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.RESOURCE_FOLDER__NAME:
+				return getName();
+			case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
+				return getOwnedResources();
+			case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
+				return getSubFolders();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PepperPackage.RESOURCE_FOLDER__NAME:
-                setName((String) newValue);
-                return;
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-                getOwnedResources().clear();
-                getOwnedResources().addAll((Collection<? extends Resource>) newValue);
-                return;
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                getSubFolders().clear();
-                getSubFolders().addAll((Collection<? extends ResourceFolder>) newValue);
-                return;
-            default:
-                super.eSet(featureID, newValue);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.RESOURCE_FOLDER__NAME:
+				setName((String)newValue);
+				return;
+			case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
+				getOwnedResources().clear();
+				getOwnedResources().addAll((Collection<? extends Resource>)newValue);
+				return;
+			case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
+				getSubFolders().clear();
+				getSubFolders().addAll((Collection<? extends ResourceFolder>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PepperPackage.RESOURCE_FOLDER__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-                getOwnedResources().clear();
-                return;
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                getSubFolders().clear();
-                return;
-            default:
-                super.eUnset(featureID);
-                return;
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.RESOURCE_FOLDER__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
+				getOwnedResources().clear();
+				return;
+			case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
+				getSubFolders().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PepperPackage.RESOURCE_FOLDER__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
-                return ownedResources != null && !ownedResources.isEmpty();
-            case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
-                return subFolders != null && !subFolders.isEmpty();
-            default:
-                return super.eIsSet(featureID);
-        }
-    }
+		switch (featureID) {
+			case PepperPackage.RESOURCE_FOLDER__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case PepperPackage.RESOURCE_FOLDER__OWNED_RESOURCES:
+				return ownedResources != null && !ownedResources.isEmpty();
+			case PepperPackage.RESOURCE_FOLDER__SUB_FOLDERS:
+				return subFolders != null && !subFolders.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy())
-            return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (name: ");
-        result.append(name);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
+	}
 
 } // ResourceFolderImpl

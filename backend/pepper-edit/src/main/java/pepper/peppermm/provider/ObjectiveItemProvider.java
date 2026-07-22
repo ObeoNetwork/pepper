@@ -26,95 +26,95 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 
 /**
- * This is the item provider adapter for a {@link Objective} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.Objective} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class ObjectiveItemProvider extends AbstractTaskItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public ObjectiveItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-        }
-        return itemPropertyDescriptors;
-    }
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-     * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-        if (childrenFeatures == null) {
-            super.getChildrenFeatures(object);
-            childrenFeatures.add(PepperPackage.Literals.OBJECTIVE__OWNED_KEY_RESULTS);
-        }
-        return childrenFeatures;
-    }
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(PepperPackage.Literals.OBJECTIVE__OWNED_KEY_RESULTS);
+		}
+		return childrenFeatures;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EStructuralFeature getChildFeature(Object object, Object child) {
-        // Check the type of the specified child object and return the proper feature to use for
-        // adding (see {@link AddCommand}) it as a child.
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
 
-        return super.getChildFeature(object, child);
-    }
+		return super.getChildFeature(object, child);
+	}
 
     /**
-     * This returns Objective.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
+	 * This returns Objective.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/Objective.svg"));
-    }
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Objective"));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected boolean shouldComposeCreationImage() {
-        return true;
-    }
+		return true;
+	}
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getText(Object object) {
-        String label = ((Objective) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_Objective_type") : getString("_UI_Objective_type") + " " + label;
-    }
+		String label = ((Objective)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Objective_type") :
+			getString("_UI_Objective_type") + " " + label;
+	}
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
@@ -125,29 +125,30 @@ public class ObjectiveItemProvider extends AbstractTaskItemProvider {
      */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
+		updateChildren(notification);
 
-        switch (notification.getFeatureID(Objective.class)) {
-            case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-                return;
-            default:
-                super.notifyChanged(notification);
-                return;
-        }
-    }
+		switch (notification.getFeatureID(Objective.class)) {
+			case PepperPackage.OBJECTIVE__OWNED_KEY_RESULTS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
+		}
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
-     * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
+		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-        newChildDescriptors.add(createChildParameter(PepperPackage.Literals.OBJECTIVE__OWNED_KEY_RESULTS, PepperFactory.eINSTANCE.createKeyResult()));
-    }
+		newChildDescriptors.add
+			(createChildParameter
+				(PepperPackage.Literals.OBJECTIVE__OWNED_KEY_RESULTS,
+				 PepperFactory.eINSTANCE.createKeyResult()));
+	}
 
 }

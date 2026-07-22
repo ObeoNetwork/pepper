@@ -39,220 +39,329 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 
 /**
- * This is the item provider adapter for a {@link AbstractTask} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link pepper.peppermm.AbstractTask} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class AbstractTaskItemProvider extends ItemProviderAdapter
         implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public AbstractTaskItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-            addNamePropertyDescriptor(object);
-            addDescriptionPropertyDescriptor(object);
-            addStartTimePropertyDescriptor(object);
-            addEndTimePropertyDescriptor(object);
-            addProgressPropertyDescriptor(object);
-            addComputeStartEndDynamicallyPropertyDescriptor(object);
-            addTagsPropertyDescriptor(object);
-            addAssignedPersonsPropertyDescriptor(object);
-            addAssignedTeamsPropertyDescriptor(object);
-            addCalculationOptionPropertyDescriptor(object);
-            addDurationPropertyDescriptor(object);
-        }
-        return itemPropertyDescriptors;
-    }
+			addNamePropertyDescriptor(object);
+			addDescriptionPropertyDescriptor(object);
+			addStartTimePropertyDescriptor(object);
+			addEndTimePropertyDescriptor(object);
+			addProgressPropertyDescriptor(object);
+			addComputeStartEndDynamicallyPropertyDescriptor(object);
+			addTagsPropertyDescriptor(object);
+			addAssignedPersonsPropertyDescriptor(object);
+			addAssignedTeamsPropertyDescriptor(object);
+			addCalculationOptionPropertyDescriptor(object);
+			addDurationPropertyDescriptor(object);
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This adds a property descriptor for the Name feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addNamePropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractTask_name_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_name_feature", "_UI_AbstractTask_type"), PepperPackage.Literals.ABSTRACT_TASK__NAME, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_name_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Description feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Description feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addDescriptionPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_description_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_description_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__DESCRIPTION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_description_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__DESCRIPTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Start Time feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Start Time feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addStartTimePropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_startTime_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_startTime_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__START_TIME, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_startTime_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_startTime_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__START_TIME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the End Time feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the End Time feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addEndTimePropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_endTime_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_endTime_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__END_TIME, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_endTime_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_endTime_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__END_TIME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Progress feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Progress feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addProgressPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_progress_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_progress_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__PROGRESS, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_progress_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_progress_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__PROGRESS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Compute Start End Dynamically feature. <!-- begin-user-doc --> <!--
+	 * This adds a property descriptor for the Compute Start End Dynamically feature.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     protected void addComputeStartEndDynamicallyPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_computeStartEndDynamically_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_computeStartEndDynamically_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY, true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_computeStartEndDynamically_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_computeStartEndDynamically_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Tags feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Tags feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addTagsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractTask_tags_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_tags_feature", "_UI_AbstractTask_type"), PepperPackage.Literals.ABSTRACT_TASK__TAGS, true, false, true, null, null,
-                null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_tags_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_tags_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__TAGS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Assigned Persons feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Assigned Persons feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addAssignedPersonsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_assignedPersons_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedPersons_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_PERSONS, true, false, true, null, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_assignedPersons_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedPersons_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_PERSONS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Assigned Teams feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Assigned Teams feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addAssignedTeamsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_assignedTeams_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedTeams_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_TEAMS, true, false, true, null, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_assignedTeams_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedTeams_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_TEAMS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Calculation Option feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Calculation Option feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addCalculationOptionPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_calculationOption_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_calculationOption_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_calculationOption_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_calculationOption_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This adds a property descriptor for the Duration feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This adds a property descriptor for the Duration feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected void addDurationPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_AbstractTask_duration_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_duration_feature", "_UI_AbstractTask_type"),
-                PepperPackage.Literals.ABSTRACT_TASK__DURATION, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractTask_duration_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_duration_feature", "_UI_AbstractTask_type"),
+				 PepperPackage.Literals.ABSTRACT_TASK__DURATION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
     /**
-     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-     * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-        if (childrenFeatures == null) {
-            super.getChildrenFeatures(object);
-            childrenFeatures.add(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS);
-        }
-        return childrenFeatures;
-    }
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS);
+		}
+		return childrenFeatures;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EStructuralFeature getChildFeature(Object object, Object child) {
-        // Check the type of the specified child object and return the proper feature to use for
-        // adding (see {@link AddCommand}) it as a child.
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
 
-        return super.getChildFeature(object, child);
-    }
+		return super.getChildFeature(object, child);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected boolean shouldComposeCreationImage() {
-        return true;
-    }
+		return true;
+	}
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public String getText(Object object) {
-        String label = ((AbstractTask) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_AbstractTask_type") : getString("_UI_AbstractTask_type") + " " + label;
-    }
+		String label = ((AbstractTask)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_AbstractTask_type") :
+			getString("_UI_AbstractTask_type") + " " + label;
+	}
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
@@ -263,73 +372,50 @@ public class AbstractTaskItemProvider extends ItemProviderAdapter
      */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
+		updateChildren(notification);
 
-        switch (notification.getFeatureID(AbstractTask.class)) {
-            case PepperPackage.ABSTRACT_TASK__NAME:
-            case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-            case PepperPackage.ABSTRACT_TASK__START_TIME:
-            case PepperPackage.ABSTRACT_TASK__END_TIME:
-            case PepperPackage.ABSTRACT_TASK__PROGRESS:
-            case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-            case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-            case PepperPackage.ABSTRACT_TASK__DURATION:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-                return;
-            case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-                return;
-            default:
-                super.notifyChanged(notification);
-                return;
-        }
-    }
+		switch (notification.getFeatureID(AbstractTask.class)) {
+			case PepperPackage.ABSTRACT_TASK__NAME:
+			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
+			case PepperPackage.ABSTRACT_TASK__START_TIME:
+			case PepperPackage.ABSTRACT_TASK__END_TIME:
+			case PepperPackage.ABSTRACT_TASK__PROGRESS:
+			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
+			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
+			case PepperPackage.ABSTRACT_TASK__DURATION:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
+		}
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that can be created
-     * under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
+		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-        Task task = PepperFactory.eINSTANCE.createTask();
-        task.setName(getString("_UI_New") + " " + getString("_UI_Task_type"));
-        if (object instanceof AbstractTask abstractTask) {
-            Optional<Task> optionalTask = abstractTask.getSubTasks().stream().reduce((first, second) -> second)
-                    .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
-
-            if (optionalTask.isPresent()) {
-                Task lastTask = optionalTask.get();
-                if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
-                    // If the last task is a Milestone
-                    task.setStartTime(lastTask.getEndTime());
-                    task.setEndTime(lastTask.getEndTime());
-                } else {
-                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-                    task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
-                }
-            } else {
-                if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
-                    task.setStartTime(abstractTask.getStartTime());
-                    task.setEndTime(abstractTask.getEndTime());
-                }
-            }
-
-        }
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS, task));
-    }
+		newChildDescriptors.add
+			(createChildParameter
+				(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS,
+				 PepperFactory.eINSTANCE.createTask()));
+	}
 
     /**
-     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public ResourceLocator getResourceLocator() {
-        return PepperEditPlugin.INSTANCE;
-    }
+		return PepperEditPlugin.INSTANCE;
+	}
 
 }
