@@ -157,6 +157,15 @@ public interface PepperFactory extends EFactory {
     DependencyLink createDependencyLink();
 
     /**
+	 * Returns a new object of class '<em>Unavailability Period</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Unavailability Period</em>'.
+	 * @generated
+	 */
+	UnavailabilityPeriod createUnavailabilityPeriod();
+
+				/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the package supported by this factory.

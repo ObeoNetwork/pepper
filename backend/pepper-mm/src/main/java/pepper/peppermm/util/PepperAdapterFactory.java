@@ -148,6 +148,10 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 				return createDependencyRelatedObjectAdapter();
 			}
 			@Override
+			public Adapter caseUnavailabilityPeriod(UnavailabilityPeriod object) {
+				return createUnavailabilityPeriodAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -409,6 +413,20 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
+	 * Creates a new adapter for an object of class '{@link pepper.peppermm.UnavailabilityPeriod <em>Unavailability Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see pepper.peppermm.UnavailabilityPeriod
+	 * @generated
+	 */
+	public Adapter createUnavailabilityPeriodAdapter() {
+		return null;
+	}
+
+				/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc --> This default implementation returns null.
      * <!-- end-user-doc -->

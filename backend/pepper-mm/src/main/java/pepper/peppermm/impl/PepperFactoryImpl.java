@@ -82,6 +82,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 			case PepperPackage.WORKPACKAGE_ARTEFACT: return createWorkpackageArtefact();
 			case PepperPackage.RISK: return createRisk();
 			case PepperPackage.DEPENDENCY_LINK: return createDependencyLink();
+			case PepperPackage.UNAVAILABILITY_PERIOD: return createUnavailabilityPeriod();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -304,6 +305,17 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public UnavailabilityPeriod createUnavailabilityPeriod() {
+		UnavailabilityPeriodImpl unavailabilityPeriod = new UnavailabilityPeriodImpl();
+		return unavailabilityPeriod;
+	}
+
+				/**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      *
      * @generated NOT
