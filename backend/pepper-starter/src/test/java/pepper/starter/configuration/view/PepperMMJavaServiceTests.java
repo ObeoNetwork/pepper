@@ -14,16 +14,6 @@ package pepper.starter.configuration.view;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import pepper.peppermm.DependencyLink;
-import pepper.peppermm.Project;
-import pepper.peppermm.TagFolder;
-import pepper.peppermm.TaskTag;
-import pepper.starter.services.view.PepperMMJavaService;
-import pepper.peppermm.AbstractTask;
-import pepper.peppermm.PepperFactory;
-import pepper.peppermm.Task;
-import pepper.peppermm.Workpackage;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +30,16 @@ import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.gantt.StartOrEnd;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import pepper.peppermm.AbstractTask;
+import pepper.peppermm.DependencyLink;
+import pepper.peppermm.PepperFactory;
+import pepper.peppermm.Project;
+import pepper.peppermm.TagFolder;
+import pepper.peppermm.Task;
+import pepper.peppermm.TaskTag;
+import pepper.peppermm.Workpackage;
+import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
  * Test used to validate the service for the task related views.

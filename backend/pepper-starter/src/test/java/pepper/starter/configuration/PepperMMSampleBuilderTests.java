@@ -14,11 +14,11 @@ package pepper.starter.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import pepper.starter.services.PepperMMSampleBuilder;
+import org.junit.jupiter.api.Test;
+
 import pepper.peppermm.Organization;
 import pepper.peppermm.PepperPackage;
-
-import org.junit.jupiter.api.Test;
+import pepper.starter.services.project.PepperMMSampleBuilder;
 
 /**
  * Test used to validate the template of task model create by TaskExampleBuilder.

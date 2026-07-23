@@ -14,11 +14,11 @@ package pepper.starter.configuration.view;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import pepper.starter.services.view.ViewGanttDescriptionBuilder;
-
 import org.eclipse.sirius.components.view.View;
 import org.eclipse.sirius.components.view.ViewFactory;
 import org.junit.jupiter.api.Test;
+
+import pepper.starter.services.representations.gantt.ViewGanttDescriptionBuilder;
 
 /**
  * Test used to validate the builder of the "Gantt" view description.

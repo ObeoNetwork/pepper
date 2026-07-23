@@ -39,7 +39,7 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
-import pepper.starter.services.view.PepperMMJavaService;
+import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
  * Test used to validate the editing service for all dependency types and object combinations.
