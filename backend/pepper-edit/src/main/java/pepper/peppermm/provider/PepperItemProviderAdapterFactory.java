@@ -12,45 +12,12 @@
  ******************************************************************************/
 package pepper.peppermm.provider;
 
-import pepper.peppermm.provider.spec.WorkpackageItemProviderSpec;
-
-import pepper.peppermm.provider.spec.WorkpackageArtefactItemProviderSpec;
-
-import pepper.peppermm.provider.spec.TeamItemProviderSpec;
-
-import pepper.peppermm.provider.spec.TaskTagItemProviderSpec;
-
-import pepper.peppermm.provider.spec.TaskItemProviderSpec;
-
-import pepper.peppermm.provider.spec.TagFolderItemProviderSpec;
-
-import pepper.peppermm.provider.spec.RiskItemProviderSpec;
-
-import pepper.peppermm.provider.spec.ResourceFolderItemProviderSpec;
-
-import pepper.peppermm.provider.spec.ProjectItemProviderSpec;
-
-import pepper.peppermm.provider.spec.PersonItemProviderSpec;
-
-import pepper.peppermm.provider.spec.OrganizationItemProviderSpec;
-
-import pepper.peppermm.provider.spec.ObjectiveItemProviderSpec;
-
-import pepper.peppermm.provider.spec.KeyResultItemProviderSpec;
-
-import pepper.peppermm.provider.spec.InternalStakeholderItemProviderSpec;
-
-import pepper.peppermm.provider.spec.ExternalStakeholderItemProviderSpec;
-
-import pepper.peppermm.provider.spec.DependencyLinkItemProviderSpec;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -63,6 +30,23 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
+import pepper.peppermm.provider.spec.DependencyLinkItemProviderSpec;
+import pepper.peppermm.provider.spec.ExternalStakeholderItemProviderSpec;
+import pepper.peppermm.provider.spec.InternalStakeholderItemProviderSpec;
+import pepper.peppermm.provider.spec.KeyResultItemProviderSpec;
+import pepper.peppermm.provider.spec.ObjectiveItemProviderSpec;
+import pepper.peppermm.provider.spec.OrganizationItemProviderSpec;
+import pepper.peppermm.provider.spec.PersonItemProviderSpec;
+import pepper.peppermm.provider.spec.ProjectItemProviderSpec;
+import pepper.peppermm.provider.spec.ResourceFolderItemProviderSpec;
+import pepper.peppermm.provider.spec.RiskItemProviderSpec;
+import pepper.peppermm.provider.spec.TagFolderItemProviderSpec;
+import pepper.peppermm.provider.spec.TaskItemProviderSpec;
+import pepper.peppermm.provider.spec.TaskTagItemProviderSpec;
+import pepper.peppermm.provider.spec.TeamItemProviderSpec;
+import pepper.peppermm.provider.spec.UnavailabilityPeriodItemProviderSpec;
+import pepper.peppermm.provider.spec.WorkpackageArtefactItemProviderSpec;
+import pepper.peppermm.provider.spec.WorkpackageItemProviderSpec;
 import pepper.peppermm.util.PepperAdapterFactory;
 
 /**
@@ -469,6 +453,29 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.UnavailabilityPeriod} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UnavailabilityPeriodItemProvider unavailabilityPeriodItemProvider;
+
+				/**
+	 * This creates an adapter for a {@link pepper.peppermm.UnavailabilityPeriod}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Adapter createUnavailabilityPeriodAdapter() {
+		if (unavailabilityPeriodItemProvider == null) {
+			unavailabilityPeriodItemProvider = new UnavailabilityPeriodItemProviderSpec(this);
+		}
+
+		return unavailabilityPeriodItemProvider;
+	}
+
+				/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -582,6 +589,7 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
 		if (workpackageArtefactItemProvider != null) workpackageArtefactItemProvider.dispose();
 		if (riskItemProvider != null) riskItemProvider.dispose();
 		if (dependencyLinkItemProvider != null) dependencyLinkItemProvider.dispose();
+		if (unavailabilityPeriodItemProvider != null) unavailabilityPeriodItemProvider.dispose();
 	}
 
 }

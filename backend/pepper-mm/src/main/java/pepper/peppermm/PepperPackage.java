@@ -125,12 +125,21 @@ public interface PepperPackage extends EPackage {
     int RESOURCE__NAME = 0;
 
     /**
+	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE__UNAVAILABILITY_PERIODS = 1;
+
+				/**
 	 * The number of structural features of the '<em>Resource</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int RESOURCE_FEATURE_COUNT = 1;
+    int RESOURCE_FEATURE_COUNT = 2;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.ResourceFolderImpl <em>Resource Folder</em>}' class. <!--
@@ -196,6 +205,15 @@ public interface PepperPackage extends EPackage {
     int TEAM__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEAM__UNAVAILABILITY_PERIODS = RESOURCE__UNAVAILABILITY_PERIODS;
+
+				/**
 	 * The feature id for the '<em><b>Members</b></em>' reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -229,6 +247,15 @@ public interface PepperPackage extends EPackage {
     int INTERNAL_STAKEHOLDER__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERNAL_STAKEHOLDER__UNAVAILABILITY_PERIODS = RESOURCE__UNAVAILABILITY_PERIODS;
+
+				/**
 	 * The number of structural features of the '<em>Internal Stakeholder</em>' class.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -255,6 +282,15 @@ public interface PepperPackage extends EPackage {
     int EXTERNAL_STAKEHOLDER__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_STAKEHOLDER__UNAVAILABILITY_PERIODS = RESOURCE__UNAVAILABILITY_PERIODS;
+
+				/**
 	 * The feature id for the '<em><b>Goals</b></em>' attribute list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -290,6 +326,15 @@ public interface PepperPackage extends EPackage {
     int PERSON__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__UNAVAILABILITY_PERIODS = RESOURCE__UNAVAILABILITY_PERIODS;
+
+				/**
 	 * The feature id for the '<em><b>Alias</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -1583,13 +1628,59 @@ public interface PepperPackage extends EPackage {
     int DEPENDENCY_LINK_FEATURE_COUNT = 4;
 
     /**
+	 * The meta object id for the '{@link pepper.peppermm.impl.UnavailabilityPeriodImpl <em>Unavailability Period</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see pepper.peppermm.impl.UnavailabilityPeriodImpl
+	 * @see pepper.peppermm.impl.PepperPackageImpl#getUnavailabilityPeriod()
+	 * @generated
+	 */
+	int UNAVAILABILITY_PERIOD = 19;
+
+				/**
+	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNAVAILABILITY_PERIOD__START_DATE = 0;
+
+				/**
+	 * The feature id for the '<em><b>End Date</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNAVAILABILITY_PERIOD__END_DATE = 1;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNAVAILABILITY_PERIOD__DESCRIPTION = 2;
+
+				/**
+	 * The number of structural features of the '<em>Unavailability Period</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNAVAILABILITY_PERIOD_FEATURE_COUNT = 3;
+
+				/**
 	 * The meta object id for the '{@link pepper.peppermm.WorkpackageArtefactNature <em>Workpackage Artefact Nature</em>}' enum.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see pepper.peppermm.WorkpackageArtefactNature
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefactNature()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT_NATURE = 22;
+    int WORKPACKAGE_ARTEFACT_NATURE = 23;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.StartOrEnd <em>Start Or End</em>}' enum.
@@ -1599,7 +1690,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getStartOrEnd()
 	 * @generated
 	 */
-    int START_OR_END = 23;
+    int START_OR_END = 24;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.TaskTimeBoundariesConstraint <em>Task Time Boundaries Constraint</em>}' enum.
@@ -1608,7 +1699,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTimeBoundariesConstraint()
 	 * @generated
 	 */
-    int TASK_TIME_BOUNDARIES_CONSTRAINT = 24;
+    int TASK_TIME_BOUNDARIES_CONSTRAINT = 25;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}' enum.
@@ -1618,7 +1709,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskKind()
 	 * @generated
 	 */
-    int RISK_KIND = 20;
+    int RISK_KIND = 21;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskState <em>Risk State</em>}' enum.
@@ -1628,7 +1719,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskState()
 	 * @generated
 	 */
-    int RISK_STATE = 21;
+    int RISK_STATE = 22;
 
     /**
      * The meta object id for the '{@link ProjectState <em>Project State</em>}' enum. <!--
@@ -1638,7 +1729,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getProjectState()
      * @generated
      */
-    int PROJECT_STATE = 19;
+    int PROJECT_STATE = 20;
 
     /**
 	 * The meta object id for the '<em>Instant</em>' data type.
@@ -1647,7 +1738,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getInstant()
 	 * @generated
 	 */
-    int INSTANT = 26;
+    int INSTANT = 27;
 
     /**
 	 * The meta object id for the '<em>Date</em>' data type.
@@ -1656,7 +1747,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDate()
 	 * @generated
 	 */
-    int DATE = 25;
+    int DATE = 26;
 
     /**
      * Returns the meta object for class '{@link Organization <em>Organization</em>}'. <!--
@@ -1723,6 +1814,17 @@ public interface PepperPackage extends EPackage {
     EAttribute getResource_Name();
 
     /**
+	 * Returns the meta object for the containment reference list '{@link pepper.peppermm.Resource#getUnavailabilityPeriods <em>Unavailability Periods</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Unavailability Periods</em>'.
+	 * @see pepper.peppermm.Resource#getUnavailabilityPeriods()
+	 * @see #getResource()
+	 * @generated
+	 */
+	EReference getResource_UnavailabilityPeriods();
+
+				/**
      * Returns the meta object for class '{@link ResourceFolder <em>Resource Folder</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -2856,6 +2958,49 @@ public interface PepperPackage extends EPackage {
     EReference getDependencyRelatedObject_Dependencies();
 
     /**
+	 * Returns the meta object for class '{@link pepper.peppermm.UnavailabilityPeriod <em>Unavailability Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Unavailability Period</em>'.
+	 * @see pepper.peppermm.UnavailabilityPeriod
+	 * @generated
+	 */
+	EClass getUnavailabilityPeriod();
+
+				/**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.UnavailabilityPeriod#getStartDate <em>Start Date</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start Date</em>'.
+	 * @see pepper.peppermm.UnavailabilityPeriod#getStartDate()
+	 * @see #getUnavailabilityPeriod()
+	 * @generated
+	 */
+	EAttribute getUnavailabilityPeriod_StartDate();
+
+				/**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.UnavailabilityPeriod#getEndDate <em>End Date</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>End Date</em>'.
+	 * @see pepper.peppermm.UnavailabilityPeriod#getEndDate()
+	 * @see #getUnavailabilityPeriod()
+	 * @generated
+	 */
+	EAttribute getUnavailabilityPeriod_EndDate();
+
+				/**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.UnavailabilityPeriod#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see pepper.peppermm.UnavailabilityPeriod#getDescription()
+	 * @see #getUnavailabilityPeriod()
+	 * @generated
+	 */
+	EAttribute getUnavailabilityPeriod_Description();
+
+				/**
 	 * Returns the meta object for enum '{@link pepper.peppermm.WorkpackageArtefactNature <em>Workpackage Artefact Nature</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Workpackage Artefact Nature</em>'.
@@ -3006,6 +3151,14 @@ public interface PepperPackage extends EPackage {
         EAttribute RESOURCE__NAME = eINSTANCE.getResource_Name();
 
         /**
+		 * The meta object literal for the '<em><b>Unavailability Periods</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOURCE__UNAVAILABILITY_PERIODS = eINSTANCE.getResource_UnavailabilityPeriods();
+
+								/**
 		 * The meta object literal for the '{@link pepper.peppermm.impl.ResourceFolderImpl <em>Resource Folder</em>}' class.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see pepper.peppermm.impl.ResourceFolderImpl
@@ -3920,6 +4073,40 @@ public interface PepperPackage extends EPackage {
         EReference DEPENDENCY_RELATED_OBJECT__DEPENDENCIES = eINSTANCE.getDependencyRelatedObject_Dependencies();
 
         /**
+		 * The meta object literal for the '{@link pepper.peppermm.impl.UnavailabilityPeriodImpl <em>Unavailability Period</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see pepper.peppermm.impl.UnavailabilityPeriodImpl
+		 * @see pepper.peppermm.impl.PepperPackageImpl#getUnavailabilityPeriod()
+		 * @generated
+		 */
+		EClass UNAVAILABILITY_PERIOD = eINSTANCE.getUnavailabilityPeriod();
+
+								/**
+		 * The meta object literal for the '<em><b>Start Date</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNAVAILABILITY_PERIOD__START_DATE = eINSTANCE.getUnavailabilityPeriod_StartDate();
+
+								/**
+		 * The meta object literal for the '<em><b>End Date</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNAVAILABILITY_PERIOD__END_DATE = eINSTANCE.getUnavailabilityPeriod_EndDate();
+
+								/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNAVAILABILITY_PERIOD__DESCRIPTION = eINSTANCE.getUnavailabilityPeriod_Description();
+
+								/**
 		 * The meta object literal for the '{@link pepper.peppermm.WorkpackageArtefactNature <em>Workpackage Artefact Nature</em>}' enum.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see pepper.peppermm.WorkpackageArtefactNature

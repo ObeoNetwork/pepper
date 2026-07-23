@@ -48,6 +48,7 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
+import pepper.peppermm.UnavailabilityPeriod;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.WorkpackageArtefact;
 import pepper.peppermm.WorkpackageArtefactNature;
@@ -172,6 +173,13 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     private EClass dependencyRelatedObjectEClass = null;
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass unavailabilityPeriodEClass = null;
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -332,6 +340,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getResource_UnavailabilityPeriods() {
+		return (EReference)resourceEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1331,6 +1349,46 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getUnavailabilityPeriod() {
+		return unavailabilityPeriodEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getUnavailabilityPeriod_StartDate() {
+		return (EAttribute)unavailabilityPeriodEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getUnavailabilityPeriod_EndDate() {
+		return (EAttribute)unavailabilityPeriodEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getUnavailabilityPeriod_Description() {
+		return (EAttribute)unavailabilityPeriodEClass.getEStructuralFeatures().get(2);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1435,6 +1493,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 
 		resourceEClass = createEClass(RESOURCE);
 		createEAttribute(resourceEClass, RESOURCE__NAME);
+		createEReference(resourceEClass, RESOURCE__UNAVAILABILITY_PERIODS);
 
 		resourceFolderEClass = createEClass(RESOURCE_FOLDER);
 		createEAttribute(resourceFolderEClass, RESOURCE_FOLDER__NAME);
@@ -1564,6 +1623,11 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		dependencyRelatedObjectEClass = createEClass(DEPENDENCY_RELATED_OBJECT);
 		createEReference(dependencyRelatedObjectEClass, DEPENDENCY_RELATED_OBJECT__DEPENDENCIES);
 
+		unavailabilityPeriodEClass = createEClass(UNAVAILABILITY_PERIOD);
+		createEAttribute(unavailabilityPeriodEClass, UNAVAILABILITY_PERIOD__START_DATE);
+		createEAttribute(unavailabilityPeriodEClass, UNAVAILABILITY_PERIOD__END_DATE);
+		createEAttribute(unavailabilityPeriodEClass, UNAVAILABILITY_PERIOD__DESCRIPTION);
+
 		// Create enums
 		projectStateEEnum = createEEnum(PROJECT_STATE);
 		riskKindEEnum = createEEnum(RISK_KIND);
@@ -1621,6 +1685,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 
 		initEClass(resourceEClass, Resource.class, "Resource", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResource_Name(), ecorePackage.getEString(), "name", null, 0, 1, Resource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResource_UnavailabilityPeriods(), this.getUnavailabilityPeriod(), null, "unavailabilityPeriods", null, 0, -1, Resource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceFolderEClass, ResourceFolder.class, "ResourceFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResourceFolder_Name(), ecorePackage.getEString(), "name", null, 0, 1, ResourceFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1749,6 +1814,11 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 
 		initEClass(dependencyRelatedObjectEClass, DependencyRelatedObject.class, "DependencyRelatedObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDependencyRelatedObject_Dependencies(), this.getDependencyLink(), null, "dependencies", null, 0, -1, DependencyRelatedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(unavailabilityPeriodEClass, UnavailabilityPeriod.class, "UnavailabilityPeriod", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUnavailabilityPeriod_StartDate(), this.getDate(), "startDate", null, 0, 1, UnavailabilityPeriod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUnavailabilityPeriod_EndDate(), this.getDate(), "endDate", null, 0, 1, UnavailabilityPeriod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUnavailabilityPeriod_Description(), ecorePackage.getEString(), "description", null, 0, 1, UnavailabilityPeriod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(projectStateEEnum, ProjectState.class, "ProjectState");

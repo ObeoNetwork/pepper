@@ -62,6 +62,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="pepper.ecore#//Resource">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Resource/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Resource/unavailabilityPeriods"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//ResourceFolder">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//ResourceFolder/name"/>
@@ -187,6 +188,11 @@
     </genClasses>
     <genClasses image="false" ecoreClass="pepper.ecore#//DependencyRelatedObject">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//DependencyRelatedObject/dependencies"/>
+    </genClasses>
+    <genClasses ecoreClass="pepper.ecore#//UnavailabilityPeriod">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//UnavailabilityPeriod/startDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//UnavailabilityPeriod/endDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//UnavailabilityPeriod/description"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
