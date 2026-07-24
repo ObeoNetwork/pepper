@@ -25,6 +25,7 @@ import org.eclipse.sirius.components.events.ICause;
 import org.eclipse.sirius.web.application.project.services.api.ISemanticDataInitializer;
 import org.springframework.stereotype.Service;
 
+import pepper.domain.services.TaskComputationService;
 /**
  * Provides Pepper meta model specific project empty template.
  *
@@ -35,8 +36,11 @@ public class PepperMMProjectTemplateInitializerEmpty implements ISemanticDataIni
 
     private final IEditingContextPersistenceService editingContextPersistenceService;
 
-    public PepperMMProjectTemplateInitializerEmpty(IEditingContextPersistenceService editingContextPersistenceService) {
+    private final TaskComputationService taskComputationService;
+
+    public PepperMMProjectTemplateInitializerEmpty(IEditingContextPersistenceService editingContextPersistenceService, TaskComputationService taskComputationService) {
         this.editingContextPersistenceService = editingContextPersistenceService;
+        this.taskComputationService = taskComputationService;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class PepperMMProjectTemplateInitializerEmpty implements ISemanticDataIni
             resource.eAdapters().add(resourceMetadataAdapter);
             emfEditingContext.getDomain().getResourceSet().getResources().add(resource);
 
-            resource.getContents().add(new PepperMMSampleBuilder().getEmptySampleContent());
+            resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService).getEmptySampleContent());
 
             this.editingContextPersistenceService.persist(cause, editingContext);
         }

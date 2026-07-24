@@ -34,6 +34,7 @@ import org.eclipse.sirius.components.interpreter.SimpleCrossReferenceProvider;
 import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -61,10 +62,13 @@ public class PepperMMJavaService {
 
     private final IFeedbackMessageService feedbackMessageService;
 
+    private final TaskComputationService taskComputationService;
+
     private final ZoneId zone = ZoneId.systemDefault();
 
-    public PepperMMJavaService(IFeedbackMessageService feedbackMessageService) {
+    public PepperMMJavaService(IFeedbackMessageService feedbackMessageService, TaskComputationService taskComputationService) {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
+        this.taskComputationService = taskComputationService;
     }
 
     @SuppressWarnings("checkstyle:NestedIfDepth")
@@ -135,12 +139,12 @@ public class PepperMMJavaService {
                     } else if (!startTimeControlledByDependency && endTimeControlledByDependency) {
                         this.setTaskDuration(task, newStartTime, newEndTime);
                         newStartTime = newStartTime.plus(differenceEnd, ChronoUnit.SECONDS);
-                        task.setStartTime(newStartTime);
+                        taskComputationService.updateStartTime(task, newStartTime);
                     } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
                         if (!keepDuration) {
                             this.setTaskDuration(task, newStartTime, newEndTime);
                         }
-                        task.setStartTime(newStartTime);
+                        taskComputationService.updateStartTime(task, newStartTime);
                         task.setEndTime(newEndTime);
                     }
                     if (!startTimeControlledByDependency || !endTimeControlledByDependency) {
@@ -156,7 +160,7 @@ public class PepperMMJavaService {
 
     private void setTaskDuration(Task task, Instant start, Instant end) {
         int duration = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        task.setDuration(duration);
+        taskComputationService.updateDuration(task, duration);
     }
 
     public void createTask(EObject context) {
@@ -171,15 +175,15 @@ public class PepperMMJavaService {
                 Task lastTask = optionalTask.get();
                 if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
                     // If the last task is a Milestone
-                    task.setStartTime(lastTask.getEndTime());
+                    taskComputationService.updateStartTime(task, lastTask.getEndTime());
                     task.setEndTime(lastTask.getEndTime());
                 } else {
-                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
+                    taskComputationService.updateStartTime(task, lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
                     task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
                 }
             } else {
                 if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
-                    task.setStartTime(abstractTask.getStartTime());
+                    taskComputationService.updateStartTime(task, abstractTask.getStartTime());
                     task.setEndTime(abstractTask.getEndTime());
                 }
             }
@@ -195,7 +199,7 @@ public class PepperMMJavaService {
             }
         } else if (context instanceof Workpackage workpackage) {
             long epochSecondStartTime = Instant.now().getEpochSecond();
-            task.setStartTime(Instant.ofEpochMilli(epochSecondStartTime));
+            taskComputationService.updateStartTime(task, Instant.ofEpochMilli(epochSecondStartTime));
             task.setEndTime(Instant.ofEpochMilli(epochSecondStartTime + 3600 * 4));
 
             workpackage.getOwnedTasks().add(task);
@@ -639,18 +643,18 @@ public class PepperMMJavaService {
                             .plus(startAdjustmentMinutes(bestSourceTask), ChronoUnit.MINUTES);
             Instant newTaskEnd = Instant.ofEpochSecond(newTaskStart.getEpochSecond() + oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond());
             task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            taskComputationService.updateStartTime(task, newTaskStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             Instant newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
             Instant newTaskEnd = Instant.ofEpochSecond(newTaskStart.getEpochSecond() + oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond());
             task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            taskComputationService.updateStartTime(task, newTaskStart);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             Instant newTaskEnd = sourceEnd.plus(delay, ChronoUnit.HOURS)
                             .plus(endAdjustmentMinutes(bestSourceTask, task), ChronoUnit.MINUTES);
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
             task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            taskComputationService.updateStartTime(task, newTaskStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             Instant newTaskEnd = sourceStart.plus(delay, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
             if (isMilestone(task)) {
@@ -658,7 +662,7 @@ public class PepperMMJavaService {
             }
             Instant newTaskStart = Instant.ofEpochSecond(newTaskEnd.getEpochSecond() - (oldTaskEnd.getEpochSecond() - oldTaskStart.getEpochSecond()));
             task.setEndTime(newTaskEnd);
-            task.setStartTime(newTaskStart);
+            taskComputationService.updateStartTime(task, newTaskStart);
         }
     }
 
@@ -702,7 +706,7 @@ public class PepperMMJavaService {
             newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
         }
         setTaskDuration(task, task.getStartTime(), newTaskStart);
-        task.setStartTime(newTaskStart);
+        taskComputationService.updateStartTime(task, newTaskStart);
     }
 
     /**

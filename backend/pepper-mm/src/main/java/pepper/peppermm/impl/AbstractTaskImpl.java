@@ -13,21 +13,16 @@
 package pepper.peppermm.impl;
 
 import java.time.Instant;
-
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -332,34 +327,15 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * If the task's {@code startTime} is constrained by {@code END_DURATION}, it is not changed
      * 
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setStartTime(Instant newStartTime) {
-        Instant oldStartTime = startTime;
-        Instant oldEndTime = endTime;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.END_DURATION) {
-            startTime = newStartTime;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END)) {
-            if (endTime != null && startTime != null) {
-                int difference = (int) ChronoUnit.HOURS.between(startTime, endTime);
-                if (ChronoUnit.MINUTES.between(startTime, endTime) % 60 != 0) {
-                    difference +=1 ;
-                }
-                duration = difference;
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
-            }
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-            endTime = startTime.plus(duration, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
-        }
-    }
+		Instant oldStartTime = startTime;
+		startTime = newStartTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
+	}
 
     /**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -373,32 +349,15 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * If the task's {@code endTime} is constrained by {@code START_DURATION}, it is not changed
      *
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setEndTime(Instant newEndTime) {
-        Instant oldEndTime = endTime;
-        Instant oldStartTime = startTime;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.START_DURATION) {
-            endTime = newEndTime;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END)) {
-            int difference = (int) ChronoUnit.HOURS.between(startTime, endTime);
-            if (ChronoUnit.MINUTES.between(startTime, endTime) % 60 != 0) {
-                difference += 1;
-            }
-            duration = difference;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && endTime != null) {
-            startTime = endTime.minus(duration, ChronoUnit.HOURS).plus(1, ChronoUnit.MINUTES);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
-        }
-    }
+		Instant oldEndTime = endTime;
+		endTime = newEndTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
+	}
 
     /**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -526,28 +485,15 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     /**
      * If the task's {@code duration} is constrained by {@code START_END}, it is not changed
      * 
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setDuration(int newDuration) {
-        Instant oldStartTime = startTime;
-        Instant oldEndTime = endTime;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.START_END) {
-            duration = newDuration;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-            endTime = startTime.plus(duration, ChronoUnit.HOURS).minus(1, ChronoUnit.MINUTES);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-            startTime = endTime.minus(duration, ChronoUnit.HOURS).plus(1, ChronoUnit.MINUTES);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
-        }
-    }
+		int oldDuration = duration;
+		duration = newDuration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
+	}
 
     /**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
