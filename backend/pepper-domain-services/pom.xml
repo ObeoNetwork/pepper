@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2026 Obeo.
+  This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v2.0
+  which accompanies this distribution, and is available at
+  https://www.eclipse.org/legal/epl-2.0/
+
+  SPDX-License-Identifier: EPL-2.0
+
+  Contributors:
+      Obeo - initial API and implementation
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>pepper</groupId>
+		<artifactId>pepper-parent</artifactId>
+		<version>2026.6.1</version>
+		<relativePath>../pepper-parent</relativePath>
+	</parent>
+	<artifactId>pepper-domain-services</artifactId>
+	<name>pepper-domain-services</name>
+	<description>Pepper - Domain Services</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>pepper</groupId>
+			<artifactId>pepper-mm</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

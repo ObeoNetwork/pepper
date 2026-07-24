@@ -48,7 +48,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>pepper</groupId>
-			<artifactId>pepper-mm</artifactId>
+			<artifactId>pepper-domain-services</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
