@@ -12,15 +12,11 @@
  ******************************************************************************/
 package pepper.peppermm.provider.spec;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
@@ -40,39 +36,11 @@ public class WorkpackageItemProviderSpec extends WorkpackageItemProvider {
 
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-
-        Task task = PepperFactory.eINSTANCE.createTask();
-        task.setName(getString("_UI_New") + " " + getString("_UI_Task_type"));
         if (object instanceof Workpackage workpackage) {
-            Optional<Task> optionalTask = workpackage.getOwnedTasks().stream().reduce((first, second) -> second)
-                    .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
+            Task task = new TaskComputationService().createNewTask(workpackage, getString("_UI_New") + " " + getString("_UI_Task_type"));
 
-            if (optionalTask.isPresent()) {
-                Task lastTask = optionalTask.get();
-                if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
-                    // If the last task is a Milestone
-                    task.setStartTime(lastTask.getEndTime());
-                    task.setEndTime(lastTask.getEndTime());
-                } else {
-                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-                    task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
-                }
-            } else {
-                if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                    ZonedDateTime zdt = workpackage.getStartDate().atStartOfDay(ZoneId.systemDefault());
-                    String zone = zdt.getOffset().toString();
-                    String startTime = workpackage.getStartDate().toString() + "T00:00:00.00" + zone;
-                    String endTime = workpackage.getEndDate().toString() + "T23:59:00.00" + zone;
-                    Instant startInstant = Instant.parse(startTime);
-                    Instant endInstant = Instant.parse(endTime);
-                    task.setStartTime(startInstant);
-                    task.setEndTime(endInstant);
-                }
-            }
+            newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS, task));
         }
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS, task));
 
         newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OUTPUTS, PepperFactory.eINSTANCE.createWorkpackageArtefact()));
 

@@ -36,6 +36,7 @@ import org.eclipse.sirius.emfjson.resource.JsonResource;
 import org.eclipse.sirius.web.application.project.services.api.ISemanticDataInitializer;
 import org.springframework.stereotype.Service;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.Organization;
 import pepper.peppermm.Workpackage;
 
@@ -53,14 +54,17 @@ public class PepperMMProjectTemplateInitializerSample implements ISemanticDataIn
     private final IRepresentationDescriptionSearchService representationDescriptionSearchService;
     private final IRepresentationMetadataPersistenceService representationMetadataPersistenceService;
 
+    private final TaskComputationService taskComputationService;
+
     public PepperMMProjectTemplateInitializerSample(IEditingContextPersistenceService editingContextPersistenceService, IRepresentationPersistenceService representationPersistenceService,
             IGanttCreationService ganttCreationService, IRepresentationDescriptionSearchService representationDescriptionSearchService,
-            IRepresentationMetadataPersistenceService representationMetadataPersistenceService) {
+            IRepresentationMetadataPersistenceService representationMetadataPersistenceService, TaskComputationService taskComputationService) {
         this.editingContextPersistenceService = editingContextPersistenceService;
         this.representationPersistenceService = representationPersistenceService;
         this.ganttCreationService = ganttCreationService;
         this.representationDescriptionSearchService = representationDescriptionSearchService;
         this.representationMetadataPersistenceService = representationMetadataPersistenceService;
+        this.taskComputationService = taskComputationService;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class PepperMMProjectTemplateInitializerSample implements ISemanticDataIn
             resource.eAdapters().add(resourceMetadataAdapter);
             emfEditingContext.getDomain().getResourceSet().getResources().add(resource);
 
-            resource.getContents().add(new PepperMMSampleBuilder().getSampleContent());
+            resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService).getSampleContent());
 
             this.editingContextPersistenceService.persist(cause, editingContext);
 

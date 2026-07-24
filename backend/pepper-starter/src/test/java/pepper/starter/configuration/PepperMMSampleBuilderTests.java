@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.Organization;
 import pepper.peppermm.PepperPackage;
 import pepper.starter.services.project.PepperMMSampleBuilder;
@@ -29,7 +30,7 @@ public class PepperMMSampleBuilderTests {
 
     @Test
     public void testExampleContent() {
-        var content = new PepperMMSampleBuilder().getSampleContent();
+        var content = new PepperMMSampleBuilder(new TaskComputationService()).getSampleContent();
 
         assertThat(content).isNotNull();
         assertThat(content.eClass()).isEqualTo(PepperPackage.eINSTANCE.getOrganization());

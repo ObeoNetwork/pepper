@@ -33,8 +33,6 @@ public class ResourceFolderItemProviderSpec extends ResourceFolderItemProvider {
 
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-
         newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createPerson()));
 
         newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.RESOURCE_FOLDER__OWNED_RESOURCES, PepperFactory.eINSTANCE.createTeam()));

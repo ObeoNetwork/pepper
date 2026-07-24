@@ -12,15 +12,12 @@
  ******************************************************************************/
 package pepper.peppermm.provider.spec;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.AbstractTask;
-import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
 import pepper.peppermm.provider.AbstractTaskItemProvider;
@@ -33,33 +30,12 @@ public class AbstractTaskItemProviderSpec extends AbstractTaskItemProvider {
 
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
 
-        Task task = PepperFactory.eINSTANCE.createTask();
-        task.setName(getString("_UI_New") + " " + getString("_UI_Task_type"));
         if (object instanceof AbstractTask abstractTask) {
-            Optional<Task> optionalTask = abstractTask.getSubTasks().stream().reduce((first, second) -> second)
-                    .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
+            Task task = new TaskComputationService().createNewTask(abstractTask, getString("_UI_New") + " " + getString("_UI_Task_type"));
 
-            if (optionalTask.isPresent()) {
-                Task lastTask = optionalTask.get();
-                if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
-                    // If the last task is a Milestone
-                    task.setStartTime(lastTask.getEndTime());
-                    task.setEndTime(lastTask.getEndTime());
-                } else {
-                    task.setStartTime(lastTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-                    task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
-                }
-            } else {
-                if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
-                    task.setStartTime(abstractTask.getStartTime());
-                    task.setEndTime(abstractTask.getEndTime());
-                }
-            }
-
+            newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS, task));
         }
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS, task));
     }
 
 }

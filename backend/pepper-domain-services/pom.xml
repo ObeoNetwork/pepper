@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (c) 2024, 2026 CEA LIST.
+  Copyright (c) 2026 Obeo.
   This program and the accompanying materials
   are made available under the terms of the Eclipse Public License v2.0
   which accompanies this distribution, and is available at
@@ -21,18 +21,22 @@
 		<version>2026.6.1</version>
 		<relativePath>../pepper-parent</relativePath>
 	</parent>
-	<artifactId>pepper-edit</artifactId>
-	<name>pepper-edit</name>
-	<description>Pepper - Edit Support</description>
+	<artifactId>pepper-domain-services</artifactId>
+	<name>pepper-domain-services</name>
+	<description>Pepper - Domain Services</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>org.eclipse.core.runtime</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>pepper</groupId>
-			<artifactId>pepper-domain-services</artifactId>
+			<artifactId>pepper-mm</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

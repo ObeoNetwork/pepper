@@ -59,6 +59,7 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetComponent;
 import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription;
 import org.springframework.stereotype.Service;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -88,18 +89,22 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private final ILabelService labelService;
 
+    private final TaskComputationService taskComputationService;
+
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter abstractTaskAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createTaskAdapter();
 
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+    private final PepperMMJavaService service;
 
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
-            ILabelService labelService) {
+            ILabelService labelService, TaskComputationService taskComputationService) {
         this.identityService = Objects.requireNonNull(identityService);
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
+        this.taskComputationService = Objects.requireNonNull(taskComputationService);
+        this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService);
     }
 
     @Override
@@ -284,12 +289,12 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    taskOpt.get().setDuration(0);
+                    taskComputationService.updateDuration(taskOpt.get(), 0);
                 } else {
                     try {
                         int integer = Integer.parseInt(newValue);
                         var task = taskOpt.get();
-                        task.setDuration(integer);
+                        taskComputationService.updateDuration(task, integer);
                         service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
                     } catch (NumberFormatException e) {
                         // Ignore
@@ -416,7 +421,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    taskOpt.get().setStartTime(null);
+                    taskComputationService.updateStartTime(taskOpt.get(), null);
                 } else {
                     try {
                         Instant instant = Instant.parse(newValue);

@@ -57,6 +57,7 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetComponent;
 import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription;
 import org.springframework.stereotype.Service;
 
+import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
@@ -87,7 +88,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
     private final ItemProviderAdapter workpackageAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createWorkpackageAdapter();
 
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp());
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService());
 
     public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService) {
         this.identityService = identityService;
