@@ -58,6 +58,7 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription
 import org.springframework.stereotype.Service;
 
 import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
@@ -88,13 +89,17 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
     private final ItemProviderAdapter workpackageAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createWorkpackageAdapter();
 
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService());
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
 
-    public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService) {
+    private final WorkpackageComputationService workpackageComputationService;
+
+    public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService,
+            WorkpackageComputationService workpackageComputationService) {
         this.identityService = identityService;
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
+        this.workpackageComputationService = workpackageComputationService;
     }
 
     @Override
@@ -271,12 +276,12 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
             var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
             if (workpackageOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    workpackageOpt.get().setDuration(0);
+                    workpackageComputationService.updateDuration(workpackageOpt.get(), 0);
                 } else {
                     try {
                         int integer = Integer.parseInt(newValue);
                         var workpackage = workpackageOpt.get();
-                        workpackage.setDuration(integer);
+                        workpackageComputationService.updateDuration(workpackage, integer);
                         service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getProgress(), true);
                     } catch (NumberFormatException e) {
                         // Ignore
@@ -377,7 +382,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
             var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
             if (workpackageOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    workpackageOpt.get().setStartDate(null);
+                    workpackageComputationService.updateStartDate(workpackageOpt.get(), null);
                 } else {
                     try {
                         LocalDate localDate = LocalDate.parse(newValue);
@@ -429,7 +434,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
             var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
             if (workpackageOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    workpackageOpt.get().setEndDate(null);
+                    workpackageComputationService.updateEndDate(workpackageOpt.get(), null);
                 } else {
                     try {
                         LocalDate localDate = LocalDate.parse(newValue);

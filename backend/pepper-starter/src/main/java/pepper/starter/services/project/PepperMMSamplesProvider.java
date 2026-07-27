@@ -24,6 +24,8 @@ import org.eclipse.sirius.components.emf.services.JSONResourceFactory;
 import org.springframework.stereotype.Service;
 
 import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.WorkpackageComputationService;
+
 /**
  * Used to provide an example of PepperMM.
  *
@@ -36,9 +38,12 @@ public class PepperMMSamplesProvider {
 
     private final TaskComputationService taskComputationService;
 
-    public PepperMMSamplesProvider(List<IMigrationParticipant> migrationParticipants, TaskComputationService taskComputationService) {
+    private final WorkpackageComputationService workpackageComputationService;
+
+    public PepperMMSamplesProvider(List<IMigrationParticipant> migrationParticipants, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
         this.migrationParticipants = Objects.requireNonNull(migrationParticipants);
         this.taskComputationService = Objects.requireNonNull(taskComputationService);
+        this.workpackageComputationService = workpackageComputationService;
     }
 
     public UUID addPepperMMSample(ResourceSet resourceSet, String resourceName) {
@@ -53,7 +58,7 @@ public class PepperMMSamplesProvider {
         resource.eAdapters().add(resourceMetadataAdapter);
         resourceSet.getResources().add(resource);
 
-        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService).getSampleContent());
+        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService, this.workpackageComputationService).getSampleContent());
 
         return documentId;
     }
@@ -70,7 +75,7 @@ public class PepperMMSamplesProvider {
         resource.eAdapters().add(resourceMetadataAdapter);
         resourceSet.getResources().add(resource);
 
-        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService).getEmptySampleContent());
+        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService, this.workpackageComputationService).getEmptySampleContent());
 
         return documentId;
     }
