@@ -22,6 +22,10 @@
     Description: none
 -->
 <module name="Checker">
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern"
+              value="(?:pepper-mm|pepper-edit)[\\/].*"/>
+  </module>
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="MissingJavadocType">
