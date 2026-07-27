@@ -60,6 +60,7 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription
 import org.springframework.stereotype.Service;
 
 import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -91,6 +92,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private final TaskComputationService taskComputationService;
 
+    private final WorkpackageComputationService workpackageComputationService;
+
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter abstractTaskAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createTaskAdapter();
@@ -98,13 +101,14 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     private final PepperMMJavaService service;
 
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
-            ILabelService labelService, TaskComputationService taskComputationService) {
+            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
         this.identityService = Objects.requireNonNull(identityService);
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
         this.taskComputationService = Objects.requireNonNull(taskComputationService);
-        this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService);
+        this.workpackageComputationService = Objects.requireNonNull(workpackageComputationService);
+        this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService, this.workpackageComputationService);
     }
 
     @Override

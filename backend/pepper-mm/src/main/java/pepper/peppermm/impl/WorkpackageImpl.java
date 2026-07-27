@@ -14,22 +14,17 @@ package pepper.peppermm.impl;
 
 import java.time.Instant;
 import java.time.LocalDate;
-
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -403,31 +398,15 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     /**
      * If the workpackage's {@code startDate} is constrained by {@code START_END}, it is not changed
      * 
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setStartDate(LocalDate newStartDate) {
-        LocalDate oldStartDate = startDate;
-        LocalDate oldEndDate = endDate;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.END_DURATION) {
-            startDate = newStartDate;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__START_DATE, oldStartDate, startDate));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END)) {
-            if (endDate != null && startDate != null) {
-                int difference = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
-                duration = difference;
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DURATION, oldDuration, duration));
-            }
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-            endDate = startDate.plusDays(duration - 1);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__END_DATE, oldEndDate, endDate));
-        }
-    }
+		LocalDate oldStartDate = startDate;
+		startDate = newStartDate;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__START_DATE, oldStartDate, startDate));
+	}
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -474,29 +453,15 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     /**
      * If the workpackage's {@code endDate} is constrained by {@code START_END}, it is not changed
      * 
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setEndDate(LocalDate newEndDate) {
-        LocalDate oldStartDate = startDate;
-        LocalDate oldEndDate = endDate;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.START_DURATION) {
-            endDate = newEndDate;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__END_DATE, oldEndDate, endDate));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END) && endDate != null && startDate != null) {
-            int difference = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
-            duration = difference;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DURATION, oldDuration, duration));
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && startDate != null) {
-            startDate = endDate.minusDays(duration - 1);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__START_DATE, oldStartDate, startDate));
-        }
-    }
+		LocalDate oldEndDate = endDate;
+		endDate = newEndDate;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__END_DATE, oldEndDate, endDate));
+	}
 
     /**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -658,28 +623,15 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
     /**
      * If the workpackage's {@code duration} is constrained by {@code START_END}, it is not changed
      * 
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setDuration(int newDuration) {
-        LocalDate oldStartDate = startDate;
-        LocalDate oldEndDate = endDate;
-        int oldDuration = duration;
-        if (calculationOption != TaskTimeBoundariesConstraint.START_END) {
-            duration = newDuration;
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DURATION, oldDuration, duration));
-        }
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-            endDate = startDate.plusDays(duration - 1);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__END_DATE, oldEndDate, endDate));
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-            startDate = endDate.minusDays(duration - 1);
-            if (eNotificationRequired())
-                eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__START_DATE, oldStartDate, startDate));
-        }
-    }
+		int oldDuration = duration;
+		duration = newDuration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DURATION, oldDuration, duration));
+	}
 
     /**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

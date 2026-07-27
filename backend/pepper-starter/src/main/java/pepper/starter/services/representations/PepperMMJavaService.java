@@ -35,6 +35,7 @@ import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
 
 import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -64,11 +65,14 @@ public class PepperMMJavaService {
 
     private final TaskComputationService taskComputationService;
 
+    private final WorkpackageComputationService workpackageComputationService;
+
     private final ZoneId zone = ZoneId.systemDefault();
 
-    public PepperMMJavaService(IFeedbackMessageService feedbackMessageService, TaskComputationService taskComputationService) {
+    public PepperMMJavaService(IFeedbackMessageService feedbackMessageService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
         this.taskComputationService = taskComputationService;
+        this.workpackageComputationService = workpackageComputationService;
     }
 
     @SuppressWarnings("checkstyle:NestedIfDepth")
@@ -475,8 +479,8 @@ public class PepperMMJavaService {
             }
             if (winnerEnd != null && winnerStart != null) {
                 if (workpackage.getStartDate().isAfter(workpackage.getEndDate())) {
-                    workpackage.setDuration(1);
-                    workpackage.setEndDate(workpackage.getStartDate().plusDays(1));
+                    workpackageComputationService.updateDuration(workpackage, 1);
+                    workpackageComputationService.updateEndDate(workpackage, workpackage.getStartDate().plusDays(1));
                     this.feedbackMessageService.addFeedbackMessage(new Message("Task dependencies overlap : End date has been changed to avoid to have end date before start date.", MessageLevel.WARNING));
                 }
             }
@@ -736,23 +740,23 @@ public class PepperMMJavaService {
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceEnd.plusDays(delay);
             LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
+            workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceStart.plusDays(delay);
             LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
+            workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceEnd.plusDays(delay);
             LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
+            workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceStart.plusDays(delay);
             LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
-            workpackage.setEndDate(newWorkpackageEnd);
-            workpackage.setStartDate(newWorkpackageStart);
+            workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
+            workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         }
     }
 
@@ -775,8 +779,8 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageEnd = sourceStart.plusDays(delay);
         }
-        workpackage.setDuration((int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
-        workpackage.setEndDate(newWorkpackageEnd);
+        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
+        workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
     }
 
     /**
@@ -795,8 +799,8 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageStart = sourceStart.plusDays(delay);
         }
-        workpackage.setDuration((int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
-        workpackage.setStartDate(newWorkpackageStart);
+        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
+        workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
     }
 
     private static Instant getlaterInstant(DependencyLink dep) {
@@ -918,8 +922,8 @@ public class PepperMMJavaService {
         if (context instanceof Workpackage workpackage) {
             // The new task follows the context task and has the same duration than the context task.
             if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                newWorkpackage.setStartDate(workpackage.getEndDate().plusDays(1));
-                newWorkpackage.setEndDate(workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
+                workpackageComputationService.updateStartDate(newWorkpackage, workpackage.getEndDate().plusDays(1));
+                workpackageComputationService.updateEndDate(newWorkpackage, workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay() + 1));
             }
 
             EObject parent = context.eContainer();
@@ -929,8 +933,8 @@ public class PepperMMJavaService {
             }
         } else if (context instanceof Project project) {
             LocalDate now = LocalDate.now();
-            newWorkpackage.setStartDate(now);
-            newWorkpackage.setEndDate(now.plusDays(28));
+            workpackageComputationService.updateStartDate(newWorkpackage, now);
+            workpackageComputationService.updateEndDate(newWorkpackage, now.plusDays(28));
 
             project.getOwnedWorkpackages().add(newWorkpackage);
         }
@@ -965,16 +969,16 @@ public class PepperMMJavaService {
                 if (dependencies.isEmpty() || differenceEnd != differenceStart) {
                     if (startDateControlledByDependency && !endDateControlledByDependency) {
                         this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackage.setEndDate(endDate.plusDays(differenceStart));
+                        workpackageComputationService.updateEndDate(workpackage, endDate.plusDays(differenceStart));
                     } else if (endDateControlledByDependency && !startDateControlledByDependency) {
                         this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackage.setStartDate(startDate.plusDays(differenceEnd));
+                        workpackageComputationService.updateStartDate(workpackage, startDate.plusDays(differenceEnd));
                     } else if (!startDateControlledByDependency && !endDateControlledByDependency) {
                         if (!keepDuration) {
                             this.workpackageSetDuration(workpackage, startDate, endDate);
                         }
-                        workpackage.setStartDate(startDate);
-                        workpackage.setEndDate(endDate);
+                        workpackageComputationService.updateStartDate(workpackage, startDate);
+                        workpackageComputationService.updateEndDate(workpackage, endDate);
                     }
                     if (!startDateControlledByDependency || !endDateControlledByDependency) {
                         followMoveDependency(workpackage);
@@ -989,7 +993,7 @@ public class PepperMMJavaService {
 
     private void workpackageSetDuration(Workpackage workpackage, LocalDate start, LocalDate end) {
         int duration = (int) ChronoUnit.DAYS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        workpackage.setDuration(duration);
+        workpackageComputationService.updateDuration(workpackage, duration);
     }
 
     public void moveWorkpackageInProject(Workpackage sourceWorkpackage, Project project, int indexInTarget) {

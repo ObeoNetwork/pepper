@@ -12,13 +12,11 @@
  ******************************************************************************/
 package pepper.peppermm.provider.spec;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Project;
@@ -38,40 +36,12 @@ public class ProjectItemProviderSpec extends ProjectItemProvider {
 
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        workpackage.setName(getString("_UI_New") + " " + getString("_UI_Workpackage_type"));
         if (object instanceof Project project) {
+            String name = getString("_UI_New") + " " + getString("_UI_Workpackage_type");
+            Workpackage workpackage = new WorkpackageComputationService().createNewWorkpackage(project, name);
 
-            Optional<Workpackage> optionalWorkpackage = project.getOwnedWorkpackages().stream().reduce((first, second) -> second)
-                    .filter(filteredWorkpackage -> filteredWorkpackage.getEndDate() != null && filteredWorkpackage.getStartDate() != null);
-            if (optionalWorkpackage.isPresent()) {
-                Workpackage lastWorkpackage = optionalWorkpackage.get();
-                workpackage.setStartDate(lastWorkpackage.getEndDate().plusDays(1));
-                long difference = lastWorkpackage.getStartDate().until(lastWorkpackage.getEndDate(), ChronoUnit.DAYS);
-                workpackage.setEndDate(lastWorkpackage.getEndDate().plusDays(difference + 1));
-            } else {
-                LocalDate endDate = null;
-                if (project.getEffectiveEndDate() != null) {
-                    endDate = project.getEffectiveEndDate();
-                } else if (project.getContractualEndDate() != null) {
-                    endDate = project.getContractualEndDate();
-                }
-                LocalDate startDate = null;
-                if (project.getEffectiveStartDate() != null) {
-                    startDate = project.getEffectiveStartDate();
-                } else if (project.getContractualStartDate() != null) {
-                    startDate = project.getContractualStartDate();
-                }
-                if (startDate != null && endDate != null) {
-                    workpackage.setStartDate(startDate);
-                    workpackage.setEndDate(endDate);
-                }
-            }
+            newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.PROJECT__OWNED_WORKPACKAGES, workpackage));
         }
-
-        newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.PROJECT__OWNED_WORKPACKAGES, workpackage));
 
         newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.PROJECT__OWNED_OBJECTIVES, PepperFactory.eINSTANCE.createObjective()));
 

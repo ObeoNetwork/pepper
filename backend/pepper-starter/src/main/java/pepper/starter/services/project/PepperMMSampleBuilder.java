@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.ExternalStakeholder;
 import pepper.peppermm.InternalStakeholder;
@@ -79,8 +80,11 @@ public class PepperMMSampleBuilder {
 
     private final TaskComputationService taskComputationService;
 
-    public PepperMMSampleBuilder(TaskComputationService taskComputationService) {
+    private final WorkpackageComputationService workpackageComputationService;
+
+    public PepperMMSampleBuilder(TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
         this.taskComputationService = taskComputationService;
+        this.workpackageComputationService = workpackageComputationService;
     }
 
     public Organization getSampleContent() {
@@ -136,8 +140,8 @@ public class PepperMMSampleBuilder {
         devProject.setName("Project Dev");
         Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.setName(MAIN_WORKPACKAGE);
-        workpackage.setStartDate(LocalDate.parse(DATE_2023_12_10));
-        workpackage.setEndDate(LocalDate.parse(DATE_2023_30_10));
+        workpackageComputationService.updateStartDate(workpackage, LocalDate.parse(DATE_2023_12_10));
+        workpackageComputationService.updateEndDate(workpackage, LocalDate.parse(DATE_2023_30_10));
         workpackage.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
         devProject.getOwnedWorkpackages().add(workpackage);
 
@@ -200,8 +204,8 @@ public class PepperMMSampleBuilder {
         dailyProject.setName("Daily Project Dev");
         Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.setName(MAIN_WORKPACKAGE);
-        workpackage.setStartDate(LocalDate.parse(DATE_2023_12_10));
-        workpackage.setEndDate(LocalDate.parse(DATE_2023_30_10));
+        workpackageComputationService.updateStartDate(workpackage, LocalDate.parse(DATE_2023_12_10));
+        workpackageComputationService.updateEndDate(workpackage, LocalDate.parse(DATE_2023_30_10));
         dailyProject.getOwnedWorkpackages().add(workpackage);
         TagFolder tagFolder = PepperFactory.eINSTANCE.createTagFolder();
         tagFolder.setName("Tags");
@@ -267,8 +271,8 @@ public class PepperMMSampleBuilder {
         kanbanProject.setName("Kanban Project Dev");
         Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.setName(MAIN_WORKPACKAGE);
-        workpackage.setStartDate(LocalDate.parse(DATE_2023_12_10));
-        workpackage.setEndDate(LocalDate.parse(DATE_2023_30_10));
+        workpackageComputationService.updateStartDate(workpackage, LocalDate.parse(DATE_2023_12_10));
+        workpackageComputationService.updateEndDate(workpackage, LocalDate.parse(DATE_2023_30_10));
         kanbanProject.getOwnedWorkpackages().add(workpackage);
 
         List<TaskTag> kanbanTags = this.createKanbanTags();
@@ -338,8 +342,8 @@ public class PepperMMSampleBuilder {
         okrProject.setName("OKR Project Dev");
         Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
         workpackage.setName(MAIN_WORKPACKAGE);
-        workpackage.setStartDate(LocalDate.parse(DATE_2023_12_10));
-        workpackage.setEndDate(LocalDate.parse(DATE_2023_30_10));
+        workpackageComputationService.updateStartDate(workpackage, LocalDate.parse(DATE_2023_12_10));
+        workpackageComputationService.updateEndDate(workpackage, LocalDate.parse(DATE_2023_30_10));
         okrProject.getOwnedWorkpackages().add(workpackage);
 
         Objective objectiveApplicationRunning = PepperFactory.eINSTANCE.createObjective();
