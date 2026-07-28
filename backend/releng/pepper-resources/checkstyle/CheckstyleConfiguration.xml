@@ -170,11 +170,6 @@
       <property name="severity" value="error"/>
       <property name="tokens" value="LITERAL_CATCH,LITERAL_FINALLY,LITERAL_ELSE"/>
     </module>
-    <module name="AvoidInlineConditionals">
-      <property name="severity" value="error"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="error"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="NoWhitespaceAfter">
       <property name="severity" value="error"/>
       <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
