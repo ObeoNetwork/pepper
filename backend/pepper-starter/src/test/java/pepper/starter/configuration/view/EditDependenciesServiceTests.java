@@ -82,23 +82,23 @@ public class EditDependenciesServiceTests {
 
         Task milestone = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestone, datesInstant);
-        milestone.setEndTime(datesInstant);
+        taskComputationService.updateEndTime(milestone, datesInstant);
 
         Task milestoneDependencyStartEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyStartEnd, datesInstant);
-        milestoneDependencyStartEnd.setEndTime(datesInstant);
+        taskComputationService.updateEndTime(milestoneDependencyStartEnd, datesInstant);
 
         Task milestoneDependencyStartStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyStartStart, datesInstant);
-        milestoneDependencyStartStart.setEndTime(datesInstant);
+        taskComputationService.updateEndTime(milestoneDependencyStartStart, datesInstant);
 
         Task milestoneDependencyEndStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyEndStart, datesInstant);
-        milestoneDependencyEndStart.setEndTime(datesInstant);
+        taskComputationService.updateEndTime(milestoneDependencyEndStart, datesInstant);
 
         Task milestoneDependencyEndEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyEndEnd, datesInstant);
-        milestoneDependencyEndEnd.setEndTime(datesInstant);
+        taskComputationService.updateEndTime(milestoneDependencyEndEnd, datesInstant);
 
         workpackage.getOwnedTasks().add(milestone);
         workpackage.getOwnedTasks().add(milestoneDependencyStartEnd);
@@ -147,23 +147,23 @@ public class EditDependenciesServiceTests {
 
         Task milestone = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestone, datesInstant1);
-        milestone.setEndTime(datesInstant1);
+        taskComputationService.updateEndTime(milestone, datesInstant1);
 
         Task taskDependencyStartEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyStartEnd, datesInstant1);
-        taskDependencyStartEnd.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyStartEnd, datesInstant2);
 
         Task taskDependencyStartStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyStartStart, datesInstant1);
-        taskDependencyStartStart.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyStartStart, datesInstant2);
 
         Task taskDependencyEndStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyEndStart, datesInstant1);
-        taskDependencyEndStart.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyEndStart, datesInstant2);
 
         Task taskDependencyEndEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyEndEnd, datesInstant1);
-        taskDependencyEndEnd.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyEndEnd, datesInstant2);
 
         workpackage.getOwnedTasks().add(milestone);
         workpackage.getOwnedTasks().add(taskDependencyStartEnd);
@@ -212,23 +212,23 @@ public class EditDependenciesServiceTests {
 
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, datesInstant1);
-        task.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(task, datesInstant2);
 
         Task taskDependencyStartEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyStartEnd, datesInstant1);
-        taskDependencyStartEnd.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyStartEnd, datesInstant2);
 
         Task taskDependencyStartStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyStartStart, datesInstant1);
-        taskDependencyStartStart.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyStartStart, datesInstant2);
 
         Task taskDependencyEndStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyEndStart, datesInstant1);
-        taskDependencyEndStart.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyEndStart, datesInstant2);
 
         Task taskDependencyEndEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependencyEndEnd, datesInstant1);
-        taskDependencyEndEnd.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(taskDependencyEndEnd, datesInstant2);
 
         workpackage.getOwnedTasks().add(task);
         workpackage.getOwnedTasks().add(taskDependencyStartEnd);
@@ -278,23 +278,23 @@ public class EditDependenciesServiceTests {
 
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, datesInstant1);
-        task.setEndTime(datesInstant2);
+        taskComputationService.updateEndTime(task, datesInstant2);
 
         Task milestoneDependencyStartEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyStartEnd, datesInstant1);
-        milestoneDependencyStartEnd.setEndTime(datesInstant1);
+        taskComputationService.updateEndTime(milestoneDependencyStartEnd, datesInstant1);
 
         Task milestoneDependencyStartStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyStartStart, datesInstant1);
-        milestoneDependencyStartStart.setEndTime(datesInstant1);
+        taskComputationService.updateEndTime(milestoneDependencyStartStart, datesInstant1);
 
         Task milestoneDependencyEndStart = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyEndStart, datesInstant1);
-        milestoneDependencyEndStart.setEndTime(datesInstant1);
+        taskComputationService.updateEndTime(milestoneDependencyEndStart, datesInstant1);
 
         Task milestoneDependencyEndEnd = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(milestoneDependencyEndEnd, datesInstant1);
-        milestoneDependencyEndEnd.setEndTime(datesInstant1);
+        taskComputationService.updateEndTime(milestoneDependencyEndEnd, datesInstant1);
 
         workpackage.getOwnedTasks().add(task);
         workpackage.getOwnedTasks().add(milestoneDependencyStartEnd);

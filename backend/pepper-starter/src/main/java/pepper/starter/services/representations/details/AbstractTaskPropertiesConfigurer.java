@@ -474,7 +474,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
                 if (newValue == null || newValue.isBlank()) {
-                    taskOpt.get().setEndTime(null);
+                    taskComputationService.updateEndTime(taskOpt.get(), null);
                 } else {
                     try {
                         Instant instant = Instant.parse(newValue);
