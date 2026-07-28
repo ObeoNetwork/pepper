@@ -40,6 +40,7 @@ import pepper.peppermm.Project;
 import pepper.peppermm.TagFolder;
 import pepper.peppermm.Task;
 import pepper.peppermm.TaskTag;
+import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.starter.services.representations.PepperMMJavaService;
 
@@ -58,10 +59,17 @@ public class PepperMMJavaServiceTests {
             .atZone(ZoneId.systemDefault());
     private static final String ZONE = ZONED_DATE_TIME.getOffset().toString();
 
-    private static final String DATE2024_01_01_T00_00_00 = "2024-01-01T00:00:00" + ZONE;
-    private static final String DATE2024_01_01_T23_59_00 = "2024-01-01T23:59:00" + ZONE;
-    private static final String DATE2024_01_02_T00_00_00 = "2024-01-02T00:00:00" + ZONE;
-    private static final String DATE2024_01_02_T23_59_00 = "2024-01-02T23:59:00" + ZONE;
+    private static final String MONDAY_2026_01_05_T00_00_00 = "2026-01-05T00:00:00" + ZONE;
+    private static final String MONDAY_2026_01_05_T23_59_00 = "2026-01-05T23:59:00" + ZONE;
+    private static final String TUESDAY_2026_01_06_T00_00_00 = "2026-01-06T00:00:00" + ZONE;
+    private static final String TUESDAY_2026_01_06_T23_59_00 = "2026-01-06T23:59:00" + ZONE;
+
+
+    private static final LocalDate MONDAY_20260105 = LocalDate.ofYearDay(2026, 5);
+    private static final LocalDate TUESDAY_20260106 = LocalDate.ofYearDay(2026, 6);
+    private static final LocalDate WEDNESDAY_20260107 = LocalDate.ofYearDay(2026, 7);
+    private static final LocalDate THURSDAY_20260108 = LocalDate.ofYearDay(2026, 8);
+    private static final LocalDate FRIDAY_20260109 = LocalDate.ofYearDay(2026, 9);
 
     private final Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
 
@@ -87,77 +95,84 @@ public class PepperMMJavaServiceTests {
         taskComputationService.updateEndTime(task, Instant.now());
         workpackage.getOwnedTasks().add(task);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.parse(DATE2024_01_01_T00_00_00), Instant.parse(DATE2024_01_01_T23_59_00), 10, false);
+        service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.parse(MONDAY_2026_01_05_T00_00_00), Instant.parse(MONDAY_2026_01_05_T23_59_00), 10, false);
         assertThat(task.getName()).isEqualTo(NEW_NAME);
         assertThat(task.getDescription()).isEqualTo(NEW_DESCRIPTION);
-        assertThat(task.getStartTime()).isEqualTo(Instant.parse(DATE2024_01_01_T00_00_00));
-        assertThat(task.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_01_T23_59_00));
+        assertThat(task.getStartTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        assertThat(task.getEndTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T23_59_00));
         assertThat(task.getProgress()).isEqualTo(10);
     }
 
     @Test
     public void editTaskWithDependency() {
-        Task task = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task, Instant.parse(DATE2024_01_01_T23_59_00));
+        Task task1 = PepperFactory.eINSTANCE.createTask();
+        taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
-        Task taskDependency = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(taskDependency, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(taskDependency, Instant.parse(DATE2024_01_01_T23_59_00));
-        Task masterTask = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(masterTask, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(masterTask, Instant.parse(DATE2024_01_01_T23_59_00));
+        Task task2 = PepperFactory.eINSTANCE.createTask();
+        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateDuration(task2, 24);
 
-        workpackage.getOwnedTasks().add(task);
-        workpackage.getOwnedTasks().add(taskDependency);
-        workpackage.getOwnedTasks().add(masterTask);
+        Task task3 = PepperFactory.eINSTANCE.createTask();
+        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateDuration(task3, 24);
+
+        workpackage.getOwnedTasks().add(task3);
+        workpackage.getOwnedTasks().add(task2);
+        workpackage.getOwnedTasks().add(task1);
 
         DependencyLink dependencyLinkOfTask = PepperFactory.eINSTANCE.createDependencyLink();
         dependencyLinkOfTask.setDuration(0);
         dependencyLinkOfTask.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkOfTask.setSourceKind(pepper.peppermm.StartOrEnd.END);
-        dependencyLinkOfTask.setSource(taskDependency);
-        task.getDependencies().add(dependencyLinkOfTask);
+        dependencyLinkOfTask.setSource(task2);
+        task3.getDependencies().add(dependencyLinkOfTask);
 
         DependencyLink dependencyLinkOfTaskDependency = PepperFactory.eINSTANCE.createDependencyLink();
         dependencyLinkOfTaskDependency.setDuration(0);
         dependencyLinkOfTaskDependency.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkOfTaskDependency.setSourceKind(pepper.peppermm.StartOrEnd.END);
-        dependencyLinkOfTaskDependency.setSource(masterTask);
-        taskDependency.getDependencies().add(dependencyLinkOfTaskDependency);
+        dependencyLinkOfTaskDependency.setSource(task1);
+        task2.getDependencies().add(dependencyLinkOfTaskDependency);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        service.editTask(taskDependency, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
-        assertThat(taskDependency.getStartTime()).isEqualTo(Instant.parse(DATE2024_01_01_T00_00_00));
-        assertThat(taskDependency.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_01_T23_59_00));
+        service.editTask(task2, null, null, Instant.parse(TUESDAY_2026_01_06_T00_00_00), Instant.parse(TUESDAY_2026_01_06_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
+        assertThat(task2.getStartTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        assertThat(task2.getEndTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
-        service.editTask(masterTask, null, null, Instant.parse(DATE2024_01_02_T00_00_00), Instant.parse(DATE2024_01_02_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
-        assertThat(masterTask.getStartTime()).isEqualTo(DATE2024_01_02_T00_00_00);
-        assertThat(masterTask.getEndTime()).isEqualTo(DATE2024_01_02_T23_59_00);
-        assertThat(taskDependency.getStartTime()).isEqualTo(masterTask.getEndTime().plus(1, ChronoUnit.MINUTES));
-        assertThat(taskDependency.getEndTime()).isEqualTo(masterTask.getEndTime().plus(1, ChronoUnit.DAYS));
+        service.editTask(task1, null, null, Instant.parse(TUESDAY_2026_01_06_T00_00_00), Instant.parse(TUESDAY_2026_01_06_T00_00_00).plus(1, ChronoUnit.DAYS), null, false);
+        assertThat(task1.getStartTime()).isEqualTo(TUESDAY_2026_01_06_T00_00_00);
+        assertThat(task1.getEndTime()).isEqualTo(TUESDAY_2026_01_06_T23_59_00);
+        assertThat(task2.getStartTime()).isEqualTo(task1.getEndTime().plus(1, ChronoUnit.MINUTES));
+        assertThat(task2.getEndTime()).isEqualTo(task1.getEndTime().plus(1, ChronoUnit.DAYS));
         // Verify transitive dependency propagation
-        assertThat(task.getStartTime()).isEqualTo(taskDependency.getEndTime().plus(1, ChronoUnit.MINUTES));
-        assertThat(task.getEndTime()).isEqualTo(taskDependency.getEndTime().plus(1, ChronoUnit.DAYS));
+        assertThat(task3.getStartTime()).isEqualTo(task2.getEndTime().plus(1, ChronoUnit.MINUTES));
+        assertThat(task3.getEndTime()).isEqualTo(task2.getEndTime().plus(1, ChronoUnit.DAYS));
     }
 
     @Test
     public void editSubTaskOfDynamicTaskWithDependency() {
         Task task1 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task1, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task1, Instant.parse(DATE2024_01_01_T23_59_00));
+        task1.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
+        taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task2, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task2, Instant.parse(DATE2024_01_01_T23_59_00));
+        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
+        taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task2, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task3, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task3, Instant.parse(DATE2024_01_01_T23_59_00));
+        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
+        taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task3, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task31 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task31, Instant.parse(DATE2024_01_02_T00_00_00));
-        taskComputationService.updateEndTime(task31, Instant.parse(DATE2024_01_02_T23_59_00));
+        task31.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
+        taskComputationService.updateStartTime(task31, Instant.parse(TUESDAY_2026_01_06_T00_00_00));
+        taskComputationService.updateEndTime(task31, Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
         workpackage.getOwnedTasks().add(task1);
         workpackage.getOwnedTasks().add(task2);
@@ -177,7 +192,7 @@ public class PepperMMJavaServiceTests {
         service.editTask(task31, null, null, task31.getStartTime(), task31.getEndTime().plus(1, ChronoUnit.DAYS), null, true);
 
         assertThat(task3.getSubTasks().size()).isEqualTo(1);
-        assertThat(task31.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00).plus(1, ChronoUnit.DAYS));
+        assertThat(task31.getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00).plus(1, ChronoUnit.DAYS));
         assertThat(task1.getStartTime()).isEqualTo(task31.getEndTime().plus(1, ChronoUnit.MINUTES));
     }
 
@@ -186,40 +201,41 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createDependencyLink() {
         Task task = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task, Instant.parse(DATE2024_01_01_T23_59_00));
+        task.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        taskComputationService.updateStartTime(task, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateDuration(task, 24);
 
         Task taskDependency = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(taskDependency, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(taskDependency, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(taskDependency, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(taskDependency, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task masterTask = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(masterTask, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(masterTask, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(masterTask, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(masterTask, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         workpackage.getOwnedTasks().add(task);
         workpackage.getOwnedTasks().add(taskDependency);
         workpackage.getOwnedTasks().add(masterTask);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        service.createDependencyLink(task, taskDependency, StartOrEnd.END, StartOrEnd.START);
+        service.createDependencyLink(taskDependency, task, StartOrEnd.END, StartOrEnd.START);
         assertThat(task.getDependencies().size()).isEqualTo(1);
         assertThat(task.getDependencies().get(0).getSource()).isEqualTo(taskDependency);
-        assertThat(task.getStartTime()).isEqualTo(Instant.parse(DATE2024_01_02_T00_00_00));
-        assertThat(task.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00));
+        assertThat(task.getStartTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T00_00_00));
+        assertThat(task.getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
-        service.createDependencyLink(taskDependency, masterTask, StartOrEnd.END, StartOrEnd.END);
+        service.createDependencyLink(masterTask, taskDependency, StartOrEnd.END, StartOrEnd.END);
         assertThat(taskDependency.getDependencies().size()).isEqualTo(1);
         assertThat(taskDependency.getDependencies().get(0).getSource()).isEqualTo(masterTask);
         assertThat(taskDependency.getStartTime()).isEqualTo(masterTask.getStartTime());
         assertThat(taskDependency.getEndTime()).isEqualTo(masterTask.getEndTime());
         // Verify transitive dependency propagation
         assertThat(task.getStartTime()).isEqualTo(taskDependency.getEndTime().plus(1, ChronoUnit.MINUTES));
-        assertThat(task.getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00));
+        assertThat(task.getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
         // Verify that cyclic dependencies are impossible
         assertThat(masterTask.getDependencies()).isEmpty();
-        service.createDependencyLink(masterTask, task, StartOrEnd.END, StartOrEnd.START);
+        service.createDependencyLink(task, masterTask, StartOrEnd.END, StartOrEnd.START);
         assertThat(masterTask.getDependencies()).isEmpty();
 
     }
@@ -228,16 +244,16 @@ public class PepperMMJavaServiceTests {
     public void deleteDependencyLink() {
 
         Task task1 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task1, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task1, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task2, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task2, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task2, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task3, Instant.parse(DATE2024_01_02_T00_00_00));
-        taskComputationService.updateEndTime(task3, Instant.parse(DATE2024_01_02_T23_59_00));
+        taskComputationService.updateStartTime(task3, Instant.parse(TUESDAY_2026_01_06_T00_00_00));
+        taskComputationService.updateEndTime(task3, Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
         workpackage.getOwnedTasks().add(task1);
         workpackage.getOwnedTasks().add(task2);
@@ -272,7 +288,7 @@ public class PepperMMJavaServiceTests {
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
         var result = service.computeTaskDurationDays(task);
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo("01d01h");
+        assertThat(result).isEqualTo("01d00h");
     }
 
     @Test
@@ -304,12 +320,12 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createTask() {
         Task task11 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task11, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task11, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task11, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task11, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task1 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task1, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task1, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
         task1.getSubTasks().add(task11);
 
         workpackage.getOwnedTasks().add(task1);
@@ -320,8 +336,8 @@ public class PepperMMJavaServiceTests {
 
         service.createTask(task1);
         assertThat(task1.getSubTasks()).hasSize(2);
-        assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.parse(DATE2024_01_02_T00_00_00));
-        assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.parse(DATE2024_01_02_T23_59_00));
+        assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T00_00_00));
+        assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
         service.createTask(task11);
         assertThat(task11.getSubTasks()).hasSize(1);
@@ -332,29 +348,29 @@ public class PepperMMJavaServiceTests {
     @Test
     public void deleteTask() {
         Task task11 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task11, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task11, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task11, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task11, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task1 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task1, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task1, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
         task1.getSubTasks().add(task11);
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task2, Instant.parse(DATE2024_01_01_T00_00_00));
-        taskComputationService.updateEndTime(task2, Instant.parse(DATE2024_01_01_T23_59_00));
+        taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
+        taskComputationService.updateEndTime(task2, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
-        taskComputationService.updateStartTime(task3, Instant.parse(DATE2024_01_02_T00_00_00));
-        taskComputationService.updateEndTime(task3, Instant.parse(DATE2024_01_02_T23_59_00));
+        taskComputationService.updateStartTime(task3, Instant.parse(TUESDAY_2026_01_06_T00_00_00));
+        taskComputationService.updateEndTime(task3, Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
         workpackage.getOwnedTasks().add(task1);
         workpackage.getOwnedTasks().add(task2);
         workpackage.getOwnedTasks().add(task3);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
 
-        service.createDependencyLink(task2, task3, StartOrEnd.END, StartOrEnd.START);
-        service.createDependencyLink(task2, task11, StartOrEnd.END, StartOrEnd.START);
+        service.createDependencyLink(task3, task2, StartOrEnd.END, StartOrEnd.START);
+        service.createDependencyLink(task11, task2, StartOrEnd.END, StartOrEnd.START);
 
         service.deleteDependencyRelatedObject(task1);
         assertThat(workpackage.getOwnedTasks()).hasSize(2);
@@ -366,28 +382,28 @@ public class PepperMMJavaServiceTests {
     public void createWorkpackage() {
         Project project = PepperFactory.eINSTANCE.createProject();
         Workpackage projectWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        workpackageComputationService.updateStartDate(projectWorkpackage, LocalDate.ofYearDay(2026, 1));
-        workpackageComputationService.updateEndDate(projectWorkpackage, LocalDate.ofYearDay(2026, 3));
+        workpackageComputationService.updateStartDate(projectWorkpackage, MONDAY_20260105);
+        workpackageComputationService.updateEndDate(projectWorkpackage, WEDNESDAY_20260107);
         project.getOwnedWorkpackages().add(projectWorkpackage);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
         service.createWorkpackage(projectWorkpackage);
         assertThat(project.getOwnedWorkpackages()).hasSize(2);
-        assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 4));
-        assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(LocalDate.ofYearDay(2026, 6));
+        assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(WEDNESDAY_20260107);
+        assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(FRIDAY_20260109);
     }
 
     @Test
     public void editWorkpackage() {
-        workpackageComputationService.updateStartDate(workpackage, LocalDate.ofYearDay(2026, 5));
-        workpackageComputationService.updateEndDate(workpackage, LocalDate.ofYearDay(2026, 8));
+        workpackageComputationService.updateStartDate(workpackage, MONDAY_20260105);
+        workpackageComputationService.updateEndDate(workpackage, TUESDAY_20260106);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, LocalDate.ofYearDay(2026, 1), LocalDate.ofYearDay(2026, 3), 10, false);
+        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, WEDNESDAY_20260107, FRIDAY_20260109, 10, false);
         assertThat(workpackage.getName()).isEqualTo(NEW_NAME);
         assertThat(workpackage.getDescription()).isEqualTo(NEW_DESCRIPTION);
-        assertThat(workpackage.getStartDate()).isEqualTo(LocalDate.ofYearDay(2026, 1));
-        assertThat(workpackage.getEndDate()).isEqualTo(LocalDate.ofYearDay(2026, 3));
+        assertThat(workpackage.getStartDate()).isEqualTo(WEDNESDAY_20260107);
+        assertThat(workpackage.getEndDate()).isEqualTo(FRIDAY_20260109);
         assertThat(workpackage.getProgress()).isEqualTo(10);
     }
 

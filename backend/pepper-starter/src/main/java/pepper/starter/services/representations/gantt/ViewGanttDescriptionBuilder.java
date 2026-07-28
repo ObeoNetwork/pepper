@@ -127,7 +127,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newCreateTaskDependencyTool()
                 .name("Create Task Dependency")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:targetObject.createDependencyLink(sourceObject, sourceStartOrEnd, targetStartOrEnd)")
+                        .expression("aql:sourceObject.createDependencyLink(targetObject, sourceStartOrEnd, targetStartOrEnd)")
                         .build())
                 .build();
     }

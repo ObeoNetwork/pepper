@@ -12,6 +12,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/42[#42] Change behavior for start and end dates of a work package
 - https://github.com/ObeoNetwork/pepper/issues/52[#52] Change task creation in Gantt from creating a sibling task to a child task.
 - https://github.com/ObeoNetwork/pepper/issues/59[#59] Add concept of unavailability Period on Resource.
+- https://github.com/ObeoNetwork/pepper/issues/89[#89] Make duration (AbstractTask and Workpackage) computed from non working days. For now, it corresponds to week-end and french public holidays 2026.
 
 === Bug fixes
 
