@@ -334,8 +334,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     private ReferenceWidgetDescription getDependenciesWidget() {
         Object feature = PepperPackage.Literals.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
 
-        Function<VariableManager, List<?>> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
-                .map(task -> (DependencyRelatedObject) task)
+        Function<VariableManager, List<?>> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, DependencyRelatedObject.class)
                 .map(DependencyRelatedObject::getDependencies)
                 .orElse(null);
 
@@ -517,9 +516,11 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     }
 
     private Boolean isPointed(AbstractTask task, StartOrEnd startOrEnd) {
-        for (DependencyLink dep : ((DependencyRelatedObject) task).getDependencies()) {
-            if (dep.getTargetKind().equals(startOrEnd)) {
-                return true;
+        if (task instanceof DependencyRelatedObject dependencyRelatedObject) {
+            for (DependencyLink dep : dependencyRelatedObject.getDependencies()) {
+                if (dep.getTargetKind().equals(startOrEnd)) {
+                    return true;
+                }
             }
         }
         return false;
