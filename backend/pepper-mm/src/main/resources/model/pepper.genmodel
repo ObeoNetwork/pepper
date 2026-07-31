@@ -184,7 +184,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/targetKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/sourceKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference pepper.ecore#//DependencyLink/source"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//DependencyLink/delay"/>
     </genClasses>
     <genClasses image="false" ecoreClass="pepper.ecore#//DependencyRelatedObject">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//DependencyRelatedObject/dependencies"/>

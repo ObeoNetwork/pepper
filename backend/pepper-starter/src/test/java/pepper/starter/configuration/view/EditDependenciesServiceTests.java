@@ -107,28 +107,28 @@ public class EditDependenciesServiceTests {
         workpackage.getOwnedTasks().add(milestoneDependencyEndEnd);
 
         DependencyLink dependencyStartEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartEnd.setDuration(0);
+        dependencyStartEnd.setDelay(0);
         dependencyStartEnd.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyStartEnd.setSource(milestone);
         milestoneDependencyStartEnd.getDependencies().add(dependencyStartEnd);
 
         DependencyLink dependencyStartStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartStart.setDuration(0);
+        dependencyStartStart.setDelay(0);
         dependencyStartStart.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSourceKind(StartOrEnd.START);
         dependencyStartStart.setSource(milestone);
         milestoneDependencyStartStart.getDependencies().add(dependencyStartStart);
 
         DependencyLink dependencyEndEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndEnd.setDuration(0);
+        dependencyEndEnd.setDelay(0);
         dependencyEndEnd.setTargetKind(StartOrEnd.END);
         dependencyEndEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyEndEnd.setSource(milestone);
         milestoneDependencyEndStart.getDependencies().add(dependencyEndEnd);
 
         DependencyLink dependencyEndStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndStart.setDuration(0);
+        dependencyEndStart.setDelay(0);
         dependencyEndStart.setTargetKind(StartOrEnd.END);
         dependencyEndStart.setSourceKind(StartOrEnd.START);
         dependencyEndStart.setSource(milestone);
@@ -137,7 +137,7 @@ public class EditDependenciesServiceTests {
         Instant newDatesInstant = Instant.parse(DATE2024_12_14_T00_00_00);
 
         service.editTask(milestone, null, null, newDatesInstant, newDatesInstant, null, false);
-        assertThat(allDependentMilestonesFromMilestoneHaveCorrectDates(milestone));
+        assertThat(this.allDependentMilestonesFromMilestoneHaveCorrectDates(milestone));
     }
 
     @Test
@@ -172,28 +172,28 @@ public class EditDependenciesServiceTests {
         workpackage.getOwnedTasks().add(taskDependencyEndEnd);
 
         DependencyLink dependencyStartEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartEnd.setDuration(0);
+        dependencyStartEnd.setDelay(0);
         dependencyStartEnd.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyStartEnd.setSource(milestone);
         taskDependencyStartEnd.getDependencies().add(dependencyStartEnd);
 
         DependencyLink dependencyStartStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartStart.setDuration(0);
+        dependencyStartStart.setDelay(0);
         dependencyStartStart.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSourceKind(StartOrEnd.START);
         dependencyStartStart.setSource(milestone);
         taskDependencyStartStart.getDependencies().add(dependencyStartStart);
 
         DependencyLink dependencyEndEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndEnd.setDuration(0);
+        dependencyEndEnd.setDelay(0);
         dependencyEndEnd.setTargetKind(StartOrEnd.END);
         dependencyEndEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyEndEnd.setSource(milestone);
         taskDependencyEndStart.getDependencies().add(dependencyEndEnd);
 
         DependencyLink dependencyEndStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndStart.setDuration(0);
+        dependencyEndStart.setDelay(0);
         dependencyEndStart.setTargetKind(StartOrEnd.END);
         dependencyEndStart.setSourceKind(StartOrEnd.START);
         dependencyEndStart.setSource(milestone);
@@ -202,7 +202,7 @@ public class EditDependenciesServiceTests {
         Instant newDatesInstant = Instant.parse(DATE2024_12_14_T00_00_00);
 
         service.editTask(milestone, null, null, newDatesInstant, newDatesInstant, null, false);
-        assertThat(allDependentTasksFromMilestoneHaveCorrectDates(milestone));
+        assertThat(this.allDependentTasksFromMilestoneHaveCorrectDates(milestone));
     }
 
     @Test
@@ -237,28 +237,28 @@ public class EditDependenciesServiceTests {
         workpackage.getOwnedTasks().add(taskDependencyEndEnd);
 
         DependencyLink dependencyStartEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartEnd.setDuration(0);
+        dependencyStartEnd.setDelay(0);
         dependencyStartEnd.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyStartEnd.setSource(task);
         taskDependencyStartEnd.getDependencies().add(dependencyStartEnd);
 
         DependencyLink dependencyStartStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartStart.setDuration(0);
+        dependencyStartStart.setDelay(0);
         dependencyStartStart.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSourceKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSource(task);
         taskDependencyStartStart.getDependencies().add(dependencyStartStart);
 
         DependencyLink dependencyEndEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndEnd.setDuration(0);
+        dependencyEndEnd.setDelay(0);
         dependencyEndEnd.setTargetKind(StartOrEnd.END);
         dependencyEndEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyEndEnd.setSource(task);
         taskDependencyEndStart.getDependencies().add(dependencyEndEnd);
 
         DependencyLink dependencyEndStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndStart.setDuration(0);
+        dependencyEndStart.setDelay(0);
         dependencyEndStart.setTargetKind(StartOrEnd.END);
         dependencyEndStart.setSourceKind(StartOrEnd.START);
         dependencyEndStart.setSource(task);
@@ -268,7 +268,7 @@ public class EditDependenciesServiceTests {
         Instant newEndInstant = Instant.parse(DATE2024_12_14_T23_59_00);
 
         service.editTask(task, null, null, newStartInstant, newEndInstant, null, false);
-        assertThat(allDependentMilestonesFromTaskHaveCorrectDates(task));
+        assertThat(this.allDependentMilestonesFromTaskHaveCorrectDates(task));
     }
 
     @Test
@@ -303,28 +303,28 @@ public class EditDependenciesServiceTests {
         workpackage.getOwnedTasks().add(milestoneDependencyEndEnd);
 
         DependencyLink dependencyStartEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartEnd.setDuration(0);
+        dependencyStartEnd.setDelay(0);
         dependencyStartEnd.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyStartEnd.setSource(task);
         milestoneDependencyStartEnd.getDependencies().add(dependencyStartEnd);
 
         DependencyLink dependencyStartStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyStartStart.setDuration(0);
+        dependencyStartStart.setDelay(0);
         dependencyStartStart.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSourceKind(pepper.peppermm.StartOrEnd.START);
         dependencyStartStart.setSource(task);
         milestoneDependencyStartStart.getDependencies().add(dependencyStartStart);
 
         DependencyLink dependencyEndEnd = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndEnd.setDuration(0);
+        dependencyEndEnd.setDelay(0);
         dependencyEndEnd.setTargetKind(StartOrEnd.END);
         dependencyEndEnd.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyEndEnd.setSource(task);
         milestoneDependencyEndStart.getDependencies().add(dependencyEndEnd);
 
         DependencyLink dependencyEndStart = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyEndStart.setDuration(0);
+        dependencyEndStart.setDelay(0);
         dependencyEndStart.setTargetKind(StartOrEnd.END);
         dependencyEndStart.setSourceKind(StartOrEnd.START);
         dependencyEndStart.setSource(task);
@@ -334,7 +334,7 @@ public class EditDependenciesServiceTests {
         Instant newEndInstant = Instant.parse(DATE2024_12_14_T23_59_00);
 
         service.editTask(task, null, null, newStartInstant, newEndInstant, null, false);
-        assertThat(allDependentTasksFromTaskHaveCorrectDates(task));
+        assertThat(this.allDependentTasksFromTaskHaveCorrectDates(task));
     }
 
     private List<Task> getAllDependentTasks(Task task) {
@@ -353,7 +353,7 @@ public class EditDependenciesServiceTests {
     //used in test 1
     private boolean allDependentMilestonesFromMilestoneHaveCorrectDates(Task milestone) {
         boolean result = true;
-        for (Task task : getAllDependentTasks(milestone)) {
+        for (Task task : this.getAllDependentTasks(milestone)) {
             if (task.getEndTime() != milestone.getEndTime() || task.getStartTime() != milestone.getStartTime()) {
                 result = false;
             }
@@ -364,7 +364,7 @@ public class EditDependenciesServiceTests {
     //used in test 2
     private boolean allDependentTasksFromMilestoneHaveCorrectDates(Task milestone) {
         boolean result = true;
-        for (Task task : getAllDependentTasks(milestone)) {
+        for (Task task : this.getAllDependentTasks(milestone)) {
             DependencyLink dependencyLink = task.getDependencies().get(0);
             if (dependencyLink.getTargetKind().equals(StartOrEnd.START)) {
                 if (!task.getStartTime().equals(milestone.getEndTime()) || !task.getEndTime().equals(milestone.getEndTime().plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MINUTES))) {
@@ -382,7 +382,7 @@ public class EditDependenciesServiceTests {
     //used in test 3
     private boolean allDependentMilestonesFromTaskHaveCorrectDates(Task task) {
         boolean result = true;
-        for (Task milestone : getAllDependentTasks(task)) {
+        for (Task milestone : this.getAllDependentTasks(task)) {
             DependencyLink dependencyLink = milestone.getDependencies().get(0);
             if (dependencyLink.getSourceKind().equals(StartOrEnd.START)) {
                 if (!milestone.getStartTime().equals(task.getStartTime()) || !milestone.getEndTime().equals(task.getStartTime())) {
@@ -400,7 +400,7 @@ public class EditDependenciesServiceTests {
     //used in test 4
     private boolean allDependentTasksFromTaskHaveCorrectDates(Task task) {
         boolean result = true;
-        for (Task dependentTask : getAllDependentTasks(task)) {
+        for (Task dependentTask : this.getAllDependentTasks(task)) {
             DependencyLink dependencyLink = dependentTask.getDependencies().get(0);
             if (dependencyLink.getSourceKind().equals(StartOrEnd.START) && dependencyLink.getTargetKind().equals(StartOrEnd.END)) {
                 if (!dependentTask.getStartTime().equals(task.getStartTime().minus(1, ChronoUnit.DAYS)) || !dependentTask.getEndTime().equals(task.getStartTime().minus(1, ChronoUnit.MINUTES))) {

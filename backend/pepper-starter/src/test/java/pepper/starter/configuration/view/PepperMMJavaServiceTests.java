@@ -124,14 +124,14 @@ public class PepperMMJavaServiceTests {
         workpackage.getOwnedTasks().add(task1);
 
         DependencyLink dependencyLinkOfTask = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkOfTask.setDuration(0);
+        dependencyLinkOfTask.setDelay(0);
         dependencyLinkOfTask.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkOfTask.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyLinkOfTask.setSource(task2);
         task3.getDependencies().add(dependencyLinkOfTask);
 
         DependencyLink dependencyLinkOfTaskDependency = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkOfTaskDependency.setDuration(0);
+        dependencyLinkOfTaskDependency.setDelay(0);
         dependencyLinkOfTaskDependency.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkOfTaskDependency.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyLinkOfTaskDependency.setSource(task1);
@@ -183,7 +183,7 @@ public class PepperMMJavaServiceTests {
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
 
         DependencyLink dependencyLinkFromTask3ToTask1 = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkFromTask3ToTask1.setDuration(0);
+        dependencyLinkFromTask3ToTask1.setDelay(0);
         dependencyLinkFromTask3ToTask1.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkFromTask3ToTask1.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyLinkFromTask3ToTask1.setSource(task3);
@@ -260,14 +260,14 @@ public class PepperMMJavaServiceTests {
         workpackage.getOwnedTasks().add(task3);
 
         DependencyLink dependencyLinkFromTask1ToTask2 = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkFromTask1ToTask2.setDuration(0);
+        dependencyLinkFromTask1ToTask2.setDelay(0);
         dependencyLinkFromTask1ToTask2.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkFromTask1ToTask2.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyLinkFromTask1ToTask2.setSource(task2);
         task1.getDependencies().add(dependencyLinkFromTask1ToTask2);
 
         DependencyLink dependencyLinkFromTask3ToTask1 = PepperFactory.eINSTANCE.createDependencyLink();
-        dependencyLinkFromTask3ToTask1.setDuration(0);
+        dependencyLinkFromTask3ToTask1.setDelay(0);
         dependencyLinkFromTask3ToTask1.setTargetKind(pepper.peppermm.StartOrEnd.START);
         dependencyLinkFromTask3ToTask1.setSourceKind(pepper.peppermm.StartOrEnd.END);
         dependencyLinkFromTask3ToTask1.setSource(task3);

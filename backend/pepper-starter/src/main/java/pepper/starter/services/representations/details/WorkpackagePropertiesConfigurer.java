@@ -329,11 +329,12 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                             String name = workpackage.getName();
                             String sourceKind = link.getSourceKind().toString();
                             String targetKind = link.getTargetKind().toString();
-                            int duration = link.getDuration();
+                            int duration = link.getDelay();
+                            String durationString = name + ": " + sourceKind + " -> " + targetKind;
                             if (duration != 0) {
-                                return name + ": " + sourceKind + " -> " + targetKind + " " + workpackageAdapter.getString("_UI_Workpackage_dependencyDelay_feature") + " : " + duration;
+                                durationString = durationString  + " | " + duration + " " + workpackageAdapter.getString("_UI_DependencyLink_delayDayUnit");
                             }
-                            return name + ": " + sourceKind + " -> " + targetKind;
+                            return durationString;
                         })
                         .orElse("");
 

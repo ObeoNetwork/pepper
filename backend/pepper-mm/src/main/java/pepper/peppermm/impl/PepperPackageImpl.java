@@ -1322,15 +1322,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    @Override
-    public EAttribute getDependencyLink_Duration() {
+	@Override
+	public EAttribute getDependencyLink_Delay() {
 		return (EAttribute)dependencyLinkEClass.getEStructuralFeatures().get(3);
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1618,7 +1619,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__TARGET_KIND);
 		createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__SOURCE_KIND);
 		createEReference(dependencyLinkEClass, DEPENDENCY_LINK__SOURCE);
-		createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__DURATION);
+		createEAttribute(dependencyLinkEClass, DEPENDENCY_LINK__DELAY);
 
 		dependencyRelatedObjectEClass = createEClass(DEPENDENCY_RELATED_OBJECT);
 		createEReference(dependencyRelatedObjectEClass, DEPENDENCY_RELATED_OBJECT__DEPENDENCIES);
@@ -1810,7 +1811,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getDependencyLink_TargetKind(), this.getStartOrEnd(), "targetKind", "START", 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDependencyLink_SourceKind(), this.getStartOrEnd(), "sourceKind", "END", 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDependencyLink_Source(), this.getDependencyRelatedObject(), null, "source", null, 1, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDependencyLink_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDependencyLink_Delay(), ecorePackage.getEInt(), "delay", null, 0, 1, DependencyLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyRelatedObjectEClass, DependencyRelatedObject.class, "DependencyRelatedObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDependencyRelatedObject_Dependencies(), this.getDependencyLink(), null, "dependencies", null, 0, -1, DependencyRelatedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

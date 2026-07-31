@@ -13,6 +13,8 @@
 
 package pepper.starter.services.representations.details;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -194,7 +196,7 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                     StartOrEnd newStartOrEnd = StartOrEnd.get(integer);
                     depLink.setTargetKind(newStartOrEnd);
                 }
-                service.editDependencyLinkDuration(depLink, depLink.getDuration());
+                service.editDependencyLinkDuration(depLink, depLink.getDelay());
                 return new Success();
             } else {
                 return new Failure("");
@@ -301,43 +303,41 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
 
     private TextfieldDescription getDurationWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, DependencyLink.class)
-                .map(DependencyLink::getDuration)
+                .map(dependencyLink -> {
+                    if (dependencyLink.eContainer() instanceof Workpackage) {
+                        return dependencyLink.getDelay();
+                    } else {
+                        double nbOfDays = dependencyLink.getDelay() / 24.0;
+                        return String.format("%.1f", nbOfDays);
+                    }
+                })
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
             var depOpt = variableManager.get(VariableManager.SELF, DependencyLink.class);
-            if (depOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    depOpt.get().setDuration(0);
-                } else {
-                    try {
-                        int integer = Integer.parseInt(newValue);
-                        var depLink = depOpt.get();
-                        service.editDependencyLinkDuration(depLink, integer);
-                    } catch (NumberFormatException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return depOpt
+                    .map(dependencyLink -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            dependencyLink.setDelay(0);
+                        } else {
+                            try {
+                                if (dependencyLink.eContainer() instanceof Workpackage) {
+                                    int integer = Integer.parseInt(newValue);
+                                    service.editDependencyLinkDuration(dependencyLink, integer);
+                                } else {
+                                    int valueInHours = this.roundToNearestHalfDayInHours(newValue);
+                                    service.editDependencyLinkDuration(dependencyLink, valueInHours);
+                                }
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
 
-        Function<VariableManager, String> labelProvider = variableManager -> {
-            var depOpt = variableManager.get(VariableManager.SELF, DependencyLink.class);
-            if (depOpt.isPresent()) {
-                String value = dependencyLinkAdapter.getString("_UI_DependencyLink_duration_feature");
-                if (depOpt.get().getSource() instanceof Workpackage) {
-                    value += " " + dependencyLinkAdapter.getString("_UI_DependencyLink_durationDay_feature");
-                } else if (depOpt.get().getSource() instanceof AbstractTask) {
-                    value += " " + dependencyLinkAdapter.getString("_UI_DependencyLink_durationHours_feature");
-                }
-                return value;
-            } else {
-                return "0";
-            }
-        };
+        Function<VariableManager, String> labelProvider = variableManager -> dependencyLinkAdapter.getString("_UI_DependencyLink_delay_feature");
 
         String id = "dependencyLink.duration";
         return TextfieldDescription.newTextfieldDescription(id)
@@ -347,7 +347,7 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                 .labelProvider(labelProvider)
                 .valueProvider(valueProvider)
                 .newValueHandler(newValueHandler)
-                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.DEPENDENCY_LINK__DURATION))
+                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.DEPENDENCY_LINK__DELAY))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .build();
@@ -363,6 +363,17 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
             }
         }
         return target;
+    }
+
+    private int roundToNearestHalfDayInHours(String nbDaysString) {
+        double doubleValue = Double.parseDouble(nbDaysString.replace(',', '.'));
+
+        Duration inputDuration = Duration.ofHours((int) (doubleValue * 24));
+        Duration duration = inputDuration.isNegative()
+                ? inputDuration.minusHours(6).truncatedTo(ChronoUnit.HALF_DAYS)
+                : inputDuration.plusMinutes(6).truncatedTo(ChronoUnit.HALF_DAYS);
+
+        return Math.toIntExact(duration.toHours());
     }
 
     private EObject getContainer(EObject eObject) {

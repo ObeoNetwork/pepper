@@ -98,9 +98,9 @@ public class PepperMMJavaService {
         Instant laterInstant = null;
         Task source = (Task) dep.getSource();
         if (dep.getSourceKind() == StartOrEnd.END) {
-            laterInstant = getTaskEndTime(source).plus(dep.getDuration(), ChronoUnit.HOURS);
+            laterInstant = getTaskEndTime(source).plus(dep.getDelay(), ChronoUnit.HOURS);
         } else if (dep.getSourceKind() == StartOrEnd.START) {
-            laterInstant = getTaskStartTime(source).plus(dep.getDuration(), ChronoUnit.HOURS);
+            laterInstant = getTaskStartTime(source).plus(dep.getDelay(), ChronoUnit.HOURS);
         }
         return laterInstant;
     }
@@ -650,7 +650,7 @@ public class PepperMMJavaService {
         Instant sourceEnd = getTaskEndTime(bestSourceTask);
         Instant oldTaskStart = task.getStartTime();
         Instant oldTaskEnd = task.getEndTime();
-        int delay = dep.getDuration();
+        int delay = dep.getDelay();
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         StartOrEnd targetStartOrEnd = dep.getTargetKind();
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
@@ -680,7 +680,7 @@ public class PepperMMJavaService {
         Task bestSourceTask = (Task) dep.getSource();
         Instant sourceStart = getTaskStartTime(bestSourceTask);
         Instant sourceEnd = getTaskEndTime(bestSourceTask);
-        int delay = dep.getDuration();
+        int delay = dep.getDelay();
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         Instant newTaskEnd = task.getEndTime();
         if (sourceStartOrEnd == StartOrEnd.END) {
@@ -703,7 +703,7 @@ public class PepperMMJavaService {
         Task bestSourceTask = (Task) dep.getSource();
         Instant sourceStart = getTaskStartTime(bestSourceTask);
         Instant sourceEnd = getTaskEndTime(bestSourceTask);
-        int delay = dep.getDuration();
+        int delay = dep.getDelay();
         StartOrEnd sourceStartOrEnd = dep.getSourceKind();
         Instant newTaskStart = task.getStartTime();
         if (sourceStartOrEnd == StartOrEnd.END) {
@@ -733,7 +733,7 @@ public class PepperMMJavaService {
         long duration = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
         StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
         StartOrEnd targetStartOrEnd = dependencyLink.getTargetKind();
-        int delay = dependencyLink.getDuration();
+        int delay = dependencyLink.getDelay();
         if (targetStartOrEnd.equals(StartOrEnd.START)) {
             delay += 1;
         }
@@ -768,7 +768,7 @@ public class PepperMMJavaService {
         LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
         LocalDate newWorkpackageEnd = workpackage.getEndDate();
         StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
-        int delay = dependencyLink.getDuration();
+        int delay = dependencyLink.getDelay();
         if (sourceStartOrEnd.equals(StartOrEnd.START)) {
             delay -= 1;
         }
@@ -791,7 +791,7 @@ public class PepperMMJavaService {
         LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
         LocalDate newWorkpackageStart = workpackage.getEndDate();
         StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
-        int delay = dependencyLink.getDuration() - 1;
+        int delay = dependencyLink.getDelay() - 1;
         if (sourceStartOrEnd == StartOrEnd.END) {
             newWorkpackageStart = sourceEnd.plusDays(delay);
 
@@ -806,15 +806,15 @@ public class PepperMMJavaService {
         LocalDate laterLocalDate = null;
         Workpackage source = (Workpackage) dep.getSource();
         if (dep.getSourceKind() == StartOrEnd.END) {
-            laterLocalDate = source.getEndDate().plusDays(dep.getDuration());
+            laterLocalDate = source.getEndDate().plusDays(dep.getDelay());
         } else if (dep.getSourceKind() == StartOrEnd.START) {
-            laterLocalDate = source.getStartDate().plusDays(dep.getDuration());
+            laterLocalDate = source.getStartDate().plusDays(dep.getDelay());
         }
         return laterLocalDate;
     }
 
     public void editDependencyLinkDuration(DependencyLink depLink, int newDuration) {
-        depLink.setDuration(newDuration);
+        depLink.setDelay(newDuration);
         this.followMoveDependency(depLink.getSource());
     }
 
