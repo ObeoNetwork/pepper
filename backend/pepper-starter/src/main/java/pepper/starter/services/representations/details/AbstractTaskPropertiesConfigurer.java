@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -271,7 +272,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_calculationOption_feature"))
                 .isReadOnlyProvider(variableManager -> false)
                 .optionSelectedProvider(optionSelectedProvider)
-                .optionsProvider(variableManager -> TaskTimeBoundariesConstraint.VALUES)
+                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_DURATION, TaskTimeBoundariesConstraint.END_DURATION, TaskTimeBoundariesConstraint.START_END))
                 .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
@@ -313,7 +314,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.duration";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || isDateOptionForced(task))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || this.isDateOptionForced(task))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -444,7 +445,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || isDateOptionForced(task) || isPointed(task, StartOrEnd.START))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.START))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -492,7 +493,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || isDateOptionForced(task) || isPointed(task, StartOrEnd.END))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -507,8 +508,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     }
 
     private Boolean isDateOptionForced(AbstractTask task) {
-        return (task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && isPointed(task, StartOrEnd.START))
-                || (task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && isPointed(task, StartOrEnd.END));
+        return (task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && this.isPointed(task, StartOrEnd.START))
+                || (task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && this.isPointed(task, StartOrEnd.END));
     }
 
     private Boolean isPointed(AbstractTask task, StartOrEnd startOrEnd) {
