@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link pepper.peppermm.DependencyLink#getTargetKind <em>Target Kind</em>}</li>
  *   <li>{@link pepper.peppermm.DependencyLink#getSourceKind <em>Source Kind</em>}</li>
  *   <li>{@link pepper.peppermm.DependencyLink#getSource <em>Source</em>}</li>
- *   <li>{@link pepper.peppermm.DependencyLink#getDuration <em>Duration</em>}</li>
+ *   <li>{@link pepper.peppermm.DependencyLink#getDelay <em>Delay</em>}</li>
  * </ul>
  *
  * @see pepper.peppermm.PepperPackage#getDependencyLink()
@@ -110,25 +110,25 @@ public interface DependencyLink extends EObject {
     void setSource(DependencyRelatedObject value);
 
     /**
-	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Duration</em>' attribute.
-	 * @see #setDuration(int)
-	 * @see pepper.peppermm.PepperPackage#getDependencyLink_Duration()
+	 * Returns the value of the '<em><b>Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Delay</em>' attribute.
+	 * @see #setDelay(int)
+	 * @see pepper.peppermm.PepperPackage#getDependencyLink_Delay()
 	 * @model
 	 * @generated
 	 */
-    int getDuration();
+	int getDelay();
 
-    /**
-     * Sets the value of the '{@link DependencyLink#getDuration <em>Duration</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Duration</em>' attribute.
-     * @see #getDuration()
-     * @generated
-     */
-    void setDuration(int value);
+				/**
+	 * Sets the value of the '{@link pepper.peppermm.DependencyLink#getDelay <em>Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Delay</em>' attribute.
+	 * @see #getDelay()
+	 * @generated
+	 */
+	void setDelay(int value);
 
 } // DependencyLink

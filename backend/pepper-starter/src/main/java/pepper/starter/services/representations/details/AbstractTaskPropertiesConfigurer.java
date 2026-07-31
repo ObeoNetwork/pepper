@@ -346,11 +346,15 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                             String name = task.getName();
                             String sourceKind = link.getSourceKind().toString();
                             String targetKind = link.getTargetKind().toString();
-                            int duration = link.getDuration();
-                            if (duration != 0) {
-                                return name + ": " + sourceKind + " -> " + targetKind + " " + abstractTaskAdapter.getString("_UI_AbstractTask_durationDelay_feature") + " : " + duration;
+                            int delay = link.getDelay();
+                            double nbOfDays = delay / 24.0;
+                            String delayStr =  String.format("%.1f", nbOfDays);
+
+                            String delayString = name + ": " + sourceKind + " -> " + targetKind;
+                            if (delay != 0) {
+                                delayString = delayString + " | " + delayStr + " " + abstractTaskAdapter.getString("_UI_DependencyLink_delayDayUnit");
                             }
-                            return name + ": " + sourceKind + " -> " + targetKind;
+                            return delayString;
                         })
                         .orElse("");
 
