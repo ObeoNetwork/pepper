@@ -14,9 +14,11 @@
 package pepper.starter.services.representations.details;
 
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -255,8 +257,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 TaskTimeBoundariesConstraint taskTimeBoundariesConstraint = taskTimeBoundariesConstraintOpt.get();
                 if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_END)) {
                     label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEnd_feature");
-                }
-                else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
                     label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndDuration_feature");
                 } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
                     label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartDuration_feature");
@@ -287,7 +288,10 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private TextfieldDescription getDurationWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
-                .map(AbstractTask::getDuration)
+                .map(abstractTask -> {
+                    double nbOfDays = abstractTask.getDuration() / 24.0;
+                    return String.format("%.1f", nbOfDays);
+                })
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
@@ -297,9 +301,9 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                     taskComputationService.updateDuration(taskOpt.get(), 0);
                 } else {
                     try {
-                        int integer = Integer.parseInt(newValue);
+                        int valueInHours = this.roundToNearestHalfDayInHours(newValue);
                         var task = taskOpt.get();
-                        taskComputationService.updateDuration(task, integer);
+                        taskComputationService.updateDuration(task, valueInHours);
                         service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
                     } catch (NumberFormatException e) {
                         // Ignore
@@ -569,7 +573,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
         return IfDescription.newIfDescription("if.abstractTask.computeDynamically")
                 .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
-                .predicate(variableManager-> variableManager.get(VariableManager.SELF, AbstractTask.class)
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
                         .filter(task -> !task.getSubTasks().isEmpty())
                         .isPresent())
                 .controlDescriptions(List.of(computeDynamically))
@@ -608,6 +612,17 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .filter(Team.class::isInstance)
                 .map(Team.class::cast)
                 .toList();
+    }
+
+    private int roundToNearestHalfDayInHours(String nbDaysString) {
+        double doubleValue = Double.parseDouble(nbDaysString.replace(',', '.'));
+
+        Duration inputDuration = Duration.ofHours((int) (doubleValue * 24));
+        Duration duration = inputDuration.isNegative()
+                ? inputDuration.minusHours(6).truncatedTo(ChronoUnit.HALF_DAYS)
+                : inputDuration.plusMinutes(6).truncatedTo(ChronoUnit.HALF_DAYS);
+
+        return Math.toIntExact(duration.toHours());
     }
 }
 
