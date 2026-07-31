@@ -91,26 +91,26 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
     protected DependencyRelatedObject source;
 
     /**
-	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDuration()
+	 * The default value of the '{@link #getDelay() <em>Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDelay()
 	 * @generated
 	 * @ordered
 	 */
-    protected static final int DURATION_EDEFAULT = 0;
+	protected static final int DELAY_EDEFAULT = 0;
 
-    /**
-	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDuration()
+				/**
+	 * The cached value of the '{@link #getDelay() <em>Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDelay()
 	 * @generated
 	 * @ordered
 	 */
-    protected int duration = DURATION_EDEFAULT;
+	protected int delay = DELAY_EDEFAULT;
 
-    /**
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -207,27 +207,29 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 	}
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    @Override
-    public int getDuration() {
-		return duration;
+	@Override
+	public int getDelay() {
+		return delay;
 	}
 
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    @Override
-    public void setDuration(int newDuration) {
-		int oldDuration = duration;
-		duration = newDuration;
+	@Override
+	public void setDelay(int newDelay) {
+		int oldDelay = delay;
+		delay = newDelay;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.DEPENDENCY_LINK__DURATION, oldDuration, duration));
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.DEPENDENCY_LINK__DELAY, oldDelay, delay));
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -241,8 +243,8 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 			case PepperPackage.DEPENDENCY_LINK__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case PepperPackage.DEPENDENCY_LINK__DURATION:
-				return getDuration();
+			case PepperPackage.DEPENDENCY_LINK__DELAY:
+				return getDelay();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -263,8 +265,8 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 			case PepperPackage.DEPENDENCY_LINK__SOURCE:
 				setSource((DependencyRelatedObject)newValue);
 				return;
-			case PepperPackage.DEPENDENCY_LINK__DURATION:
-				setDuration((Integer)newValue);
+			case PepperPackage.DEPENDENCY_LINK__DELAY:
+				setDelay((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -286,8 +288,8 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 			case PepperPackage.DEPENDENCY_LINK__SOURCE:
 				setSource((DependencyRelatedObject)null);
 				return;
-			case PepperPackage.DEPENDENCY_LINK__DURATION:
-				setDuration(DURATION_EDEFAULT);
+			case PepperPackage.DEPENDENCY_LINK__DELAY:
+				setDelay(DELAY_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -306,8 +308,8 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 				return sourceKind != SOURCE_KIND_EDEFAULT;
 			case PepperPackage.DEPENDENCY_LINK__SOURCE:
 				return source != null;
-			case PepperPackage.DEPENDENCY_LINK__DURATION:
-				return duration != DURATION_EDEFAULT;
+			case PepperPackage.DEPENDENCY_LINK__DELAY:
+				return delay != DELAY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -325,8 +327,8 @@ public class DependencyLinkImpl extends MinimalEObjectImpl.Container implements 
 		result.append(targetKind);
 		result.append(", sourceKind: ");
 		result.append(sourceKind);
-		result.append(", duration: ");
-		result.append(duration);
+		result.append(", delay: ");
+		result.append(delay);
 		result.append(')');
 		return result.toString();
 	}

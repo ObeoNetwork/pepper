@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -254,7 +255,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .labelProvider(variableManager -> workpackageAdapter.getString("_UI_Workpackage_calculationOption_feature"))
                 .isReadOnlyProvider(variableManager -> false)
                 .optionSelectedProvider(optionSelectedProvider)
-                .optionsProvider(variableManager -> TaskTimeBoundariesConstraint.VALUES)
+                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_DURATION, TaskTimeBoundariesConstraint.END_DURATION, TaskTimeBoundariesConstraint.START_END))
                 .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
@@ -297,7 +298,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END
-                                || isNonConstrainingDateCalculatedByDependency(workpackage)
+                                || this.isNonConstrainingDateCalculatedByDependency(workpackage)
                                 || !workpackage.getOwnedTasks().isEmpty()
                         )
                         .orElse(true))
@@ -328,11 +329,12 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                             String name = workpackage.getName();
                             String sourceKind = link.getSourceKind().toString();
                             String targetKind = link.getTargetKind().toString();
-                            int duration = link.getDuration();
+                            int duration = link.getDelay();
+                            String durationString = name + ": " + sourceKind + " -> " + targetKind;
                             if (duration != 0) {
-                                return name + ": " + sourceKind + " -> " + targetKind + " " + workpackageAdapter.getString("_UI_Workpackage_dependencyDelay_feature") + " : " + duration;
+                                durationString = durationString  + " | " + duration + " " + workpackageAdapter.getString("_UI_DependencyLink_delayDayUnit");
                             }
-                            return name + ": " + sourceKind + " -> " + targetKind;
+                            return durationString;
                         })
                         .orElse("");
 
@@ -401,8 +403,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION
-                                || isNonConstrainingDateCalculatedByDependency(workpackage)
-                                || isDateCalculatedByDependency(workpackage, StartOrEnd.START)
+                                || this.isNonConstrainingDateCalculatedByDependency(workpackage)
+                                || this.isDateCalculatedByDependency(workpackage, StartOrEnd.START)
                                 || !workpackage.getOwnedTasks().isEmpty()
                                 )
                         .orElse(true))
@@ -453,8 +455,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION
-                                || isNonConstrainingDateCalculatedByDependency(workpackage)
-                                || isDateCalculatedByDependency(workpackage, StartOrEnd.END)
+                                || this.isNonConstrainingDateCalculatedByDependency(workpackage)
+                                || this.isDateCalculatedByDependency(workpackage, StartOrEnd.END)
                                 || !workpackage.getOwnedTasks().isEmpty()
                         )
                         .orElse(true))
@@ -471,8 +473,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
     }
 
     private Boolean isNonConstrainingDateCalculatedByDependency(Workpackage workpackage) {
-        return (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && isDateCalculatedByDependency(workpackage, StartOrEnd.START))
-                || (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && isDateCalculatedByDependency(workpackage, StartOrEnd.END));
+        return (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && this.isDateCalculatedByDependency(workpackage, StartOrEnd.START))
+                || (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && this.isDateCalculatedByDependency(workpackage, StartOrEnd.END));
     }
 
     private Boolean isDateCalculatedByDependency(Workpackage workpackage, StartOrEnd startOrEnd) {
