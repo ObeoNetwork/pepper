@@ -1611,14 +1611,15 @@ public interface PepperPackage extends EPackage {
     int DEPENDENCY_LINK__SOURCE = 2;
 
     /**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int DEPENDENCY_LINK__DURATION = 3;
+	int DEPENDENCY_LINK__DELAY = 3;
 
-    /**
+				/**
 	 * The number of structural features of the '<em>Dependency Link</em>' class.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -2928,16 +2929,17 @@ public interface PepperPackage extends EPackage {
     EReference getDependencyLink_Source();
 
     /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.DependencyLink#getDuration <em>Duration</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Duration</em>'.
-	 * @see pepper.peppermm.DependencyLink#getDuration()
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.DependencyLink#getDelay <em>Delay</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Delay</em>'.
+	 * @see pepper.peppermm.DependencyLink#getDelay()
 	 * @see #getDependencyLink()
 	 * @generated
 	 */
-    EAttribute getDependencyLink_Duration();
+	EAttribute getDependencyLink_Delay();
 
-    /**
+				/**
 	 * Returns the meta object for class '{@link pepper.peppermm.DependencyRelatedObject <em>Dependency Related Object</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Dependency Related Object</em>'.
@@ -4048,14 +4050,14 @@ public interface PepperPackage extends EPackage {
         EReference DEPENDENCY_LINK__SOURCE = eINSTANCE.getDependencyLink_Source();
 
         /**
-		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
+		 * The meta object literal for the '<em><b>Delay</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-        EAttribute DEPENDENCY_LINK__DURATION = eINSTANCE.getDependencyLink_Duration();
+		EAttribute DEPENDENCY_LINK__DELAY = eINSTANCE.getDependencyLink_Delay();
 
-        /**
+								/**
 		 * The meta object literal for the '{@link pepper.peppermm.DependencyRelatedObject <em>Dependency Related Object</em>}' class.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see pepper.peppermm.DependencyRelatedObject

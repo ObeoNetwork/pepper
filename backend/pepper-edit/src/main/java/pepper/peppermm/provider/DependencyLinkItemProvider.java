@@ -63,7 +63,7 @@ public class DependencyLinkItemProvider extends ItemProviderAdapter
 			addTargetKindPropertyDescriptor(object);
 			addSourceKindPropertyDescriptor(object);
 			addSourcePropertyDescriptor(object);
-			addDurationPropertyDescriptor(object);
+			addDelayPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -132,18 +132,19 @@ public class DependencyLinkItemProvider extends ItemProviderAdapter
 	}
 
     /**
-	 * This adds a property descriptor for the Duration feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This adds a property descriptor for the Delay feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected void addDurationPropertyDescriptor(Object object) {
+	protected void addDelayPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_DependencyLink_duration_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_duration_feature", "_UI_DependencyLink_type"),
-				 PepperPackage.Literals.DEPENDENCY_LINK__DURATION,
+				 getString("_UI_DependencyLink_delay_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DependencyLink_delay_feature", "_UI_DependencyLink_type"),
+				 PepperPackage.Literals.DEPENDENCY_LINK__DELAY,
 				 true,
 				 false,
 				 false,
@@ -152,7 +153,7 @@ public class DependencyLinkItemProvider extends ItemProviderAdapter
 				 null));
 	}
 
-    /**
+				/**
 	 * This returns DependencyLink.gif.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -200,7 +201,7 @@ public class DependencyLinkItemProvider extends ItemProviderAdapter
 			case PepperPackage.DEPENDENCY_LINK__TARGET_KIND:
 			case PepperPackage.DEPENDENCY_LINK__SOURCE_KIND:
 			case PepperPackage.DEPENDENCY_LINK__SOURCE:
-			case PepperPackage.DEPENDENCY_LINK__DURATION:
+			case PepperPackage.DEPENDENCY_LINK__DELAY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
