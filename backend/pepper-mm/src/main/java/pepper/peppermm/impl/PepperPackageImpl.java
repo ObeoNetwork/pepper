@@ -30,6 +30,7 @@ import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.ExternalStakeholder;
 import pepper.peppermm.InternalStakeholder;
 import pepper.peppermm.KeyResult;
+import pepper.peppermm.NamedElement;
 import pepper.peppermm.Objective;
 import pepper.peppermm.Organization;
 import pepper.peppermm.PepperFactory;
@@ -59,6 +60,13 @@ import pepper.peppermm.WorkpackageArtefactNature;
  */
 public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass namedElementEClass = null;
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -286,6 +294,36 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getNamedElement() {
+		return namedElementEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getNamedElement_Name() {
+		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getNamedElement_Description() {
+		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -299,17 +337,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getOrganization_Name() {
-		return (EAttribute)organizationEClass.getEStructuralFeatures().get(0);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EReference getOrganization_OwnedProjects() {
-		return (EReference)organizationEClass.getEStructuralFeatures().get(1);
+		return (EReference)organizationEClass.getEStructuralFeatures().get(0);
 	}
 
     /**
@@ -318,7 +347,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getOrganization_OwnedResourceFolders() {
-		return (EReference)organizationEClass.getEStructuralFeatures().get(2);
+		return (EReference)organizationEClass.getEStructuralFeatures().get(1);
 	}
 
     /**
@@ -331,22 +360,13 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EAttribute getResource_Name() {
-		return (EAttribute)resourceEClass.getEStructuralFeatures().get(0);
-	}
-
-    /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EReference getResource_UnavailabilityPeriods() {
-		return (EReference)resourceEClass.getEStructuralFeatures().get(1);
+		return (EReference)resourceEClass.getEStructuralFeatures().get(0);
 	}
 
 				/**
@@ -480,7 +500,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getAbstractTask_Name() {
+    public EAttribute getAbstractTask_StartTime() {
 		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -489,7 +509,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getAbstractTask_Description() {
+    public EAttribute getAbstractTask_EndTime() {
 		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -498,7 +518,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getAbstractTask_StartTime() {
+    public EAttribute getAbstractTask_Progress() {
 		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -507,7 +527,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getAbstractTask_EndTime() {
+    public EAttribute getAbstractTask_ComputeStartEndDynamically() {
 		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -516,26 +536,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getAbstractTask_Progress() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(4);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EAttribute getAbstractTask_ComputeStartEndDynamically() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(5);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EReference getAbstractTask_Tags() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(6);
+		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -544,7 +546,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getAbstractTask_AssignedPersons() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(7);
+		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -553,7 +555,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getAbstractTask_AssignedTeams() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(8);
+		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -562,7 +564,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getAbstractTask_SubTasks() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(9);
+		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -571,7 +573,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getAbstractTask_CalculationOption() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(8);
 	}
 
     /**
@@ -580,7 +582,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getAbstractTask_Duration() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(9);
 	}
 
     /**
@@ -696,17 +698,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getProject_Name() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(0);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EReference getProject_OwnedWorkpackages() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(1);
+		return (EReference)projectEClass.getEStructuralFeatures().get(0);
 	}
 
     /**
@@ -715,7 +708,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_OwnedObjectives() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(2);
+		return (EReference)projectEClass.getEStructuralFeatures().get(1);
 	}
 
     /**
@@ -724,7 +717,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_OwnedTagFolders() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(3);
+		return (EReference)projectEClass.getEStructuralFeatures().get(2);
 	}
 
     /**
@@ -733,7 +726,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_OwnedRisks() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(4);
+		return (EReference)projectEClass.getEStructuralFeatures().get(3);
 	}
 
     /**
@@ -742,16 +735,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_Reference() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(5);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EAttribute getProject_Description() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -760,7 +744,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_LeadingUnit() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(7);
+		return (EReference)projectEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -769,7 +753,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_ParticipantUnits() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(8);
+		return (EReference)projectEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -778,7 +762,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_PlannifiedClientCopilMeetings() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -787,7 +771,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_MainProgramBrick() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(8);
 	}
 
     /**
@@ -796,7 +780,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_State() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(9);
 	}
 
     /**
@@ -805,7 +789,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_Clients() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(12);
+		return (EReference)projectEClass.getEStructuralFeatures().get(10);
 	}
 
     /**
@@ -814,7 +798,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_Partners() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(13);
+		return (EReference)projectEClass.getEStructuralFeatures().get(11);
 	}
 
     /**
@@ -823,7 +807,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_IsTransverse() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(14);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(12);
 	}
 
     /**
@@ -832,7 +816,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_Leader() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(15);
+		return (EReference)projectEClass.getEStructuralFeatures().get(13);
 	}
 
     /**
@@ -841,7 +825,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getProject_Members() {
-		return (EReference)projectEClass.getEStructuralFeatures().get(16);
+		return (EReference)projectEClass.getEStructuralFeatures().get(14);
 	}
 
     /**
@@ -850,7 +834,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_IsSensitive() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(17);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(15);
 	}
 
     /**
@@ -859,7 +843,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_ContractualStartDate() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(18);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(16);
 	}
 
     /**
@@ -868,7 +852,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_Duration() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(19);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(17);
 	}
 
     /**
@@ -877,7 +861,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_ContractualEndDate() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(20);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(18);
 	}
 
     /**
@@ -886,7 +870,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_EffectiveStartDate() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(21);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(19);
 	}
 
     /**
@@ -895,7 +879,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_EffectiveEndDate() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(22);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(20);
 	}
 
     /**
@@ -904,7 +888,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_ContractTermExtension() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(23);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(21);
 	}
 
     /**
@@ -913,7 +897,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_GlobalCost() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(24);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(22);
 	}
 
     /**
@@ -922,7 +906,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_FundingRate() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(25);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(23);
 	}
 
     /**
@@ -931,7 +915,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_Funding() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(26);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(24);
 	}
 
     /**
@@ -940,7 +924,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_Manpower() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(27);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(25);
 	}
 
     /**
@@ -949,7 +933,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_EOTP() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(28);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(26);
 	}
 
     /**
@@ -958,7 +942,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_StatisticOrder() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(29);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(27);
 	}
 
     /**
@@ -967,7 +951,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_InternalNeed() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(30);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(28);
 	}
 
     /**
@@ -976,7 +960,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getProject_ClientNeed() {
-		return (EAttribute)projectEClass.getEStructuralFeatures().get(31);
+		return (EAttribute)projectEClass.getEStructuralFeatures().get(29);
 	}
 
     /**
@@ -993,7 +977,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackage_Name() {
+    public EAttribute getWorkpackage_StartDate() {
 		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1002,7 +986,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackage_Description() {
+    public EAttribute getWorkpackage_EndDate() {
 		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1011,26 +995,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackage_StartDate() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(2);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EAttribute getWorkpackage_EndDate() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(3);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EReference getWorkpackage_Leader() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(4);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(2);
 	}
 
     /**
@@ -1039,7 +1005,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_Participants() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(5);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(3);
 	}
 
     /**
@@ -1048,7 +1014,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_Effort() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -1057,7 +1023,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_Outputs() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(7);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -1066,7 +1032,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_OwnedTasks() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(8);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -1075,7 +1041,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_OwnedObjectives() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(9);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -1084,7 +1050,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_Progress() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(8);
 	}
 
     /**
@@ -1093,7 +1059,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_CalculationOption() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(9);
 	}
 
     /**
@@ -1102,7 +1068,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_Duration() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(12);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(10);
 	}
 
     /**
@@ -1119,7 +1085,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_Name() {
+    public EAttribute getWorkpackageArtefact_Nature() {
 		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1128,7 +1094,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_Description() {
+    public EAttribute getWorkpackageArtefact_PlannedDeadline() {
 		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1137,7 +1103,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_Nature() {
+    public EAttribute getWorkpackageArtefact_EffectiveDeadLine() {
 		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1146,7 +1112,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_PlannedDeadline() {
+    public EAttribute getWorkpackageArtefact_IsInvoiceTrigger() {
 		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1155,7 +1121,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_EffectiveDeadLine() {
+    public EAttribute getWorkpackageArtefact_InvoiceAmount() {
 		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1164,26 +1130,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EAttribute getWorkpackageArtefact_IsInvoiceTrigger() {
-		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(5);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EAttribute getWorkpackageArtefact_InvoiceAmount() {
-		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(6);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EReference getWorkpackageArtefact_Responsible() {
-		return (EReference)workpackageArtefactEClass.getEStructuralFeatures().get(7);
+		return (EReference)workpackageArtefactEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -1192,7 +1140,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackageArtefact_Version() {
-		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -1201,7 +1149,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackageArtefact_IsObsolete() {
-		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)workpackageArtefactEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -1487,13 +1435,15 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		isCreated = true;
 
 		// Create classes and their features
+		namedElementEClass = createEClass(NAMED_ELEMENT);
+		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
+		createEAttribute(namedElementEClass, NAMED_ELEMENT__DESCRIPTION);
+
 		organizationEClass = createEClass(ORGANIZATION);
-		createEAttribute(organizationEClass, ORGANIZATION__NAME);
 		createEReference(organizationEClass, ORGANIZATION__OWNED_PROJECTS);
 		createEReference(organizationEClass, ORGANIZATION__OWNED_RESOURCE_FOLDERS);
 
 		resourceEClass = createEClass(RESOURCE);
-		createEAttribute(resourceEClass, RESOURCE__NAME);
 		createEReference(resourceEClass, RESOURCE__UNAVAILABILITY_PERIODS);
 
 		resourceFolderEClass = createEClass(RESOURCE_FOLDER);
@@ -1515,8 +1465,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(personEClass, PERSON__IMAGE_URL);
 
 		abstractTaskEClass = createEClass(ABSTRACT_TASK);
-		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__NAME);
-		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__DESCRIPTION);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__START_TIME);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__END_TIME);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__PROGRESS);
@@ -1545,13 +1493,11 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		keyResultEClass = createEClass(KEY_RESULT);
 
 		projectEClass = createEClass(PROJECT);
-		createEAttribute(projectEClass, PROJECT__NAME);
 		createEReference(projectEClass, PROJECT__OWNED_WORKPACKAGES);
 		createEReference(projectEClass, PROJECT__OWNED_OBJECTIVES);
 		createEReference(projectEClass, PROJECT__OWNED_TAG_FOLDERS);
 		createEReference(projectEClass, PROJECT__OWNED_RISKS);
 		createEAttribute(projectEClass, PROJECT__REFERENCE);
-		createEAttribute(projectEClass, PROJECT__DESCRIPTION);
 		createEReference(projectEClass, PROJECT__LEADING_UNIT);
 		createEReference(projectEClass, PROJECT__PARTICIPANT_UNITS);
 		createEAttribute(projectEClass, PROJECT__PLANNIFIED_CLIENT_COPIL_MEETINGS);
@@ -1579,8 +1525,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(projectEClass, PROJECT__CLIENT_NEED);
 
 		workpackageEClass = createEClass(WORKPACKAGE);
-		createEAttribute(workpackageEClass, WORKPACKAGE__NAME);
-		createEAttribute(workpackageEClass, WORKPACKAGE__DESCRIPTION);
 		createEAttribute(workpackageEClass, WORKPACKAGE__START_DATE);
 		createEAttribute(workpackageEClass, WORKPACKAGE__END_DATE);
 		createEReference(workpackageEClass, WORKPACKAGE__LEADER);
@@ -1594,8 +1538,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(workpackageEClass, WORKPACKAGE__DURATION);
 
 		workpackageArtefactEClass = createEClass(WORKPACKAGE_ARTEFACT);
-		createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__NAME);
-		createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__DESCRIPTION);
 		createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__NATURE);
 		createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__PLANNED_DEADLINE);
 		createEAttribute(workpackageArtefactEClass, WORKPACKAGE_ARTEFACT__EFFECTIVE_DEAD_LINE);
@@ -1668,24 +1610,32 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		organizationEClass.getESuperTypes().add(this.getNamedElement());
+		resourceEClass.getESuperTypes().add(this.getNamedElement());
 		teamEClass.getESuperTypes().add(this.getResource());
 		internalStakeholderEClass.getESuperTypes().add(this.getResource());
 		externalStakeholderEClass.getESuperTypes().add(this.getResource());
 		personEClass.getESuperTypes().add(this.getResource());
+		abstractTaskEClass.getESuperTypes().add(this.getNamedElement());
 		taskEClass.getESuperTypes().add(this.getAbstractTask());
 		taskEClass.getESuperTypes().add(this.getDependencyRelatedObject());
 		objectiveEClass.getESuperTypes().add(this.getAbstractTask());
 		keyResultEClass.getESuperTypes().add(this.getAbstractTask());
+		projectEClass.getESuperTypes().add(this.getNamedElement());
+		workpackageEClass.getESuperTypes().add(this.getNamedElement());
 		workpackageEClass.getESuperTypes().add(this.getDependencyRelatedObject());
+		workpackageArtefactEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNamedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(organizationEClass, Organization.class, "Organization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getOrganization_Name(), ecorePackage.getEString(), "name", null, 0, 1, Organization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOrganization_OwnedProjects(), this.getProject(), null, "ownedProjects", null, 0, -1, Organization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOrganization_OwnedResourceFolders(), this.getResourceFolder(), null, "ownedResourceFolders", null, 0, -1, Organization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceEClass, Resource.class, "Resource", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getResource_Name(), ecorePackage.getEString(), "name", null, 0, 1, Resource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResource_UnavailabilityPeriods(), this.getUnavailabilityPeriod(), null, "unavailabilityPeriods", null, 0, -1, Resource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceFolderEClass, ResourceFolder.class, "ResourceFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1707,8 +1657,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getPerson_ImageUrl(), ecorePackage.getEString(), "imageUrl", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractTaskEClass, AbstractTask.class, "AbstractTask", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAbstractTask_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAbstractTask_Description(), ecorePackage.getEString(), "description", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_StartTime(), this.getInstant(), "startTime", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_EndTime(), this.getInstant(), "endTime", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_Progress(), ecorePackage.getEInt(), "progress", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1737,13 +1685,11 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEClass(keyResultEClass, KeyResult.class, "KeyResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(projectEClass, Project.class, "Project", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProject_Name(), ecorePackage.getEString(), "name", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_OwnedWorkpackages(), this.getWorkpackage(), null, "ownedWorkpackages", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_OwnedObjectives(), this.getObjective(), null, "ownedObjectives", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_OwnedTagFolders(), this.getTagFolder(), null, "ownedTagFolders", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_OwnedRisks(), this.getRisk(), null, "ownedRisks", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProject_Reference(), ecorePackage.getEString(), "reference", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProject_Description(), ecorePackage.getEString(), "description", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_LeadingUnit(), this.getInternalStakeholder(), null, "leadingUnit", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProject_ParticipantUnits(), this.getInternalStakeholder(), null, "participantUnits", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProject_PlannifiedClientCopilMeetings(), ecorePackage.getEBooleanObject(), "plannifiedClientCopilMeetings", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1771,8 +1717,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getProject_ClientNeed(), ecorePackage.getEString(), "clientNeed", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(workpackageEClass, Workpackage.class, "Workpackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWorkpackage_Name(), ecorePackage.getEString(), "name", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWorkpackage_Description(), ecorePackage.getEString(), "description", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackage_StartDate(), this.getDate(), "startDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackage_EndDate(), this.getDate(), "endDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_Leader(), this.getPerson(), null, "leader", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1786,8 +1730,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getWorkpackage_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(workpackageArtefactEClass, WorkpackageArtefact.class, "WorkpackageArtefact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWorkpackageArtefact_Name(), ecorePackage.getEString(), "name", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWorkpackageArtefact_Description(), ecorePackage.getEString(), "description", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackageArtefact_Nature(), this.getWorkpackageArtefactNature(), "nature", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackageArtefact_PlannedDeadline(), this.getDate(), "plannedDeadline", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackageArtefact_EffectiveDeadLine(), this.getDate(), "effectiveDeadLine", null, 0, 1, WorkpackageArtefact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

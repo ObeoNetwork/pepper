@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import pepper.peppermm.DependencyLink;
+import pepper.peppermm.DependencyRelatedObject;
+import pepper.peppermm.NamedElement;
 import pepper.peppermm.Objective;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
@@ -45,8 +47,6 @@ import pepper.peppermm.WorkpackageArtefact;
  * </p>
  * <ul>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getDependencies <em>Dependencies</em>}</li>
- *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getName <em>Name</em>}</li>
- *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getStartDate <em>Start Date</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getEndDate <em>End Date</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getLeader <em>Leader</em>}</li>
@@ -62,7 +62,7 @@ import pepper.peppermm.WorkpackageArtefact;
  *
  * @generated
  */
-public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Workpackage {
+public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
     /**
      * The cached value of the '{@link #getDependencies() <em>Dependencies</em>}' containment reference list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
@@ -72,46 +72,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
      * @ordered
      */
     protected EList<DependencyLink> dependencies;
-
-    /**
-     * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected static final String NAME_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected String name = NAME_EDEFAULT;
-
-    /**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final String DESCRIPTION_EDEFAULT = null;
-
-    /**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected String description = DESCRIPTION_EDEFAULT;
 
     /**
 	 * The default value of the '{@link #getStartDate() <em>Start Date</em>}' attribute.
@@ -309,48 +269,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 			dependencies = new EObjectContainmentEList<DependencyLink>(DependencyLink.class, this, PepperPackage.WORKPACKAGE__DEPENDENCIES);
 		}
 		return dependencies;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getName() {
-		return name;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__NAME, oldName, name));
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getDescription() {
-		return description;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__DESCRIPTION, oldDescription, description));
 	}
 
     /**
@@ -661,10 +579,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 		switch (featureID) {
 			case PepperPackage.WORKPACKAGE__DEPENDENCIES:
 				return getDependencies();
-			case PepperPackage.WORKPACKAGE__NAME:
-				return getName();
-			case PepperPackage.WORKPACKAGE__DESCRIPTION:
-				return getDescription();
 			case PepperPackage.WORKPACKAGE__START_DATE:
 				return getStartDate();
 			case PepperPackage.WORKPACKAGE__END_DATE:
@@ -703,12 +617,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 			case PepperPackage.WORKPACKAGE__DEPENDENCIES:
 				getDependencies().clear();
 				getDependencies().addAll((Collection<? extends DependencyLink>)newValue);
-				return;
-			case PepperPackage.WORKPACKAGE__NAME:
-				setName((String)newValue);
-				return;
-			case PepperPackage.WORKPACKAGE__DESCRIPTION:
-				setDescription((String)newValue);
 				return;
 			case PepperPackage.WORKPACKAGE__START_DATE:
 				setStartDate((LocalDate)newValue);
@@ -761,12 +669,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 			case PepperPackage.WORKPACKAGE__DEPENDENCIES:
 				getDependencies().clear();
 				return;
-			case PepperPackage.WORKPACKAGE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case PepperPackage.WORKPACKAGE__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
 			case PepperPackage.WORKPACKAGE__START_DATE:
 				setStartDate(START_DATE_EDEFAULT);
 				return;
@@ -813,10 +715,6 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 		switch (featureID) {
 			case PepperPackage.WORKPACKAGE__DEPENDENCIES:
 				return dependencies != null && !dependencies.isEmpty();
-			case PepperPackage.WORKPACKAGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case PepperPackage.WORKPACKAGE__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case PepperPackage.WORKPACKAGE__START_DATE:
 				return START_DATE_EDEFAULT == null ? startDate != null : !START_DATE_EDEFAULT.equals(startDate);
 			case PepperPackage.WORKPACKAGE__END_DATE:
@@ -844,6 +742,38 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == DependencyRelatedObject.class) {
+			switch (derivedFeatureID) {
+				case PepperPackage.WORKPACKAGE__DEPENDENCIES: return PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == DependencyRelatedObject.class) {
+			switch (baseFeatureID) {
+				case PepperPackage.DEPENDENCY_RELATED_OBJECT__DEPENDENCIES: return PepperPackage.WORKPACKAGE__DEPENDENCIES;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -852,11 +782,7 @@ public class WorkpackageImpl extends MinimalEObjectImpl.Container implements Wor
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", description: ");
-		result.append(description);
-		result.append(", startDate: ");
+		result.append(" (startDate: ");
 		result.append(startDate);
 		result.append(", endDate: ");
 		result.append(endDate);

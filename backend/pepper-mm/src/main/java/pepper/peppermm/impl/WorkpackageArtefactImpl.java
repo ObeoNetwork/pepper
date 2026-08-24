@@ -34,8 +34,6 @@ import pepper.peppermm.WorkpackageArtefactNature;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getName <em>Name</em>}</li>
- *   <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getNature <em>Nature</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getPlannedDeadline <em>Planned Deadline</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageArtefactImpl#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
@@ -48,47 +46,7 @@ import pepper.peppermm.WorkpackageArtefactNature;
  *
  * @generated
  */
-public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implements WorkpackageArtefact {
-    /**
-     * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected static final String NAME_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected String name = NAME_EDEFAULT;
-
-    /**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final String DESCRIPTION_EDEFAULT = null;
-
-    /**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected String description = DESCRIPTION_EDEFAULT;
-
+public class WorkpackageArtefactImpl extends NamedElementImpl implements WorkpackageArtefact {
     /**
      * The default value of the '{@link #getNature() <em>Nature</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -254,48 +212,6 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
     @Override
     protected EClass eStaticClass() {
 		return PepperPackage.Literals.WORKPACKAGE_ARTEFACT;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getName() {
-		return name;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE_ARTEFACT__NAME, oldName, name));
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getDescription() {
-		return description;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE_ARTEFACT__DESCRIPTION, oldDescription, description));
 	}
 
     /**
@@ -489,10 +405,6 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PepperPackage.WORKPACKAGE_ARTEFACT__NAME:
-				return getName();
-			case PepperPackage.WORKPACKAGE_ARTEFACT__DESCRIPTION:
-				return getDescription();
 			case PepperPackage.WORKPACKAGE_ARTEFACT__NATURE:
 				return getNature();
 			case PepperPackage.WORKPACKAGE_ARTEFACT__PLANNED_DEADLINE:
@@ -521,12 +433,6 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
     @Override
     public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PepperPackage.WORKPACKAGE_ARTEFACT__NAME:
-				setName((String)newValue);
-				return;
-			case PepperPackage.WORKPACKAGE_ARTEFACT__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
 			case PepperPackage.WORKPACKAGE_ARTEFACT__NATURE:
 				setNature((WorkpackageArtefactNature)newValue);
 				return;
@@ -562,12 +468,6 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
     @Override
     public void eUnset(int featureID) {
 		switch (featureID) {
-			case PepperPackage.WORKPACKAGE_ARTEFACT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case PepperPackage.WORKPACKAGE_ARTEFACT__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
 			case PepperPackage.WORKPACKAGE_ARTEFACT__NATURE:
 				setNature(NATURE_EDEFAULT);
 				return;
@@ -603,10 +503,6 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
     @Override
     public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PepperPackage.WORKPACKAGE_ARTEFACT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case PepperPackage.WORKPACKAGE_ARTEFACT__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case PepperPackage.WORKPACKAGE_ARTEFACT__NATURE:
 				return nature != NATURE_EDEFAULT;
 			case PepperPackage.WORKPACKAGE_ARTEFACT__PLANNED_DEADLINE:
@@ -636,11 +532,7 @@ public class WorkpackageArtefactImpl extends MinimalEObjectImpl.Container implem
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", description: ");
-		result.append(description);
-		result.append(", nature: ");
+		result.append(" (nature: ");
 		result.append(nature);
 		result.append(", plannedDeadline: ");
 		result.append(plannedDeadline);

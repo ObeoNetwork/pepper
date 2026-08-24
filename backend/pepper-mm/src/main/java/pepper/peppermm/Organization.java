@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.Organization#getName <em>Name</em>}</li>
  *   <li>{@link pepper.peppermm.Organization#getOwnedProjects <em>Owned Projects</em>}</li>
  *   <li>{@link pepper.peppermm.Organization#getOwnedResourceFolders <em>Owned Resource Folders</em>}</li>
  * </ul>
@@ -32,28 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Organization extends EObject {
-    /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see pepper.peppermm.PepperPackage#getOrganization_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-	 * Sets the value of the '{@link pepper.peppermm.Organization#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-    void setName(String value);
-
+public interface Organization extends NamedElement {
     /**
 	 * Returns the value of the '<em><b>Owned Projects</b></em>' containment reference list.
 	 * The list contents are of type {@link pepper.peppermm.Project}.

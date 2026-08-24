@@ -67,15 +67,23 @@ public class PepperSwitch<T> extends Switch<T> {
     @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case PepperPackage.NAMED_ELEMENT: {
+				NamedElement namedElement = (NamedElement)theEObject;
+				T result = caseNamedElement(namedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PepperPackage.ORGANIZATION: {
 				Organization organization = (Organization)theEObject;
 				T result = caseOrganization(organization);
+				if (result == null) result = caseNamedElement(organization);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PepperPackage.RESOURCE: {
 				Resource resource = (Resource)theEObject;
 				T result = caseResource(resource);
+				if (result == null) result = caseNamedElement(resource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -89,6 +97,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				Team team = (Team)theEObject;
 				T result = caseTeam(team);
 				if (result == null) result = caseResource(team);
+				if (result == null) result = caseNamedElement(team);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -96,6 +105,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				InternalStakeholder internalStakeholder = (InternalStakeholder)theEObject;
 				T result = caseInternalStakeholder(internalStakeholder);
 				if (result == null) result = caseResource(internalStakeholder);
+				if (result == null) result = caseNamedElement(internalStakeholder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -103,6 +113,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				ExternalStakeholder externalStakeholder = (ExternalStakeholder)theEObject;
 				T result = caseExternalStakeholder(externalStakeholder);
 				if (result == null) result = caseResource(externalStakeholder);
+				if (result == null) result = caseNamedElement(externalStakeholder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,12 +121,14 @@ public class PepperSwitch<T> extends Switch<T> {
 				Person person = (Person)theEObject;
 				T result = casePerson(person);
 				if (result == null) result = caseResource(person);
+				if (result == null) result = caseNamedElement(person);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PepperPackage.ABSTRACT_TASK: {
 				AbstractTask abstractTask = (AbstractTask)theEObject;
 				T result = caseAbstractTask(abstractTask);
+				if (result == null) result = caseNamedElement(abstractTask);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,6 +149,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				T result = caseTask(task);
 				if (result == null) result = caseAbstractTask(task);
 				if (result == null) result = caseDependencyRelatedObject(task);
+				if (result == null) result = caseNamedElement(task);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -143,6 +157,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				Objective objective = (Objective)theEObject;
 				T result = caseObjective(objective);
 				if (result == null) result = caseAbstractTask(objective);
+				if (result == null) result = caseNamedElement(objective);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -150,18 +165,21 @@ public class PepperSwitch<T> extends Switch<T> {
 				KeyResult keyResult = (KeyResult)theEObject;
 				T result = caseKeyResult(keyResult);
 				if (result == null) result = caseAbstractTask(keyResult);
+				if (result == null) result = caseNamedElement(keyResult);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PepperPackage.PROJECT: {
 				Project project = (Project)theEObject;
 				T result = caseProject(project);
+				if (result == null) result = caseNamedElement(project);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PepperPackage.WORKPACKAGE: {
 				Workpackage workpackage = (Workpackage)theEObject;
 				T result = caseWorkpackage(workpackage);
+				if (result == null) result = caseNamedElement(workpackage);
 				if (result == null) result = caseDependencyRelatedObject(workpackage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -169,6 +187,7 @@ public class PepperSwitch<T> extends Switch<T> {
 			case PepperPackage.WORKPACKAGE_ARTEFACT: {
 				WorkpackageArtefact workpackageArtefact = (WorkpackageArtefact)theEObject;
 				T result = caseWorkpackageArtefact(workpackageArtefact);
+				if (result == null) result = caseNamedElement(workpackageArtefact);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -201,6 +220,21 @@ public class PepperSwitch<T> extends Switch<T> {
 	}
 
     /**
+	 * Returns the result of interpreting the object as an instance of '<em>Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Named Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNamedElement(NamedElement object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>Organization</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->

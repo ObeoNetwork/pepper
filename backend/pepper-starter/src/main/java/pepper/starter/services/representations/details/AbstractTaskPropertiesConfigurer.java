@@ -148,20 +148,20 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     private List<AbstractControlDescription> getGeneralControlDescription() {
         List<AbstractControlDescription> controls = new ArrayList<>();
 
-        var name = this.propertiesWidgetCreationService.createTextField("abstractTask.name", abstractTaskAdapter.getString("_UI_AbstractTask_name_feature"),
+        var name = this.propertiesWidgetCreationService.createTextField("namedElement.name", abstractTaskAdapter.getString("_UI_NamedElement_name_feature"),
                 task -> Optional.ofNullable(((AbstractTask) task).getName()).orElse(""),
                 (task, newValue) -> {
                     ((AbstractTask) task).setName(newValue);
                 },
-                PepperPackage.Literals.ABSTRACT_TASK__NAME);
+                PepperPackage.Literals.NAMED_ELEMENT__NAME);
         controls.add(name);
 
-        var description = this.propertiesWidgetCreationService.createExpressionField("abstractTask.description", abstractTaskAdapter.getString("_UI_AbstractTask_description_feature"),
+        var description = this.propertiesWidgetCreationService.createExpressionField("namedElement.description", abstractTaskAdapter.getString("_UI_NamedElement_description_feature"),
                 task -> Optional.ofNullable(((AbstractTask) task).getDescription()).orElse(""),
                 (task, newValue) -> {
                     ((AbstractTask) task).setDescription(newValue);
                 },
-                PepperPackage.Literals.ABSTRACT_TASK__DESCRIPTION);
+                PepperPackage.Literals.NAMED_ELEMENT__DESCRIPTION);
         controls.add(description);
 
         var calculationOption = this.getCalculationOptionWidget();

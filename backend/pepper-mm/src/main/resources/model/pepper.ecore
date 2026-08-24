@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="peppermm" nsURI="http://peppermm" nsPrefix="peppermm">
-  <eClassifiers xsi:type="ecore:EClass" name="Organization">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Organization" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedProjects" upperBound="-1"
         eType="#//Project" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedResourceFolders" upperBound="-1"
         eType="#//ResourceFolder" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Resource" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="unavailabilityPeriods"
         upperBound="-1" eType="#//UnavailabilityPeriod" containment="true"/>
   </eClassifiers>
@@ -34,9 +36,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="biography" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="#//Instant"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endTime" eType="#//Instant"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="progress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -70,8 +70,7 @@
         eType="#//KeyResult" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="KeyResult" eSuperTypes="#//AbstractTask"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Project">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Project" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedWorkpackages" upperBound="-1"
         eType="#//Workpackage" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedObjectives" upperBound="-1"
@@ -81,7 +80,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedRisks" upperBound="-1"
         eType="#//Risk" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leadingUnit" eType="#//InternalStakeholder"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="participantUnits" upperBound="-1"
         eType="#//InternalStakeholder"/>
@@ -116,9 +114,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Workpackage" eSuperTypes="#//DependencyRelatedObject">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Workpackage" eSuperTypes="#//NamedElement #//DependencyRelatedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leader" eType="#//Person"/>
@@ -136,9 +132,7 @@
         defaultValueLiteral="START_END"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WorkpackageArtefact">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkpackageArtefact" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nature" eType="#//WorkpackageArtefactNature"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="plannedDeadline" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="effectiveDeadLine" eType="#//Date"/>

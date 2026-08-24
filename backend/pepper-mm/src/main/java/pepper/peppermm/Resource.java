@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.Resource#getName <em>Name</em>}</li>
  *   <li>{@link pepper.peppermm.Resource#getUnavailabilityPeriods <em>Unavailability Periods</em>}</li>
  * </ul>
  *
@@ -30,29 +29,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Resource extends EObject {
+public interface Resource extends NamedElement {
     /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see pepper.peppermm.PepperPackage#getResource_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-	 * Sets the value of the '{@link pepper.peppermm.Resource#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-    void setName(String value);
-
-				/**
 	 * Returns the value of the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * The list contents are of type {@link pepper.peppermm.UnavailabilityPeriod}.
 	 * <!-- begin-user-doc -->

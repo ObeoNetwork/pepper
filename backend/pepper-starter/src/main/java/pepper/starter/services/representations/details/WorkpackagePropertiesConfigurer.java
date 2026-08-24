@@ -136,20 +136,20 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
     private List<AbstractControlDescription> getGeneralControlDescription() {
         List<AbstractControlDescription> controls = new ArrayList<>();
 
-        var name = this.propertiesWidgetCreationService.createTextField("workpackage.name", workpackageAdapter.getString("_UI_Workpackage_name_feature"),
+        var name = this.propertiesWidgetCreationService.createTextField("namedElement.name", workpackageAdapter.getString("_UI_NamedElement_name_feature"),
                 workpackage -> Optional.ofNullable(((Workpackage) workpackage).getName()).orElse(""),
                 (workpackage, newValue) -> {
                     ((Workpackage) workpackage).setName(newValue);
                 },
-                PepperPackage.Literals.WORKPACKAGE__NAME);
+                PepperPackage.Literals.NAMED_ELEMENT__NAME);
         controls.add(name);
 
-        var description = this.propertiesWidgetCreationService.createExpressionField("workpackage.description", workpackageAdapter.getString("_UI_Workpackage_description_feature"),
+        var description = this.propertiesWidgetCreationService.createExpressionField("namedElement.description", workpackageAdapter.getString("_UI_NamedElement_description_feature"),
                 workpackage -> Optional.ofNullable(((Workpackage) workpackage).getDescription()).orElse(""),
                 (workpackage, newValue) -> {
                     ((Workpackage) workpackage).setDescription(newValue);
                 },
-                PepperPackage.Literals.WORKPACKAGE__DESCRIPTION);
+                PepperPackage.Literals.NAMED_ELEMENT__DESCRIPTION);
         controls.add(description);
 
         var calculationOption = this.getCalculationOptionWidget();
