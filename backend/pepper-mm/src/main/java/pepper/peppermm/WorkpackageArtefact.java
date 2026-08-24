@@ -24,8 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.WorkpackageArtefact#getName <em>Name</em>}</li>
- *   <li>{@link pepper.peppermm.WorkpackageArtefact#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.WorkpackageArtefact#getNature <em>Nature</em>}</li>
  *   <li>{@link pepper.peppermm.WorkpackageArtefact#getPlannedDeadline <em>Planned Deadline</em>}</li>
  *   <li>{@link pepper.peppermm.WorkpackageArtefact#getEffectiveDeadLine <em>Effective Dead Line</em>}</li>
@@ -40,49 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface WorkpackageArtefact extends EObject {
-    /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-     * Sets the value of the '{@link WorkpackageArtefact#getName <em>Name</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
-    void setName(String value);
-
-    /**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see pepper.peppermm.PepperPackage#getWorkpackageArtefact_Description()
-	 * @model
-	 * @generated
-	 */
-    String getDescription();
-
-    /**
-	 * Sets the value of the '{@link pepper.peppermm.WorkpackageArtefact#getDescription <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Description</em>' attribute.
-	 * @see #getDescription()
-	 * @generated
-	 */
-    void setDescription(String value);
-
+public interface WorkpackageArtefact extends NamedElement {
     /**
 	 * Returns the value of the '<em><b>Nature</b></em>' attribute.
 	 * The literals are from the enumeration {@link pepper.peppermm.WorkpackageArtefactNature}.

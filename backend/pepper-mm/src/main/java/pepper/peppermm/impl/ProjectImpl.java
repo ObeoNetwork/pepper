@@ -50,13 +50,11 @@ import pepper.peppermm.Workpackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.impl.ProjectImpl#getName <em>Name</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedObjectives <em>Owned Objectives</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getOwnedRisks <em>Owned Risks</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getReference <em>Reference</em>}</li>
- *   <li>{@link pepper.peppermm.impl.ProjectImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getLeadingUnit <em>Leading Unit</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getParticipantUnits <em>Participant Units</em>}</li>
  *   <li>{@link pepper.peppermm.impl.ProjectImpl#getPlannifiedClientCopilMeetings <em>Plannified Client Copil Meetings</em>}</li>
@@ -86,27 +84,7 @@ import pepper.peppermm.Workpackage;
  *
  * @generated
  */
-public class ProjectImpl extends MinimalEObjectImpl.Container implements Project {
-    /**
-     * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected static final String NAME_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected String name = NAME_EDEFAULT;
-
+public class ProjectImpl extends NamedElementImpl implements Project {
     /**
 	 * The cached value of the '{@link #getOwnedWorkpackages() <em>Owned Workpackages</em>}' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -163,26 +141,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 	 * @ordered
 	 */
     protected String reference = REFERENCE_EDEFAULT;
-
-    /**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final String DESCRIPTION_EDEFAULT = null;
-
-    /**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected String description = DESCRIPTION_EDEFAULT;
 
     /**
 	 * The cached value of the '{@link #getLeadingUnit() <em>Leading Unit</em>}' reference.
@@ -624,27 +582,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 	 * @generated
 	 */
     @Override
-    public String getName() {
-		return name;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PROJECT__NAME, oldName, name));
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EList<Workpackage> getOwnedWorkpackages() {
 		if (ownedWorkpackages == null) {
 			ownedWorkpackages = new EObjectContainmentEList<Workpackage>(Workpackage.class, this, PepperPackage.PROJECT__OWNED_WORKPACKAGES);
@@ -707,27 +644,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 		reference = newReference;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PROJECT__REFERENCE, oldReference, reference));
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getDescription() {
-		return description;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.PROJECT__DESCRIPTION, oldDescription, description));
 	}
 
     /**
@@ -1268,8 +1184,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PepperPackage.PROJECT__NAME:
-				return getName();
 			case PepperPackage.PROJECT__OWNED_WORKPACKAGES:
 				return getOwnedWorkpackages();
 			case PepperPackage.PROJECT__OWNED_OBJECTIVES:
@@ -1280,8 +1194,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 				return getOwnedRisks();
 			case PepperPackage.PROJECT__REFERENCE:
 				return getReference();
-			case PepperPackage.PROJECT__DESCRIPTION:
-				return getDescription();
 			case PepperPackage.PROJECT__LEADING_UNIT:
 				if (resolve) return getLeadingUnit();
 				return basicGetLeadingUnit();
@@ -1346,9 +1258,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
     @Override
     public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PepperPackage.PROJECT__NAME:
-				setName((String)newValue);
-				return;
 			case PepperPackage.PROJECT__OWNED_WORKPACKAGES:
 				getOwnedWorkpackages().clear();
 				getOwnedWorkpackages().addAll((Collection<? extends Workpackage>)newValue);
@@ -1367,9 +1276,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 				return;
 			case PepperPackage.PROJECT__REFERENCE:
 				setReference((String)newValue);
-				return;
-			case PepperPackage.PROJECT__DESCRIPTION:
-				setDescription((String)newValue);
 				return;
 			case PepperPackage.PROJECT__LEADING_UNIT:
 				setLeadingUnit((InternalStakeholder)newValue);
@@ -1455,9 +1361,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
     @Override
     public void eUnset(int featureID) {
 		switch (featureID) {
-			case PepperPackage.PROJECT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case PepperPackage.PROJECT__OWNED_WORKPACKAGES:
 				getOwnedWorkpackages().clear();
 				return;
@@ -1472,9 +1375,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 				return;
 			case PepperPackage.PROJECT__REFERENCE:
 				setReference(REFERENCE_EDEFAULT);
-				return;
-			case PepperPackage.PROJECT__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
 				return;
 			case PepperPackage.PROJECT__LEADING_UNIT:
 				setLeadingUnit((InternalStakeholder)null);
@@ -1556,8 +1456,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
     @Override
     public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PepperPackage.PROJECT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PepperPackage.PROJECT__OWNED_WORKPACKAGES:
 				return ownedWorkpackages != null && !ownedWorkpackages.isEmpty();
 			case PepperPackage.PROJECT__OWNED_OBJECTIVES:
@@ -1568,8 +1466,6 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 				return ownedRisks != null && !ownedRisks.isEmpty();
 			case PepperPackage.PROJECT__REFERENCE:
 				return REFERENCE_EDEFAULT == null ? reference != null : !REFERENCE_EDEFAULT.equals(reference);
-			case PepperPackage.PROJECT__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case PepperPackage.PROJECT__LEADING_UNIT:
 				return leadingUnit != null;
 			case PepperPackage.PROJECT__PARTICIPANT_UNITS:
@@ -1633,12 +1529,8 @@ public class ProjectImpl extends MinimalEObjectImpl.Container implements Project
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", reference: ");
+		result.append(" (reference: ");
 		result.append(reference);
-		result.append(", description: ");
-		result.append(description);
 		result.append(", plannifiedClientCopilMeetings: ");
 		result.append(plannifiedClientCopilMeetings);
 		result.append(", mainProgramBrick: ");

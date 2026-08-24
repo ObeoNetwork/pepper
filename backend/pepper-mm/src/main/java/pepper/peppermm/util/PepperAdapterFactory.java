@@ -72,6 +72,10 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 	 */
     protected PepperSwitch<Adapter> modelSwitch = new PepperSwitch<Adapter>() {
 			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+				return createNamedElementAdapter();
+			}
+			@Override
 			public Adapter caseOrganization(Organization object) {
 				return createOrganizationAdapter();
 			}
@@ -170,6 +174,20 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
+	 * Creates a new adapter for an object of class '{@link pepper.peppermm.NamedElement <em>Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see pepper.peppermm.NamedElement
+	 * @generated
+	 */
+	public Adapter createNamedElementAdapter() {
+		return null;
+	}
+
+				/**
      * Creates a new adapter for an object of class '{@link Organization <em>Organization</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->

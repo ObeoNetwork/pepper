@@ -25,8 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.AbstractTask#getName <em>Name</em>}</li>
- *   <li>{@link pepper.peppermm.AbstractTask#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getEndTime <em>End Time</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getProgress <em>Progress</em>}</li>
@@ -43,50 +41,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractTask extends EObject {
-    /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-	 * Sets the value of the '{@link pepper.peppermm.AbstractTask#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-    void setName(String value);
-
-    /**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Description()
-	 * @model
-	 * @generated
-	 */
-    String getDescription();
-
-    /**
-     * Sets the value of the '{@link AbstractTask#getDescription <em>Description</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Description</em>' attribute.
-     * @see #getDescription()
-     * @generated
-     */
-    void setDescription(String value);
-
+public interface AbstractTask extends NamedElement {
     /**
 	 * Returns the value of the '<em><b>Start Time</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

@@ -40,8 +40,7 @@ import pepper.peppermm.PepperPackage;
  * end-user-doc -->
  * @generated
  */
-public class OrganizationItemProvider extends ItemProviderAdapter
-        implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class OrganizationItemProvider extends NamedElementItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -61,30 +60,8 @@ public class OrganizationItemProvider extends ItemProviderAdapter
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-    /**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Organization_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Organization_name_feature", "_UI_Organization_type"),
-				 PepperPackage.Literals.ORGANIZATION__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
     /**
@@ -161,9 +138,6 @@ public class OrganizationItemProvider extends ItemProviderAdapter
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Organization.class)) {
-			case PepperPackage.ORGANIZATION__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case PepperPackage.ORGANIZATION__OWNED_PROJECTS:
 			case PepperPackage.ORGANIZATION__OWNED_RESOURCE_FOLDERS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
@@ -191,16 +165,6 @@ public class OrganizationItemProvider extends ItemProviderAdapter
 			(createChildParameter
 				(PepperPackage.Literals.ORGANIZATION__OWNED_RESOURCE_FOLDERS,
 				 PepperFactory.eINSTANCE.createResourceFolder()));
-	}
-
-    /**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public ResourceLocator getResourceLocator() {
-		return PepperEditPlugin.INSTANCE;
 	}
 
 }

@@ -119,9 +119,9 @@ public class ProjectPageDescription {
         WidgetDescriptionBuilderHelper widgetDescriptionBuilderHelper = new WidgetDescriptionBuilderHelper(this.semanticTargetIdProvider, this.labelService, this.identityService, this.objectSearchService, this.composedAdapterFactory,
                 this.pepperMMMessageService, this.feedbackMessageService);
         LabelDescription labelDescription = widgetDescriptionBuilderHelper.buildLabelDescription(this.pepperMMMessageService.getMessage(MessageConstants.PAGE_PROJECT_GROUP_INFORMATION));
-        TextfieldDescription nameDescription = widgetDescriptionBuilderHelper.buildTextfieldDescription(PepperPackage.eINSTANCE.getProject_Name());
+        TextfieldDescription nameDescription = widgetDescriptionBuilderHelper.buildTextfieldDescription(PepperPackage.eINSTANCE.getNamedElement_Name());
         TextfieldDescription referenceDescription = widgetDescriptionBuilderHelper.buildTextfieldDescription(PepperPackage.eINSTANCE.getProject_Reference());
-        TextareaDescription descriptionDescription = widgetDescriptionBuilderHelper.buildTextareaDescription(PepperPackage.eINSTANCE.getProject_Description(), Project::getDescription, Project::setDescription, null);
+        TextareaDescription descriptionDescription = widgetDescriptionBuilderHelper.buildTextareaDescription(PepperPackage.eINSTANCE.getNamedElement_Description(), Project::getDescription, Project::setDescription, null);
         TextfieldDescription mainBrickDescription = widgetDescriptionBuilderHelper.buildTextfieldDescription(PepperPackage.eINSTANCE.getProject_MainProgramBrick());
 
         SelectDescription stateDescription = SelectDescription.newSelectDescription(UUID.randomUUID().toString())

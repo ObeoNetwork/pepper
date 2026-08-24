@@ -42,7 +42,7 @@ import pepper.peppermm.Resource;
  * end-user-doc -->
  * @generated
  */
-public class ResourceItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class ResourceItemProvider extends NamedElementItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -62,30 +62,8 @@ public class ResourceItemProvider extends ItemProviderAdapter implements IEditin
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-    /**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Resource_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Resource_name_feature", "_UI_Resource_type"),
-				 PepperPackage.Literals.RESOURCE__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
     /**
@@ -152,9 +130,6 @@ public class ResourceItemProvider extends ItemProviderAdapter implements IEditin
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Resource.class)) {
-			case PepperPackage.RESOURCE__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case PepperPackage.RESOURCE__UNAVAILABILITY_PERIODS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -176,16 +151,6 @@ public class ResourceItemProvider extends ItemProviderAdapter implements IEditin
 			(createChildParameter
 				(PepperPackage.Literals.RESOURCE__UNAVAILABILITY_PERIODS,
 				 PepperFactory.eINSTANCE.createUnavailabilityPeriod()));
-	}
-
-    /**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public ResourceLocator getResourceLocator() {
-		return PepperEditPlugin.INSTANCE;
 	}
 
 }

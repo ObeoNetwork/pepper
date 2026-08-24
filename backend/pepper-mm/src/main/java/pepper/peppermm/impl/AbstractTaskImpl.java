@@ -41,8 +41,6 @@ import pepper.peppermm.Team;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getName <em>Name</em>}</li>
- *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getEndTime <em>End Time</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getProgress <em>Progress</em>}</li>
@@ -57,47 +55,7 @@ import pepper.peppermm.Team;
  *
  * @generated
  */
-public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container implements AbstractTask {
-    /**
-     * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected static final String NAME_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
-    protected String name = NAME_EDEFAULT;
-
-    /**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final String DESCRIPTION_EDEFAULT = null;
-
-    /**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-    protected String description = DESCRIPTION_EDEFAULT;
-
+public abstract class AbstractTaskImpl extends NamedElementImpl implements AbstractTask {
     /**
 	 * The default value of the '{@link #getStartTime() <em>Start Time</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
@@ -271,48 +229,6 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     @Override
     protected EClass eStaticClass() {
 		return PepperPackage.Literals.ABSTRACT_TASK;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getName() {
-		return name;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__NAME, oldName, name));
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public String getDescription() {
-		return description;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DESCRIPTION, oldDescription, description));
 	}
 
     /**
@@ -515,10 +431,6 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PepperPackage.ABSTRACT_TASK__NAME:
-				return getName();
-			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-				return getDescription();
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
 				return getStartTime();
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
@@ -551,12 +463,6 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     @Override
     public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PepperPackage.ABSTRACT_TASK__NAME:
-				setName((String)newValue);
-				return;
-			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
 				setStartTime((Instant)newValue);
 				return;
@@ -602,12 +508,6 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     @Override
     public void eUnset(int featureID) {
 		switch (featureID) {
-			case PepperPackage.ABSTRACT_TASK__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
 				setStartTime(START_TIME_EDEFAULT);
 				return;
@@ -649,10 +549,6 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
     @Override
     public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PepperPackage.ABSTRACT_TASK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case PepperPackage.ABSTRACT_TASK__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
 				return START_TIME_EDEFAULT == null ? startTime != null : !START_TIME_EDEFAULT.equals(startTime);
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
@@ -686,11 +582,7 @@ public abstract class AbstractTaskImpl extends MinimalEObjectImpl.Container impl
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", description: ");
-		result.append(description);
-		result.append(", startTime: ");
+		result.append(" (startTime: ");
 		result.append(startTime);
 		result.append(", endTime: ");
 		result.append(endTime);

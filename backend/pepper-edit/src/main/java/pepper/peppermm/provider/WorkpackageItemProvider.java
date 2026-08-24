@@ -46,8 +46,7 @@ import pepper.peppermm.Workpackage;
  * end-user-doc -->
  * @generated
  */
-public class WorkpackageItemProvider extends ItemProviderAdapter
-        implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class WorkpackageItemProvider extends NamedElementItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -67,8 +66,6 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addDescriptionPropertyDescriptor(object);
 			addStartDatePropertyDescriptor(object);
 			addEndDatePropertyDescriptor(object);
 			addLeaderPropertyDescriptor(object);
@@ -79,48 +76,6 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 			addDurationPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-    /**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Workpackage_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_name_feature", "_UI_Workpackage_type"),
-				 PepperPackage.Literals.WORKPACKAGE__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-    /**
-	 * This adds a property descriptor for the Description feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Workpackage_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_description_feature", "_UI_Workpackage_type"),
-				 PepperPackage.Literals.WORKPACKAGE__DESCRIPTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
     /**
@@ -367,8 +322,6 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Workpackage.class)) {
-			case PepperPackage.WORKPACKAGE__NAME:
-			case PepperPackage.WORKPACKAGE__DESCRIPTION:
 			case PepperPackage.WORKPACKAGE__START_DATE:
 			case PepperPackage.WORKPACKAGE__END_DATE:
 			case PepperPackage.WORKPACKAGE__EFFORT:
@@ -416,16 +369,6 @@ public class WorkpackageItemProvider extends ItemProviderAdapter
 			(createChildParameter
 				(PepperPackage.Literals.WORKPACKAGE__OWNED_OBJECTIVES,
 				 PepperFactory.eINSTANCE.createObjective()));
-	}
-
-    /**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public ResourceLocator getResourceLocator() {
-		return PepperEditPlugin.INSTANCE;
 	}
 
 }

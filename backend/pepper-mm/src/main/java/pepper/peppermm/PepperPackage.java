@@ -62,6 +62,43 @@ public interface PepperPackage extends EPackage {
     PepperPackage eINSTANCE = pepper.peppermm.impl.PepperPackageImpl.init();
 
     /**
+	 * The meta object id for the '{@link pepper.peppermm.impl.NamedElementImpl <em>Named Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see pepper.peppermm.impl.NamedElementImpl
+	 * @see pepper.peppermm.impl.PepperPackageImpl#getNamedElement()
+	 * @generated
+	 */
+	int NAMED_ELEMENT = 0;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT__NAME = 0;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT__DESCRIPTION = 1;
+
+				/**
+	 * The number of structural features of the '<em>Named Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_FEATURE_COUNT = 2;
+
+				/**
      * The meta object id for the '{@link pepper.peppermm.impl.OrganizationImpl <em>Organization</em>}' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -69,7 +106,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getOrganization()
      * @generated
      */
-    int ORGANIZATION = 0;
+    int ORGANIZATION = 1;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -77,16 +114,25 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ORGANIZATION__NAME = 0;
+    int ORGANIZATION__NAME = NAMED_ELEMENT__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORGANIZATION__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Owned Projects</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ORGANIZATION__OWNED_PROJECTS = 1;
+    int ORGANIZATION__OWNED_PROJECTS = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Owned Resource Folders</b></em>' containment reference list.
@@ -95,7 +141,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ORGANIZATION__OWNED_RESOURCE_FOLDERS = 2;
+    int ORGANIZATION__OWNED_RESOURCE_FOLDERS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Organization</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
@@ -104,7 +150,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ORGANIZATION_FEATURE_COUNT = 3;
+    int ORGANIZATION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.ResourceImpl <em>Resource</em>}' class. <!--
@@ -114,7 +160,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getResource()
      * @generated
      */
-    int RESOURCE = 1;
+    int RESOURCE = 2;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -122,16 +168,25 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int RESOURCE__NAME = 0;
+    int RESOURCE__NAME = NAMED_ELEMENT__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE__UNAVAILABILITY_PERIODS = 1;
+	int RESOURCE__UNAVAILABILITY_PERIODS = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 				/**
 	 * The number of structural features of the '<em>Resource</em>' class.
@@ -139,7 +194,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int RESOURCE_FEATURE_COUNT = 2;
+    int RESOURCE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.ResourceFolderImpl <em>Resource Folder</em>}' class. <!--
@@ -149,7 +204,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getResourceFolder()
      * @generated
      */
-    int RESOURCE_FOLDER = 2;
+    int RESOURCE_FOLDER = 3;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -194,7 +249,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTeam()
 	 * @generated
 	 */
-    int TEAM = 3;
+    int TEAM = 4;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -205,6 +260,15 @@ public interface PepperPackage extends EPackage {
     int TEAM__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEAM__DESCRIPTION = RESOURCE__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -236,7 +300,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getInternalStakeholder()
 	 * @generated
 	 */
-    int INTERNAL_STAKEHOLDER = 4;
+    int INTERNAL_STAKEHOLDER = 5;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -247,6 +311,15 @@ public interface PepperPackage extends EPackage {
     int INTERNAL_STAKEHOLDER__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERNAL_STAKEHOLDER__DESCRIPTION = RESOURCE__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -271,7 +344,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getExternalStakeholder()
 	 * @generated
 	 */
-    int EXTERNAL_STAKEHOLDER = 5;
+    int EXTERNAL_STAKEHOLDER = 6;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -282,6 +355,15 @@ public interface PepperPackage extends EPackage {
     int EXTERNAL_STAKEHOLDER__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_STAKEHOLDER__DESCRIPTION = RESOURCE__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -315,7 +397,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getPerson()
 	 * @generated
 	 */
-    int PERSON = 6;
+    int PERSON = 7;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -326,6 +408,15 @@ public interface PepperPackage extends EPackage {
     int PERSON__NAME = RESOURCE__NAME;
 
     /**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__DESCRIPTION = RESOURCE__DESCRIPTION;
+
+				/**
 	 * The feature id for the '<em><b>Unavailability Periods</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -374,7 +465,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getAbstractTask()
      * @generated
      */
-    int ABSTRACT_TASK = 7;
+    int ABSTRACT_TASK = 8;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -382,7 +473,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__NAME = 0;
+    int ABSTRACT_TASK__NAME = NAMED_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -390,7 +481,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__DESCRIPTION = 1;
+    int ABSTRACT_TASK__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
     /**
 	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
@@ -398,7 +489,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__START_TIME = 2;
+    int ABSTRACT_TASK__START_TIME = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -406,7 +497,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__END_TIME = 3;
+    int ABSTRACT_TASK__END_TIME = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>Progress</b></em>' attribute.
@@ -414,7 +505,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__PROGRESS = 4;
+    int ABSTRACT_TASK__PROGRESS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
@@ -423,7 +514,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY = 5;
+    int ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Tags</b></em>' reference list.
@@ -431,7 +522,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__TAGS = 6;
+    int ABSTRACT_TASK__TAGS = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
@@ -440,7 +531,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__ASSIGNED_PERSONS = 7;
+    int ABSTRACT_TASK__ASSIGNED_PERSONS = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Assigned Teams</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
@@ -449,7 +540,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_TASK__ASSIGNED_TEAMS = 8;
+    int ABSTRACT_TASK__ASSIGNED_TEAMS = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
@@ -458,7 +549,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__SUB_TASKS = 9;
+    int ABSTRACT_TASK__SUB_TASKS = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Calculation Option</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -467,7 +558,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_TASK__CALCULATION_OPTION = 10;
+    int ABSTRACT_TASK__CALCULATION_OPTION = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -475,7 +566,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__DURATION = 11;
+    int ABSTRACT_TASK__DURATION = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
     /**
 	 * The number of structural features of the '<em>Abstract Task</em>' class.
@@ -484,7 +575,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK_FEATURE_COUNT = 12;
+    int ABSTRACT_TASK_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
@@ -494,7 +585,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getTagFolder()
      * @generated
      */
-    int TAG_FOLDER = 8;
+    int TAG_FOLDER = 9;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -539,7 +630,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTag()
      * @generated
      */
-    int TASK_TAG = 9;
+    int TASK_TAG = 10;
 
     /**
 	 * The feature id for the '<em><b>Prefix</b></em>' attribute.
@@ -573,7 +664,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTask()
 	 * @generated
 	 */
-    int TASK = 10;
+    int TASK = 11;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -701,7 +792,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getObjective()
      * @generated
      */
-    int OBJECTIVE = 11;
+    int OBJECTIVE = 12;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -830,7 +921,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getKeyResult()
      * @generated
      */
-    int KEY_RESULT = 12;
+    int KEY_RESULT = 13;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -950,7 +1041,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getProject()
 	 * @generated
 	 */
-    int PROJECT = 13;
+    int PROJECT = 14;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -958,51 +1049,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__NAME = 0;
-
-    /**
-	 * The feature id for the '<em><b>Owned Workpackages</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROJECT__OWNED_WORKPACKAGES = 1;
-
-    /**
-	 * The feature id for the '<em><b>Owned Objectives</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROJECT__OWNED_OBJECTIVES = 2;
-
-    /**
-	 * The feature id for the '<em><b>Owned Tag Folders</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROJECT__OWNED_TAG_FOLDERS = 3;
-
-    /**
-	 * The feature id for the '<em><b>Owned Risks</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROJECT__OWNED_RISKS = 4;
-
-    /**
-	 * The feature id for the '<em><b>Reference</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROJECT__REFERENCE = 5;
+    int PROJECT__NAME = NAMED_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1010,7 +1057,51 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__DESCRIPTION = 6;
+    int PROJECT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Owned Workpackages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROJECT__OWNED_WORKPACKAGES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+				/**
+	 * The feature id for the '<em><b>Owned Objectives</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROJECT__OWNED_OBJECTIVES = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+				/**
+	 * The feature id for the '<em><b>Owned Tag Folders</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROJECT__OWNED_TAG_FOLDERS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+				/**
+	 * The feature id for the '<em><b>Owned Risks</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROJECT__OWNED_RISKS = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+				/**
+	 * The feature id for the '<em><b>Reference</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROJECT__REFERENCE = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Leading Unit</b></em>' reference.
@@ -1018,7 +1109,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__LEADING_UNIT = 7;
+    int PROJECT__LEADING_UNIT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Participant Units</b></em>' reference list.
@@ -1027,7 +1118,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__PARTICIPANT_UNITS = 8;
+    int PROJECT__PARTICIPANT_UNITS = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Plannified Client Copil Meetings</b></em>' attribute.
@@ -1036,7 +1127,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__PLANNIFIED_CLIENT_COPIL_MEETINGS = 9;
+    int PROJECT__PLANNIFIED_CLIENT_COPIL_MEETINGS = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Main Program Brick</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1045,7 +1136,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int PROJECT__MAIN_PROGRAM_BRICK = 10;
+    int PROJECT__MAIN_PROGRAM_BRICK = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>State</b></em>' attribute.
@@ -1053,7 +1144,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__STATE = 11;
+    int PROJECT__STATE = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
     /**
 	 * The feature id for the '<em><b>Clients</b></em>' reference list.
@@ -1061,7 +1152,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__CLIENTS = 12;
+    int PROJECT__CLIENTS = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
     /**
 	 * The feature id for the '<em><b>Partners</b></em>' reference list.
@@ -1069,7 +1160,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__PARTNERS = 13;
+    int PROJECT__PARTNERS = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
     /**
 	 * The feature id for the '<em><b>Is Transverse</b></em>' attribute.
@@ -1077,7 +1168,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__IS_TRANSVERSE = 14;
+    int PROJECT__IS_TRANSVERSE = NAMED_ELEMENT_FEATURE_COUNT + 12;
 
     /**
 	 * The feature id for the '<em><b>Leader</b></em>' reference.
@@ -1085,7 +1176,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__LEADER = 15;
+    int PROJECT__LEADER = NAMED_ELEMENT_FEATURE_COUNT + 13;
 
     /**
 	 * The feature id for the '<em><b>Members</b></em>' reference list.
@@ -1093,7 +1184,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__MEMBERS = 16;
+    int PROJECT__MEMBERS = NAMED_ELEMENT_FEATURE_COUNT + 14;
 
     /**
 	 * The feature id for the '<em><b>Is Sensitive</b></em>' attribute.
@@ -1101,7 +1192,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__IS_SENSITIVE = 17;
+    int PROJECT__IS_SENSITIVE = NAMED_ELEMENT_FEATURE_COUNT + 15;
 
     /**
 	 * The feature id for the '<em><b>Contractual Start Date</b></em>' attribute.
@@ -1110,7 +1201,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__CONTRACTUAL_START_DATE = 18;
+    int PROJECT__CONTRACTUAL_START_DATE = NAMED_ELEMENT_FEATURE_COUNT + 16;
 
     /**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -1118,7 +1209,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__DURATION = 19;
+    int PROJECT__DURATION = NAMED_ELEMENT_FEATURE_COUNT + 17;
 
     /**
 	 * The feature id for the '<em><b>Contractual End Date</b></em>' attribute.
@@ -1127,7 +1218,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__CONTRACTUAL_END_DATE = 20;
+    int PROJECT__CONTRACTUAL_END_DATE = NAMED_ELEMENT_FEATURE_COUNT + 18;
 
     /**
 	 * The feature id for the '<em><b>Effective Start Date</b></em>' attribute.
@@ -1136,7 +1227,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__EFFECTIVE_START_DATE = 21;
+    int PROJECT__EFFECTIVE_START_DATE = NAMED_ELEMENT_FEATURE_COUNT + 19;
 
     /**
      * The feature id for the '<em><b>Effective End Date</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1145,7 +1236,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int PROJECT__EFFECTIVE_END_DATE = 22;
+    int PROJECT__EFFECTIVE_END_DATE = NAMED_ELEMENT_FEATURE_COUNT + 20;
 
     /**
 	 * The feature id for the '<em><b>Contract Term Extension</b></em>' attribute.
@@ -1154,7 +1245,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__CONTRACT_TERM_EXTENSION = 23;
+    int PROJECT__CONTRACT_TERM_EXTENSION = NAMED_ELEMENT_FEATURE_COUNT + 21;
 
     /**
 	 * The feature id for the '<em><b>Global Cost</b></em>' attribute.
@@ -1162,7 +1253,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__GLOBAL_COST = 24;
+    int PROJECT__GLOBAL_COST = NAMED_ELEMENT_FEATURE_COUNT + 22;
 
     /**
 	 * The feature id for the '<em><b>Funding Rate</b></em>' attribute.
@@ -1170,7 +1261,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__FUNDING_RATE = 25;
+    int PROJECT__FUNDING_RATE = NAMED_ELEMENT_FEATURE_COUNT + 23;
 
     /**
 	 * The feature id for the '<em><b>Funding</b></em>' attribute.
@@ -1178,7 +1269,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__FUNDING = 26;
+    int PROJECT__FUNDING = NAMED_ELEMENT_FEATURE_COUNT + 24;
 
     /**
 	 * The feature id for the '<em><b>Manpower</b></em>' attribute.
@@ -1186,7 +1277,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__MANPOWER = 27;
+    int PROJECT__MANPOWER = NAMED_ELEMENT_FEATURE_COUNT + 25;
 
     /**
 	 * The feature id for the '<em><b>EOTP</b></em>' attribute.
@@ -1194,7 +1285,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__EOTP = 28;
+    int PROJECT__EOTP = NAMED_ELEMENT_FEATURE_COUNT + 26;
 
     /**
 	 * The feature id for the '<em><b>Statistic Order</b></em>' attribute.
@@ -1202,7 +1293,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__STATISTIC_ORDER = 29;
+    int PROJECT__STATISTIC_ORDER = NAMED_ELEMENT_FEATURE_COUNT + 27;
 
     /**
 	 * The feature id for the '<em><b>Internal Need</b></em>' attribute.
@@ -1210,7 +1301,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__INTERNAL_NEED = 30;
+    int PROJECT__INTERNAL_NEED = NAMED_ELEMENT_FEATURE_COUNT + 28;
 
     /**
 	 * The feature id for the '<em><b>Client Need</b></em>' attribute.
@@ -1218,7 +1309,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT__CLIENT_NEED = 31;
+    int PROJECT__CLIENT_NEED = NAMED_ELEMENT_FEATURE_COUNT + 29;
 
     /**
 	 * The number of structural features of the '<em>Project</em>' class.
@@ -1226,7 +1317,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PROJECT_FEATURE_COUNT = 32;
+    int PROJECT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 30;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.DependencyRelatedObject <em>Dependency Related Object</em>}' class.
@@ -1235,25 +1326,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyRelatedObject()
 	 * @generated
 	 */
-    int DEPENDENCY_RELATED_OBJECT = 18;
-
-    /**
-	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int DEPENDENCY_RELATED_OBJECT__DEPENDENCIES = 0;
-
-    /**
-	 * The number of structural features of the '<em>Dependency Related Object</em>' class.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT = 1;
+    int DEPENDENCY_RELATED_OBJECT = 19;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.WorkpackageImpl <em>Workpackage</em>}' class. <!--
@@ -1263,16 +1336,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackage()
      * @generated
      */
-    int WORKPACKAGE = 14;
-
-    /**
-	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int WORKPACKAGE__DEPENDENCIES = DEPENDENCY_RELATED_OBJECT__DEPENDENCIES;
+    int WORKPACKAGE = 15;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1280,7 +1344,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__NAME = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 0;
+    int WORKPACKAGE__NAME = NAMED_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1288,7 +1352,16 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__DESCRIPTION = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 1;
+    int WORKPACKAGE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int WORKPACKAGE__DEPENDENCIES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
@@ -1296,7 +1369,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__START_DATE = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 2;
+    int WORKPACKAGE__START_DATE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>End Date</b></em>' attribute.
@@ -1304,7 +1377,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__END_DATE = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 3;
+    int WORKPACKAGE__END_DATE = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Leader</b></em>' reference.
@@ -1312,7 +1385,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__LEADER = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 4;
+    int WORKPACKAGE__LEADER = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Participants</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1321,7 +1394,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE__PARTICIPANTS = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 5;
+    int WORKPACKAGE__PARTICIPANTS = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Effort</b></em>' attribute.
@@ -1329,7 +1402,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__EFFORT = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 6;
+    int WORKPACKAGE__EFFORT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Outputs</b></em>' containment reference list.
@@ -1338,7 +1411,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OUTPUTS = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 7;
+    int WORKPACKAGE__OUTPUTS = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Owned Tasks</b></em>' containment reference list.
@@ -1347,7 +1420,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OWNED_TASKS = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 8;
+    int WORKPACKAGE__OWNED_TASKS = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
     /**
 	 * The feature id for the '<em><b>Owned Objectives</b></em>' containment reference list.
@@ -1356,7 +1429,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OWNED_OBJECTIVES = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 9;
+    int WORKPACKAGE__OWNED_OBJECTIVES = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Progress</b></em>' attribute.
@@ -1364,7 +1437,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__PROGRESS = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 10;
+    int WORKPACKAGE__PROGRESS = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Calculation Option</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1373,7 +1446,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE__CALCULATION_OPTION = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 11;
+    int WORKPACKAGE__CALCULATION_OPTION = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
     /**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -1381,7 +1454,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__DURATION = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 12;
+    int WORKPACKAGE__DURATION = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
     /**
      * The number of structural features of the '<em>Workpackage</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1390,7 +1463,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE_FEATURE_COUNT = DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT + 13;
+    int WORKPACKAGE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 12;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.impl.WorkpackageArtefactImpl <em>Workpackage Artefact</em>}' class.
@@ -1399,7 +1472,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefact()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT = 15;
+    int WORKPACKAGE_ARTEFACT = 16;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1407,7 +1480,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__NAME = 0;
+    int WORKPACKAGE_ARTEFACT__NAME = NAMED_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1415,7 +1488,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__DESCRIPTION = 1;
+    int WORKPACKAGE_ARTEFACT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
     /**
 	 * The feature id for the '<em><b>Nature</b></em>' attribute.
@@ -1423,7 +1496,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__NATURE = 2;
+    int WORKPACKAGE_ARTEFACT__NATURE = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Planned Deadline</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1432,7 +1505,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE_ARTEFACT__PLANNED_DEADLINE = 3;
+    int WORKPACKAGE_ARTEFACT__PLANNED_DEADLINE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Effective Dead Line</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1441,7 +1514,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE_ARTEFACT__EFFECTIVE_DEAD_LINE = 4;
+    int WORKPACKAGE_ARTEFACT__EFFECTIVE_DEAD_LINE = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Is Invoice Trigger</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1450,7 +1523,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE_ARTEFACT__IS_INVOICE_TRIGGER = 5;
+    int WORKPACKAGE_ARTEFACT__IS_INVOICE_TRIGGER = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Invoice Amount</b></em>' attribute.
@@ -1458,7 +1531,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__INVOICE_AMOUNT = 6;
+    int WORKPACKAGE_ARTEFACT__INVOICE_AMOUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Responsible</b></em>' reference.
@@ -1466,7 +1539,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__RESPONSIBLE = 7;
+    int WORKPACKAGE_ARTEFACT__RESPONSIBLE = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Version</b></em>' attribute.
@@ -1474,7 +1547,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__VERSION = 8;
+    int WORKPACKAGE_ARTEFACT__VERSION = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Is Obsolete</b></em>' attribute.
@@ -1482,7 +1555,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT__IS_OBSOLETE = 9;
+    int WORKPACKAGE_ARTEFACT__IS_OBSOLETE = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
     /**
 	 * The number of structural features of the '<em>Workpackage Artefact</em>' class.
@@ -1491,7 +1564,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE_ARTEFACT_FEATURE_COUNT = 10;
+    int WORKPACKAGE_ARTEFACT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.impl.RiskImpl <em>Risk</em>}' class.
@@ -1501,7 +1574,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRisk()
 	 * @generated
 	 */
-    int RISK = 16;
+    int RISK = 17;
 
     /**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1584,7 +1657,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyLink()
      * @generated
      */
-    int DEPENDENCY_LINK = 17;
+    int DEPENDENCY_LINK = 18;
 
     /**
 	 * The feature id for the '<em><b>Target Kind</b></em>' attribute.
@@ -1628,6 +1701,24 @@ public interface PepperPackage extends EPackage {
 	 */
     int DEPENDENCY_LINK_FEATURE_COUNT = 4;
 
+				/**
+	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int DEPENDENCY_RELATED_OBJECT__DEPENDENCIES = 0;
+
+				/**
+	 * The number of structural features of the '<em>Dependency Related Object</em>' class.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int DEPENDENCY_RELATED_OBJECT_FEATURE_COUNT = 1;
+
     /**
 	 * The meta object id for the '{@link pepper.peppermm.impl.UnavailabilityPeriodImpl <em>Unavailability Period</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -1636,7 +1727,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getUnavailabilityPeriod()
 	 * @generated
 	 */
-	int UNAVAILABILITY_PERIOD = 19;
+	int UNAVAILABILITY_PERIOD = 20;
 
 				/**
 	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
@@ -1681,7 +1772,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefactNature()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT_NATURE = 23;
+    int WORKPACKAGE_ARTEFACT_NATURE = 24;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.StartOrEnd <em>Start Or End</em>}' enum.
@@ -1691,7 +1782,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getStartOrEnd()
 	 * @generated
 	 */
-    int START_OR_END = 24;
+    int START_OR_END = 25;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.TaskTimeBoundariesConstraint <em>Task Time Boundaries Constraint</em>}' enum.
@@ -1700,7 +1791,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTimeBoundariesConstraint()
 	 * @generated
 	 */
-    int TASK_TIME_BOUNDARIES_CONSTRAINT = 25;
+    int TASK_TIME_BOUNDARIES_CONSTRAINT = 26;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}' enum.
@@ -1710,7 +1801,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskKind()
 	 * @generated
 	 */
-    int RISK_KIND = 21;
+    int RISK_KIND = 22;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskState <em>Risk State</em>}' enum.
@@ -1720,7 +1811,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskState()
 	 * @generated
 	 */
-    int RISK_STATE = 22;
+    int RISK_STATE = 23;
 
     /**
      * The meta object id for the '{@link ProjectState <em>Project State</em>}' enum. <!--
@@ -1730,7 +1821,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getProjectState()
      * @generated
      */
-    int PROJECT_STATE = 20;
+    int PROJECT_STATE = 21;
 
     /**
 	 * The meta object id for the '<em>Instant</em>' data type.
@@ -1739,16 +1830,48 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getInstant()
 	 * @generated
 	 */
-    int INSTANT = 27;
+    int INSTANT = 28;
 
     /**
+	 * Returns the meta object for class '{@link pepper.peppermm.NamedElement <em>Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Named Element</em>'.
+	 * @see pepper.peppermm.NamedElement
+	 * @generated
+	 */
+	EClass getNamedElement();
+
+				/**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.NamedElement#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see pepper.peppermm.NamedElement#getName()
+	 * @see #getNamedElement()
+	 * @generated
+	 */
+	EAttribute getNamedElement_Name();
+
+				/**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.NamedElement#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see pepper.peppermm.NamedElement#getDescription()
+	 * @see #getNamedElement()
+	 * @generated
+	 */
+	EAttribute getNamedElement_Description();
+
+				/**
 	 * The meta object id for the '<em>Date</em>' data type.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see java.time.LocalDate
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDate()
 	 * @generated
 	 */
-    int DATE = 26;
+    int DATE = 27;
 
     /**
      * Returns the meta object for class '{@link Organization <em>Organization</em>}'. <!--
@@ -1759,17 +1882,6 @@ public interface PepperPackage extends EPackage {
      * @generated
      */
     EClass getOrganization();
-
-    /**
-     * Returns the meta object for the attribute '{@link Organization#getName <em>Name</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see Organization#getName()
-     * @see #getOrganization()
-     * @generated
-     */
-    EAttribute getOrganization_Name();
 
     /**
 	 * Returns the meta object for the containment reference list '{@link pepper.peppermm.Organization#getOwnedProjects <em>Owned Projects</em>}'.
@@ -1802,17 +1914,6 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 */
     EClass getResource();
-
-    /**
-     * Returns the meta object for the attribute '{@link Resource#getName <em>Name</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see Resource#getName()
-     * @see #getResource()
-     * @generated
-     */
-    EAttribute getResource_Name();
 
     /**
 	 * Returns the meta object for the containment reference list '{@link pepper.peppermm.Resource#getUnavailabilityPeriods <em>Unavailability Periods</em>}'.
@@ -1968,27 +2069,6 @@ public interface PepperPackage extends EPackage {
      * @generated
      */
     EClass getAbstractTask();
-
-    /**
-     * Returns the meta object for the attribute '{@link AbstractTask#getName <em>Name</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see AbstractTask#getName()
-     * @see #getAbstractTask()
-     * @generated
-     */
-    EAttribute getAbstractTask_Name();
-
-    /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.AbstractTask#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see pepper.peppermm.AbstractTask#getDescription()
-	 * @see #getAbstractTask()
-	 * @generated
-	 */
-    EAttribute getAbstractTask_Description();
 
     /**
 	 * Returns the meta object for the attribute '{@link pepper.peppermm.AbstractTask#getStartTime <em>Start Time</em>}'.
@@ -2215,17 +2295,6 @@ public interface PepperPackage extends EPackage {
     EClass getProject();
 
     /**
-     * Returns the meta object for the attribute '{@link Project#getName <em>Name</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see Project#getName()
-     * @see #getProject()
-     * @generated
-     */
-    EAttribute getProject_Name();
-
-    /**
 	 * Returns the meta object for the containment reference list '{@link pepper.peppermm.Project#getOwnedWorkpackages <em>Owned Workpackages</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Owned Workpackages</em>'.
@@ -2275,16 +2344,6 @@ public interface PepperPackage extends EPackage {
      * @generated
      */
     EAttribute getProject_Reference();
-
-    /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.Project#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see pepper.peppermm.Project#getDescription()
-	 * @see #getProject()
-	 * @generated
-	 */
-    EAttribute getProject_Description();
 
     /**
 	 * Returns the meta object for the reference '{@link pepper.peppermm.Project#getLeadingUnit <em>Leading Unit</em>}'.
@@ -2553,27 +2612,6 @@ public interface PepperPackage extends EPackage {
     EClass getWorkpackage();
 
     /**
-     * Returns the meta object for the attribute '{@link Workpackage#getName <em>Name</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see Workpackage#getName()
-     * @see #getWorkpackage()
-     * @generated
-     */
-    EAttribute getWorkpackage_Name();
-
-    /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.Workpackage#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see pepper.peppermm.Workpackage#getDescription()
-	 * @see #getWorkpackage()
-	 * @generated
-	 */
-    EAttribute getWorkpackage_Description();
-
-    /**
 	 * Returns the meta object for the attribute '{@link pepper.peppermm.Workpackage#getStartDate <em>Start Date</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Start Date</em>'.
@@ -2693,26 +2731,6 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 */
     EClass getWorkpackageArtefact();
-
-    /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.WorkpackageArtefact#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see pepper.peppermm.WorkpackageArtefact#getName()
-	 * @see #getWorkpackageArtefact()
-	 * @generated
-	 */
-    EAttribute getWorkpackageArtefact_Name();
-
-    /**
-	 * Returns the meta object for the attribute '{@link pepper.peppermm.WorkpackageArtefact#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see pepper.peppermm.WorkpackageArtefact#getDescription()
-	 * @see #getWorkpackageArtefact()
-	 * @generated
-	 */
-    EAttribute getWorkpackageArtefact_Description();
 
     /**
 	 * Returns the meta object for the attribute '{@link pepper.peppermm.WorkpackageArtefact#getNature <em>Nature</em>}'.
@@ -3103,6 +3121,32 @@ public interface PepperPackage extends EPackage {
 	 */
     interface Literals {
         /**
+		 * The meta object literal for the '{@link pepper.peppermm.impl.NamedElementImpl <em>Named Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see pepper.peppermm.impl.NamedElementImpl
+		 * @see pepper.peppermm.impl.PepperPackageImpl#getNamedElement()
+		 * @generated
+		 */
+		EClass NAMED_ELEMENT = eINSTANCE.getNamedElement();
+
+					/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
+
+					/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAMED_ELEMENT__DESCRIPTION = eINSTANCE.getNamedElement_Description();
+
+								/**
 		 * The meta object literal for the '{@link pepper.peppermm.impl.OrganizationImpl <em>Organization</em>}' class.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see pepper.peppermm.impl.OrganizationImpl
@@ -3110,14 +3154,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EClass ORGANIZATION = eINSTANCE.getOrganization();
-
-        /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute ORGANIZATION__NAME = eINSTANCE.getOrganization_Name();
 
         /**
          * The meta object literal for the '<em><b>Owned Projects</b></em>' containment reference list feature. <!--
@@ -3143,14 +3179,6 @@ public interface PepperPackage extends EPackage {
          * @generated
          */
         EClass RESOURCE = eINSTANCE.getResource();
-
-        /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute RESOURCE__NAME = eINSTANCE.getResource_Name();
 
         /**
 		 * The meta object literal for the '<em><b>Unavailability Periods</b></em>' containment reference list feature.
@@ -3279,22 +3307,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EClass ABSTRACT_TASK = eINSTANCE.getAbstractTask();
-
-        /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute ABSTRACT_TASK__NAME = eINSTANCE.getAbstractTask_Name();
-
-        /**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute ABSTRACT_TASK__DESCRIPTION = eINSTANCE.getAbstractTask_Description();
 
         /**
 		 * The meta object literal for the '<em><b>Start Time</b></em>' attribute feature.
@@ -3485,14 +3497,6 @@ public interface PepperPackage extends EPackage {
         EClass PROJECT = eINSTANCE.getProject();
 
         /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute PROJECT__NAME = eINSTANCE.getProject_Name();
-
-        /**
          * The meta object literal for the '<em><b>Owned Workpackages</b></em>' containment reference list feature. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 
@@ -3531,14 +3535,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EAttribute PROJECT__REFERENCE = eINSTANCE.getProject_Reference();
-
-        /**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute PROJECT__DESCRIPTION = eINSTANCE.getProject_Description();
 
         /**
 		 * The meta object literal for the '<em><b>Leading Unit</b></em>' reference feature.
@@ -3750,22 +3746,6 @@ public interface PepperPackage extends EPackage {
         EClass WORKPACKAGE = eINSTANCE.getWorkpackage();
 
         /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute WORKPACKAGE__NAME = eINSTANCE.getWorkpackage_Name();
-
-        /**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute WORKPACKAGE__DESCRIPTION = eINSTANCE.getWorkpackage_Description();
-
-        /**
 		 * The meta object literal for the '<em><b>Start Date</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!--
          * end-user-doc -->
@@ -3861,22 +3841,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EClass WORKPACKAGE_ARTEFACT = eINSTANCE.getWorkpackageArtefact();
-
-        /**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute WORKPACKAGE_ARTEFACT__NAME = eINSTANCE.getWorkpackageArtefact_Name();
-
-        /**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc --> <!--
-         * end-user-doc -->
-		 * @generated
-		 */
-        EAttribute WORKPACKAGE_ARTEFACT__DESCRIPTION = eINSTANCE.getWorkpackageArtefact_Description();
 
         /**
 		 * The meta object literal for the '<em><b>Nature</b></em>' attribute feature.

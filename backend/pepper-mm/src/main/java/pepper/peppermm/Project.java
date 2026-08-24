@@ -25,13 +25,11 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link pepper.peppermm.Project#getName <em>Name</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getOwnedWorkpackages <em>Owned Workpackages</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getOwnedObjectives <em>Owned Objectives</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getOwnedTagFolders <em>Owned Tag Folders</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getOwnedRisks <em>Owned Risks</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getReference <em>Reference</em>}</li>
- *   <li>{@link pepper.peppermm.Project#getDescription <em>Description</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getLeadingUnit <em>Leading Unit</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getParticipantUnits <em>Participant Units</em>}</li>
  *   <li>{@link pepper.peppermm.Project#getPlannifiedClientCopilMeetings <em>Plannified Client Copil Meetings</em>}</li>
@@ -63,28 +61,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Project extends EObject {
-    /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see pepper.peppermm.PepperPackage#getProject_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-	 * Sets the value of the '{@link pepper.peppermm.Project#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-    void setName(String value);
-
+public interface Project extends NamedElement {
     /**
 	 * Returns the value of the '<em><b>Owned Workpackages</b></em>' containment reference list.
 	 * The list contents are of type {@link pepper.peppermm.Workpackage}.
@@ -150,28 +127,6 @@ public interface Project extends EObject {
      * @generated
      */
     void setReference(String value);
-
-    /**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see pepper.peppermm.PepperPackage#getProject_Description()
-	 * @model
-	 * @generated
-	 */
-    String getDescription();
-
-    /**
-     * Sets the value of the '{@link Project#getDescription <em>Description</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Description</em>' attribute.
-     * @see #getDescription()
-     * @generated
-     */
-    void setDescription(String value);
 
     /**
 	 * Returns the value of the '<em><b>Leading Unit</b></em>' reference.

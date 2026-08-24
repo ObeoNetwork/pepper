@@ -44,7 +44,7 @@ import pepper.peppermm.Workpackage;
  * end-user-doc -->
  * @generated
  */
-public class ProjectItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class ProjectItemProvider extends NamedElementItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -64,9 +64,7 @@ public class ProjectItemProvider extends ItemProviderAdapter implements IEditing
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addReferencePropertyDescriptor(object);
-			addDescriptionPropertyDescriptor(object);
 			addLeadingUnitPropertyDescriptor(object);
 			addParticipantUnitsPropertyDescriptor(object);
 			addPlannifiedClientCopilMeetingsPropertyDescriptor(object);
@@ -97,27 +95,6 @@ public class ProjectItemProvider extends ItemProviderAdapter implements IEditing
 	}
 
     /**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Project_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Project_name_feature", "_UI_Project_type"),
-				 PepperPackage.Literals.PROJECT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-    /**
 	 * This adds a property descriptor for the Reference feature.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -130,27 +107,6 @@ public class ProjectItemProvider extends ItemProviderAdapter implements IEditing
 				 getString("_UI_Project_reference_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Project_reference_feature", "_UI_Project_type"),
 				 PepperPackage.Literals.PROJECT__REFERENCE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-    /**
-	 * This adds a property descriptor for the Description feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Project_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Project_description_feature", "_UI_Project_type"),
-				 PepperPackage.Literals.PROJECT__DESCRIPTION,
 				 true,
 				 false,
 				 false,
@@ -765,9 +721,7 @@ public class ProjectItemProvider extends ItemProviderAdapter implements IEditing
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Project.class)) {
-			case PepperPackage.PROJECT__NAME:
 			case PepperPackage.PROJECT__REFERENCE:
-			case PepperPackage.PROJECT__DESCRIPTION:
 			case PepperPackage.PROJECT__PLANNIFIED_CLIENT_COPIL_MEETINGS:
 			case PepperPackage.PROJECT__MAIN_PROGRAM_BRICK:
 			case PepperPackage.PROJECT__STATE:
@@ -828,16 +782,6 @@ public class ProjectItemProvider extends ItemProviderAdapter implements IEditing
 			(createChildParameter
 				(PepperPackage.Literals.PROJECT__OWNED_RISKS,
 				 PepperFactory.eINSTANCE.createRisk()));
-	}
-
-    /**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public ResourceLocator getResourceLocator() {
-		return PepperEditPlugin.INSTANCE;
 	}
 
 }
