@@ -95,7 +95,7 @@ import org.eclipse.sirius.components.tables.elements.TextfieldCellElementProps;
 
 import pepper.peppermm.Organization;
 import pepper.peppermm.Project;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 
 /**
@@ -114,12 +114,12 @@ public class WidgetDescriptionBuilderHelper {
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final IFeedbackMessageService feedbackMessageService;
 
     public WidgetDescriptionBuilderHelper(Function<VariableManager, String> semanticTargetIdProvider, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory,
-            IPepperMMMessageService pepperMMMessageService, IFeedbackMessageService feedbackMessageService) {
+            IPepperMessageService pepperMMMessageService, IFeedbackMessageService feedbackMessageService) {
         this.semanticTargetIdProvider = semanticTargetIdProvider;
         this.labelService = labelService;
         this.identityService = identityService;

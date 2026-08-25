@@ -60,7 +60,7 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Project;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.WorkpackageArtefact;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 
 /**
@@ -81,11 +81,11 @@ public class WorkpackageArtefactPageDescription {
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public WorkpackageArtefactPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory, IPepperMMMessageService pepperMMMessageService,
+    public WorkpackageArtefactPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory, IPepperMessageService pepperMMMessageService,
             IFeedbackMessageService feedbackMessageService) {
         this.labelService = labelService;
         this.identityService = identityService;

@@ -32,7 +32,7 @@ import org.eclipse.sirius.components.representations.VariableManager;
 import org.springframework.stereotype.Service;
 
 import pepper.peppermm.Project;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 import pepper.starter.services.representations.forms.CustomerPageDescription;
 import pepper.starter.services.representations.forms.PlanningAndCostingPageDescription;
@@ -59,13 +59,13 @@ public class FormEditingContextDescriptionProvider implements IEditingContextRep
 
     private final IObjectSearchService objectSearchService;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final IFeedbackMessageService feedbackMessageService;
 
     private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
-    public FormEditingContextDescriptionProvider(List<ComposedAdapterFactory.Descriptor> composedAdapterFactoryDescriptors, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, IPepperMMMessageService pepperMMMessageService,
+    public FormEditingContextDescriptionProvider(List<ComposedAdapterFactory.Descriptor> composedAdapterFactoryDescriptors, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, IPepperMessageService pepperMMMessageService,
             IFeedbackMessageService feedbackMessageService) {
         this.labelService = Objects.requireNonNull(labelService);
         this.identityService = Objects.requireNonNull(identityService);

@@ -40,7 +40,7 @@ import org.eclipse.sirius.components.widget.table.TableWidgetDescription;
 
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Project;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 
 /**
@@ -60,12 +60,12 @@ public class WorkpackagesPageDescription {
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final IFeedbackMessageService feedbackMessageService;
 
     public WorkpackagesPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, CursorBasedNavigationServices cursorBasedNavigationServices, ComposedAdapterFactory composedAdapterFactory,
-            IPepperMMMessageService pepperMMMessageService, IFeedbackMessageService feedbackMessageService) {
+            IPepperMessageService pepperMMMessageService, IFeedbackMessageService feedbackMessageService) {
         this.labelService = labelService;
         this.identityService = identityService;
         this.objectSearchService = objectSearchService;
