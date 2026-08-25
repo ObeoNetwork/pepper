@@ -49,7 +49,7 @@ import org.eclipse.sirius.components.representations.Success;
 import org.eclipse.sirius.components.representations.VariableManager;
 
 import pepper.peppermm.PepperPackage;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 
 /**
@@ -66,13 +66,13 @@ public class PlanningAndCostingPageDescription {
     private final IObjectSearchService objectSearchService;
     private final ComposedAdapterFactory composedAdapterFactory;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final Function<VariableManager, String> semanticTargetIdProvider;
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public PlanningAndCostingPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IPepperMMMessageService pepperMMMessageService,
+    public PlanningAndCostingPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IPepperMessageService pepperMMMessageService,
             IFeedbackMessageService feedbackMessageService) {
         this.labelService = labelService;
         this.identityService = identityService;

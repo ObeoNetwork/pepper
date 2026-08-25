@@ -24,10 +24,10 @@ import org.springframework.stereotype.Service;
  * @author lfasani
  */
 @Service
-public class PepperMMMessageService implements IPepperMMMessageService {
+public class PepperMessageService implements IPepperMessageService {
     private final MessageSourceAccessor messageSourceAccessor;
 
-    public PepperMMMessageService(@Qualifier("pepperMMMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
+    public PepperMessageService(@Qualifier("pepperMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = Objects.requireNonNull(messageSourceAccessor);
     }
 

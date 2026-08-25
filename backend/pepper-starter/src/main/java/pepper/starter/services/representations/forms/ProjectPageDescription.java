@@ -48,7 +48,7 @@ import org.eclipse.sirius.components.representations.VariableManager;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Project;
 import pepper.peppermm.ProjectState;
-import pepper.starter.messages.IPepperMMMessageService;
+import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
 
 /**
@@ -68,11 +68,11 @@ public class ProjectPageDescription {
 
     private final ComposedAdapterFactory composedAdapterFactory;
 
-    private final IPepperMMMessageService pepperMMMessageService;
+    private final IPepperMessageService pepperMMMessageService;
 
     private final IFeedbackMessageService feedbackMessageService;
 
-    public ProjectPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IPepperMMMessageService pepperMMMessageService,
+    public ProjectPageDescription(ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, ComposedAdapterFactory composedAdapterFactory, IPepperMessageService pepperMMMessageService,
             IFeedbackMessageService feedbackMessageService) {
         this.labelService = labelService;
         this.identityService = identityService;

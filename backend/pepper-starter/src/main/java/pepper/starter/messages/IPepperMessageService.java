@@ -10,19 +10,16 @@
  * Contributors:
  *     Obeo - initial API and implementation
  ******************************************************************************/
-package pepper.starter.configuration;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+package pepper.starter.messages;
 
 /**
- * Auto configuration of the pepper starter.
+ * Interface of the message service.
  *
  * @author lfasani
  */
-@AutoConfiguration
-@ComponentScan(basePackages = {
-    "pepper.starter"
-})
-public class PepperMMStarterConfiguration {
+public interface IPepperMessageService {
+
+    String invalidInput(String expectedInputTypeName, String receivedInputTypeName);
+
+    String getMessage(String messageType, String... expectedInputTypeName);
 }

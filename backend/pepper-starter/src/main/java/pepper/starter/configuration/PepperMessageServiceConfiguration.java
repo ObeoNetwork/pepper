@@ -12,22 +12,24 @@
  ******************************************************************************/
 package pepper.starter.configuration;
 
-import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
-
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
- * Configuration of the EMF support for task MM and representation description related to Task.
+ * Configuration used to retrieve the message source accessor for the project.
  *
  * @author lfasani
  */
 @Configuration
-public class PepperMMEMFConfiguration {
+public class PepperMessageServiceConfiguration {
+    private static final String PATH = "messages/pepper-starter";
 
     @Bean
-    public ComposedAdapterFactory.Descriptor pepperMMAdapterFactory() {
-        return PepperItemProviderAdapterFactory::new;
+    public MessageSourceAccessor pepperMessageSourceAccessor() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.addBasenames(PATH);
+        return new MessageSourceAccessor(messageSource);
     }
 }
