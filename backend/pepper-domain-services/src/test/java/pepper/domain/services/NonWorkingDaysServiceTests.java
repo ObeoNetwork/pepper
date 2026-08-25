@@ -56,11 +56,11 @@ public class NonWorkingDaysServiceTests {
     }
 
     @Test
-    public void getDurationBetweenEqualDatesIsZero() {
+    public void getDurationBetweenEqualWorkingDatesIsOneDay() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 13);
 
-        assertThat(service.getDuration(date, date)).isEqualTo(Duration.ZERO);
+        assertThat(service.getDuration(date, date)).isEqualTo(Duration.ofDays(1));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class NonWorkingDaysServiceTests {
         LocalDate startDate = LocalDate.of(2026, 7, 10);
         LocalDate endDate = LocalDate.of(2026, 7, 16);
 
-        assertThat(service.getDuration(startDate, endDate)).isEqualTo(Duration.ofDays(3));
+        assertThat(service.getDuration(startDate, endDate)).isEqualTo(Duration.ofDays(4));
     }
 
     @Test
@@ -178,27 +178,27 @@ public class NonWorkingDaysServiceTests {
     }
 
     @Test
-    public void getNextEndDateAcceptsAnExcludedWeekendDate() {
+    public void getNextEndDateMovesPastAWeekend() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 8, 1);
 
-        assertThat(service.getNextEndDate(date)).isEqualTo(date);
+        assertThat(service.getNextEndDate(date)).isEqualTo(LocalDate.of(2026, 8, 3));
     }
 
     @Test
-    public void getNextEndDateAcceptsAnExcludedNonWorkingDate() {
+    public void getNextEndDateMovesPastANonWorkingDate() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 14);
 
-        assertThat(service.getNextEndDate(date)).isEqualTo(date);
+        assertThat(service.getNextEndDate(date)).isEqualTo(LocalDate.of(2026, 7, 15));
     }
 
     @Test
-    public void getNextEndDateMovesABoundaryFollowingANonWorkingDay() {
+    public void getNextEndDateKeepsAWorkingDateFollowingANonWorkingDay() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 15);
 
-        assertThat(service.getNextEndDate(date)).isEqualTo(LocalDate.of(2026, 7, 16));
+        assertThat(service.getNextEndDate(date)).isEqualTo(date);
     }
 
     @Test

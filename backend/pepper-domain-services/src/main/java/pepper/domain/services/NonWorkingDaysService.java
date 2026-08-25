@@ -76,25 +76,24 @@ public class NonWorkingDaysService {
     }
 
     /**
-     * Returns the duration of the working days from {@code startDate} (inclusive) to
-     * {@code endDate} (exclusive). Therefore, equal dates produce {@link Duration#ZERO}, while
-     * consecutive working dates produce a duration of one day.
+     * Returns the duration of the working days from {@code startDate} to {@code endDate}, with both
+     * boundary dates included. Therefore, equal working dates produce a duration of one day.
      *
      * @param startDate
      *            the start boundary
      * @param endDate
      *            the end boundary
-     * @return the duration of the working days in the interval, or {@link Duration#ZERO} for a null,
-     *         empty, or reversed interval
+     * @return the duration of the working days in the interval, or {@link Duration#ZERO} for a null
+     *         or reversed interval
      */
     public Duration getDuration(LocalDate startDate, LocalDate endDate) {
-        if (startDate == null || endDate == null || !endDate.isAfter(startDate)) {
+        if (startDate == null || endDate == null || endDate.isBefore(startDate)) {
             return Duration.ZERO;
         }
 
         Duration duration = Duration.ZERO;
         LocalDate currentDate = startDate;
-        while (currentDate.isBefore(endDate)) {
+        while (!currentDate.isAfter(endDate)) {
             if (!this.isNonWorkingDay(currentDate)) {
                 duration = duration.plusDays(1);
             }
@@ -202,20 +201,19 @@ public class NonWorkingDaysService {
     }
 
     /**
-     * Returns the supplied exclusive end date when the preceding, included date is a working day.
-     * Otherwise, moves the end boundary forward one day at a time until it follows a working day.
-     * The end date itself may be a non-working day because it is excluded from the interval.
+     * Returns the supplied end date when it is a working day. Otherwise, moves forward one day at a
+     * time through the non-working period and returns the next working date. The end date is included.
      *
      * @param endDate
-     *            the non-null exclusive end date to evaluate
-     * @return the supplied date or the next valid exclusive end date
+     *            the end date to evaluate
+     * @return the supplied date or the next valid inclusive end date
      */
     public LocalDate getNextEndDate(LocalDate endDate) {
         if (endDate == null) {
             return null;
         }
         LocalDate nextEndDate = endDate;
-        while (this.isNonWorkingDay(nextEndDate.minusDays(1))) {
+        while (this.isNonWorkingDay(nextEndDate)) {
             nextEndDate = nextEndDate.plusDays(1);
         }
         return nextEndDate;
