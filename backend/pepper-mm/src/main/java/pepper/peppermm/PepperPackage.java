@@ -458,6 +458,61 @@ public interface PepperPackage extends EPackage {
     int PERSON_FEATURE_COUNT = RESOURCE_FEATURE_COUNT + 3;
 
     /**
+	 * The meta object id for the '{@link pepper.peppermm.impl.AssignableObjectImpl <em>Assignable Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see pepper.peppermm.impl.AssignableObjectImpl
+	 * @see pepper.peppermm.impl.PepperPackageImpl#getAssignableObject()
+	 * @generated
+	 */
+	int ASSIGNABLE_OBJECT = 8;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNABLE_OBJECT__NAME = NAMED_ELEMENT__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNABLE_OBJECT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNABLE_OBJECT__ASSIGNED_PERSONS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Teams</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNABLE_OBJECT__ASSIGNED_TEAMS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+				/**
+	 * The number of structural features of the '<em>Assignable Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNABLE_OBJECT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+				/**
      * The meta object id for the '{@link pepper.peppermm.impl.AbstractTaskImpl <em>Abstract Task</em>}' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -465,7 +520,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getAbstractTask()
      * @generated
      */
-    int ABSTRACT_TASK = 8;
+    int ABSTRACT_TASK = 9;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -473,7 +528,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__NAME = NAMED_ELEMENT__NAME;
+    int ABSTRACT_TASK__NAME = ASSIGNABLE_OBJECT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -481,48 +536,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
-
-    /**
-	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ABSTRACT_TASK__START_TIME = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
-	 * The feature id for the '<em><b>End Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ABSTRACT_TASK__END_TIME = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-    /**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ABSTRACT_TASK__PROGRESS = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-    /**
-	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-    /**
-	 * The feature id for the '<em><b>Tags</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ABSTRACT_TASK__TAGS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+    int ABSTRACT_TASK__DESCRIPTION = ASSIGNABLE_OBJECT__DESCRIPTION;
 
     /**
 	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
@@ -531,7 +545,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__ASSIGNED_PERSONS = NAMED_ELEMENT_FEATURE_COUNT + 5;
+    int ABSTRACT_TASK__ASSIGNED_PERSONS = ASSIGNABLE_OBJECT__ASSIGNED_PERSONS;
 
     /**
      * The feature id for the '<em><b>Assigned Teams</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
@@ -540,7 +554,48 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_TASK__ASSIGNED_TEAMS = NAMED_ELEMENT_FEATURE_COUNT + 6;
+    int ABSTRACT_TASK__ASSIGNED_TEAMS = ASSIGNABLE_OBJECT__ASSIGNED_TEAMS;
+
+				/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ABSTRACT_TASK__START_TIME = ASSIGNABLE_OBJECT_FEATURE_COUNT + 0;
+
+				/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ABSTRACT_TASK__END_TIME = ASSIGNABLE_OBJECT_FEATURE_COUNT + 1;
+
+				/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ABSTRACT_TASK__PROGRESS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 2;
+
+				/**
+	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY = ASSIGNABLE_OBJECT_FEATURE_COUNT + 3;
+
+				/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ABSTRACT_TASK__TAGS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
@@ -549,7 +604,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__SUB_TASKS = NAMED_ELEMENT_FEATURE_COUNT + 7;
+    int ABSTRACT_TASK__SUB_TASKS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Calculation Option</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -558,7 +613,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_TASK__CALCULATION_OPTION = NAMED_ELEMENT_FEATURE_COUNT + 8;
+    int ABSTRACT_TASK__CALCULATION_OPTION = ASSIGNABLE_OBJECT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -566,7 +621,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK__DURATION = NAMED_ELEMENT_FEATURE_COUNT + 9;
+    int ABSTRACT_TASK__DURATION = ASSIGNABLE_OBJECT_FEATURE_COUNT + 7;
 
     /**
 	 * The number of structural features of the '<em>Abstract Task</em>' class.
@@ -575,7 +630,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
+    int ABSTRACT_TASK_FEATURE_COUNT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 8;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
@@ -585,7 +640,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getTagFolder()
      * @generated
      */
-    int TAG_FOLDER = 9;
+    int TAG_FOLDER = 10;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -630,7 +685,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTag()
      * @generated
      */
-    int TASK_TAG = 10;
+    int TASK_TAG = 11;
 
     /**
 	 * The feature id for the '<em><b>Prefix</b></em>' attribute.
@@ -664,7 +719,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTask()
 	 * @generated
 	 */
-    int TASK = 11;
+    int TASK = 12;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -683,47 +738,6 @@ public interface PepperPackage extends EPackage {
     int TASK__DESCRIPTION = ABSTRACT_TASK__DESCRIPTION;
 
     /**
-	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TASK__START_TIME = ABSTRACT_TASK__START_TIME;
-
-    /**
-	 * The feature id for the '<em><b>End Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TASK__END_TIME = ABSTRACT_TASK__END_TIME;
-
-    /**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TASK__PROGRESS = ABSTRACT_TASK__PROGRESS;
-
-    /**
-	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TASK__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
-
-    /**
-	 * The feature id for the '<em><b>Tags</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TASK__TAGS = ABSTRACT_TASK__TAGS;
-
-    /**
 	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -740,6 +754,47 @@ public interface PepperPackage extends EPackage {
      * @ordered
      */
     int TASK__ASSIGNED_TEAMS = ABSTRACT_TASK__ASSIGNED_TEAMS;
+
+				/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int TASK__START_TIME = ABSTRACT_TASK__START_TIME;
+
+				/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int TASK__END_TIME = ABSTRACT_TASK__END_TIME;
+
+				/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int TASK__PROGRESS = ABSTRACT_TASK__PROGRESS;
+
+				/**
+	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int TASK__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
+
+				/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int TASK__TAGS = ABSTRACT_TASK__TAGS;
 
     /**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
@@ -792,7 +847,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getObjective()
      * @generated
      */
-    int OBJECTIVE = 12;
+    int OBJECTIVE = 13;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -811,47 +866,6 @@ public interface PepperPackage extends EPackage {
     int OBJECTIVE__DESCRIPTION = ABSTRACT_TASK__DESCRIPTION;
 
     /**
-	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int OBJECTIVE__START_TIME = ABSTRACT_TASK__START_TIME;
-
-    /**
-	 * The feature id for the '<em><b>End Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int OBJECTIVE__END_TIME = ABSTRACT_TASK__END_TIME;
-
-    /**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int OBJECTIVE__PROGRESS = ABSTRACT_TASK__PROGRESS;
-
-    /**
-	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int OBJECTIVE__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
-
-    /**
-	 * The feature id for the '<em><b>Tags</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int OBJECTIVE__TAGS = ABSTRACT_TASK__TAGS;
-
-    /**
 	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -868,6 +882,47 @@ public interface PepperPackage extends EPackage {
      * @ordered
      */
     int OBJECTIVE__ASSIGNED_TEAMS = ABSTRACT_TASK__ASSIGNED_TEAMS;
+
+				/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int OBJECTIVE__START_TIME = ABSTRACT_TASK__START_TIME;
+
+				/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int OBJECTIVE__END_TIME = ABSTRACT_TASK__END_TIME;
+
+				/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int OBJECTIVE__PROGRESS = ABSTRACT_TASK__PROGRESS;
+
+				/**
+	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int OBJECTIVE__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
+
+				/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int OBJECTIVE__TAGS = ABSTRACT_TASK__TAGS;
 
     /**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
@@ -921,7 +976,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getKeyResult()
      * @generated
      */
-    int KEY_RESULT = 13;
+    int KEY_RESULT = 14;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -940,47 +995,6 @@ public interface PepperPackage extends EPackage {
     int KEY_RESULT__DESCRIPTION = ABSTRACT_TASK__DESCRIPTION;
 
     /**
-	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int KEY_RESULT__START_TIME = ABSTRACT_TASK__START_TIME;
-
-    /**
-	 * The feature id for the '<em><b>End Time</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int KEY_RESULT__END_TIME = ABSTRACT_TASK__END_TIME;
-
-    /**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int KEY_RESULT__PROGRESS = ABSTRACT_TASK__PROGRESS;
-
-    /**
-	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int KEY_RESULT__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
-
-    /**
-	 * The feature id for the '<em><b>Tags</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int KEY_RESULT__TAGS = ABSTRACT_TASK__TAGS;
-
-    /**
 	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -997,6 +1011,47 @@ public interface PepperPackage extends EPackage {
      * @ordered
      */
     int KEY_RESULT__ASSIGNED_TEAMS = ABSTRACT_TASK__ASSIGNED_TEAMS;
+
+				/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int KEY_RESULT__START_TIME = ABSTRACT_TASK__START_TIME;
+
+				/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int KEY_RESULT__END_TIME = ABSTRACT_TASK__END_TIME;
+
+				/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int KEY_RESULT__PROGRESS = ABSTRACT_TASK__PROGRESS;
+
+				/**
+	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int KEY_RESULT__COMPUTE_START_END_DYNAMICALLY = ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY;
+
+				/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int KEY_RESULT__TAGS = ABSTRACT_TASK__TAGS;
 
     /**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
@@ -1041,7 +1096,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getProject()
 	 * @generated
 	 */
-    int PROJECT = 14;
+    int PROJECT = 15;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1326,7 +1381,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyRelatedObject()
 	 * @generated
 	 */
-    int DEPENDENCY_RELATED_OBJECT = 19;
+    int DEPENDENCY_RELATED_OBJECT = 20;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.WorkpackageImpl <em>Workpackage</em>}' class. <!--
@@ -1336,7 +1391,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackage()
      * @generated
      */
-    int WORKPACKAGE = 15;
+    int WORKPACKAGE = 16;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1344,7 +1399,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__NAME = NAMED_ELEMENT__NAME;
+    int WORKPACKAGE__NAME = ASSIGNABLE_OBJECT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1352,7 +1407,25 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+    int WORKPACKAGE__DESCRIPTION = ASSIGNABLE_OBJECT__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORKPACKAGE__ASSIGNED_PERSONS = ASSIGNABLE_OBJECT__ASSIGNED_PERSONS;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Teams</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORKPACKAGE__ASSIGNED_TEAMS = ASSIGNABLE_OBJECT__ASSIGNED_TEAMS;
 
 				/**
 	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
@@ -1361,7 +1434,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__DEPENDENCIES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+    int WORKPACKAGE__DEPENDENCIES = ASSIGNABLE_OBJECT_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
@@ -1369,7 +1442,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__START_DATE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+    int WORKPACKAGE__START_DATE = ASSIGNABLE_OBJECT_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>End Date</b></em>' attribute.
@@ -1377,7 +1450,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__END_DATE = NAMED_ELEMENT_FEATURE_COUNT + 2;
+    int WORKPACKAGE__END_DATE = ASSIGNABLE_OBJECT_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Leader</b></em>' reference.
@@ -1385,16 +1458,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__LEADER = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-    /**
-     * The feature id for the '<em><b>Participants</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int WORKPACKAGE__PARTICIPANTS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+    int WORKPACKAGE__LEADER = ASSIGNABLE_OBJECT_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Effort</b></em>' attribute.
@@ -1402,7 +1466,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__EFFORT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+    int WORKPACKAGE__EFFORT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Outputs</b></em>' containment reference list.
@@ -1411,7 +1475,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OUTPUTS = NAMED_ELEMENT_FEATURE_COUNT + 6;
+    int WORKPACKAGE__OUTPUTS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Owned Tasks</b></em>' containment reference list.
@@ -1420,7 +1484,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OWNED_TASKS = NAMED_ELEMENT_FEATURE_COUNT + 7;
+    int WORKPACKAGE__OWNED_TASKS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Owned Objectives</b></em>' containment reference list.
@@ -1429,7 +1493,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__OWNED_OBJECTIVES = NAMED_ELEMENT_FEATURE_COUNT + 8;
+    int WORKPACKAGE__OWNED_OBJECTIVES = ASSIGNABLE_OBJECT_FEATURE_COUNT + 7;
 
     /**
 	 * The feature id for the '<em><b>Progress</b></em>' attribute.
@@ -1437,7 +1501,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__PROGRESS = NAMED_ELEMENT_FEATURE_COUNT + 9;
+    int WORKPACKAGE__PROGRESS = ASSIGNABLE_OBJECT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Calculation Option</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1446,7 +1510,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE__CALCULATION_OPTION = NAMED_ELEMENT_FEATURE_COUNT + 10;
+    int WORKPACKAGE__CALCULATION_OPTION = ASSIGNABLE_OBJECT_FEATURE_COUNT + 9;
 
     /**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -1454,7 +1518,7 @@ public interface PepperPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int WORKPACKAGE__DURATION = NAMED_ELEMENT_FEATURE_COUNT + 11;
+    int WORKPACKAGE__DURATION = ASSIGNABLE_OBJECT_FEATURE_COUNT + 10;
 
     /**
      * The number of structural features of the '<em>Workpackage</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1463,7 +1527,7 @@ public interface PepperPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKPACKAGE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 12;
+    int WORKPACKAGE_FEATURE_COUNT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 11;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.impl.WorkpackageArtefactImpl <em>Workpackage Artefact</em>}' class.
@@ -1472,7 +1536,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefact()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT = 16;
+    int WORKPACKAGE_ARTEFACT = 17;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1574,7 +1638,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRisk()
 	 * @generated
 	 */
-    int RISK = 17;
+    int RISK = 18;
 
     /**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1657,7 +1721,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyLink()
      * @generated
      */
-    int DEPENDENCY_LINK = 18;
+    int DEPENDENCY_LINK = 19;
 
     /**
 	 * The feature id for the '<em><b>Target Kind</b></em>' attribute.
@@ -1727,7 +1791,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getUnavailabilityPeriod()
 	 * @generated
 	 */
-	int UNAVAILABILITY_PERIOD = 20;
+	int UNAVAILABILITY_PERIOD = 21;
 
 				/**
 	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
@@ -1772,7 +1836,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefactNature()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT_NATURE = 24;
+    int WORKPACKAGE_ARTEFACT_NATURE = 25;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.StartOrEnd <em>Start Or End</em>}' enum.
@@ -1782,7 +1846,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getStartOrEnd()
 	 * @generated
 	 */
-    int START_OR_END = 25;
+    int START_OR_END = 26;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.TaskTimeBoundariesConstraint <em>Task Time Boundaries Constraint</em>}' enum.
@@ -1791,7 +1855,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTimeBoundariesConstraint()
 	 * @generated
 	 */
-    int TASK_TIME_BOUNDARIES_CONSTRAINT = 26;
+    int TASK_TIME_BOUNDARIES_CONSTRAINT = 27;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}' enum.
@@ -1801,7 +1865,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskKind()
 	 * @generated
 	 */
-    int RISK_KIND = 22;
+    int RISK_KIND = 23;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskState <em>Risk State</em>}' enum.
@@ -1811,7 +1875,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskState()
 	 * @generated
 	 */
-    int RISK_STATE = 23;
+    int RISK_STATE = 24;
 
     /**
      * The meta object id for the '{@link ProjectState <em>Project State</em>}' enum. <!--
@@ -1821,7 +1885,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getProjectState()
      * @generated
      */
-    int PROJECT_STATE = 21;
+    int PROJECT_STATE = 22;
 
     /**
 	 * The meta object id for the '<em>Instant</em>' data type.
@@ -1830,7 +1894,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getInstant()
 	 * @generated
 	 */
-    int INSTANT = 28;
+    int INSTANT = 29;
 
     /**
 	 * Returns the meta object for class '{@link pepper.peppermm.NamedElement <em>Named Element</em>}'.
@@ -1871,7 +1935,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDate()
 	 * @generated
 	 */
-    int DATE = 27;
+    int DATE = 28;
 
     /**
      * Returns the meta object for class '{@link Organization <em>Organization</em>}'. <!--
@@ -2061,6 +2125,38 @@ public interface PepperPackage extends EPackage {
     EAttribute getPerson_ImageUrl();
 
     /**
+	 * Returns the meta object for class '{@link pepper.peppermm.AssignableObject <em>Assignable Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Assignable Object</em>'.
+	 * @see pepper.peppermm.AssignableObject
+	 * @generated
+	 */
+	EClass getAssignableObject();
+
+				/**
+	 * Returns the meta object for the reference list '{@link pepper.peppermm.AssignableObject#getAssignedPersons <em>Assigned Persons</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Assigned Persons</em>'.
+	 * @see pepper.peppermm.AssignableObject#getAssignedPersons()
+	 * @see #getAssignableObject()
+	 * @generated
+	 */
+	EReference getAssignableObject_AssignedPersons();
+
+				/**
+	 * Returns the meta object for the reference list '{@link pepper.peppermm.AssignableObject#getAssignedTeams <em>Assigned Teams</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Assigned Teams</em>'.
+	 * @see pepper.peppermm.AssignableObject#getAssignedTeams()
+	 * @see #getAssignableObject()
+	 * @generated
+	 */
+	EReference getAssignableObject_AssignedTeams();
+
+				/**
      * Returns the meta object for class '{@link AbstractTask <em>Abstract Task</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -2120,26 +2216,6 @@ public interface PepperPackage extends EPackage {
      * @generated
      */
     EReference getAbstractTask_Tags();
-
-    /**
-	 * Returns the meta object for the reference list '{@link pepper.peppermm.AbstractTask#getAssignedPersons <em>Assigned Persons</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Assigned Persons</em>'.
-	 * @see pepper.peppermm.AbstractTask#getAssignedPersons()
-	 * @see #getAbstractTask()
-	 * @generated
-	 */
-    EReference getAbstractTask_AssignedPersons();
-
-    /**
-	 * Returns the meta object for the reference list '{@link pepper.peppermm.AbstractTask#getAssignedTeams <em>Assigned Teams</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Assigned Teams</em>'.
-	 * @see pepper.peppermm.AbstractTask#getAssignedTeams()
-	 * @see #getAbstractTask()
-	 * @generated
-	 */
-    EReference getAbstractTask_AssignedTeams();
 
     /**
 	 * Returns the meta object for the containment reference list '{@link pepper.peppermm.AbstractTask#getSubTasks <em>Sub Tasks</em>}'.
@@ -2641,16 +2717,6 @@ public interface PepperPackage extends EPackage {
      * @generated
      */
     EReference getWorkpackage_Leader();
-
-    /**
-	 * Returns the meta object for the reference list '{@link pepper.peppermm.Workpackage#getParticipants <em>Participants</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Participants</em>'.
-	 * @see pepper.peppermm.Workpackage#getParticipants()
-	 * @see #getWorkpackage()
-	 * @generated
-	 */
-    EReference getWorkpackage_Participants();
 
     /**
      * Returns the meta object for the attribute '{@link Workpackage#getEffort <em>Effort</em>}'. <!--
@@ -3300,6 +3366,32 @@ public interface PepperPackage extends EPackage {
         EAttribute PERSON__IMAGE_URL = eINSTANCE.getPerson_ImageUrl();
 
         /**
+		 * The meta object literal for the '{@link pepper.peppermm.impl.AssignableObjectImpl <em>Assignable Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see pepper.peppermm.impl.AssignableObjectImpl
+		 * @see pepper.peppermm.impl.PepperPackageImpl#getAssignableObject()
+		 * @generated
+		 */
+		EClass ASSIGNABLE_OBJECT = eINSTANCE.getAssignableObject();
+
+								/**
+		 * The meta object literal for the '<em><b>Assigned Persons</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSIGNABLE_OBJECT__ASSIGNED_PERSONS = eINSTANCE.getAssignableObject_AssignedPersons();
+
+								/**
+		 * The meta object literal for the '<em><b>Assigned Teams</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSIGNABLE_OBJECT__ASSIGNED_TEAMS = eINSTANCE.getAssignableObject_AssignedTeams();
+
+								/**
 		 * The meta object literal for the '{@link pepper.peppermm.impl.AbstractTaskImpl <em>Abstract Task</em>}' class.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see pepper.peppermm.impl.AbstractTaskImpl
@@ -3347,22 +3439,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EReference ABSTRACT_TASK__TAGS = eINSTANCE.getAbstractTask_Tags();
-
-        /**
-         * The meta object literal for the '<em><b>Assigned Persons</b></em>' reference list feature. <!--
-         * begin-user-doc --> <!-- end-user-doc -->
-         * 
-         * @generated
-         */
-        EReference ABSTRACT_TASK__ASSIGNED_PERSONS = eINSTANCE.getAbstractTask_AssignedPersons();
-
-        /**
-		 * The meta object literal for the '<em><b>Assigned Teams</b></em>' reference list feature.
-		 * <!-- begin-user-doc
-         * --> <!-- end-user-doc -->
-		 * @generated
-		 */
-        EReference ABSTRACT_TASK__ASSIGNED_TEAMS = eINSTANCE.getAbstractTask_AssignedTeams();
 
         /**
          * The meta object literal for the '<em><b>Sub Tasks</b></em>' containment reference list feature. <!--
@@ -3768,14 +3844,6 @@ public interface PepperPackage extends EPackage {
 		 * @generated
 		 */
         EReference WORKPACKAGE__LEADER = eINSTANCE.getWorkpackage_Leader();
-
-        /**
-		 * The meta object literal for the '<em><b>Participants</b></em>' reference list feature.
-		 * <!-- begin-user-doc
-         * --> <!-- end-user-doc -->
-		 * @generated
-		 */
-        EReference WORKPACKAGE__PARTICIPANTS = eINSTANCE.getWorkpackage_Participants();
 
         /**
 		 * The meta object literal for the '<em><b>Effort</b></em>' attribute feature.

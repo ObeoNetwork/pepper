@@ -125,9 +125,17 @@ public class PepperSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PepperPackage.ASSIGNABLE_OBJECT: {
+				AssignableObject assignableObject = (AssignableObject)theEObject;
+				T result = caseAssignableObject(assignableObject);
+				if (result == null) result = caseNamedElement(assignableObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PepperPackage.ABSTRACT_TASK: {
 				AbstractTask abstractTask = (AbstractTask)theEObject;
 				T result = caseAbstractTask(abstractTask);
+				if (result == null) result = caseAssignableObject(abstractTask);
 				if (result == null) result = caseNamedElement(abstractTask);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -149,6 +157,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				T result = caseTask(task);
 				if (result == null) result = caseAbstractTask(task);
 				if (result == null) result = caseDependencyRelatedObject(task);
+				if (result == null) result = caseAssignableObject(task);
 				if (result == null) result = caseNamedElement(task);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -157,6 +166,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				Objective objective = (Objective)theEObject;
 				T result = caseObjective(objective);
 				if (result == null) result = caseAbstractTask(objective);
+				if (result == null) result = caseAssignableObject(objective);
 				if (result == null) result = caseNamedElement(objective);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -165,6 +175,7 @@ public class PepperSwitch<T> extends Switch<T> {
 				KeyResult keyResult = (KeyResult)theEObject;
 				T result = caseKeyResult(keyResult);
 				if (result == null) result = caseAbstractTask(keyResult);
+				if (result == null) result = caseAssignableObject(keyResult);
 				if (result == null) result = caseNamedElement(keyResult);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -179,8 +190,9 @@ public class PepperSwitch<T> extends Switch<T> {
 			case PepperPackage.WORKPACKAGE: {
 				Workpackage workpackage = (Workpackage)theEObject;
 				T result = caseWorkpackage(workpackage);
-				if (result == null) result = caseNamedElement(workpackage);
+				if (result == null) result = caseAssignableObject(workpackage);
 				if (result == null) result = caseDependencyRelatedObject(workpackage);
+				if (result == null) result = caseNamedElement(workpackage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -332,6 +344,21 @@ public class PepperSwitch<T> extends Switch<T> {
 	}
 
     /**
+	 * Returns the result of interpreting the object as an instance of '<em>Assignable Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assignable Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssignableObject(AssignableObject object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>Abstract Task</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->

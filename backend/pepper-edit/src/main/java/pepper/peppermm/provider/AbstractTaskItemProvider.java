@@ -44,7 +44,7 @@ import pepper.peppermm.Task;
  * end-user-doc -->
  * @generated
  */
-public class AbstractTaskItemProvider extends NamedElementItemProvider {
+public class AbstractTaskItemProvider extends AssignableObjectItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,8 +69,6 @@ public class AbstractTaskItemProvider extends NamedElementItemProvider {
 			addProgressPropertyDescriptor(object);
 			addComputeStartEndDynamicallyPropertyDescriptor(object);
 			addTagsPropertyDescriptor(object);
-			addAssignedPersonsPropertyDescriptor(object);
-			addAssignedTeamsPropertyDescriptor(object);
 			addCalculationOptionPropertyDescriptor(object);
 			addDurationPropertyDescriptor(object);
 		}
@@ -175,48 +173,6 @@ public class AbstractTaskItemProvider extends NamedElementItemProvider {
 				 getString("_UI_AbstractTask_tags_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_tags_feature", "_UI_AbstractTask_type"),
 				 PepperPackage.Literals.ABSTRACT_TASK__TAGS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-    /**
-	 * This adds a property descriptor for the Assigned Persons feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addAssignedPersonsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AbstractTask_assignedPersons_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedPersons_feature", "_UI_AbstractTask_type"),
-				 PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_PERSONS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-    /**
-	 * This adds a property descriptor for the Assigned Teams feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addAssignedTeamsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AbstractTask_assignedTeams_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractTask_assignedTeams_feature", "_UI_AbstractTask_type"),
-				 PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_TEAMS,
 				 true,
 				 false,
 				 true,

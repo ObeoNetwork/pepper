@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.AssignableObject;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.ExternalStakeholder;
@@ -109,6 +110,13 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     private EClass personEClass = null;
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass assignableObjectEClass = null;
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -487,6 +495,36 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getAssignableObject() {
+		return assignableObjectEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getAssignableObject_AssignedPersons() {
+		return (EReference)assignableObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getAssignableObject_AssignedTeams() {
+		return (EReference)assignableObjectEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -545,7 +583,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EReference getAbstractTask_AssignedPersons() {
+    public EReference getAbstractTask_SubTasks() {
 		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -554,26 +592,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EReference getAbstractTask_AssignedTeams() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(6);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EReference getAbstractTask_SubTasks() {
-		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(7);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EAttribute getAbstractTask_CalculationOption() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -582,7 +602,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getAbstractTask_Duration() {
-		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -1004,17 +1024,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 * @generated
 	 */
     @Override
-    public EReference getWorkpackage_Participants() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(3);
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EAttribute getWorkpackage_Effort() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(3);
 	}
 
     /**
@@ -1023,7 +1034,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_Outputs() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(5);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -1032,7 +1043,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_OwnedTasks() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(6);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -1041,7 +1052,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EReference getWorkpackage_OwnedObjectives() {
-		return (EReference)workpackageEClass.getEStructuralFeatures().get(7);
+		return (EReference)workpackageEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
@@ -1050,7 +1061,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_Progress() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(7);
 	}
 
     /**
@@ -1059,7 +1070,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_CalculationOption() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(8);
 	}
 
     /**
@@ -1068,7 +1079,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	 */
     @Override
     public EAttribute getWorkpackage_Duration() {
-		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)workpackageEClass.getEStructuralFeatures().get(9);
 	}
 
     /**
@@ -1464,14 +1475,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(personEClass, PERSON__BIOGRAPHY);
 		createEAttribute(personEClass, PERSON__IMAGE_URL);
 
+		assignableObjectEClass = createEClass(ASSIGNABLE_OBJECT);
+		createEReference(assignableObjectEClass, ASSIGNABLE_OBJECT__ASSIGNED_PERSONS);
+		createEReference(assignableObjectEClass, ASSIGNABLE_OBJECT__ASSIGNED_TEAMS);
+
 		abstractTaskEClass = createEClass(ABSTRACT_TASK);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__START_TIME);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__END_TIME);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__PROGRESS);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY);
 		createEReference(abstractTaskEClass, ABSTRACT_TASK__TAGS);
-		createEReference(abstractTaskEClass, ABSTRACT_TASK__ASSIGNED_PERSONS);
-		createEReference(abstractTaskEClass, ABSTRACT_TASK__ASSIGNED_TEAMS);
 		createEReference(abstractTaskEClass, ABSTRACT_TASK__SUB_TASKS);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__CALCULATION_OPTION);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__DURATION);
@@ -1528,7 +1541,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEAttribute(workpackageEClass, WORKPACKAGE__START_DATE);
 		createEAttribute(workpackageEClass, WORKPACKAGE__END_DATE);
 		createEReference(workpackageEClass, WORKPACKAGE__LEADER);
-		createEReference(workpackageEClass, WORKPACKAGE__PARTICIPANTS);
 		createEAttribute(workpackageEClass, WORKPACKAGE__EFFORT);
 		createEReference(workpackageEClass, WORKPACKAGE__OUTPUTS);
 		createEReference(workpackageEClass, WORKPACKAGE__OWNED_TASKS);
@@ -1616,13 +1628,14 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		internalStakeholderEClass.getESuperTypes().add(this.getResource());
 		externalStakeholderEClass.getESuperTypes().add(this.getResource());
 		personEClass.getESuperTypes().add(this.getResource());
-		abstractTaskEClass.getESuperTypes().add(this.getNamedElement());
+		assignableObjectEClass.getESuperTypes().add(this.getNamedElement());
+		abstractTaskEClass.getESuperTypes().add(this.getAssignableObject());
 		taskEClass.getESuperTypes().add(this.getAbstractTask());
 		taskEClass.getESuperTypes().add(this.getDependencyRelatedObject());
 		objectiveEClass.getESuperTypes().add(this.getAbstractTask());
 		keyResultEClass.getESuperTypes().add(this.getAbstractTask());
 		projectEClass.getESuperTypes().add(this.getNamedElement());
-		workpackageEClass.getESuperTypes().add(this.getNamedElement());
+		workpackageEClass.getESuperTypes().add(this.getAssignableObject());
 		workpackageEClass.getESuperTypes().add(this.getDependencyRelatedObject());
 		workpackageArtefactEClass.getESuperTypes().add(this.getNamedElement());
 
@@ -1656,14 +1669,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getPerson_Biography(), ecorePackage.getEString(), "biography", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_ImageUrl(), ecorePackage.getEString(), "imageUrl", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(assignableObjectEClass, AssignableObject.class, "AssignableObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAssignableObject_AssignedPersons(), this.getPerson(), null, "assignedPersons", null, 0, -1, AssignableObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAssignableObject_AssignedTeams(), this.getTeam(), null, "assignedTeams", null, 0, -1, AssignableObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(abstractTaskEClass, AbstractTask.class, "AbstractTask", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractTask_StartTime(), this.getInstant(), "startTime", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_EndTime(), this.getInstant(), "endTime", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_Progress(), ecorePackage.getEInt(), "progress", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_ComputeStartEndDynamically(), ecorePackage.getEBoolean(), "computeStartEndDynamically", "false", 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractTask_Tags(), this.getTaskTag(), null, "tags", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAbstractTask_AssignedPersons(), this.getPerson(), null, "assignedPersons", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAbstractTask_AssignedTeams(), this.getTeam(), null, "assignedTeams", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractTask_SubTasks(), this.getTask(), null, "subTasks", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_CalculationOption(), this.getTaskTimeBoundariesConstraint(), "calculationOption", "START_END", 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1720,7 +1735,6 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getWorkpackage_StartDate(), this.getDate(), "startDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackage_EndDate(), this.getDate(), "endDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_Leader(), this.getPerson(), null, "leader", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getWorkpackage_Participants(), this.getPerson(), null, "participants", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackage_Effort(), ecorePackage.getEIntegerObject(), "effort", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_Outputs(), this.getWorkpackageArtefact(), null, "outputs", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_OwnedTasks(), this.getTask(), null, "ownedTasks", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

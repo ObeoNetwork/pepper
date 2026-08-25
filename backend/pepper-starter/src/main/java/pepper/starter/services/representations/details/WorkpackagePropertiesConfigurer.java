@@ -66,6 +66,7 @@ import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Person;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
+import pepper.peppermm.Team;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
 import pepper.starter.services.representations.PepperMMJavaService;
@@ -190,9 +191,13 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 PepperPackage.Literals.WORKPACKAGE__LEADER, this.getPersonsProvider());
         controls.add(leader);
 
-        var participants = this.propertiesWidgetCreationService.createReferenceWidget("workpackage.participants", workpackageAdapter.getString("_UI_Workpackage_participants_feature"),
-                PepperPackage.Literals.WORKPACKAGE__PARTICIPANTS, this.getPersonsProvider());
+        var participants = this.propertiesWidgetCreationService.createReferenceWidget("workpackage.participants", workpackageAdapter.getString("_UI_AssignableObject_assignedPersons_feature"),
+                PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS, this.getPersonsProvider());
         controls.add(participants);
+
+        var teams = this.propertiesWidgetCreationService.createReferenceWidget("abstractTask.teams", workpackageAdapter.getString("_UI_AssignableObject_assignedTeams_feature"),
+                PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS, this.getTeamsProvider());
+        controls.add(teams);
 
         return controls;
     }
@@ -522,6 +527,16 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .flatMap(this::getAllResourceContentStream)
                 .filter(Person.class::isInstance)
                 .map(Person.class::cast)
+                .toList();
+    }
+
+    private Function<VariableManager, List<?>> getTeamsProvider() {
+        return variableManager -> variableManager.get(VariableManager.SELF, EObject.class)
+                .map(EObject::eResource)
+                .stream()
+                .flatMap(this::getAllResourceContentStream)
+                .filter(Team.class::isInstance)
+                .map(Team.class::cast)
                 .toList();
     }
 

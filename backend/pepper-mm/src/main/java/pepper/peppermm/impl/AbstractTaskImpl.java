@@ -46,8 +46,6 @@ import pepper.peppermm.Team;
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getProgress <em>Progress</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getTags <em>Tags</em>}</li>
- *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedPersons <em>Assigned Persons</em>}</li>
- *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getAssignedTeams <em>Assigned Teams</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getCalculationOption <em>Calculation Option</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDuration <em>Duration</em>}</li>
@@ -55,7 +53,7 @@ import pepper.peppermm.Team;
  *
  * @generated
  */
-public abstract class AbstractTaskImpl extends NamedElementImpl implements AbstractTask {
+public abstract class AbstractTaskImpl extends AssignableObjectImpl implements AbstractTask {
     /**
 	 * The default value of the '{@link #getStartTime() <em>Start Time</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
@@ -143,26 +141,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 	 * @ordered
 	 */
     protected EList<TaskTag> tags;
-
-    /**
-     * The cached value of the '{@link #getAssignedPersons() <em>Assigned Persons</em>}' reference list. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #getAssignedPersons()
-     * @generated
-     * @ordered
-     */
-    protected EList<Person> assignedPersons;
-
-    /**
-	 * The cached value of the '{@link #getAssignedTeams() <em>Assigned Teams</em>}' reference list.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @see #getAssignedTeams()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList<Team> assignedTeams;
 
     /**
      * The cached value of the '{@link #getSubTasks() <em>Sub Tasks</em>}' containment reference list. <!--
@@ -337,30 +315,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 	 * @generated
 	 */
     @Override
-    public EList<Person> getAssignedPersons() {
-		if (assignedPersons == null) {
-			assignedPersons = new EObjectResolvingEList<Person>(Person.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS);
-		}
-		return assignedPersons;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
-    public EList<Team> getAssignedTeams() {
-		if (assignedTeams == null) {
-			assignedTeams = new EObjectResolvingEList<Team>(Team.class, this, PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS);
-		}
-		return assignedTeams;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public EList<Task> getSubTasks() {
 		if (subTasks == null) {
 			subTasks = new EObjectContainmentEList<Task>(Task.class, this, PepperPackage.ABSTRACT_TASK__SUB_TASKS);
@@ -441,10 +395,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 				return isComputeStartEndDynamically();
 			case PepperPackage.ABSTRACT_TASK__TAGS:
 				return getTags();
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-				return getAssignedPersons();
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-				return getAssignedTeams();
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
 				return getSubTasks();
 			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
@@ -478,14 +428,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 			case PepperPackage.ABSTRACT_TASK__TAGS:
 				getTags().clear();
 				getTags().addAll((Collection<? extends TaskTag>)newValue);
-				return;
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-				getAssignedPersons().clear();
-				getAssignedPersons().addAll((Collection<? extends Person>)newValue);
-				return;
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-				getAssignedTeams().clear();
-				getAssignedTeams().addAll((Collection<? extends Team>)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
 				getSubTasks().clear();
@@ -523,12 +465,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 			case PepperPackage.ABSTRACT_TASK__TAGS:
 				getTags().clear();
 				return;
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-				getAssignedPersons().clear();
-				return;
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-				getAssignedTeams().clear();
-				return;
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
 				getSubTasks().clear();
 				return;
@@ -559,10 +495,6 @@ public abstract class AbstractTaskImpl extends NamedElementImpl implements Abstr
 				return computeStartEndDynamically != COMPUTE_START_END_DYNAMICALLY_EDEFAULT;
 			case PepperPackage.ABSTRACT_TASK__TAGS:
 				return tags != null && !tags.isEmpty();
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_PERSONS:
-				return assignedPersons != null && !assignedPersons.isEmpty();
-			case PepperPackage.ABSTRACT_TASK__ASSIGNED_TEAMS:
-				return assignedTeams != null && !assignedTeams.isEmpty();
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
 				return subTasks != null && !subTasks.isEmpty();
 			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:

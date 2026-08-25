@@ -26,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link pepper.peppermm.Workpackage#getStartDate <em>Start Date</em>}</li>
  *   <li>{@link pepper.peppermm.Workpackage#getEndDate <em>End Date</em>}</li>
  *   <li>{@link pepper.peppermm.Workpackage#getLeader <em>Leader</em>}</li>
- *   <li>{@link pepper.peppermm.Workpackage#getParticipants <em>Participants</em>}</li>
  *   <li>{@link pepper.peppermm.Workpackage#getEffort <em>Effort</em>}</li>
  *   <li>{@link pepper.peppermm.Workpackage#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link pepper.peppermm.Workpackage#getOwnedTasks <em>Owned Tasks</em>}</li>
@@ -40,7 +39,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Workpackage extends NamedElement, DependencyRelatedObject {
+public interface Workpackage extends AssignableObject, DependencyRelatedObject {
     /**
 	 * Returns the value of the '<em><b>Start Date</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -106,17 +105,6 @@ public interface Workpackage extends NamedElement, DependencyRelatedObject {
      * @generated
      */
     void setLeader(Person value);
-
-    /**
-	 * Returns the value of the '<em><b>Participants</b></em>' reference list.
-	 * The list contents are of type {@link pepper.peppermm.Person}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Participants</em>' reference list.
-	 * @see pepper.peppermm.PepperPackage#getWorkpackage_Participants()
-	 * @model
-	 * @generated
-	 */
-    EList<Person> getParticipants();
 
     /**
 	 * Returns the value of the '<em><b>Effort</b></em>' attribute.

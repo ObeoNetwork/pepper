@@ -50,7 +50,6 @@ import pepper.peppermm.WorkpackageArtefact;
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getStartDate <em>Start Date</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getEndDate <em>End Date</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getLeader <em>Leader</em>}</li>
- *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getParticipants <em>Participants</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getEffort <em>Effort</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link pepper.peppermm.impl.WorkpackageImpl#getOwnedTasks <em>Owned Tasks</em>}</li>
@@ -62,7 +61,7 @@ import pepper.peppermm.WorkpackageArtefact;
  *
  * @generated
  */
-public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
+public class WorkpackageImpl extends AssignableObjectImpl implements Workpackage {
     /**
      * The cached value of the '{@link #getDependencies() <em>Dependencies</em>}' containment reference list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
@@ -122,16 +121,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 	 * @ordered
 	 */
     protected Person leader;
-
-    /**
-	 * The cached value of the '{@link #getParticipants() <em>Participants</em>}' reference list.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @see #getParticipants()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList<Person> participants;
 
     /**
 	 * The default value of the '{@link #getEffort() <em>Effort</em>}' attribute.
@@ -423,18 +412,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 	 * @generated
 	 */
     @Override
-    public EList<Person> getParticipants() {
-		if (participants == null) {
-			participants = new EObjectResolvingEList<Person>(Person.class, this, PepperPackage.WORKPACKAGE__PARTICIPANTS);
-		}
-		return participants;
-	}
-
-    /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    @Override
     public Integer getEffort() {
 		return effort;
 	}
@@ -586,8 +563,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 			case PepperPackage.WORKPACKAGE__LEADER:
 				if (resolve) return getLeader();
 				return basicGetLeader();
-			case PepperPackage.WORKPACKAGE__PARTICIPANTS:
-				return getParticipants();
 			case PepperPackage.WORKPACKAGE__EFFORT:
 				return getEffort();
 			case PepperPackage.WORKPACKAGE__OUTPUTS:
@@ -626,10 +601,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 				return;
 			case PepperPackage.WORKPACKAGE__LEADER:
 				setLeader((Person)newValue);
-				return;
-			case PepperPackage.WORKPACKAGE__PARTICIPANTS:
-				getParticipants().clear();
-				getParticipants().addAll((Collection<? extends Person>)newValue);
 				return;
 			case PepperPackage.WORKPACKAGE__EFFORT:
 				setEffort((Integer)newValue);
@@ -678,9 +649,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 			case PepperPackage.WORKPACKAGE__LEADER:
 				setLeader((Person)null);
 				return;
-			case PepperPackage.WORKPACKAGE__PARTICIPANTS:
-				getParticipants().clear();
-				return;
 			case PepperPackage.WORKPACKAGE__EFFORT:
 				setEffort(EFFORT_EDEFAULT);
 				return;
@@ -721,8 +689,6 @@ public class WorkpackageImpl extends NamedElementImpl implements Workpackage {
 				return END_DATE_EDEFAULT == null ? endDate != null : !END_DATE_EDEFAULT.equals(endDate);
 			case PepperPackage.WORKPACKAGE__LEADER:
 				return leader != null;
-			case PepperPackage.WORKPACKAGE__PARTICIPANTS:
-				return participants != null && !participants.isEmpty();
 			case PepperPackage.WORKPACKAGE__EFFORT:
 				return EFFORT_EDEFAULT == null ? effort != null : !EFFORT_EDEFAULT.equals(effort);
 			case PepperPackage.WORKPACKAGE__OUTPUTS:

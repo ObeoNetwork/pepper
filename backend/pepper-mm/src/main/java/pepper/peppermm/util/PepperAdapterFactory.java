@@ -104,6 +104,10 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 				return createPersonAdapter();
 			}
 			@Override
+			public Adapter caseAssignableObject(AssignableObject object) {
+				return createAssignableObjectAdapter();
+			}
+			@Override
 			public Adapter caseAbstractTask(AbstractTask object) {
 				return createAbstractTaskAdapter();
 			}
@@ -276,6 +280,20 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
+	 * Creates a new adapter for an object of class '{@link pepper.peppermm.AssignableObject <em>Assignable Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see pepper.peppermm.AssignableObject
+	 * @generated
+	 */
+	public Adapter createAssignableObjectAdapter() {
+		return null;
+	}
+
+				/**
      * Creates a new adapter for an object of class '{@link AbstractTask <em>Abstract Task</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->

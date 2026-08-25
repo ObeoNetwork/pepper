@@ -205,12 +205,12 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 PepperPackage.Literals.ABSTRACT_TASK__TAGS, this.getTagsProvider());
         controls.add(tags);
 
-        var persons = this.propertiesWidgetCreationService.createReferenceWidget("abstractTask.persons", abstractTaskAdapter.getString("_UI_AbstractTask_assignedPersons_feature"),
-                PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_PERSONS, this.getPersonsProvider());
+        var persons = this.propertiesWidgetCreationService.createReferenceWidget("abstractTask.persons", abstractTaskAdapter.getString("_UI_AssignableObject_assignedPersons_feature"),
+                PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS, this.getPersonsProvider());
         controls.add(persons);
 
-        var teams = this.propertiesWidgetCreationService.createReferenceWidget("abstractTask.teams", abstractTaskAdapter.getString("_UI_AbstractTask_assignedTeams_feature"),
-                PepperPackage.Literals.ABSTRACT_TASK__ASSIGNED_TEAMS, this.getTeamsProvider());
+        var teams = this.propertiesWidgetCreationService.createReferenceWidget("abstractTask.teams", abstractTaskAdapter.getString("_UI_AssignableObject_assignedTeams_feature"),
+                PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS, this.getTeamsProvider());
         controls.add(teams);
 
         return controls;
