@@ -83,14 +83,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Person/biography"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Person/imageUrl"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="pepper.ecore#//AssignableObject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AssignableObject/assignedPersons"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AssignableObject/assignedTeams"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="pepper.ecore#//AbstractTask">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/startTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/endTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/progress"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/computeStartEndDynamically"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/tags"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedPersons"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/assignedTeams"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/subTasks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/calculationOption"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/duration"/>
@@ -145,7 +147,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/startDate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/endDate"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/leader"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/participants"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//Workpackage/effort"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/outputs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Workpackage/ownedTasks"/>

@@ -30,8 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link pepper.peppermm.AbstractTask#getProgress <em>Progress</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#isComputeStartEndDynamically <em>Compute Start End Dynamically</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getTags <em>Tags</em>}</li>
- *   <li>{@link pepper.peppermm.AbstractTask#getAssignedPersons <em>Assigned Persons</em>}</li>
- *   <li>{@link pepper.peppermm.AbstractTask#getAssignedTeams <em>Assigned Teams</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getSubTasks <em>Sub Tasks</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getCalculationOption <em>Calculation Option</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getDuration <em>Duration</em>}</li>
@@ -41,7 +39,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractTask extends NamedElement {
+public interface AbstractTask extends AssignableObject {
     /**
 	 * Returns the value of the '<em><b>Start Time</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -139,28 +137,6 @@ public interface AbstractTask extends NamedElement {
 	 * @generated
 	 */
     EList<TaskTag> getTags();
-
-    /**
-	 * Returns the value of the '<em><b>Assigned Persons</b></em>' reference list.
-	 * The list contents are of type {@link pepper.peppermm.Person}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Assigned Persons</em>' reference list.
-	 * @see pepper.peppermm.PepperPackage#getAbstractTask_AssignedPersons()
-	 * @model
-	 * @generated
-	 */
-    EList<Person> getAssignedPersons();
-
-    /**
-	 * Returns the value of the '<em><b>Assigned Teams</b></em>' reference list.
-	 * The list contents are of type {@link pepper.peppermm.Team}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @return the value of the '<em>Assigned Teams</em>' reference list.
-	 * @see pepper.peppermm.PepperPackage#getAbstractTask_AssignedTeams()
-	 * @model
-	 * @generated
-	 */
-    EList<Team> getAssignedTeams();
 
     /**
 	 * Returns the value of the '<em><b>Sub Tasks</b></em>' containment reference list.

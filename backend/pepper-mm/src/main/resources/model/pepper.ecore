@@ -36,17 +36,19 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="biography" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="AssignableObject" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPersons" upperBound="-1"
+        eType="#//Person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTeams" upperBound="-1"
+        eType="#//Team"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true" eSuperTypes="#//AssignableObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="#//Instant"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endTime" eType="#//Instant"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="progress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="computeStartEndDynamically"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//TaskTag"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPersons" upperBound="-1"
-        eType="#//Person"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTeams" upperBound="-1"
-        eType="#//Team"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subTasks" upperBound="-1"
         eType="#//Task" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationOption" eType="#//TaskTimeBoundariesConstraint"
@@ -114,12 +116,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientNeed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Workpackage" eSuperTypes="#//NamedElement #//DependencyRelatedObject">
+  <eClassifiers xsi:type="ecore:EClass" name="Workpackage" eSuperTypes="#//AssignableObject #//DependencyRelatedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leader" eType="#//Person"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" upperBound="-1"
-        eType="#//Person"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="effort" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
         eType="#//WorkpackageArtefact" containment="true"/>

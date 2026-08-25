@@ -46,7 +46,7 @@ import pepper.peppermm.Workpackage;
  * end-user-doc -->
  * @generated
  */
-public class WorkpackageItemProvider extends NamedElementItemProvider {
+public class WorkpackageItemProvider extends AssignableObjectItemProvider {
     /**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,7 +69,6 @@ public class WorkpackageItemProvider extends NamedElementItemProvider {
 			addStartDatePropertyDescriptor(object);
 			addEndDatePropertyDescriptor(object);
 			addLeaderPropertyDescriptor(object);
-			addParticipantsPropertyDescriptor(object);
 			addEffortPropertyDescriptor(object);
 			addProgressPropertyDescriptor(object);
 			addCalculationOptionPropertyDescriptor(object);
@@ -133,27 +132,6 @@ public class WorkpackageItemProvider extends NamedElementItemProvider {
 				 getString("_UI_Workpackage_leader_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_leader_feature", "_UI_Workpackage_type"),
 				 PepperPackage.Literals.WORKPACKAGE__LEADER,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-    /**
-	 * This adds a property descriptor for the Participants feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected void addParticipantsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Workpackage_participants_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Workpackage_participants_feature", "_UI_Workpackage_type"),
-				 PepperPackage.Literals.WORKPACKAGE__PARTICIPANTS,
 				 true,
 				 false,
 				 true,
