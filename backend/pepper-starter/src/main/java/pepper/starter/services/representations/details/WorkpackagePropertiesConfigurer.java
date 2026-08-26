@@ -69,6 +69,8 @@ import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.messages.IPepperMessageService;
+import pepper.starter.messages.MessageConstants;
 import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
@@ -95,13 +97,16 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
     private final WorkpackageComputationService workpackageComputationService;
 
+    private final IPepperMessageService pepperMessageService;
+
     public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService,
-            WorkpackageComputationService workpackageComputationService) {
+            WorkpackageComputationService workpackageComputationService, IPepperMessageService pepperMMMessageService) {
         this.identityService = identityService;
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
         this.workpackageComputationService = workpackageComputationService;
+        this.pepperMessageService = pepperMMMessageService;
     }
 
     @Override
@@ -118,7 +123,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         GroupDescription groupDescriptionGeneral = this.propertiesWidgetCreationService.createSimpleGroupDescription(controlsGeneral);
         GroupDescription groupDescriptionRessources = GroupDescription.newGroupDescription("group2")
                 .idProvider(variableManager -> "group2")
-                .labelProvider(variableManager -> "Ressources")
+                .labelProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.RESOURCES))
                 .semanticElementsProvider(this.propertiesConfigurerService.getSemanticElementsProvider())
                 .controlDescriptions(controlsRessources)
                 .build();
@@ -270,6 +275,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_COMPUTATION_OPTION))
                 .build();
     }
 
@@ -315,6 +321,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__DURATION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION))
                 .build();
     }
 
@@ -422,6 +429,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE))
                 .build();
     }
 
@@ -474,6 +482,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE))
                 .build();
     }
 
