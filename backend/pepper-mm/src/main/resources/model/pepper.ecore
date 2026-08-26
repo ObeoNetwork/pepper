@@ -54,6 +54,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationOption" eType="#//TaskTimeBoundariesConstraint"
         defaultValueLiteral="START_END"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effort" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TagFolder">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -120,7 +121,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="#//Date"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leader" eType="#//Person"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effort" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effort" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
         eType="#//WorkpackageArtefact" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTasks" upperBound="-1"

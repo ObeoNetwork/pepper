@@ -110,25 +110,24 @@ public interface Workpackage extends AssignableObject, DependencyRelatedObject {
 	 * Returns the value of the '<em><b>Effort</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Effort</em>' attribute.
-	 * @see #setEffort(Integer)
+	 * @see #setEffort(int)
 	 * @see pepper.peppermm.PepperPackage#getWorkpackage_Effort()
 	 * @model
 	 * @generated
 	 */
-    Integer getEffort();
+    int getEffort();
 
     /**
-     * Sets the value of the '{@link Workpackage#getEffort <em>Effort</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Effort</em>' attribute.
-     * @see #getEffort()
-     * @generated
-     */
-    void setEffort(Integer value);
+	 * Sets the value of the '{@link pepper.peppermm.Workpackage#getEffort <em>Effort</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Effort</em>' attribute.
+	 * @see #getEffort()
+	 * @generated
+	 */
+	void setEffort(int value);
 
-    /**
+				/**
 	 * Returns the value of the '<em><b>Outputs</b></em>' containment reference list.
 	 * The list contents are of type {@link pepper.peppermm.WorkpackageArtefact}.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

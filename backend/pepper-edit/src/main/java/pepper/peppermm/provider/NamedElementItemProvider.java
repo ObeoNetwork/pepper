@@ -67,8 +67,8 @@ public class NamedElementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-            this.addNamePropertyDescriptor(object);
-            this.addDescriptionPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addDescriptionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -81,11 +81,11 @@ public class NamedElementItemProvider
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(this.createItemPropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                        this.getResourceLocator(),
-                        this.getString("_UI_NamedElement_name_feature"),
-                        this.getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
+				 getResourceLocator(),
+				 getString("_UI_NamedElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
 				 PepperPackage.Literals.NAMED_ELEMENT__NAME,
 				 true,
 				 false,
@@ -103,11 +103,11 @@ public class NamedElementItemProvider
 	 */
 	protected void addDescriptionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(this.createItemPropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                        this.getResourceLocator(),
-                        this.getString("_UI_NamedElement_description_feature"),
-                        this.getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_description_feature", "_UI_NamedElement_type"),
+				 getResourceLocator(),
+				 getString("_UI_NamedElement_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_description_feature", "_UI_NamedElement_type"),
 				 PepperPackage.Literals.NAMED_ELEMENT__DESCRIPTION,
 				 true,
 				 false,
@@ -137,8 +137,8 @@ public class NamedElementItemProvider
 	public String getText(Object object) {
 		String label = ((NamedElement)object).getName();
 		return label == null || label.length() == 0 ?
-                this.getString("_UI_NamedElement_type") :
-                this.getString("_UI_NamedElement_type") + " " + label;
+			getString("_UI_NamedElement_type") :
+			getString("_UI_NamedElement_type") + " " + label;
 	}
 
 
@@ -151,12 +151,12 @@ public class NamedElementItemProvider
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-        this.updateChildren(notification);
+		updateChildren(notification);
 
 		switch (notification.getFeatureID(NamedElement.class)) {
 			case PepperPackage.NAMED_ELEMENT__NAME:
 			case PepperPackage.NAMED_ELEMENT__DESCRIPTION:
-                this.fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);

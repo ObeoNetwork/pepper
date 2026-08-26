@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link pepper.peppermm.AbstractTask#getSubTasks <em>Sub Tasks</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getCalculationOption <em>Calculation Option</em>}</li>
  *   <li>{@link pepper.peppermm.AbstractTask#getDuration <em>Duration</em>}</li>
+ *   <li>{@link pepper.peppermm.AbstractTask#getEffort <em>Effort</em>}</li>
  * </ul>
  *
  * @see pepper.peppermm.PepperPackage#getAbstractTask()
@@ -194,5 +195,27 @@ public interface AbstractTask extends AssignableObject {
      * @generated
      */
     void setDuration(int value);
+
+				/**
+	 * Returns the value of the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Effort</em>' attribute.
+	 * @see #setEffort(int)
+	 * @see pepper.peppermm.PepperPackage#getAbstractTask_Effort()
+	 * @model
+	 * @generated
+	 */
+	int getEffort();
+
+				/**
+	 * Sets the value of the '{@link pepper.peppermm.AbstractTask#getEffort <em>Effort</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Effort</em>' attribute.
+	 * @see #getEffort()
+	 * @generated
+	 */
+	void setEffort(int value);
 
 } // AbstractTask

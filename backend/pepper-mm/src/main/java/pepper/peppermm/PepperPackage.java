@@ -624,13 +624,22 @@ public interface PepperPackage extends EPackage {
     int ABSTRACT_TASK__DURATION = ASSIGNABLE_OBJECT_FEATURE_COUNT + 7;
 
     /**
+	 * The feature id for the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_TASK__EFFORT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 8;
+
+				/**
 	 * The number of structural features of the '<em>Abstract Task</em>' class.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ABSTRACT_TASK_FEATURE_COUNT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 8;
+    int ABSTRACT_TASK_FEATURE_COUNT = ASSIGNABLE_OBJECT_FEATURE_COUNT + 9;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
@@ -823,6 +832,15 @@ public interface PepperPackage extends EPackage {
     int TASK__DURATION = ABSTRACT_TASK__DURATION;
 
     /**
+	 * The feature id for the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK__EFFORT = ABSTRACT_TASK__EFFORT;
+
+				/**
      * The feature id for the '<em><b>Dependencies</b></em>' reference list. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
@@ -951,6 +969,15 @@ public interface PepperPackage extends EPackage {
     int OBJECTIVE__DURATION = ABSTRACT_TASK__DURATION;
 
     /**
+	 * The feature id for the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECTIVE__EFFORT = ABSTRACT_TASK__EFFORT;
+
+				/**
 	 * The feature id for the '<em><b>Owned Key Results</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1080,6 +1107,15 @@ public interface PepperPackage extends EPackage {
     int KEY_RESULT__DURATION = ABSTRACT_TASK__DURATION;
 
     /**
+	 * The feature id for the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KEY_RESULT__EFFORT = ABSTRACT_TASK__EFFORT;
+
+				/**
      * The number of structural features of the '<em>Key Result</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
@@ -2248,6 +2284,17 @@ public interface PepperPackage extends EPackage {
     EAttribute getAbstractTask_Duration();
 
     /**
+	 * Returns the meta object for the attribute '{@link pepper.peppermm.AbstractTask#getEffort <em>Effort</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Effort</em>'.
+	 * @see pepper.peppermm.AbstractTask#getEffort()
+	 * @see #getAbstractTask()
+	 * @generated
+	 */
+	EAttribute getAbstractTask_Effort();
+
+				/**
 	 * Returns the meta object for class '{@link pepper.peppermm.TagFolder <em>Tag Folder</em>}'.
 	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
@@ -3465,6 +3512,14 @@ public interface PepperPackage extends EPackage {
         EAttribute ABSTRACT_TASK__DURATION = eINSTANCE.getAbstractTask_Duration();
 
         /**
+		 * The meta object literal for the '<em><b>Effort</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ABSTRACT_TASK__EFFORT = eINSTANCE.getAbstractTask_Effort();
+
+								/**
          * The meta object literal for the '{@link pepper.peppermm.impl.TagFolderImpl <em>Tag Folder</em>}' class. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 

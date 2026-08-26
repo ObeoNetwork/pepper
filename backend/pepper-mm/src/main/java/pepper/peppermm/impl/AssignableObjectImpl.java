@@ -112,9 +112,9 @@ public abstract class AssignableObjectImpl extends NamedElementImpl implements A
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS:
-				return this.getAssignedPersons();
+				return getAssignedPersons();
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS:
-				return this.getAssignedTeams();
+				return getAssignedTeams();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -129,12 +129,12 @@ public abstract class AssignableObjectImpl extends NamedElementImpl implements A
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS:
-                this.getAssignedPersons().clear();
-                this.getAssignedPersons().addAll((Collection<? extends Person>)newValue);
+				getAssignedPersons().clear();
+				getAssignedPersons().addAll((Collection<? extends Person>)newValue);
 				return;
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS:
-                this.getAssignedTeams().clear();
-                this.getAssignedTeams().addAll((Collection<? extends Team>)newValue);
+				getAssignedTeams().clear();
+				getAssignedTeams().addAll((Collection<? extends Team>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -149,10 +149,10 @@ public abstract class AssignableObjectImpl extends NamedElementImpl implements A
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS:
-                this.getAssignedPersons().clear();
+				getAssignedPersons().clear();
 				return;
 			case PepperPackage.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS:
-                this.getAssignedTeams().clear();
+				getAssignedTeams().clear();
 				return;
 		}
 		super.eUnset(featureID);
