@@ -176,8 +176,7 @@ public class TaskComputationService {
 
     public Instant roundToNearestHalfDay(Instant instant) {
         return Optional.ofNullable(instant)
-                .map(inst -> inst.plus(Duration.ofHours(6))
-                .truncatedTo(ChronoUnit.HALF_DAYS))
+                .map(inst -> inst.plus(Duration.ofHours(6)).truncatedTo(ChronoUnit.HALF_DAYS))
                 .orElse(null);
     }
 
