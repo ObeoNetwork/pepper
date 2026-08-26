@@ -75,6 +75,8 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.messages.MessageConstants;
+import pepper.starter.messages.PepperMessageService;
 import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
@@ -103,14 +105,17 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private final PepperMMJavaService service;
 
+    private final PepperMessageService pepperMessageService;
+
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
-            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
+            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService, PepperMessageService pepperMessageService) {
         this.identityService = Objects.requireNonNull(identityService);
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
         this.taskComputationService = Objects.requireNonNull(taskComputationService);
         this.workpackageComputationService = Objects.requireNonNull(workpackageComputationService);
+        this.pepperMessageService = pepperMessageService;
         this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService, this.workpackageComputationService);
     }
 
@@ -283,6 +288,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_COMPUTATION_OPTION))
                 .build();
     }
 
@@ -328,6 +334,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__DURATION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -463,6 +470,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -511,6 +519,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
