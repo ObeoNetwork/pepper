@@ -606,6 +606,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getAbstractTask_Effort() {
+		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(8);
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1488,6 +1498,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		createEReference(abstractTaskEClass, ABSTRACT_TASK__SUB_TASKS);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__CALCULATION_OPTION);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__DURATION);
+		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__EFFORT);
 
 		tagFolderEClass = createEClass(TAG_FOLDER);
 		createEAttribute(tagFolderEClass, TAG_FOLDER__NAME);
@@ -1682,6 +1693,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEReference(getAbstractTask_SubTasks(), this.getTask(), null, "subTasks", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_CalculationOption(), this.getTaskTimeBoundariesConstraint(), "calculationOption", "START_END", 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAbstractTask_Effort(), ecorePackage.getEInt(), "effort", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tagFolderEClass, TagFolder.class, "TagFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTagFolder_Name(), ecorePackage.getEString(), "name", null, 0, 1, TagFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1735,7 +1747,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getWorkpackage_StartDate(), this.getDate(), "startDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkpackage_EndDate(), this.getDate(), "endDate", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_Leader(), this.getPerson(), null, "leader", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWorkpackage_Effort(), ecorePackage.getEIntegerObject(), "effort", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkpackage_Effort(), ecorePackage.getEInt(), "effort", null, 0, 1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_Outputs(), this.getWorkpackageArtefact(), null, "outputs", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_OwnedTasks(), this.getTask(), null, "ownedTasks", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWorkpackage_OwnedObjectives(), this.getObjective(), null, "ownedObjectives", null, 0, -1, Workpackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

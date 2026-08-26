@@ -96,6 +96,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//AbstractTask/subTasks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/calculationOption"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//AbstractTask/effort"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//TagFolder">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TagFolder/name"/>
