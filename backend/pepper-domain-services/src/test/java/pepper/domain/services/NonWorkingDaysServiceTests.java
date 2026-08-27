@@ -216,36 +216,4 @@ public class NonWorkingDaysServiceTests {
 
         assertThat(service.getStartTime(endTime, 24)).isEqualTo(Instant.parse("2026-07-13T12:00:00Z"));
     }
-
-    @Test
-    public void getStartDateSkipsWeekendDays() {
-        var service = new NonWorkingDaysService();
-        LocalDate endDate = LocalDate.of(2026, 8, 3);
-
-        assertThat(service.getStartDate(endDate, 1)).isEqualTo(LocalDate.of(2026, 7, 31));
-    }
-
-    @Test
-    public void getStartDateSkipsNonWorkingDays() {
-        var service = new NonWorkingDaysService();
-        LocalDate endDate = LocalDate.of(2026, 7, 15);
-
-        assertThat(service.getStartDate(endDate, 1)).isEqualTo(LocalDate.of(2026, 7, 13));
-    }
-
-    @Test
-    public void getEndDateSkipsWeekendDays() {
-        var service = new NonWorkingDaysService();
-        LocalDate startDate = LocalDate.of(2026, 7, 31);
-
-        assertThat(service.getEndDate(startDate, 2)).isEqualTo(LocalDate.of(2026, 8, 4));
-    }
-
-    @Test
-    public void getEndDateSkipsNonWorkingDays() {
-        var service = new NonWorkingDaysService();
-        LocalDate startDate = LocalDate.of(2026, 7, 13);
-
-        assertThat(service.getEndDate(startDate, 2)).isEqualTo(LocalDate.of(2026, 7, 16));
-    }
 }

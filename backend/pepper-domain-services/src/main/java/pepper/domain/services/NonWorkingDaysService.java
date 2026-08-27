@@ -256,52 +256,6 @@ public class NonWorkingDaysService {
         return currentStartTime;
     }
 
-    /**
-     * Returns the start date reached after moving backward by the specified number of working days
-     * from {@code endDate}. The end date is excluded. Non-working days in week and configured fixed
-     * non-working days do not consume any duration.
-     *
-     * @param endDate
-     *            the non-null end date
-     * @param durationInDays
-     *            the number of working days to subtract
-     * @return the resulting start date
-     */
-    public LocalDate getStartDate(LocalDate endDate, int durationInDays) {
-        int remainingDays = durationInDays;
-        LocalDate currentStartDate = endDate;
-        while (remainingDays > 0) {
-            currentStartDate = currentStartDate.minusDays(1);
-            if (!this.isNonWorkingDay(currentStartDate)) {
-                remainingDays--;
-            }
-        }
-        return currentStartDate;
-    }
-
-    /**
-     * Returns the exclusive end date reached after moving forward by the specified number of working
-     * days from {@code startDate}. The start date is included. Non-working days in week and configured
-     * fixed non-working days do not consume any duration.
-     *
-     * @param startDate
-     *            the non-null start date
-     * @param durationInDays
-     *            the number of working days to add
-     * @return the resulting exclusive end date
-     */
-    public LocalDate getEndDate(LocalDate startDate, int durationInDays) {
-        int remainingDays = durationInDays;
-        LocalDate currentEndDate = startDate;
-        while (remainingDays > 0) {
-            if (!this.isNonWorkingDay(currentEndDate)) {
-                remainingDays--;
-            }
-            currentEndDate = currentEndDate.plusDays(1);
-        }
-        return currentEndDate;
-    }
-
     private boolean isNonWorkingDay(LocalDate date) {
         return NON_WORKING_DAYS_IN_WEEK.contains(date.getDayOfWeek()) || FRENCH_NON_WORKING_DAYS_2026.contains(date);
     }
