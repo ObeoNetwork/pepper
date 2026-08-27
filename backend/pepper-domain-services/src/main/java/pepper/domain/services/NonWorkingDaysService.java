@@ -145,8 +145,8 @@ public class NonWorkingDaysService {
         if (instant == null) {
             return null;
         }
-        Instant nextEndTime = instant.minus(1, ChronoUnit.MINUTES);
-        if (this.isNonWorkingDay(nextEndTime.atZone(ZoneOffset.UTC).toLocalDate())) {
+        Instant nextEndTime = instant;
+        if (this.isNonWorkingDay(nextEndTime.minus(1, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).toLocalDate())) {
             nextEndTime = instant.plus(6, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HALF_DAYS);
             while (this.isNonWorkingDay(nextEndTime.atZone(ZoneOffset.UTC).toLocalDate())) {
                 nextEndTime = nextEndTime.plus(1, ChronoUnit.HALF_DAYS);
