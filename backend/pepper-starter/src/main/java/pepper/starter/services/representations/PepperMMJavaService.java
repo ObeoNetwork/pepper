@@ -105,7 +105,7 @@ public class PepperMMJavaService {
         return laterInstant;
     }
 
-    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MethodLength" })
+    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MethodLength", "checkstyle:MissingSwitchDefault" })
     public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepDuration) {
         if (eObject instanceof Task task) {
             if (name != null) {
@@ -130,58 +130,32 @@ public class PepperMMJavaService {
                     boolean endTimeControlledByDependency =
                             dependencies.stream()
                                     .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
-                    TaskTimeBoundariesConstraint calculationOption = task.getCalculationOption();
 
-                    if (startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        if (differenceStart != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                            }
-                        }
-                        if (differenceEnd != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                            } else {
-                                taskComputationService.updateEndTime(task, newEndTime);
-                            }
-                        }
-                    } else if (!startTimeControlledByDependency && endTimeControlledByDependency) {
-                        if (differenceStart != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                            } else {
-                                taskComputationService.updateStartTime(task, newStartTime);
-                            }
-                        }
-                        if (differenceEnd != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                            }
-                        }
-                    } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        if (taskShifted) {
-                            taskComputationService.updateStartTime(task, newStartTime);
-                            taskComputationService.updateEndTime(task, newEndTime);
-                        } else {
-                            if (differenceStart != 0) {
-                                if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                    taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                                } else {
+                    if (taskShifted) {
+                        if (dependencies.isEmpty()) {
+                            TaskTimeBoundariesConstraint calculationOption = task.getCalculationOption();
+                            switch (calculationOption) {
+                                case START_DURATION -> taskComputationService.updateStartTime(task, newStartTime);
+                                case END_DURATION -> taskComputationService.updateEndTime(task, newEndTime);
+                                case START_END -> {
                                     taskComputationService.updateStartTime(task, newStartTime);
-                                }
-                            }
-                            if (differenceEnd != 0) {
-                                if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                    taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                                } else {
                                     taskComputationService.updateEndTime(task, newEndTime);
                                 }
                             }
+                            this.followMoveDependency(task);
+                        }
+                    } else {
+                        if (differenceStart != 0 && !startTimeControlledByDependency) {
+                            taskComputationService.updateStartTime(task, newStartTime);
+                            this.followMoveDependency(task);
+                        }
+
+                        if (differenceEnd != 0 && !endTimeControlledByDependency) {
+                            taskComputationService.updateEndTime(task, newEndTime);
+                            this.followMoveDependency(task);
                         }
                     }
-                    if (!startTimeControlledByDependency || !endTimeControlledByDependency) {
-                        this.followMoveDependency(task);
-                    }
+
                 }
             }
             if (progress != null) {
@@ -932,7 +906,7 @@ public class PepperMMJavaService {
         }
     }
 
-    @SuppressWarnings("checkstyle:NestedIfDepth")
+    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MissingSwitchDefault" })
     public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepDuration) {
         if (eObject instanceof Workpackage workpackage) {
             if (name != null) {
@@ -952,21 +926,28 @@ public class PepperMMJavaService {
                 boolean endDateControlledByDependency =
                         dependencies.stream()
                                 .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
-                if (dependencies.isEmpty() || differenceEnd != differenceStart) {
-                    if (startDateControlledByDependency && !endDateControlledByDependency) {
-                        this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackageComputationService.updateEndDate(workpackage, endDate.plusDays(differenceStart));
-                    } else if (endDateControlledByDependency && !startDateControlledByDependency) {
-                        this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackageComputationService.updateStartDate(workpackage, startDate.plusDays(differenceEnd));
-                    } else if (!startDateControlledByDependency && !endDateControlledByDependency) {
-                        if (!keepDuration) {
-                            this.workpackageSetDuration(workpackage, startDate, endDate);
+
+                if (differenceStart != 0 && differenceEnd != 0) {
+                    if (dependencies.isEmpty()) {
+                        TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
+                        switch (calculationOption) {
+                            case START_DURATION -> workpackageComputationService.updateStartDate(workpackage, startDate);
+                            case END_DURATION -> workpackageComputationService.updateEndDate(workpackage, endDate);
+                            case START_END -> {
+                                workpackageComputationService.updateStartDate(workpackage, startDate);
+                                workpackageComputationService.updateEndDate(workpackage, endDate);
+                            }
                         }
-                        workpackageComputationService.updateStartDate(workpackage, startDate);
-                        workpackageComputationService.updateEndDate(workpackage, endDate);
+                        this.followMoveDependency(workpackage);
                     }
-                    if (!startDateControlledByDependency || !endDateControlledByDependency) {
+                } else {
+                    if (differenceStart != 0 && !startDateControlledByDependency) {
+                        workpackageComputationService.updateStartDate(workpackage, startDate);
+                        this.followMoveDependency(workpackage);
+                    }
+
+                    if (differenceEnd != 0 && !endDateControlledByDependency) {
+                        workpackageComputationService.updateEndDate(workpackage, endDate);
                         this.followMoveDependency(workpackage);
                     }
                 }
