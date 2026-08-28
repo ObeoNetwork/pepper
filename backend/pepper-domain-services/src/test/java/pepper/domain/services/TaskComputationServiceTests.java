@@ -45,62 +45,64 @@ public class TaskComputationServiceTests {
 
 
     @Test
-    public void updateStartTimeAcrossWeekendUpdatesDurationForStartEndConstraint() {
-        this.updateStartTimeBeforeWeekendAndAssertDuration(TaskTimeBoundariesConstraint.START_END, 24);
+    public void updateStartTimeAcrossWeekendUpdatesEffortForStartEndConstraint() {
+        this.updateStartTimeBeforeWeekendAndAssertEffort(TaskTimeBoundariesConstraint.START_END, 24);
     }
 
     @Test
-    public void updateStartTimeAcrossWeekendPreservesDurationForEndDurationConstraint() {
-        this.updateStartTimeBeforeWeekendAndAssertDuration(TaskTimeBoundariesConstraint.END_DURATION, 24);
+    public void updateStartTimeAcrossWeekendPreservesEffortForEndEffortConstraint() {
+        this.updateStartTimeBeforeWeekendAndAssertEffort(TaskTimeBoundariesConstraint.END_EFFORT, 24);
     }
 
     @Test
-    public void updateStartTimeAcrossWeekendUpdatesDurationForStartDurationConstraint() {
-        this.updateStartTimeBeforeWeekendAndAssertDuration(TaskTimeBoundariesConstraint.START_DURATION, 12);
+    public void updateStartTimeAcrossWeekendUpdatesEffortForStartEffortConstraint() {
+        this.updateStartTimeBeforeWeekendAndAssertEffort(TaskTimeBoundariesConstraint.START_EFFORT, 12);
     }
 
-    private void updateStartTimeBeforeWeekendAndAssertDuration(TaskTimeBoundariesConstraint calculationOption, int expectedDuration) {
+    private void updateStartTimeBeforeWeekendAndAssertEffort(TaskTimeBoundariesConstraint calculationOption, int expectedEffort) {
         Task task1 = this.createTaskBeginningAfterWeekend(calculationOption);
 
         taskComputationService.updateStartTime(task1, FRIDAY_2026_07_31_T12_00);
-        assertThat(task1.getDuration()).isEqualTo(expectedDuration);
+        assertThat(task1.getEffort()).isEqualTo(expectedEffort);
+        assertThat(task1.getDuration()).isEqualTo(expectedEffort);
     }
 
     private Task createTaskBeginningAfterWeekend(TaskTimeBoundariesConstraint calculationOption) {
         Task task1 = PepperFactory.eINSTANCE.createTask();
         task1.setCalculationOption(calculationOption);
-        task1.setDuration(12);
+        task1.setEffort(12);
         taskComputationService.updateStartTime(task1, MONDAY_2026_08_03_T00_00);
         taskComputationService.updateEndTime(task1, MONDAY_2026_08_03_T12_00);
         return task1;
     }
 
     @Test
-    public void updateEndTimeAcrossWeekendUpdatesDurationForStartEndConstraint() {
-        this.updateEndTimePastWeekendAndAssertDuration(TaskTimeBoundariesConstraint.START_END, 36);
+    public void updateEndTimeAcrossWeekendUpdatesEffortForStartEndConstraint() {
+        this.updateEndTimePastWeekendAndAssertEffort(TaskTimeBoundariesConstraint.START_END, 36);
     }
 
     @Test
-    public void updateEndTimeAcrossWeekendPreservesDurationForEndDurationConstraint() {
-        this.updateEndTimePastWeekendAndAssertDuration(TaskTimeBoundariesConstraint.END_DURATION, 12);
+    public void updateEndTimeAcrossWeekendPreservesEffortForEndEffortConstraint() {
+        this.updateEndTimePastWeekendAndAssertEffort(TaskTimeBoundariesConstraint.END_EFFORT, 12);
     }
 
     @Test
-    public void updateEndTimeAcrossWeekendUpdatesDurationForStartDurationConstraint() {
-        this.updateEndTimePastWeekendAndAssertDuration(TaskTimeBoundariesConstraint.START_DURATION, 36);
+    public void updateEndTimeAcrossWeekendUpdatesEffortForStartEffortConstraint() {
+        this.updateEndTimePastWeekendAndAssertEffort(TaskTimeBoundariesConstraint.START_EFFORT, 36);
     }
 
-    private void updateEndTimePastWeekendAndAssertDuration(TaskTimeBoundariesConstraint calculationOption, int expectedDuration) {
+    private void updateEndTimePastWeekendAndAssertEffort(TaskTimeBoundariesConstraint calculationOption, int expectedEffort) {
         Task task1 = this.createTaskEndingBeforeWeekend(calculationOption);
 
         taskComputationService.updateEndTime(task1, MONDAY_2026_08_03_T12_00);
-        assertThat(task1.getDuration()).isEqualTo(expectedDuration);
+        assertThat(task1.getEffort()).isEqualTo(expectedEffort);
+        assertThat(task1.getDuration()).isEqualTo(expectedEffort);
     }
 
     private Task createTaskEndingBeforeWeekend(TaskTimeBoundariesConstraint calculationOption) {
         Task task1 = PepperFactory.eINSTANCE.createTask();
         task1.setCalculationOption(calculationOption);
-        task1.setDuration(12);
+        task1.setEffort(12);
         taskComputationService.updateStartTime(task1, FRIDAY_2026_07_31_T00_00);
         taskComputationService.updateEndTime(task1, FRIDAY_2026_07_31_T12_00);
         return task1;

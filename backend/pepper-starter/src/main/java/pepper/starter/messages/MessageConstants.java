@@ -85,6 +85,7 @@ public final class MessageConstants {
     public static final String RESOURCES = "RESOURCES";
 
     public static final String HELP_DURATION = "HELP_DURATION";
+    public static final String HELP_EFFORT = "HELP_EFFORT";
     public static final String HELP_DATE = "HELP_DATE";
     public static final String HELP_ROUNDED_TO_HALF_DAY = "HELP_ROUNDED_TO_HALF_DAY";
     public static final String HELP_COMPUTATION_OPTION = "HELP_COMPUTATION_OPTION";

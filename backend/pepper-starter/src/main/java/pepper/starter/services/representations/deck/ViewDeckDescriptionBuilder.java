@@ -137,7 +137,7 @@ public class ViewDeckDescriptionBuilder {
             .name("Card Description")
             .semanticCandidatesExpression("aql:self.getTasksWithTag(deckTarget)")
             .titleExpression(AQL_SELF_NAME)
-            .labelExpression("aql:self.computeTaskDurationDays()")
+            .labelExpression("aql:self.computeTaskEffortDays()")
             .descriptionExpression(AQL_SELF_DESCRIPTION)
             .editTool(editCardTool)
             .deleteTool(deleteCardTool)

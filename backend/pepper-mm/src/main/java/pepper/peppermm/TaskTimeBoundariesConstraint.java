@@ -36,22 +36,22 @@ public enum TaskTimeBoundariesConstraint implements Enumerator {
     START_END(0, "StartEnd", "START_END"),
 
     /**
-	 * The '<em><b>End Duration</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #END_DURATION_VALUE
+	 * The '<em><b>End Effort</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #END_EFFORT_VALUE
 	 * @generated
 	 * @ordered
 	 */
-    END_DURATION(1, "EndDuration", "END_DURATION"),
-
-    /**
-	 * The '<em><b>Start Duration</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #START_DURATION_VALUE
+	END_EFFORT(1, "EndEffort", "END_EFFORT"), /**
+	 * The '<em><b>Start Effort</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #START_EFFORT_VALUE
 	 * @generated
 	 * @ordered
 	 */
-    START_DURATION(2, "StartDuration", "START_DURATION");
+	START_EFFORT(2, "StartEffort", "START_EFFORT");
 
     /**
 	 * The '<em><b>Start End</b></em>' literal value.
@@ -64,26 +64,28 @@ public enum TaskTimeBoundariesConstraint implements Enumerator {
     public static final int START_END_VALUE = 0;
 
     /**
-	 * The '<em><b>End Duration</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #END_DURATION
-	 * @model name="EndDuration" literal="END_DURATION"
+	 * The '<em><b>End Effort</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #END_EFFORT
+	 * @model name="EndEffort" literal="END_EFFORT"
 	 * @generated
 	 * @ordered
 	 */
-    public static final int END_DURATION_VALUE = 1;
+	public static final int END_EFFORT_VALUE = 1;
 
-    /**
-	 * The '<em><b>Start Duration</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #START_DURATION
-	 * @model name="StartDuration" literal="START_DURATION"
+				/**
+	 * The '<em><b>Start Effort</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #START_EFFORT
+	 * @model name="StartEffort" literal="START_EFFORT"
 	 * @generated
 	 * @ordered
 	 */
-    public static final int START_DURATION_VALUE = 2;
+	public static final int START_EFFORT_VALUE = 2;
 
-    /**
+				/**
 	 * An array of all the '<em><b>Task Time Boundaries Constraint</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -91,8 +93,8 @@ public enum TaskTimeBoundariesConstraint implements Enumerator {
 	 */
     private static final TaskTimeBoundariesConstraint[] VALUES_ARRAY = new TaskTimeBoundariesConstraint[] {
 			START_END,
-			END_DURATION,
-			START_DURATION,
+			END_EFFORT,
+			START_EFFORT,
 		};
 
     /**
@@ -153,8 +155,8 @@ public enum TaskTimeBoundariesConstraint implements Enumerator {
     public static TaskTimeBoundariesConstraint get(int value) {
 		switch (value) {
 			case START_END_VALUE: return START_END;
-			case END_DURATION_VALUE: return END_DURATION;
-			case START_DURATION_VALUE: return START_DURATION;
+			case END_EFFORT_VALUE: return END_EFFORT;
+			case START_EFFORT_VALUE: return START_EFFORT;
 		}
 		return null;
 	}

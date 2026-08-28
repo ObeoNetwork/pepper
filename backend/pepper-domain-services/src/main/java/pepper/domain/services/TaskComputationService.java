@@ -42,64 +42,75 @@ public class TaskComputationService {
     private final ZoneId localZone = ZoneId.systemDefault();
 
     /**
-     * Update the newStartTime and potentially duration or endTime according to the calculationOption. It also rounds newStartTime and shifts it sooner if included in a non-working day period.
+     * Update the newStartTime and potentially effort or endTime according to the calculationOption. It also rounds newStartTime and shifts it sooner if included in a non-working day period.
      */
     public void updateStartTime(AbstractTask abstractTask, Instant newStartTime) {
         TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
         Instant roundedNewStartTime = this.roundToNearestHalfDay(newStartTime);
-        Instant previousStartTime = nonWorkingDaysService.getPreviousStartTime(roundedNewStartTime);
+        Instant previousStartTime = nonWorkingDaysService.getPreviousStartTime(roundedNewStartTime, abstractTask.getAssignedPersons());
         abstractTask.setStartTime(this.convertAccordingToTimeZone(previousStartTime));
 
         Instant currentEndTime = this.roundToNearestHalfDay(abstractTask.getEndTime());
-        int currentDuration = abstractTask.getDuration();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION) && previousStartTime != null) {
-            Instant newEndTime = nonWorkingDaysService.getEndTime(previousStartTime, currentDuration).minus(1, ChronoUnit.MINUTES);
+        int currentEffort = abstractTask.getEffort();
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && previousStartTime != null) {
+            Instant newEndTime = nonWorkingDaysService.getNextEndTime(previousStartTime, currentEffort, abstractTask.getAssignedPersons()).minus(1, ChronoUnit.MINUTES);
             abstractTask.setEndTime(this.convertAccordingToTimeZone(newEndTime));
         } else {
             if (currentEndTime != null && previousStartTime != null) {
-                long hourDuration = nonWorkingDaysService.getDuration(previousStartTime, currentEndTime).toHours();
-                abstractTask.setDuration((int) hourDuration);
+                long hourEffort = nonWorkingDaysService.getEffort(previousStartTime, currentEndTime, abstractTask.getAssignedPersons()).toHours();
+                abstractTask.setEffort((int) hourEffort);
             }
         }
+
+        this.updateDuration(abstractTask);
     }
 
     /**
-     * Update the endTime and potentially duration or startTime according to the calculationOption. It also rounds newEndTime and shifts it later if included in a non-working day period.
+     * Update the endTime and potentially effort or startTime according to the calculationOption. It also rounds newEndTime and shifts it later if included in a non-working day period.
      */
     public void updateEndTime(AbstractTask abstractTask, Instant newEndTime) {
         TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
         Instant roundedNewEndTime = this.roundToNearestHalfDay(newEndTime);
-        Instant nextEndTime = nonWorkingDaysService.getNextEndTime(roundedNewEndTime);
+        Instant nextEndTime = nonWorkingDaysService.getNextEndTime(roundedNewEndTime, abstractTask.getAssignedPersons());
         abstractTask.setEndTime(this.convertAccordingToTimeZone(nextEndTime).minus(1, ChronoUnit.MINUTES));
 
         Instant currentStartTime = this.roundToNearestHalfDay(abstractTask.getStartTime());
-        int currentDuration = abstractTask.getDuration();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && nextEndTime != null) {
-            Instant newStartTime = nonWorkingDaysService.getStartTime(nextEndTime, currentDuration); //.plus(1, ChronoUnit.MINUTES);
+        int currentEffort = abstractTask.getEffort();
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && nextEndTime != null) {
+            Instant newStartTime = nonWorkingDaysService.getPreviousStartTime(nextEndTime, currentEffort, abstractTask.getAssignedPersons()); //.plus(1, ChronoUnit.MINUTES);
             abstractTask.setStartTime(this.convertAccordingToTimeZone(newStartTime));
         } else {
             if (nextEndTime != null && currentStartTime != null) {
-                long hourDuration = nonWorkingDaysService.getDuration(currentStartTime, nextEndTime).toHours();
-                abstractTask.setDuration((int) hourDuration);
+                long hourEffort = nonWorkingDaysService.getEffort(currentStartTime, nextEndTime, abstractTask.getAssignedPersons()).toHours();
+                abstractTask.setEffort((int) hourEffort);
             }
+        }
+
+        this.updateDuration(abstractTask);
+    }
+
+    private void updateDuration(AbstractTask abstractTask) {
+        if (abstractTask.getStartTime() != null && abstractTask.getEndTime() != null) {
+            long hourDuration = nonWorkingDaysService.getDuration(this.roundToNearestHalfDay(abstractTask.getStartTime()), this.roundToNearestHalfDay(abstractTask.getEndTime())).toHours();
+            abstractTask.setDuration((int) hourDuration);
         }
     }
 
-    public void updateDuration(AbstractTask abstractTask, int newDuration) {
-        int newDurationRouned = this.roundToNearestHalfDay(newDuration);
+    public void updateEffort(AbstractTask abstractTask, int newEffort) {
+        int newEffortRouned = this.roundToNearestHalfDay(newEffort);
         TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
         if (TaskTimeBoundariesConstraint.START_END.equals(calculationOption)) {
             return;
         }
-        abstractTask.setDuration(newDurationRouned);
+        abstractTask.setEffort(newEffortRouned);
 
         Instant currentStartTime = this.roundToNearestHalfDay(abstractTask.getStartTime());
         Instant currentEndTime = this.roundToNearestHalfDay(abstractTask.getEndTime());
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION) && currentStartTime != null) {
-            Instant newEndTime = nonWorkingDaysService.getEndTime(currentStartTime, newDurationRouned).minus(1, ChronoUnit.MINUTES);
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && currentStartTime != null) {
+            Instant newEndTime = nonWorkingDaysService.getNextEndTime(currentStartTime, newEffortRouned, abstractTask.getAssignedPersons()).minus(1, ChronoUnit.MINUTES);
             abstractTask.setEndTime(this.convertAccordingToTimeZone(newEndTime));
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && currentEndTime != null) {
-            Instant newStartTime = nonWorkingDaysService.getStartTime(currentEndTime, newDurationRouned); //.plus(1, ChronoUnit.MINUTES);
+        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && currentEndTime != null) {
+            Instant newStartTime = nonWorkingDaysService.getPreviousStartTime(currentEndTime, newEffortRouned, abstractTask.getAssignedPersons()); //.plus(1, ChronoUnit.MINUTES);
             abstractTask.setStartTime(this.convertAccordingToTimeZone(newStartTime));
         }
     }

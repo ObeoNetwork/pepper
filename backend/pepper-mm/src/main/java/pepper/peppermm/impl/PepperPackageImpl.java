@@ -1828,8 +1828,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 
 		initEEnum(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.class, "TaskTimeBoundariesConstraint");
 		addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.START_END);
-		addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.END_DURATION);
-		addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.START_DURATION);
+		addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.END_EFFORT);
+		addEEnumLiteral(taskTimeBoundariesConstraintEEnum, TaskTimeBoundariesConstraint.START_EFFORT);
 
 		// Initialize data types
 		initEDataType(dateEDataType, LocalDate.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

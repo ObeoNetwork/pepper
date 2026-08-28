@@ -206,8 +206,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TaskTimeBoundariesConstraint">
     <eLiterals name="StartEnd" literal="START_END"/>
-    <eLiterals name="EndDuration" value="1" literal="END_DURATION"/>
-    <eLiterals name="StartDuration" value="2" literal="START_DURATION"/>
+    <eLiterals name="EndEffort" value="1" literal="END_EFFORT"/>
+    <eLiterals name="StartEffort" value="2" literal="START_EFFORT"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.time.LocalDate"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Instant" instanceClassName="java.time.Instant"/>
