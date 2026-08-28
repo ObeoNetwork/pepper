@@ -50,8 +50,8 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="pepper.ecore#//TaskTimeBoundariesConstraint">
       <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartEnd"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/EndDuration"/>
-      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartDuration"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/EndEffort"/>
+      <genEnumLiterals ecoreEnumLiteral="pepper.ecore#//TaskTimeBoundariesConstraint/StartEffort"/>
     </genEnums>
     <genDataTypes ecoreDataType="pepper.ecore#//Date"/>
     <genDataTypes ecoreDataType="pepper.ecore#//Instant"/>

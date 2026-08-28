@@ -106,7 +106,7 @@ public class PepperMMJavaService {
     }
 
     @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MethodLength", "checkstyle:MissingSwitchDefault" })
-    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepDuration) {
+    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepEffort) {
         if (eObject instanceof Task task) {
             if (name != null) {
                 task.setName(name);
@@ -135,8 +135,8 @@ public class PepperMMJavaService {
                         if (dependencies.isEmpty()) {
                             TaskTimeBoundariesConstraint calculationOption = task.getCalculationOption();
                             switch (calculationOption) {
-                                case START_DURATION -> taskComputationService.updateStartTime(task, newStartTime);
-                                case END_DURATION -> taskComputationService.updateEndTime(task, newEndTime);
+                                case START_EFFORT -> taskComputationService.updateStartTime(task, newStartTime);
+                                case END_EFFORT -> taskComputationService.updateEndTime(task, newEndTime);
                                 case START_END -> {
                                     taskComputationService.updateStartTime(task, newStartTime);
                                     taskComputationService.updateEndTime(task, newEndTime);
@@ -164,9 +164,9 @@ public class PepperMMJavaService {
         }
     }
 
-    private void setTaskDuration(Task task, Instant start, Instant end) {
-        int duration = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        taskComputationService.updateDuration(task, duration);
+    private void setTaskEffort(Task task, Instant start, Instant end) {
+        int effort = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
+        taskComputationService.updateEffort(task, effort);
     }
 
     public void createTask(EObject context) {
@@ -488,7 +488,7 @@ public class PepperMMJavaService {
             }
             if (winnerEnd != null && winnerStart != null) {
                 if (workpackage.getStartDate().isAfter(workpackage.getEndDate())) {
-                    workpackageComputationService.updateDuration(workpackage, 1);
+                    workpackageComputationService.updateEffort(workpackage, 1);
                     workpackageComputationService.updateEndDate(workpackage, workpackage.getStartDate().plusDays(1));
                     this.feedbackMessageService.addFeedbackMessage(
                             new Message("Task dependencies overlap : End date has been changed to avoid to have end date before start date.", MessageLevel.WARNING));
@@ -557,7 +557,7 @@ public class PepperMMJavaService {
             if (winnerEnd != null && winnerStart != null) {
                 if (task.getEndTime().isBefore(task.getStartTime())) {
                     Instant newEndTime = task.getStartTime().plus(12, ChronoUnit.HOURS);
-                    this.setTaskDuration(task, task.getStartTime(), newEndTime);
+                    this.setTaskEffort(task, task.getStartTime(), newEndTime);
                     taskComputationService.updateEndTime(task, newEndTime.minus(1, ChronoUnit.MINUTES));
                     this.feedbackMessageService.addFeedbackMessage(new Message("Task dependencies overlap.", MessageLevel.ERROR));
                 }
@@ -611,7 +611,7 @@ public class PepperMMJavaService {
     /**
      * Recalculates and updates the start and end dates of the specified target {@link Task} according to the given {@link DependencyLink}.
      * <p>
-     * The task duration is preserved during the calculation. Only the start and end instants are shifted to satisfy the dependency constraints.
+     * The task effort is preserved during the calculation. Only the start and end instants are shifted to satisfy the dependency constraints.
      *
      * @param task
      *         the target {@link Task} whose start and end dates must be updated according to the dependency
@@ -666,7 +666,7 @@ public class PepperMMJavaService {
                 newTaskEnd = newTaskEnd.plus(1, ChronoUnit.MINUTES);
             }
         }
-        this.setTaskDuration(task, task.getStartTime(), newTaskEnd);
+        this.setTaskEffort(task, task.getStartTime(), newTaskEnd);
         taskComputationService.updateEndTime(task, newTaskEnd);
     }
 
@@ -686,7 +686,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
         }
-        this.setTaskDuration(task, task.getStartTime(), newTaskStart);
+        this.setTaskEffort(task, task.getStartTime(), newTaskStart);
         taskComputationService.updateStartTime(task, newTaskStart);
     }
 
@@ -704,7 +704,7 @@ public class PepperMMJavaService {
         LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
         LocalDate oldWorkpackageStart = workpackage.getStartDate();
         LocalDate oldWorkpackageEnd = workpackage.getEndDate();
-        long duration = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
+        long effort = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
         StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
         StartOrEnd targetStartOrEnd = dependencyLink.getTargetKind();
         int delay = dependencyLink.getDelay();
@@ -716,19 +716,19 @@ public class PepperMMJavaService {
         }
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceEnd.plusDays(delay);
-            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(effort);
             workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceStart.plusDays(delay);
-            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(effort);
             workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceEnd.plusDays(delay);
-            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(effort);
             workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceStart.plusDays(delay);
-            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(effort);
             workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
         }
     }
@@ -752,7 +752,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageEnd = sourceStart.plusDays(delay);
         }
-        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
+        workpackageComputationService.updateEffort(workpackage, (int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
         workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
     }
 
@@ -772,7 +772,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageStart = sourceStart.plusDays(delay);
         }
-        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
+        workpackageComputationService.updateEffort(workpackage, (int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
         workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
     }
 
@@ -787,8 +787,8 @@ public class PepperMMJavaService {
         return laterLocalDate;
     }
 
-    public void editDependencyLinkDuration(DependencyLink depLink, int newDuration) {
-        depLink.setDelay(newDuration);
+    public void editDependencyLinkDelay(DependencyLink depLink, int newDelay) {
+        depLink.setDelay(newDelay);
         this.followMoveDependency(depLink.getSource());
     }
 
@@ -804,11 +804,11 @@ public class PepperMMJavaService {
                 .toList();
     }
 
-    public String computeTaskDurationDays(Task task) {
+    public String computeTaskEffortDays(Task task) {
         String value = "";
-        int duration = task.getDuration();
-        int dd = duration / 24;
-        int hh = duration % 24;
+        int effort = task.getEffort();
+        int dd = effort / 24;
+        int hh = effort % 24;
         value = String.format("%02dd%02dh", dd, hh);
         return value;
     }
@@ -880,7 +880,7 @@ public class PepperMMJavaService {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
         newWorkpackage.setName("New Workpackage");
         if (context instanceof Workpackage workpackage) {
-            // The new task follows the context task and has the same duration than the context task.
+            // The new task follows the context task and has the same effort than the context task.
             if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
                 workpackageComputationService.updateStartDate(newWorkpackage, workpackage.getEndDate());
                 workpackageComputationService.updateEndDate(newWorkpackage, workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay()));
@@ -907,7 +907,7 @@ public class PepperMMJavaService {
     }
 
     @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MissingSwitchDefault" })
-    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepDuration) {
+    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepEffort) {
         if (eObject instanceof Workpackage workpackage) {
             if (name != null) {
                 workpackage.setName(name);
@@ -931,8 +931,8 @@ public class PepperMMJavaService {
                     if (dependencies.isEmpty()) {
                         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
                         switch (calculationOption) {
-                            case START_DURATION -> workpackageComputationService.updateStartDate(workpackage, startDate);
-                            case END_DURATION -> workpackageComputationService.updateEndDate(workpackage, endDate);
+                            case START_EFFORT -> workpackageComputationService.updateStartDate(workpackage, startDate);
+                            case END_EFFORT -> workpackageComputationService.updateEndDate(workpackage, endDate);
                             case START_END -> {
                                 workpackageComputationService.updateStartDate(workpackage, startDate);
                                 workpackageComputationService.updateEndDate(workpackage, endDate);
@@ -958,9 +958,9 @@ public class PepperMMJavaService {
         }
     }
 
-    private void workpackageSetDuration(Workpackage workpackage, LocalDate start, LocalDate end) {
-        int duration = (int) ChronoUnit.DAYS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        workpackageComputationService.updateDuration(workpackage, duration);
+    private void workpackageSetEffort(Workpackage workpackage, LocalDate start, LocalDate end) {
+        int effort = (int) ChronoUnit.DAYS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
+        workpackageComputationService.updateEffort(workpackage, effort);
     }
 
     public void moveWorkpackageInProject(Workpackage sourceWorkpackage, Project project, int indexInTarget) {

@@ -110,14 +110,14 @@ public class PepperMMJavaServiceTests {
         taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
-        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task2, 24);
+        taskComputationService.updateEffort(task2, 24);
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
-        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task3, 24);
+        taskComputationService.updateEffort(task3, 24);
 
         workpackage.getOwnedTasks().add(task3);
         workpackage.getOwnedTasks().add(task2);
@@ -201,9 +201,9 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createDependencyLink() {
         Task task = PepperFactory.eINSTANCE.createTask();
-        task.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task, 24);
+        taskComputationService.updateEffort(task, 24);
 
         Task taskDependency = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependency, Instant.parse(MONDAY_2026_01_05_T00_00_00));
@@ -281,12 +281,12 @@ public class PepperMMJavaServiceTests {
     }
 
     @Test
-    public void computeTaskDurationDays() {
+    public void computeTaskEffortDays() {
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, Instant.now());
         taskComputationService.updateEndTime(task, Instant.now().plus(1, ChronoUnit.HOURS).plus(1, ChronoUnit.DAYS));
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        var result = service.computeTaskDurationDays(task);
+        var result = service.computeTaskEffortDays(task);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo("01d00h");
     }
