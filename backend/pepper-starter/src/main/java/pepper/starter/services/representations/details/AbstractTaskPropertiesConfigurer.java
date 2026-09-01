@@ -295,6 +295,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .build();
     }
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     private TextfieldDescription getEffortWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
                 .map(abstractTask -> {
@@ -304,24 +305,25 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateEffort(taskOpt.get(), 0);
-                } else {
-                    try {
-                        int valueInHours = this.roundToNearestHalfDayInHours(newValue);
-                        var task = taskOpt.get();
-                        taskComputationService.updateEffort(task, valueInHours);
-                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
-                    } catch (NumberFormatException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            taskComputationService.updateEffort(abstractTask, 0);
+                        } else {
+                            try {
+                                int valueInHours = this.roundToNearestHalfDayInHours(newValue);
+                                if (valueInHours >= 0) {
+                                    taskComputationService.updateEffort(abstractTask, valueInHours);
+                                    service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), abstractTask.getEndTime(), abstractTask.getProgress(),
+                                            true);
+                                }
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
 
         String id = "abstractTask.effort";
@@ -337,7 +339,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__EFFORT))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
-                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_EFFORT) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_EFFORT) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -357,11 +360,12 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
                 .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_duration_feature"))
                 .valueProvider(valueProvider)
-                .newValueHandler((variableManager, newValue)-> new Failure(""))
+                .newValueHandler((variableManager, newValue) -> new Failure(""))
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__DURATION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
-                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -382,7 +386,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                             String targetKind = link.getTargetKind().toString();
                             int delay = link.getDelay();
                             double nbOfDays = delay / 24.0;
-                            String delayStr =  String.format("%.1f", nbOfDays);
+                            String delayStr = String.format("%.1f", nbOfDays);
 
                             String delayString = name + ": " + sourceKind + " -> " + targetKind;
                             if (delay != 0) {
@@ -464,24 +468,21 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateStartTime(taskOpt.get(), null);
-                } else {
-                    try {
-                        Instant instant = Instant.parse(newValue);
-                        var task = taskOpt.get();
-                        service.editTask(task, task.getName(), task.getDescription(), instant, task.getEndTime(), task.getProgress(), true);
-
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            abstractTask.setStartTime(null);
+                        } else {
+                            try {
+                                Instant instant = Instant.parse(newValue);
+                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), instant, abstractTask.getEndTime(), abstractTask.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
         String id = "abstractTask.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
@@ -497,7 +498,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
-                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -514,23 +516,21 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateEndTime(taskOpt.get(), null);
-                } else {
-                    try {
-                        Instant instant = Instant.parse(newValue);
-                        var task = taskOpt.get();
-                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), instant, task.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            abstractTask.setEndTime(null);
+                        } else {
+                            try {
+                                Instant instant = Instant.parse(newValue);
+                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), instant, abstractTask.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
         String id = "abstractTask.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
@@ -546,7 +546,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
-                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
