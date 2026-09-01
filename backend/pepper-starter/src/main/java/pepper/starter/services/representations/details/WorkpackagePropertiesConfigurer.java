@@ -288,24 +288,25 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateEffort(workpackageOpt.get(), 0);
-                } else {
-                    try {
-                        int integer = Integer.parseInt(newValue);
-                        var workpackage = workpackageOpt.get();
-                        workpackageComputationService.updateEffort(workpackage, integer);
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getProgress(), true);
-                    } catch (NumberFormatException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackageComputationService.updateEffort(workpackage, 0);
+                        } else {
+                            try {
+                                int integer = Integer.parseInt(newValue);
+                                if (integer >= 0) {
+                                    workpackageComputationService.updateEffort(workpackage, integer);
+                                    service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(),
+                                            workpackage.getProgress(), true);
+                                }
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
 
         String id = "workpackage.effort";
@@ -420,25 +421,23 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateStartDate(workpackageOpt.get(), null);
-                } else {
-                    try {
-                        LocalDate localDate = LocalDate.parse(newValue);
-                        var workpackage = workpackageOpt.get();
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackage.setStartDate(null);
+                        } else {
+                            try {
+                                LocalDate localDate = LocalDate.parse(newValue);
+                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
-        String id = "workpackage.startTime";
+        String id = "workpackage.startDate";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT
@@ -473,25 +472,23 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateEndDate(workpackageOpt.get(), null);
-                } else {
-                    try {
-                        LocalDate localDate = LocalDate.parse(newValue);
-                        var workpackage = workpackageOpt.get();
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackage.setEndDate(null);
+                        } else {
+                            try {
+                                LocalDate localDate = LocalDate.parse(newValue);
+                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
-        String id = "workpackage.endTime";
+        String id = "workpackage.endDate";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT
