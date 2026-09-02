@@ -43,6 +43,7 @@ import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.starter.services.representations.PepperMMJavaService;
+import pepper.starter.services.representations.deck.PepperDeckJavaService;
 
 /**
  * Test used to validate the service for the task related views.
@@ -285,7 +286,7 @@ public class PepperMMJavaServiceTests {
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, Instant.now());
         taskComputationService.updateEndTime(task, Instant.now().plus(1, ChronoUnit.HOURS).plus(1, ChronoUnit.DAYS));
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+        var service = new PepperDeckJavaService();
         var result = service.computeTaskEffortDays(task);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo("01d00h");
@@ -294,7 +295,7 @@ public class PepperMMJavaServiceTests {
     @Test
     public void editCard() {
         AbstractTask card = PepperFactory.eINSTANCE.createTask();
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+        var service = new PepperDeckJavaService();
         service.editCard(card, NEW_NAME, NEW_DESCRIPTION, null);
         assertThat(card.getName()).isEqualTo(NEW_NAME);
         assertThat(card.getDescription()).isEqualTo(NEW_DESCRIPTION);
@@ -309,7 +310,7 @@ public class PepperMMJavaServiceTests {
         project.getOwnedWorkpackages().add(projectWorkpackage);
         project.getOwnedTagFolders().add(tagFolder);
         project.getOwnedTagFolders().get(0).getOwnedTags().add(tag);
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+        var service = new PepperDeckJavaService();
         service.createCard(tag);
         assertThat(project.getOwnedWorkpackages().get(0).getOwnedTasks()).hasSize(1);
         assertThat(project.getOwnedWorkpackages().get(0).getOwnedTasks().get(0).getName()).isEqualTo("New Task");
