@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Person;
@@ -91,7 +93,7 @@ public class NonWorkingDaysServiceTests {
     @Test
     public void getEffortBetweenDatesExcludesNonWorkingDays() {
         var service = new NonWorkingDaysService();
-        // 10 and 11 are in a week-end and 14 is off
+        // 10 and 11 are in a weekend and 14 is off
         LocalDate startDate = FRIDAY_2026_07_10;
         LocalDate endDate = LocalDate.of(2026, 7, 16);
 
@@ -138,12 +140,102 @@ public class NonWorkingDaysServiceTests {
         assertThat(service.getNextEndTime(instant, List.of())).isEqualTo(Instant.parse("2026-07-15T12:00:00Z"));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+        "2026-07-31T13:00:00Z, 2026-07-31T13:00:00Z",
+        "2026-08-01T13:00:00Z, 2026-08-03T12:00:00Z",
+        "2026-07-14T09:00:00Z, 2026-07-15T12:00:00Z",
+        "2026-08-01T00:00:00Z, 2026-08-01T00:00:00Z",
+        "2026-08-01T00:00:30Z, 2026-08-01T00:00:30Z",
+        "2026-08-01T00:01:00Z, 2026-08-03T12:00:00Z",
+        "2026-08-03T00:00:00Z, 2026-08-03T12:00:00Z",
+        "2026-07-14T00:00:00Z, 2026-07-14T00:00:00Z",
+        "2026-07-15T00:00:00Z, 2026-07-15T12:00:00Z"
+    })
+    public void getNextEndTimeWithZeroEffortRespectsWorkingEndBoundaries(Instant instant, Instant expected) {
+        this.assertNextEndTimeWithZeroEffort(instant, List.of(), expected);
+    }
+
+    @Test
+    public void getNextEndTimeWithZeroEffortRespectsAssignedPersons() {
+        Person unavailablePerson = this.getPerson1();
+        Person availablePerson = PepperFactory.eINSTANCE.createPerson();
+
+        this.assertNextEndTimeWithZeroEffort(TUESDAY_2026_07_07_12_00, List.of(unavailablePerson), WEDNESDAY_2026_07_08_12_00);
+        this.assertNextEndTimeWithZeroEffort(TUESDAY_2026_07_07_12_00, List.of(unavailablePerson, availablePerson), TUESDAY_2026_07_07_12_00);
+        this.assertNextEndTimeWithZeroEffort(TUESDAY_2026_07_07_00_00, List.of(unavailablePerson), TUESDAY_2026_07_07_00_00);
+        this.assertNextEndTimeWithZeroEffort(WEDNESDAY_2026_07_08_00_00, List.of(unavailablePerson), WEDNESDAY_2026_07_08_12_00);
+    }
+
+    @Test
+    public void getNextEndTimeWithZeroEffortHandlesNullInputs() {
+        this.assertNextEndTimeWithZeroEffort(null, List.of(), null);
+        this.assertNextEndTimeWithZeroEffort(null, null, null);
+        this.assertNextEndTimeWithZeroEffort(Instant.parse("2026-08-01T13:00:00Z"), null, Instant.parse("2026-08-03T12:00:00Z"));
+    }
+
+    private void assertNextEndTimeWithZeroEffort(Instant instant, List<Person> persons, Instant expected) {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getNextEndTime(instant, 0, persons)).isEqualTo(expected);
+        assertThat(service.getNextEndTime(instant, persons)).isEqualTo(expected);
+    }
+
     @Test
     public void getPreviousStartTimeKeepsAnInstantOnAWorkingDay() {
         var service = new NonWorkingDaysService();
         Instant instant = Instant.parse("2026-07-31T13:00:00Z");
 
         assertThat(service.getPreviousStartTime(instant, List.of())).isEqualTo(instant);
+    }
+
+    @Test
+    public void getNextStartTime() {
+        var service = new NonWorkingDaysService();
+        assertThat(service.getNextStartTime(TUESDAY_2026_07_07_00_00, 24, List.of())).isEqualTo(WEDNESDAY_2026_07_08_00_00);
+        assertThat(service.getNextStartTime(TUESDAY_2026_07_07_00_00, 0, List.of())).isEqualTo(TUESDAY_2026_07_07_00_00);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "2026-07-31T13:00:00Z, 0, 2026-07-31T13:00:00Z", // 31 FRIDAY
+        "2026-07-14T00:00:00Z, 0, 2026-07-15T00:00:00Z", // 14 OFF
+        "2026-08-01T00:00:00Z, 0, 2026-08-03T00:00:00Z", // 01 SATURDAY
+        "2026-08-02T18:00:00Z, 0, 2026-08-03T00:00:00Z", // 02 SUNDAY
+        "2026-08-03T00:00:00Z, 0, 2026-08-03T00:00:00Z", // 03 MONDAY
+        "2026-07-31T12:00:00Z, 12, 2026-08-03T00:00:00Z",
+        "2026-07-31T13:00:00Z, 23, 2026-08-03T12:00:00Z",
+        "2026-08-01T12:00:00Z, 24, 2026-08-04T00:00:00Z",
+        "2026-07-13T00:00:00Z, 24, 2026-07-15T00:00:00Z",
+        "2026-07-13T12:00:00Z, 24, 2026-07-15T12:00:00Z",
+        "2026-07-14T00:00:00Z, 24, 2026-07-16T00:00:00Z"
+    })
+    public void getNextStartTimeRespectsWorkingStartBoundaries(Instant instant, int effort, Instant expected) {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getNextStartTime(instant, effort, List.of())).isEqualTo(expected);
+    }
+
+    @Test
+    public void getNextStartTimeRespectsAssignedPersons() {
+        var service = new NonWorkingDaysService();
+        Person unavailablePerson = this.getPerson1();
+        Person availablePerson = PepperFactory.eINSTANCE.createPerson();
+
+        assertThat(service.getNextStartTime(TUESDAY_2026_07_07_12_00, 0, List.of(unavailablePerson))).isEqualTo(WEDNESDAY_2026_07_08_00_00);
+        assertThat(service.getNextStartTime(TUESDAY_2026_07_07_12_00, 0, List.of(unavailablePerson, availablePerson))).isEqualTo(TUESDAY_2026_07_07_12_00);
+        assertThat(service.getNextStartTime(MONDAY_2026_07_06_12_00, 12, List.of(unavailablePerson))).isEqualTo(WEDNESDAY_2026_07_08_00_00);
+        assertThat(service.getNextStartTime(MONDAY_2026_07_06_12_00, 24, List.of(unavailablePerson, availablePerson))).isEqualTo(TUESDAY_2026_07_07_00_00);
+        assertThat(service.getNextStartTime(MONDAY_2026_07_06_12_00, 36, List.of(unavailablePerson, availablePerson))).isEqualTo(TUESDAY_2026_07_07_12_00);
+    }
+
+    @Test
+    public void getNextStartTimeHandlesNullInputs() {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getNextStartTime(null, 0, List.of())).isNull();
+        assertThat(service.getNextStartTime(null, 24, List.of())).isNull();
+        assertThat(service.getNextStartTime(TUESDAY_2026_07_07_00_00, 24, null)).isEqualTo(WEDNESDAY_2026_07_08_00_00);
     }
 
     @Test
@@ -160,6 +252,47 @@ public class NonWorkingDaysServiceTests {
         Instant instant = Instant.parse("2026-07-14T09:00:00Z");
 
         assertThat(service.getPreviousStartTime(instant, List.of())).isEqualTo(Instant.parse("2026-07-13T12:00:00Z"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "2026-07-31T13:00:00Z, 2026-07-31T13:00:00Z", // 31 FRIDAY
+        "2026-08-02T18:00:00Z, 2026-07-31T12:00:00Z", // 02 SUNDAY
+        "2026-08-01T12:00:00Z, 2026-07-31T12:00:00Z",
+        "2026-07-14T09:00:00Z, 2026-07-13T12:00:00Z",
+        "2026-08-01T00:00:00Z, 2026-07-31T12:00:00Z",
+        "2026-08-01T00:00:30Z, 2026-07-31T12:00:00Z",
+        "2026-08-03T00:00:00Z, 2026-08-03T00:00:00Z",
+        "2026-07-14T00:00:00Z, 2026-07-13T12:00:00Z",
+        "2026-07-15T00:00:00Z, 2026-07-15T00:00:00Z"
+    })
+    public void getPreviousStartTimeWithZeroEffortRespectsWorkingStartBoundaries(Instant instant, Instant expected) {
+        this.assertPreviousStartTimeWithZeroEffort(instant, List.of(), expected);
+    }
+
+    @Test
+    public void getPreviousStartTimeWithZeroEffortRespectsAssignedPersons() {
+        Person unavailablePerson = this.getPerson1();
+        Person availablePerson = PepperFactory.eINSTANCE.createPerson();
+
+        this.assertPreviousStartTimeWithZeroEffort(TUESDAY_2026_07_07_12_00, List.of(unavailablePerson), MONDAY_2026_07_06_12_00);
+        this.assertPreviousStartTimeWithZeroEffort(TUESDAY_2026_07_07_12_00, List.of(unavailablePerson, availablePerson), TUESDAY_2026_07_07_12_00);
+        this.assertPreviousStartTimeWithZeroEffort(TUESDAY_2026_07_07_00_00, List.of(unavailablePerson), MONDAY_2026_07_06_12_00);
+        this.assertPreviousStartTimeWithZeroEffort(WEDNESDAY_2026_07_08_00_00, List.of(unavailablePerson), WEDNESDAY_2026_07_08_00_00);
+    }
+
+    @Test
+    public void getPreviousStartTimeWithZeroEffortHandlesNullInputs() {
+        this.assertPreviousStartTimeWithZeroEffort(null, List.of(), null);
+        this.assertPreviousStartTimeWithZeroEffort(null, null, null);
+        this.assertPreviousStartTimeWithZeroEffort(Instant.parse("2026-08-02T18:00:00Z"), null, Instant.parse("2026-07-31T12:00:00Z"));
+    }
+
+    private void assertPreviousStartTimeWithZeroEffort(Instant instant, List<Person> persons, Instant expected) {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getPreviousStartTime(instant, 0, persons)).isEqualTo(expected);
+        assertThat(service.getPreviousStartTime(instant, persons)).isEqualTo(expected);
     }
 
     @Test
@@ -336,6 +469,7 @@ public class NonWorkingDaysServiceTests {
         Person person2 = PepperFactory.eINSTANCE.createPerson();
 
         assertThat(service.getNextEndDate(MONDAY_2026_07_06, 1, List.of(person1))).isEqualTo(MONDAY_2026_07_06);
+        assertThat(service.getNextEndDate(TUESDAY_2026_07_07, 1, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
         assertThat(service.getNextEndDate(MONDAY_2026_07_06, 2, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
         assertThat(service.getNextEndDate(MONDAY_2026_07_06, 1, List.of(person1, person2))).isEqualTo(MONDAY_2026_07_06);
         assertThat(service.getNextEndDate(MONDAY_2026_07_06, 2, List.of(person1, person2))).isEqualTo(MONDAY_2026_07_06);

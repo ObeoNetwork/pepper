@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
-import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.DateTimeType;
@@ -58,8 +57,9 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetComponent;
 import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription;
 import org.springframework.stereotype.Service;
 
-import pepper.domain.services.TaskComputationService;
-import pepper.domain.services.WorkpackageComputationService;
+import pepper.domain.services.update.EffortUpdateStep;
+import pepper.domain.services.update.TaskBoundaryUpdateStep;
+import pepper.domain.services.update.TaskUpdateService;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperPackage;
@@ -71,7 +71,6 @@ import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
 import pepper.starter.messages.IPepperMessageService;
 import pepper.starter.messages.MessageConstants;
-import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link Workpackage} sub classes.
@@ -93,19 +92,17 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
     private final ItemProviderAdapter workpackageAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createWorkpackageAdapter();
 
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-
-    private final WorkpackageComputationService workpackageComputationService;
+    private final TaskUpdateService taskUpdateService;
 
     private final IPepperMessageService pepperMessageService;
 
-    public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService,
-            WorkpackageComputationService workpackageComputationService, IPepperMessageService pepperMMMessageService) {
+    public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
+            ILabelService labelService, TaskUpdateService taskUpdateService, IPepperMessageService pepperMMMessageService) {
         this.identityService = identityService;
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
-        this.workpackageComputationService = workpackageComputationService;
+        this.taskUpdateService = taskUpdateService;
         this.pepperMessageService = pepperMMMessageService;
     }
 
@@ -290,20 +287,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
             return variableManager.get(VariableManager.SELF, Workpackage.class)
                     .map(workpackage -> {
-                        if (newValue == null || newValue.isBlank()) {
-                            workpackageComputationService.updateEffort(workpackage, 0);
-                        } else {
-                            try {
-                                int integer = Integer.parseInt(newValue);
-                                if (integer >= 0) {
-                                    workpackageComputationService.updateEffort(workpackage, integer);
-                                    service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(),
-                                            workpackage.getProgress(), true);
-                                }
-                            } catch (NumberFormatException e) {
-                                // Ignore
-                            }
-                        }
+                        taskUpdateService.updateWithImpacts(workpackage, new EffortUpdateStep(workpackage, newValue));
                         return (IStatus) new Success();
                     })
                     .orElse(new Failure(""));
@@ -366,7 +350,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                         .map(o -> (DependencyLink) o)
                         .map(link -> {
                             Workpackage workpackage = (Workpackage) link.getSource();
-                            String name = workpackage.getName();
+                            String name = workpackage != null ? workpackage.getName() : "no source";
                             String sourceKind = link.getSourceKind().toString();
                             String targetKind = link.getTargetKind().toString();
                             int duration = link.getDelay();
@@ -427,8 +411,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                             workpackage.setStartDate(null);
                         } else {
                             try {
-                                LocalDate localDate = LocalDate.parse(newValue);
-                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
+                                LocalDate newStartlDate = LocalDate.parse(newValue);
+                                taskUpdateService.updateWithImpacts(workpackage, new TaskBoundaryUpdateStep(workpackage, newStartlDate, workpackage.getEndDate()));
                             } catch (DateTimeParseException e) {
                                 // Ignore
                             }
@@ -478,8 +462,8 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                             workpackage.setEndDate(null);
                         } else {
                             try {
-                                LocalDate localDate = LocalDate.parse(newValue);
-                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
+                                LocalDate newEndDate = LocalDate.parse(newValue);
+                                taskUpdateService.updateWithImpacts(workpackage, new TaskBoundaryUpdateStep(workpackage, workpackage.getStartDate(), newEndDate));
                             } catch (DateTimeParseException e) {
                                 // Ignore
                             }

@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
-import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.components.SelectComponent;
@@ -52,8 +51,8 @@ import org.eclipse.sirius.components.view.emf.compatibility.PropertiesConfigurer
 import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription;
 import org.springframework.stereotype.Service;
 
-import pepper.domain.services.TaskComputationService;
-import pepper.domain.services.WorkpackageComputationService;
+import pepper.domain.services.update.DependencyUpdateStep;
+import pepper.domain.services.update.TaskUpdateService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -63,7 +62,6 @@ import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
-import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link DependencyLink} sub classes.
@@ -87,13 +85,15 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
 
     private final ItemProviderAdapter dependencyLinkAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createDependencyLinkAdapter();
 
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+    private final TaskUpdateService taskUpdateService;
 
-    public DependencyLinkPropertiesConfigurer(IIdentityService identityService, ILabelService labelService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService) {
+    public DependencyLinkPropertiesConfigurer(IIdentityService identityService, ILabelService labelService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
+            TaskUpdateService taskUpdateService) {
         this.identityService = identityService;
         this.labelService = labelService;
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
+        this.taskUpdateService = taskUpdateService;
     }
 
     @Override
@@ -196,7 +196,7 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                     StartOrEnd newStartOrEnd = StartOrEnd.get(integer);
                     depLink.setTargetKind(newStartOrEnd);
                 }
-                service.editDependencyLinkDelay(depLink, depLink.getDelay());
+                this.editDependencyLinkDelay(depLink, depLink.getDelay());
                 return new Success();
             } else {
                 return new Failure("");
@@ -321,12 +321,14 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                             dependencyLink.setDelay(0);
                         } else {
                             try {
+                                int value = 0;
                                 if (dependencyLink.eContainer() instanceof Workpackage) {
-                                    int integer = Integer.parseInt(newValue);
-                                    service.editDependencyLinkDelay(dependencyLink, integer);
+                                    value = Integer.parseInt(newValue);
                                 } else {
-                                    int valueInHours = this.roundToNearestHalfDayInHours(newValue);
-                                    service.editDependencyLinkDelay(dependencyLink, valueInHours);
+                                    value = this.roundToNearestHalfDayInHours(newValue);
+                                }
+                                if (value >= 0) {
+                                    this.editDependencyLinkDelay(dependencyLink, value);
                                 }
                             } catch (NumberFormatException e) {
                                 // Ignore
@@ -398,6 +400,13 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
     private Stream<EObject> getAllContentStream(EObject eObject) {
         Iterable<EObject> content = () -> eObject.eAllContents();
         return StreamSupport.stream(content.spliterator(), false);
+    }
+
+    private void editDependencyLinkDelay(DependencyLink depLink, int newDelay) {
+        depLink.setDelay(newDelay);
+        if (depLink.eContainer() instanceof DependencyRelatedObject target) {
+            taskUpdateService.updateWithImpacts(target, new DependencyUpdateStep(target));
+        }
     }
 
 }

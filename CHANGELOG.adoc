@@ -17,6 +17,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/89[#89] Make duration (AbstractTask and Workpackage) computed from non working days. For now, it corresponds to week-end and french public holidays 2026.
 - https://github.com/ObeoNetwork/pepper/issues/94[#94] Rename the dependency link duration to dependency link delay and display the delay in days
 - https://github.com/ObeoNetwork/pepper/issues/60[#60] Take Resource (including Unavailability period) into account for effort commutation
+- https://github.com/ObeoNetwork/pepper/issues/98[#98] Change the way the impacted tasks are calculated. Impacted tasks are always moved (effort is kept)
 
 === Bug fixes
 

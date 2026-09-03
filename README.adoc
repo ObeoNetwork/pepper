@@ -17,7 +17,7 @@ Follow the links below for more informations :
 * https://blog.obeosoft.com/pepper-a-case-of-open-innovation-with-sirius-web[Blog post presenting Pepper]
 
 
-= Starting with Pepper
+== Starting with Pepper
 
 This repository is a mono repo containing both frontend and backend components.
 

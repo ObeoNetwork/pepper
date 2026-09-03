@@ -78,13 +78,11 @@ public class PepperMMSampleBuilder {
 
     private static final String MAIN_WORKPACKAGE = "Main workpackage";
 
-    private final TaskComputationService taskComputationService;
+    private final TaskComputationService taskComputationService = new TaskComputationService();
 
-    private final WorkpackageComputationService workpackageComputationService;
+    private final WorkpackageComputationService workpackageComputationService = new WorkpackageComputationService();
 
-    public PepperMMSampleBuilder(TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
-        this.taskComputationService = taskComputationService;
-        this.workpackageComputationService = workpackageComputationService;
+    public PepperMMSampleBuilder() {
     }
 
     public Organization getSampleContent() {
@@ -168,7 +166,7 @@ public class PepperMMSampleBuilder {
         taskComputationService.updateEndTime(development, Instant.parse(DATE_2023_12_16T23_59_00Z));
         development.setComputeStartEndDynamically(true);
 
-        Task codeDev = createCodeDev(peter);
+        Task codeDev = this.createCodeDev(peter);
         Task frontDev = PepperFactory.eINSTANCE.createTask();
         frontDev.setName("Front");
         taskComputationService.updateStartTime(frontDev, Instant.parse(DATE_2023_12_13T00_00_00Z));
