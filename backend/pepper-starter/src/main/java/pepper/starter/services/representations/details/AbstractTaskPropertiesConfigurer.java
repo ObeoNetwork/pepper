@@ -14,11 +14,9 @@
 package pepper.starter.services.representations.details;
 
 import java.time.DateTimeException;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +37,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistry;
 import org.eclipse.sirius.components.collaborative.forms.services.api.IPropertiesDescriptionRegistryConfigurer;
-import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.eclipse.sirius.components.core.api.IIdentityService;
 import org.eclipse.sirius.components.core.api.ILabelService;
 import org.eclipse.sirius.components.forms.DateTimeType;
@@ -62,8 +59,10 @@ import org.eclipse.sirius.components.widget.reference.ReferenceWidgetComponent;
 import org.eclipse.sirius.components.widget.reference.ReferenceWidgetDescription;
 import org.springframework.stereotype.Service;
 
-import pepper.domain.services.TaskComputationService;
-import pepper.domain.services.WorkpackageComputationService;
+import pepper.domain.services.update.ComputeDynamicallyChangeUpdateStep;
+import pepper.domain.services.update.EffortUpdateStep;
+import pepper.domain.services.update.TaskBoundaryUpdateStep;
+import pepper.domain.services.update.TaskUpdateService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
@@ -77,7 +76,6 @@ import pepper.peppermm.Team;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
 import pepper.starter.messages.MessageConstants;
 import pepper.starter.messages.PepperMessageService;
-import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
  * Customizes the properties view for {@link AbstractTask} sub classes.
@@ -95,28 +93,23 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private final ILabelService labelService;
 
-    private final TaskComputationService taskComputationService;
-
-    private final WorkpackageComputationService workpackageComputationService;
-
     private final PepperItemProviderAdapterFactory pepperItemProviderAdapterFactory = new PepperItemProviderAdapterFactory();
 
     private final ItemProviderAdapter abstractTaskAdapter = (ItemProviderAdapter) pepperItemProviderAdapterFactory.createTaskAdapter();
 
-    private final PepperMMJavaService service;
-
     private final PepperMessageService pepperMessageService;
 
+    private final TaskUpdateService taskUpdateService;
+
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
-            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService, PepperMessageService pepperMessageService) {
+            ILabelService labelService, PepperMessageService pepperMessageService, TaskUpdateService taskUpdateService) {
         this.identityService = Objects.requireNonNull(identityService);
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
-        this.taskComputationService = Objects.requireNonNull(taskComputationService);
-        this.workpackageComputationService = Objects.requireNonNull(workpackageComputationService);
         this.pepperMessageService = pepperMessageService;
-        this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService, this.workpackageComputationService);
+        this.taskUpdateService = taskUpdateService;
     }
 
     @Override
@@ -155,17 +148,13 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
         var name = this.propertiesWidgetCreationService.createTextField("namedElement.name", abstractTaskAdapter.getString("_UI_NamedElement_name_feature"),
                 task -> Optional.ofNullable(((AbstractTask) task).getName()).orElse(""),
-                (task, newValue) -> {
-                    ((AbstractTask) task).setName(newValue);
-                },
+                (task, newValue) -> ((AbstractTask) task).setName(newValue),
                 PepperPackage.Literals.NAMED_ELEMENT__NAME);
         controls.add(name);
 
         var description = this.propertiesWidgetCreationService.createExpressionField("namedElement.description", abstractTaskAdapter.getString("_UI_NamedElement_description_feature"),
                 task -> Optional.ofNullable(((AbstractTask) task).getDescription()).orElse(""),
-                (task, newValue) -> {
-                    ((AbstractTask) task).setDescription(newValue);
-                },
+                (task, newValue) -> ((AbstractTask) task).setDescription(newValue),
                 PepperPackage.Literals.NAMED_ELEMENT__DESCRIPTION);
         controls.add(description);
 
@@ -305,22 +294,10 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+            return variableManager.get(VariableManager.SELF, DependencyRelatedObject.class)
                     .map(abstractTask -> {
-                        if (newValue == null || newValue.isBlank()) {
-                            taskComputationService.updateEffort(abstractTask, 0);
-                        } else {
-                            try {
-                                int valueInHours = this.roundToNearestHalfDayInHours(newValue);
-                                if (valueInHours >= 0) {
-                                    taskComputationService.updateEffort(abstractTask, valueInHours);
-                                    service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), abstractTask.getEndTime(), abstractTask.getProgress(),
-                                            true);
-                                }
-                            } catch (NumberFormatException e) {
-                                // Ignore
-                            }
-                        }
+                        taskUpdateService.updateWithImpacts(abstractTask, new EffortUpdateStep(abstractTask, newValue));
+
                         return (IStatus) new Success();
                     })
                     .orElse(new Failure(""));
@@ -381,7 +358,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                         .map(o -> (DependencyLink) o)
                         .map(link -> {
                             AbstractTask task = (AbstractTask) link.getSource();
-                            String name = task.getName();
+                            String name = task != null ? task.getName() : "no source";
                             String sourceKind = link.getSourceKind().toString();
                             String targetKind = link.getTargetKind().toString();
                             int delay = link.getDelay();
@@ -474,8 +451,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                             abstractTask.setStartTime(null);
                         } else {
                             try {
-                                Instant instant = Instant.parse(newValue);
-                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), instant, abstractTask.getEndTime(), abstractTask.getProgress(), true);
+                                Instant newStartTime = Instant.parse(newValue);
+                                taskUpdateService.updateWithImpacts(abstractTask, new TaskBoundaryUpdateStep((DependencyRelatedObject) abstractTask, newStartTime, abstractTask.getEndTime()));
                             } catch (DateTimeParseException e) {
                                 // Ignore
                             }
@@ -487,7 +464,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.START))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.START) || task.isComputeStartEndDynamically())
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -522,8 +499,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                             abstractTask.setEndTime(null);
                         } else {
                             try {
-                                Instant instant = Instant.parse(newValue);
-                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), instant, abstractTask.getProgress(), true);
+                                Instant newEndTime = Instant.parse(newValue);
+                                taskUpdateService.updateWithImpacts(abstractTask, new TaskBoundaryUpdateStep((DependencyRelatedObject) abstractTask, abstractTask.getStartTime(), newEndTime));
                             } catch (DateTimeParseException e) {
                                 // Ignore
                             }
@@ -535,7 +512,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         String id = "abstractTask.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END) || task.isComputeStartEndDynamically())
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -591,8 +568,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
             var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
             if (taskOpt.isPresent()) {
                 Task task = (Task) taskOpt.get();
-                task.setComputeStartEndDynamically(newValue != null && newValue);
-                service.followMoveDependency(task);
+                taskUpdateService.updateWithImpacts(task, new ComputeDynamicallyChangeUpdateStep(task, newValue));
                 return new Success();
             } else {
                 return new Failure("");
@@ -642,7 +618,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
     }
 
     private Stream<EObject> getAllResourceContentStream(Resource resource) {
-        Iterable<EObject> content = () -> resource.getAllContents();
+        Iterable<EObject> content = resource::getAllContents;
         return StreamSupport.stream(content.spliterator(), false);
     }
 
@@ -656,15 +632,5 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .toList();
     }
 
-    private int roundToNearestHalfDayInHours(String nbDaysString) {
-        double doubleValue = Double.parseDouble(nbDaysString.replace(',', '.'));
-
-        Duration inputDuration = Duration.ofHours((int) (doubleValue * 24));
-        Duration duration = inputDuration.isNegative()
-                ? inputDuration.minusHours(6).truncatedTo(ChronoUnit.HALF_DAYS)
-                : inputDuration.plusMinutes(6).truncatedTo(ChronoUnit.HALF_DAYS);
-
-        return Math.toIntExact(duration.toHours());
-    }
 }
 

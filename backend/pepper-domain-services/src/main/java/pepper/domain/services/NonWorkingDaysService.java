@@ -160,6 +160,7 @@ public class NonWorkingDaysService {
     /**
      * Returns the end time reached after the specified number of working hours from {@code startTime}. Non-working days in week and configured fixed non-working days do not consume any effort.
      * When persons is provided, days that correspond of unavailability period of all the persons are also excluded.
+     * With zero effort, returns the supplied instant if the minute before it is on a working day; otherwise advances to the next valid end time in half-day steps.
      *
      * @param startTime
      *         the non-null start of the interval
@@ -174,20 +175,19 @@ public class NonWorkingDaysService {
 
         Duration remainingDuration = Duration.ofHours(effortInHours);
         Instant currentEndTime = startTime;
-        while (!remainingDuration.isZero()) {
+        while (!remainingDuration.isZero()
+                || !this.isWorkingDay(currentEndTime.minus(1, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
             LocalDate currentDate = currentEndTime.atZone(ZoneOffset.UTC).toLocalDate();
             Instant nextHalfDayStart = currentEndTime.truncatedTo(ChronoUnit.HALF_DAYS).plus(1, ChronoUnit.HALF_DAYS);
             int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
-            if (nbWorkingPersons == 0) {
-                currentEndTime = nextHalfDayStart;
-            } else {
+            if (nbWorkingPersons > 0) {
                 Duration availableDuration = Duration.ofHours(Duration.between(currentEndTime, nextHalfDayStart).toHours() * nbWorkingPersons);
                 Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
                         ? remainingDuration
                         : availableDuration;
                 remainingDuration = remainingDuration.minus(consumedDuration);
-                currentEndTime = nextHalfDayStart;
             }
+            currentEndTime = nextHalfDayStart;
         }
         return currentEndTime;
     }
@@ -203,18 +203,42 @@ public class NonWorkingDaysService {
      * @return the supplied instant or the next valid end time
      */
     public Instant getNextEndTime(Instant instant, List<Person> persons) {
-        if (instant == null) {
+        return this.getNextEndTime(instant, 0, persons);
+    }
+
+    /**
+     * Returns the next valid start time reached after the specified number of working hours from {@code startTime}. Non-working days in week and configured fixed non-working days do not consume any
+     * effort. When persons is provided, days that correspond of unavailability period of all the persons are also excluded.
+     * With zero effort, returns the supplied instant if it is on a working day; otherwise advances to the next valid start time in half-day steps.
+     *
+     * @param startTime
+     *         the non-null start of the interval
+     * @param effortInHours
+     *         the number of working hours to add
+     * @return the resulting start time, or {@code null} when {@code startTime} is null
+     */
+    public Instant getNextStartTime(Instant startTime, int effortInHours, List<Person> persons) {
+        if (startTime == null) {
             return null;
         }
-        Instant nextEndTime = instant;
-        if (!this.isWorkingDay(nextEndTime.minus(1, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
-            nextEndTime = instant.plus(6, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HALF_DAYS);
-            while (!this.isWorkingDay(nextEndTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
-                nextEndTime = nextEndTime.plus(1, ChronoUnit.HALF_DAYS);
+
+        Duration remainingDuration = Duration.ofHours(effortInHours);
+        Instant currentStartTime = startTime;
+        while (!remainingDuration.isZero()
+                || !this.isWorkingDay(currentStartTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
+            LocalDate currentDate = currentStartTime.atZone(ZoneOffset.UTC).toLocalDate();
+            Instant nextHalfDayStart = currentStartTime.truncatedTo(ChronoUnit.HALF_DAYS).plus(1, ChronoUnit.HALF_DAYS);
+            int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
+            if (nbWorkingPersons > 0) {
+                Duration availableDuration = Duration.ofHours(Duration.between(currentStartTime, nextHalfDayStart).toHours() * nbWorkingPersons);
+                Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
+                        ? remainingDuration
+                        : availableDuration;
+                remainingDuration = remainingDuration.minus(consumedDuration);
             }
-            nextEndTime = nextEndTime.plus(1, ChronoUnit.HALF_DAYS);
+            currentStartTime = nextHalfDayStart;
         }
-        return nextEndTime;
+        return currentStartTime;
     }
 
     /**
@@ -226,23 +250,14 @@ public class NonWorkingDaysService {
      * @return the supplied instant or the previous valid start time
      */
     public Instant getPreviousStartTime(Instant instant, List<Person> persons) {
-        if (instant == null) {
-            return null;
-        }
-        Instant previousStartTime = instant;
-        if (!this.isWorkingDay(instant.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
-            previousStartTime = instant.truncatedTo(ChronoUnit.HALF_DAYS);
-            while (!this.isWorkingDay(previousStartTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
-                previousStartTime = previousStartTime.minus(1, ChronoUnit.HALF_DAYS);
-            }
-        }
-        return previousStartTime;
+        return this.getPreviousStartTime(instant, 0, persons);
     }
 
     /**
      * Returns the start time reached after moving backward by the specified number of working hours from {@code endTime}. Non-working days in week and configured fixed non-working days do not consume
      * any effort.
      * When persons is provided, days that correspond of unavailability period of all the persons are also excluded.
+     * With zero effort, returns the supplied instant if it is on a working day; otherwise moves backward to the previous valid start time in half-day steps.
      *
      * @param endTime
      *         the non-null end of the interval
@@ -258,20 +273,19 @@ public class NonWorkingDaysService {
         Duration remainingDuration = Duration.ofHours(effortInHours);
         Instant currentStartTime = endTime;
 
-        while (!remainingDuration.isZero()) {
+        while (!remainingDuration.isZero()
+                || !this.isWorkingDay(currentStartTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
             Instant previousHalfDayStart = currentStartTime.minusNanos(1).truncatedTo(ChronoUnit.HALF_DAYS);
             LocalDate currentDate = previousHalfDayStart.atZone(ZoneOffset.UTC).toLocalDate();
             int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
-            if (nbWorkingPersons == 0) {
-                currentStartTime = previousHalfDayStart;
-            } else {
+            if (nbWorkingPersons > 0) {
                 Duration availableDuration = Duration.ofHours(Duration.between(previousHalfDayStart, currentStartTime).toHours() * nbWorkingPersons);
                 Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
                         ? remainingDuration
                         : availableDuration;
                 remainingDuration = remainingDuration.minus(consumedDuration);
-                currentStartTime = previousHalfDayStart;
             }
+            currentStartTime = previousHalfDayStart;
         }
         return currentStartTime;
     }

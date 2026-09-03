@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import pepper.domain.services.TaskComputationService;
-import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.Organization;
 import pepper.peppermm.PepperPackage;
 import pepper.starter.services.project.PepperMMSampleBuilder;
@@ -31,11 +29,11 @@ public class PepperMMSampleBuilderTests {
 
     @Test
     public void testExampleContent() {
-        var content = new PepperMMSampleBuilder(new TaskComputationService(), new WorkpackageComputationService()).getSampleContent();
+        var content = new PepperMMSampleBuilder().getSampleContent();
 
         assertThat(content).isNotNull();
         assertThat(content.eClass()).isEqualTo(PepperPackage.eINSTANCE.getOrganization());
-        Organization organization = (Organization) content;
+        Organization organization = content;
         assertThat(organization.getOwnedProjects()).hasSize(4);
         assertThat(organization.getOwnedProjects()).anySatisfy(project -> assertThat(project.getName()).isEqualTo("Project Dev"));
         assertThat(organization.getOwnedProjects()).anySatisfy(project -> assertThat(project.getName()).isEqualTo("Daily Project Dev"));

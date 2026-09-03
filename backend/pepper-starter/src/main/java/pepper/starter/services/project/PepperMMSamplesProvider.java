@@ -23,9 +23,6 @@ import org.eclipse.sirius.components.emf.migration.api.IMigrationParticipant;
 import org.eclipse.sirius.components.emf.services.JSONResourceFactory;
 import org.springframework.stereotype.Service;
 
-import pepper.domain.services.TaskComputationService;
-import pepper.domain.services.WorkpackageComputationService;
-
 /**
  * Used to provide an example of PepperMM.
  *
@@ -36,14 +33,8 @@ public class PepperMMSamplesProvider {
 
     private final List<IMigrationParticipant> migrationParticipants;
 
-    private final TaskComputationService taskComputationService;
-
-    private final WorkpackageComputationService workpackageComputationService;
-
-    public PepperMMSamplesProvider(List<IMigrationParticipant> migrationParticipants, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
+    public PepperMMSamplesProvider(List<IMigrationParticipant> migrationParticipants) {
         this.migrationParticipants = Objects.requireNonNull(migrationParticipants);
-        this.taskComputationService = Objects.requireNonNull(taskComputationService);
-        this.workpackageComputationService = workpackageComputationService;
     }
 
     public UUID addPepperMMSample(ResourceSet resourceSet, String resourceName) {
@@ -58,7 +49,7 @@ public class PepperMMSamplesProvider {
         resource.eAdapters().add(resourceMetadataAdapter);
         resourceSet.getResources().add(resource);
 
-        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService, this.workpackageComputationService).getSampleContent());
+        resource.getContents().add(new PepperMMSampleBuilder().getSampleContent());
 
         return documentId;
     }
@@ -75,7 +66,7 @@ public class PepperMMSamplesProvider {
         resource.eAdapters().add(resourceMetadataAdapter);
         resourceSet.getResources().add(resource);
 
-        resource.getContents().add(new PepperMMSampleBuilder(this.taskComputationService, this.workpackageComputationService).getEmptySampleContent());
+        resource.getContents().add(new PepperMMSampleBuilder().getEmptySampleContent());
 
         return documentId;
     }

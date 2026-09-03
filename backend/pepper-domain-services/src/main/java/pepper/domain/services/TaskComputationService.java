@@ -39,6 +39,8 @@ import pepper.peppermm.Workpackage;
 public class TaskComputationService {
     private final NonWorkingDaysService nonWorkingDaysService = new NonWorkingDaysService();
 
+    private final TaskHelper taskHelper = new TaskHelper();
+
     private final ZoneId localZone = ZoneId.systemDefault();
 
     /**
@@ -52,7 +54,7 @@ public class TaskComputationService {
 
         Instant currentEndTime = this.roundToNearestHalfDay(abstractTask.getEndTime());
         int currentEffort = abstractTask.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && previousStartTime != null) {
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(((DependencyRelatedObject) abstractTask).getDependencies(), StartOrEnd.END) && previousStartTime != null) {
             Instant newEndTime = nonWorkingDaysService.getNextEndTime(previousStartTime, currentEffort, abstractTask.getAssignedPersons()).minus(1, ChronoUnit.MINUTES);
             abstractTask.setEndTime(this.convertAccordingToTimeZone(newEndTime));
         } else {
@@ -76,7 +78,7 @@ public class TaskComputationService {
 
         Instant currentStartTime = this.roundToNearestHalfDay(abstractTask.getStartTime());
         int currentEffort = abstractTask.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && nextEndTime != null) {
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(((DependencyRelatedObject) abstractTask).getDependencies(), StartOrEnd.START) && nextEndTime != null) {
             Instant newStartTime = nonWorkingDaysService.getPreviousStartTime(nextEndTime, currentEffort, abstractTask.getAssignedPersons()); //.plus(1, ChronoUnit.MINUTES);
             abstractTask.setStartTime(this.convertAccordingToTimeZone(newStartTime));
         } else {

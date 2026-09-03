@@ -33,6 +33,8 @@ import pepper.peppermm.Workpackage;
 public class WorkpackageComputationService {
     private final NonWorkingDaysService nonWorkingDaysService = new NonWorkingDaysService();
 
+    private final TaskHelper taskHelper = new TaskHelper();
+
     public void updateStartDate(Workpackage workpackage, LocalDate newStartDate) {
         LocalDate previousNewStartDate = nonWorkingDaysService.getPreviousStartDate(newStartDate, workpackage.getAssignedPersons());
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
@@ -40,7 +42,7 @@ public class WorkpackageComputationService {
 
         LocalDate currentEndDate = workpackage.getEndDate();
         int currentEffort = workpackage.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && previousNewStartDate != null) {
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(workpackage.getDependencies(), StartOrEnd.END) && previousNewStartDate != null) {
             LocalDate newEndDate = nonWorkingDaysService.getNextEndDate(previousNewStartDate, currentEffort, workpackage.getAssignedPersons());
             workpackage.setEndDate(newEndDate);
         } else {
@@ -67,7 +69,7 @@ public class WorkpackageComputationService {
 
         LocalDate currentStartDate = workpackage.getStartDate();
         int currentEffort = workpackage.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && nextNewEndDate != null) {
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(workpackage.getDependencies(), StartOrEnd.START) && nextNewEndDate != null) {
             LocalDate newStartDate = nonWorkingDaysService.getPreviousStartDate(nextNewEndDate, currentEffort, workpackage.getAssignedPersons());
             workpackage.setStartDate(newStartDate);
         } else {
