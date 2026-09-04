@@ -130,7 +130,7 @@ public class WorkpackageImpl extends AssignableObjectImpl implements Workpackage
 	 * @generated
 	 * @ordered
 	 */
-    protected static final Integer EFFORT_EDEFAULT = null;
+    protected static final int EFFORT_EDEFAULT = 0;
 
     /**
 	 * The cached value of the '{@link #getEffort() <em>Effort</em>}' attribute.
@@ -140,7 +140,7 @@ public class WorkpackageImpl extends AssignableObjectImpl implements Workpackage
 	 * @generated
 	 * @ordered
 	 */
-    protected Integer effort = EFFORT_EDEFAULT;
+    protected int effort = EFFORT_EDEFAULT;
 
     /**
 	 * The cached value of the '{@link #getOutputs() <em>Outputs</em>}' containment reference list.
@@ -412,23 +412,24 @@ public class WorkpackageImpl extends AssignableObjectImpl implements Workpackage
 	 * @generated
 	 */
     @Override
-    public Integer getEffort() {
+    public int getEffort() {
 		return effort;
 	}
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    @Override
-    public void setEffort(Integer newEffort) {
-		Integer oldEffort = effort;
+	@Override
+	public void setEffort(int newEffort) {
+		int oldEffort = effort;
 		effort = newEffort;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.WORKPACKAGE__EFFORT, oldEffort, effort));
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -690,7 +691,7 @@ public class WorkpackageImpl extends AssignableObjectImpl implements Workpackage
 			case PepperPackage.WORKPACKAGE__LEADER:
 				return leader != null;
 			case PepperPackage.WORKPACKAGE__EFFORT:
-				return EFFORT_EDEFAULT == null ? effort != null : !EFFORT_EDEFAULT.equals(effort);
+				return effort != EFFORT_EDEFAULT;
 			case PepperPackage.WORKPACKAGE__OUTPUTS:
 				return outputs != null && !outputs.isEmpty();
 			case PepperPackage.WORKPACKAGE__OWNED_TASKS:

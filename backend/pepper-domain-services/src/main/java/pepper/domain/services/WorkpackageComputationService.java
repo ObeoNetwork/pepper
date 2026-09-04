@@ -34,59 +34,66 @@ public class WorkpackageComputationService {
     private final NonWorkingDaysService nonWorkingDaysService = new NonWorkingDaysService();
 
     public void updateStartDate(Workpackage workpackage, LocalDate newStartDate) {
-        LocalDate previousNewStartDate = nonWorkingDaysService.getPreviousStartDate(newStartDate);
+        LocalDate previousNewStartDate = nonWorkingDaysService.getPreviousStartDate(newStartDate, workpackage.getAssignedPersons());
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
-        if (!TaskTimeBoundariesConstraint.END_DURATION.equals(calculationOption) || this.hasDependency(workpackage, StartOrEnd.START)) {
-            workpackage.setStartDate(previousNewStartDate);
+        workpackage.setStartDate(previousNewStartDate);
 
-            LocalDate currentEndDate = workpackage.getEndDate();
-            int currentDuration = workpackage.getDuration();
-            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END) || this.hasDependency(workpackage, StartOrEnd.END)) {
-                if (currentEndDate != null && previousNewStartDate != null) {
-                    long newDuration = nonWorkingDaysService.getDuration(previousNewStartDate, currentEndDate).toDays();
-                    workpackage.setDuration((int) newDuration);
-                }
-            } else if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION) && previousNewStartDate != null) {
-                LocalDate newEndDate = previousNewStartDate.plusDays(currentDuration - 1);
-                workpackage.setEndDate(newEndDate);
+        LocalDate currentEndDate = workpackage.getEndDate();
+        int currentEffort = workpackage.getEffort();
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && previousNewStartDate != null) {
+            LocalDate newEndDate = nonWorkingDaysService.getNextEndDate(previousNewStartDate, currentEffort, workpackage.getAssignedPersons());
+            workpackage.setEndDate(newEndDate);
+        } else {
+            if (currentEndDate != null && previousNewStartDate != null) {
+                long newEffort = nonWorkingDaysService.getEffort(previousNewStartDate, currentEndDate, workpackage.getAssignedPersons()).toDays();
+                workpackage.setEffort((int) newEffort);
             }
+        }
+
+        this.updateDuration(workpackage);
+    }
+
+    private void updateDuration(Workpackage workpackage) {
+        if (workpackage.getStartDate() != null && workpackage.getEndDate() != null) {
+            long hourDuration = nonWorkingDaysService.getDuration(workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getAssignedPersons()).toHours();
+            workpackage.setDuration((int) hourDuration);
         }
     }
 
     public void updateEndDate(Workpackage workpackage, LocalDate newEndDate) {
-        LocalDate nextNewEndDate = nonWorkingDaysService.getNextEndDate(newEndDate);
+        LocalDate nextNewEndDate = nonWorkingDaysService.getNextEndDate(newEndDate, workpackage.getAssignedPersons());
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
-        if (!TaskTimeBoundariesConstraint.START_DURATION.equals(calculationOption) || this.hasDependency(workpackage, StartOrEnd.END)) {
-            workpackage.setEndDate(nextNewEndDate);
+        workpackage.setEndDate(nextNewEndDate);
 
-            LocalDate currentStartDate = workpackage.getStartDate();
-            int currentDuration = workpackage.getDuration();
-            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_END) || this.hasDependency(workpackage, StartOrEnd.START)) {
-                if (nextNewEndDate != null && currentStartDate != null) {
-                    long newDuration = nonWorkingDaysService.getDuration(currentStartDate, nextNewEndDate).toDays();
-                    workpackage.setDuration((int) newDuration);
-                }
-            } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION) && nextNewEndDate != null) {
-                LocalDate newStartDate = nextNewEndDate.minusDays(currentDuration - 1);
-                workpackage.setStartDate(newStartDate);
+        LocalDate currentStartDate = workpackage.getStartDate();
+        int currentEffort = workpackage.getEffort();
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT) && nextNewEndDate != null) {
+            LocalDate newStartDate = nonWorkingDaysService.getPreviousStartDate(nextNewEndDate, currentEffort, workpackage.getAssignedPersons());
+            workpackage.setStartDate(newStartDate);
+        } else {
+            if (nextNewEndDate != null && currentStartDate != null) {
+                long newEffort = nonWorkingDaysService.getEffort(currentStartDate, nextNewEndDate, workpackage.getAssignedPersons()).toDays();
+                workpackage.setEffort((int) newEffort);
             }
         }
+
+        this.updateDuration(workpackage);
     }
 
-    public void updateDuration(Workpackage workpackage, int newDuration) {
+    public void updateEffort(Workpackage workpackage, int newEffort) {
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
         if (TaskTimeBoundariesConstraint.START_END.equals(calculationOption)) {
             return;
         }
-        workpackage.setDuration(newDuration);
+        workpackage.setEffort(newEffort);
 
         LocalDate currentStartDate = workpackage.getStartDate();
         LocalDate currentEndDate = workpackage.getEndDate();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-            LocalDate newEndDate = currentStartDate.plusDays(newDuration - 1);
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT)) {
+            LocalDate newEndDate = nonWorkingDaysService.getNextEndDate(currentStartDate, newEffort, workpackage.getAssignedPersons());
             workpackage.setEndDate(newEndDate);
-        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-            LocalDate newStartDate = currentEndDate.minusDays(newDuration - 1);
+        } else if (calculationOption.equals(TaskTimeBoundariesConstraint.END_EFFORT)) {
+            LocalDate newStartDate = nonWorkingDaysService.getPreviousStartDate(currentEndDate, newEffort, workpackage.getAssignedPersons());
             workpackage.setStartDate(newStartDate);
         }
     }

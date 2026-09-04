@@ -75,6 +75,8 @@ import pepper.peppermm.Task;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.messages.MessageConstants;
+import pepper.starter.messages.PepperMessageService;
 import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
@@ -103,14 +105,17 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
     private final PepperMMJavaService service;
 
+    private final PepperMessageService pepperMessageService;
+
     public AbstractTaskPropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService,
-            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService) {
+            ILabelService labelService, TaskComputationService taskComputationService, WorkpackageComputationService workpackageComputationService, PepperMessageService pepperMessageService) {
         this.identityService = Objects.requireNonNull(identityService);
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
         this.taskComputationService = Objects.requireNonNull(taskComputationService);
         this.workpackageComputationService = Objects.requireNonNull(workpackageComputationService);
+        this.pepperMessageService = pepperMessageService;
         this.service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), this.taskComputationService, this.workpackageComputationService);
     }
 
@@ -172,6 +177,9 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
 
         var endTime = this.getEndTimeWidget();
         controls.add(endTime);
+
+        var effort = this.getEffortWidget();
+        controls.add(effort);
 
         var duration = this.getDurationWidget();
         controls.add(duration);
@@ -257,10 +265,10 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 TaskTimeBoundariesConstraint taskTimeBoundariesConstraint = taskTimeBoundariesConstraintOpt.get();
                 if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_END)) {
                     label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEnd_feature");
-                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndDuration_feature");
-                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartDuration_feature");
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_EFFORT)) {
+                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndEffort_feature");
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_EFFORT)) {
+                    label = abstractTaskAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEffort_feature");
                 }
             }
             return label;
@@ -273,7 +281,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_calculationOption_feature"))
                 .isReadOnlyProvider(variableManager -> false)
                 .optionSelectedProvider(optionSelectedProvider)
-                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_DURATION, TaskTimeBoundariesConstraint.END_DURATION, TaskTimeBoundariesConstraint.START_END))
+                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_EFFORT, TaskTimeBoundariesConstraint.END_EFFORT, TaskTimeBoundariesConstraint.START_END))
                 .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
@@ -283,6 +291,56 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_COMPUTATION_OPTION))
+                .build();
+    }
+
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
+    private TextfieldDescription getEffortWidget() {
+        Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
+                .map(abstractTask -> {
+                    double nbOfDays = abstractTask.getEffort() / 24.0;
+                    return String.format("%.1f", nbOfDays);
+                })
+                .map(String::valueOf)
+                .orElse("0");
+        BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            taskComputationService.updateEffort(abstractTask, 0);
+                        } else {
+                            try {
+                                int valueInHours = this.roundToNearestHalfDayInHours(newValue);
+                                if (valueInHours >= 0) {
+                                    taskComputationService.updateEffort(abstractTask, valueInHours);
+                                    service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), abstractTask.getEndTime(), abstractTask.getProgress(),
+                                            true);
+                                }
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
+        };
+
+        String id = "abstractTask.effort";
+        return TextfieldDescription.newTextfieldDescription(id)
+                .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || this.isDateOptionForced(task))
+                        .orElse(true))
+                .idProvider(variableManager -> id)
+                .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
+                .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_effort_feature"))
+                .valueProvider(valueProvider)
+                .newValueHandler(newValueHandler)
+                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__EFFORT))
+                .kindProvider(this.propertiesConfigurerService.getKindProvider())
+                .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_EFFORT) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -294,40 +352,20 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .map(String::valueOf)
                 .orElse("0");
-        BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateDuration(taskOpt.get(), 0);
-                } else {
-                    try {
-                        int valueInHours = this.roundToNearestHalfDayInHours(newValue);
-                        var task = taskOpt.get();
-                        taskComputationService.updateDuration(task, valueInHours);
-                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), task.getEndTime(), task.getProgress(), true);
-                    } catch (NumberFormatException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
-        };
 
         String id = "abstractTask.duration";
         return TextfieldDescription.newTextfieldDescription(id)
-                .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || this.isDateOptionForced(task))
-                        .orElse(true))
+                .isReadOnlyProvider(vm -> true)
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
                 .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_duration_feature"))
                 .valueProvider(valueProvider)
-                .newValueHandler(newValueHandler)
+                .newValueHandler((variableManager, newValue) -> new Failure(""))
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.ABSTRACT_TASK__DURATION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -348,7 +386,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                             String targetKind = link.getTargetKind().toString();
                             int delay = link.getDelay();
                             double nbOfDays = delay / 24.0;
-                            String delayStr =  String.format("%.1f", nbOfDays);
+                            String delayStr = String.format("%.1f", nbOfDays);
 
                             String delayString = name + ": " + sourceKind + " -> " + targetKind;
                             if (delay != 0) {
@@ -430,29 +468,26 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateStartTime(taskOpt.get(), null);
-                } else {
-                    try {
-                        Instant instant = Instant.parse(newValue);
-                        var task = taskOpt.get();
-                        service.editTask(task, task.getName(), task.getDescription(), instant, task.getEndTime(), task.getProgress(), true);
-
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            abstractTask.setStartTime(null);
+                        } else {
+                            try {
+                                Instant instant = Instant.parse(newValue);
+                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), instant, abstractTask.getEndTime(), abstractTask.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
         String id = "abstractTask.startTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.START))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.START))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -463,6 +498,8 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
@@ -479,28 +516,26 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var taskOpt = variableManager.get(VariableManager.SELF, AbstractTask.class);
-            if (taskOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    taskComputationService.updateEndTime(taskOpt.get(), null);
-                } else {
-                    try {
-                        Instant instant = Instant.parse(newValue);
-                        var task = taskOpt.get();
-                        service.editTask(task, task.getName(), task.getDescription(), task.getStartTime(), instant, task.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, AbstractTask.class)
+                    .map(abstractTask -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            abstractTask.setEndTime(null);
+                        } else {
+                            try {
+                                Instant instant = Instant.parse(newValue);
+                                service.editTask(abstractTask, abstractTask.getName(), abstractTask.getDescription(), abstractTask.getStartTime(), instant, abstractTask.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
         String id = "abstractTask.endTime";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END))
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END))
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -511,12 +546,14 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
     }
 
     private Boolean isDateOptionForced(AbstractTask task) {
-        return (task.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && this.isPointed(task, StartOrEnd.START))
-                || (task.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && this.isPointed(task, StartOrEnd.END));
+        return (task.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT && this.isPointed(task, StartOrEnd.START))
+                || (task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT && this.isPointed(task, StartOrEnd.END));
     }
 
     private Boolean isPointed(AbstractTask task, StartOrEnd startOrEnd) {

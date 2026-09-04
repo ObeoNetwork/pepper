@@ -196,7 +196,7 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                     StartOrEnd newStartOrEnd = StartOrEnd.get(integer);
                     depLink.setTargetKind(newStartOrEnd);
                 }
-                service.editDependencyLinkDuration(depLink, depLink.getDelay());
+                service.editDependencyLinkDelay(depLink, depLink.getDelay());
                 return new Success();
             } else {
                 return new Failure("");
@@ -323,10 +323,10 @@ public class DependencyLinkPropertiesConfigurer implements IPropertiesDescriptio
                             try {
                                 if (dependencyLink.eContainer() instanceof Workpackage) {
                                     int integer = Integer.parseInt(newValue);
-                                    service.editDependencyLinkDuration(dependencyLink, integer);
+                                    service.editDependencyLinkDelay(dependencyLink, integer);
                                 } else {
                                     int valueInHours = this.roundToNearestHalfDayInHours(newValue);
-                                    service.editDependencyLinkDuration(dependencyLink, valueInHours);
+                                    service.editDependencyLinkDelay(dependencyLink, valueInHours);
                                 }
                             } catch (NumberFormatException e) {
                                 // Ignore

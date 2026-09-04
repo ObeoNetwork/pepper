@@ -69,6 +69,8 @@ import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
+import pepper.starter.messages.IPepperMessageService;
+import pepper.starter.messages.MessageConstants;
 import pepper.starter.services.representations.PepperMMJavaService;
 
 /**
@@ -95,13 +97,16 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
     private final WorkpackageComputationService workpackageComputationService;
 
+    private final IPepperMessageService pepperMessageService;
+
     public WorkpackagePropertiesConfigurer(IIdentityService identityService, PropertiesConfigurerService propertiesConfigurerService, IPropertiesWidgetCreationService propertiesWidgetCreationService, ILabelService labelService,
-            WorkpackageComputationService workpackageComputationService) {
+            WorkpackageComputationService workpackageComputationService, IPepperMessageService pepperMMMessageService) {
         this.identityService = identityService;
         this.propertiesConfigurerService = Objects.requireNonNull(propertiesConfigurerService);
         this.propertiesWidgetCreationService = Objects.requireNonNull(propertiesWidgetCreationService);
         this.labelService = labelService;
         this.workpackageComputationService = workpackageComputationService;
+        this.pepperMessageService = pepperMMMessageService;
     }
 
     @Override
@@ -118,7 +123,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
         GroupDescription groupDescriptionGeneral = this.propertiesWidgetCreationService.createSimpleGroupDescription(controlsGeneral);
         GroupDescription groupDescriptionRessources = GroupDescription.newGroupDescription("group2")
                 .idProvider(variableManager -> "group2")
-                .labelProvider(variableManager -> "Ressources")
+                .labelProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.RESOURCES))
                 .semanticElementsProvider(this.propertiesConfigurerService.getSemanticElementsProvider())
                 .controlDescriptions(controlsRessources)
                 .build();
@@ -161,6 +166,9 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
 
         var endDate = this.getEndDateWidget();
         controls.add(endDate);
+
+        var effort = this.getEffortWidget();
+        controls.add(effort);
 
         var duration = this.getDurationWidget();
         controls.add(duration);
@@ -244,10 +252,10 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_END)) {
                     label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEnd_feature");
                 }
-                else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndDuration_feature");
-                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartDuration_feature");
+                else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.END_EFFORT)) {
+                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_EndEffort_feature");
+                } else if (taskTimeBoundariesConstraint.equals(TaskTimeBoundariesConstraint.START_EFFORT)) {
+                    label = workpackageAdapter.getString("_UI_TaskTimeBoundariesConstraint_StartEffort_feature");
                 }
             }
             return label;
@@ -260,7 +268,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .labelProvider(variableManager -> workpackageAdapter.getString("_UI_Workpackage_calculationOption_feature"))
                 .isReadOnlyProvider(variableManager -> false)
                 .optionSelectedProvider(optionSelectedProvider)
-                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_DURATION, TaskTimeBoundariesConstraint.END_DURATION, TaskTimeBoundariesConstraint.START_END))
+                .optionsProvider(variableManager -> Arrays.asList(TaskTimeBoundariesConstraint.START_EFFORT, TaskTimeBoundariesConstraint.END_EFFORT, TaskTimeBoundariesConstraint.START_END))
                 .optionIdProvider(variableManager -> variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class)
                         .map(TaskTimeBoundariesConstraint::getValue)
                         .map(String::valueOf)
@@ -270,36 +278,38 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__CALCULATION_OPTION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_COMPUTATION_OPTION))
                 .build();
     }
 
-    private TextfieldDescription getDurationWidget() {
+    private TextfieldDescription getEffortWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, Workpackage.class)
-                .map(Workpackage::getDuration)
+                .map(Workpackage::getEffort)
                 .map(String::valueOf)
                 .orElse("0");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateDuration(workpackageOpt.get(), 0);
-                } else {
-                    try {
-                        int integer = Integer.parseInt(newValue);
-                        var workpackage = workpackageOpt.get();
-                        workpackageComputationService.updateDuration(workpackage, integer);
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(), workpackage.getProgress(), true);
-                    } catch (NumberFormatException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackageComputationService.updateEffort(workpackage, 0);
+                        } else {
+                            try {
+                                int integer = Integer.parseInt(newValue);
+                                if (integer >= 0) {
+                                    workpackageComputationService.updateEffort(workpackage, integer);
+                                    service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), workpackage.getEndDate(),
+                                            workpackage.getProgress(), true);
+                                }
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
 
-        String id = "workpackage.duration";
+        String id = "workpackage.effort";
         return TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
                         .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_END
@@ -309,12 +319,37 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
-                .labelProvider(variableManager -> workpackageAdapter.getString("_UI_Workpackage_duration_feature"))
+                .labelProvider(variableManager -> workpackageAdapter.getString("_UI_Workpackage_effort_feature"))
                 .valueProvider(valueProvider)
                 .newValueHandler(newValueHandler)
+                .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__EFFORT))
+                .kindProvider(this.propertiesConfigurerService.getKindProvider())
+                .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_EFFORT))
+                .build();
+    }
+
+    private TextfieldDescription getDurationWidget() {
+        Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, Workpackage.class)
+                .map(abstractTask -> {
+                    double nbOfDays = abstractTask.getDuration() / 24.0;
+                    return String.format("%.1f", nbOfDays);
+                })
+                .map(String::valueOf)
+                .orElse("0");
+
+        String id = "workpackage.duration";
+        return TextfieldDescription.newTextfieldDescription(id)
+                .isReadOnlyProvider(vm -> true)
+                .idProvider(variableManager -> id)
+                .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
+                .labelProvider(variableManager -> workpackageAdapter.getString("_UI_Workpackage_duration_feature"))
+                .valueProvider(valueProvider)
+                .newValueHandler((variableManager, newValue) -> new Failure(""))
                 .diagnosticsProvider(this.propertiesConfigurerService.getDiagnosticsProvider(PepperPackage.Literals.WORKPACKAGE__DURATION))
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION))
                 .build();
     }
 
@@ -386,28 +421,26 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateStartDate(workpackageOpt.get(), null);
-                } else {
-                    try {
-                        LocalDate localDate = LocalDate.parse(newValue);
-                        var workpackage = workpackageOpt.get();
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackage.setStartDate(null);
+                        } else {
+                            try {
+                                LocalDate localDate = LocalDate.parse(newValue);
+                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), localDate, workpackage.getEndDate(), workpackage.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
-        String id = "workpackage.startTime";
+        String id = "workpackage.startDate";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT
                                 || this.isNonConstrainingDateCalculatedByDependency(workpackage)
                                 || this.isDateCalculatedByDependency(workpackage, StartOrEnd.START)
                                 || !workpackage.getOwnedTasks().isEmpty()
@@ -422,6 +455,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE))
                 .build();
     }
 
@@ -438,28 +472,26 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 })
                 .orElse("");
         BiFunction<VariableManager, String, IStatus> newValueHandler = (variableManager, newValue) -> {
-            var workpackageOpt = variableManager.get(VariableManager.SELF, Workpackage.class);
-            if (workpackageOpt.isPresent()) {
-                if (newValue == null || newValue.isBlank()) {
-                    workpackageComputationService.updateEndDate(workpackageOpt.get(), null);
-                } else {
-                    try {
-                        LocalDate localDate = LocalDate.parse(newValue);
-                        var workpackage = workpackageOpt.get();
-                        service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
-                    } catch (DateTimeParseException e) {
-                        // Ignore
-                    }
-                }
-                return new Success();
-            } else {
-                return new Failure("");
-            }
+            return variableManager.get(VariableManager.SELF, Workpackage.class)
+                    .map(workpackage -> {
+                        if (newValue == null || newValue.isBlank()) {
+                            workpackage.setEndDate(null);
+                        } else {
+                            try {
+                                LocalDate localDate = LocalDate.parse(newValue);
+                                service.editWorkpackage(workpackage, workpackage.getName(), workpackage.getDescription(), workpackage.getStartDate(), localDate, workpackage.getProgress(), true);
+                            } catch (DateTimeParseException e) {
+                                // Ignore
+                            }
+                        }
+                        return (IStatus) new Success();
+                    })
+                    .orElse(new Failure(""));
         };
-        String id = "workpackage.endTime";
+        String id = "workpackage.endDate";
         return DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, Workpackage.class)
-                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION
+                        .map(workpackage -> workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT
                                 || this.isNonConstrainingDateCalculatedByDependency(workpackage)
                                 || this.isDateCalculatedByDependency(workpackage, StartOrEnd.END)
                                 || !workpackage.getOwnedTasks().isEmpty()
@@ -474,12 +506,13 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE)
+                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE))
                 .build();
     }
 
     private Boolean isNonConstrainingDateCalculatedByDependency(Workpackage workpackage) {
-        return (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_DURATION && this.isDateCalculatedByDependency(workpackage, StartOrEnd.START))
-                || (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_DURATION && this.isDateCalculatedByDependency(workpackage, StartOrEnd.END));
+        return (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.END_EFFORT && this.isDateCalculatedByDependency(workpackage, StartOrEnd.START))
+                || (workpackage.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT && this.isDateCalculatedByDependency(workpackage, StartOrEnd.END));
     }
 
     private Boolean isDateCalculatedByDependency(Workpackage workpackage, StartOrEnd startOrEnd) {

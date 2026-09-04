@@ -51,8 +51,8 @@ public class AssignableObjectItemProvider extends NamedElementItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-            this.addAssignedPersonsPropertyDescriptor(object);
-            this.addAssignedTeamsPropertyDescriptor(object);
+			addAssignedPersonsPropertyDescriptor(object);
+			addAssignedTeamsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -65,11 +65,11 @@ public class AssignableObjectItemProvider extends NamedElementItemProvider {
 	 */
 	protected void addAssignedPersonsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(this.createItemPropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                        this.getResourceLocator(),
-                        this.getString("_UI_AssignableObject_assignedPersons_feature"),
-                        this.getString("_UI_PropertyDescriptor_description", "_UI_AssignableObject_assignedPersons_feature", "_UI_AssignableObject_type"),
+				 getResourceLocator(),
+				 getString("_UI_AssignableObject_assignedPersons_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AssignableObject_assignedPersons_feature", "_UI_AssignableObject_type"),
 				 PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_PERSONS,
 				 true,
 				 false,
@@ -87,11 +87,11 @@ public class AssignableObjectItemProvider extends NamedElementItemProvider {
 	 */
 	protected void addAssignedTeamsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(this.createItemPropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                        this.getResourceLocator(),
-                        this.getString("_UI_AssignableObject_assignedTeams_feature"),
-                        this.getString("_UI_PropertyDescriptor_description", "_UI_AssignableObject_assignedTeams_feature", "_UI_AssignableObject_type"),
+				 getResourceLocator(),
+				 getString("_UI_AssignableObject_assignedTeams_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AssignableObject_assignedTeams_feature", "_UI_AssignableObject_type"),
 				 PepperPackage.Literals.ASSIGNABLE_OBJECT__ASSIGNED_TEAMS,
 				 true,
 				 false,
@@ -121,8 +121,8 @@ public class AssignableObjectItemProvider extends NamedElementItemProvider {
 	public String getText(Object object) {
 		String label = ((AssignableObject)object).getName();
 		return label == null || label.length() == 0 ?
-                this.getString("_UI_AssignableObject_type") :
-                this.getString("_UI_AssignableObject_type") + " " + label;
+			getString("_UI_AssignableObject_type") :
+			getString("_UI_AssignableObject_type") + " " + label;
 	}
 
 
@@ -135,7 +135,7 @@ public class AssignableObjectItemProvider extends NamedElementItemProvider {
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-        this.updateChildren(notification);
+		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
 

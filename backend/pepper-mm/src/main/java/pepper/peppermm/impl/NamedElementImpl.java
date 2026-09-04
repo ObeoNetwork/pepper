@@ -48,16 +48,6 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,6 +56,16 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
@@ -115,8 +115,8 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.NAMED_ELEMENT__NAME, oldName, name));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.NAMED_ELEMENT__NAME, oldName, name));
 	}
 
 	/**
@@ -138,8 +138,8 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public void setDescription(String newDescription) {
 		String oldDescription = description;
 		description = newDescription;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.NAMED_ELEMENT__DESCRIPTION, oldDescription, description));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.NAMED_ELEMENT__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
@@ -151,9 +151,9 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PepperPackage.NAMED_ELEMENT__NAME:
-				return this.getName();
+				return getName();
 			case PepperPackage.NAMED_ELEMENT__DESCRIPTION:
-				return this.getDescription();
+				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -167,10 +167,10 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PepperPackage.NAMED_ELEMENT__NAME:
-                this.setName((String)newValue);
+				setName((String)newValue);
 				return;
 			case PepperPackage.NAMED_ELEMENT__DESCRIPTION:
-                this.setDescription((String)newValue);
+				setDescription((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,10 +185,10 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PepperPackage.NAMED_ELEMENT__NAME:
-                this.setName(NAME_EDEFAULT);
+				setName(NAME_EDEFAULT);
 				return;
 			case PepperPackage.NAMED_ELEMENT__DESCRIPTION:
-                this.setDescription(DESCRIPTION_EDEFAULT);
+				setDescription(DESCRIPTION_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -203,9 +203,9 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PepperPackage.NAMED_ELEMENT__NAME:
-				return !Objects.equals(NAME_EDEFAULT, name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PepperPackage.NAMED_ELEMENT__DESCRIPTION:
-				return !Objects.equals(DESCRIPTION_EDEFAULT, description);
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -217,14 +217,15 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	 */
 	@Override
 	public String toString() {
-		if (this.eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        String result = super.toString() + " (name: "
-                + name
-                + ", description: "
-                + description
-                + ')';
-		return result;
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", description: ");
+		result.append(description);
+		result.append(')');
+		return result.toString();
 	}
 
 } //NamedElementImpl

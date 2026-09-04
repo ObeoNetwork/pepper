@@ -16,6 +16,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/90[#90] Display the duration of AbstractTask in days, rounding to the nearest half-day.
 - https://github.com/ObeoNetwork/pepper/issues/89[#89] Make duration (AbstractTask and Workpackage) computed from non working days. For now, it corresponds to week-end and french public holidays 2026.
 - https://github.com/ObeoNetwork/pepper/issues/94[#94] Rename the dependency link duration to dependency link delay and display the delay in days
+- https://github.com/ObeoNetwork/pepper/issues/60[#60] Take Resource (including Unavailability period) into account for effort commutation
 
 === Bug fixes
 

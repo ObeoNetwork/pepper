@@ -49,6 +49,7 @@ import pepper.peppermm.Team;
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getSubTasks <em>Sub Tasks</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getCalculationOption <em>Calculation Option</em>}</li>
  *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link pepper.peppermm.impl.AbstractTaskImpl#getEffort <em>Effort</em>}</li>
  * </ul>
  *
  * @generated
@@ -193,6 +194,26 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     protected int duration = DURATION_EDEFAULT;
 
     /**
+	 * The default value of the '{@link #getEffort() <em>Effort</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEffort()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EFFORT_EDEFAULT = 0;
+
+				/**
+	 * The cached value of the '{@link #getEffort() <em>Effort</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEffort()
+	 * @generated
+	 * @ordered
+	 */
+	protected int effort = EFFORT_EDEFAULT;
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -366,6 +387,29 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int getEffort() {
+		return effort;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setEffort(int newEffort) {
+		int oldEffort = effort;
+		effort = newEffort;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__EFFORT, oldEffort, effort));
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -401,6 +445,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 				return getCalculationOption();
 			case PepperPackage.ABSTRACT_TASK__DURATION:
 				return getDuration();
+			case PepperPackage.ABSTRACT_TASK__EFFORT:
+				return getEffort();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -439,6 +485,9 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 			case PepperPackage.ABSTRACT_TASK__DURATION:
 				setDuration((Integer)newValue);
 				return;
+			case PepperPackage.ABSTRACT_TASK__EFFORT:
+				setEffort((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -474,6 +523,9 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 			case PepperPackage.ABSTRACT_TASK__DURATION:
 				setDuration(DURATION_EDEFAULT);
 				return;
+			case PepperPackage.ABSTRACT_TASK__EFFORT:
+				setEffort(EFFORT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -501,6 +553,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 				return calculationOption != CALCULATION_OPTION_EDEFAULT;
 			case PepperPackage.ABSTRACT_TASK__DURATION:
 				return duration != DURATION_EDEFAULT;
+			case PepperPackage.ABSTRACT_TASK__EFFORT:
+				return effort != EFFORT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -526,6 +580,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 		result.append(calculationOption);
 		result.append(", duration: ");
 		result.append(duration);
+		result.append(", effort: ");
+		result.append(effort);
 		result.append(')');
 		return result.toString();
 	}

@@ -43,6 +43,7 @@ import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 import pepper.starter.services.representations.PepperMMJavaService;
+import pepper.starter.services.representations.deck.PepperDeckJavaService;
 
 /**
  * Test used to validate the service for the task related views.
@@ -110,14 +111,14 @@ public class PepperMMJavaServiceTests {
         taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
-        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task2.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task2, 24);
+        taskComputationService.updateEffort(task2, 24);
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
-        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task3.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task3, 24);
+        taskComputationService.updateEffort(task3, 24);
 
         workpackage.getOwnedTasks().add(task3);
         workpackage.getOwnedTasks().add(task2);
@@ -201,9 +202,9 @@ public class PepperMMJavaServiceTests {
     @Test
     public void createDependencyLink() {
         Task task = PepperFactory.eINSTANCE.createTask();
-        task.setCalculationOption(TaskTimeBoundariesConstraint.START_DURATION);
+        task.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task, Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        taskComputationService.updateDuration(task, 24);
+        taskComputationService.updateEffort(task, 24);
 
         Task taskDependency = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(taskDependency, Instant.parse(MONDAY_2026_01_05_T00_00_00));
@@ -281,12 +282,12 @@ public class PepperMMJavaServiceTests {
     }
 
     @Test
-    public void computeTaskDurationDays() {
+    public void computeTaskEffortDays() {
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, Instant.now());
         taskComputationService.updateEndTime(task, Instant.now().plus(1, ChronoUnit.HOURS).plus(1, ChronoUnit.DAYS));
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
-        var result = service.computeTaskDurationDays(task);
+        var service = new PepperDeckJavaService();
+        var result = service.computeTaskEffortDays(task);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo("01d00h");
     }
@@ -294,7 +295,7 @@ public class PepperMMJavaServiceTests {
     @Test
     public void editCard() {
         AbstractTask card = PepperFactory.eINSTANCE.createTask();
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+        var service = new PepperDeckJavaService();
         service.editCard(card, NEW_NAME, NEW_DESCRIPTION, null);
         assertThat(card.getName()).isEqualTo(NEW_NAME);
         assertThat(card.getDescription()).isEqualTo(NEW_DESCRIPTION);
@@ -309,7 +310,7 @@ public class PepperMMJavaServiceTests {
         project.getOwnedWorkpackages().add(projectWorkpackage);
         project.getOwnedTagFolders().add(tagFolder);
         project.getOwnedTagFolders().get(0).getOwnedTags().add(tag);
-        var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskComputationService(), new WorkpackageComputationService());
+        var service = new PepperDeckJavaService();
         service.createCard(tag);
         assertThat(project.getOwnedWorkpackages().get(0).getOwnedTasks()).hasSize(1);
         assertThat(project.getOwnedWorkpackages().get(0).getOwnedTasks().get(0).getName()).isEqualTo("New Task");

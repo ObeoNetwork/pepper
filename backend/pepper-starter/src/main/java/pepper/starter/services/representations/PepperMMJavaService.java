@@ -22,7 +22,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -38,14 +37,10 @@ import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
-import pepper.peppermm.KeyResult;
-import pepper.peppermm.Objective;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Project;
 import pepper.peppermm.StartOrEnd;
-import pepper.peppermm.TagFolder;
 import pepper.peppermm.Task;
-import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 
@@ -105,8 +100,8 @@ public class PepperMMJavaService {
         return laterInstant;
     }
 
-    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MethodLength" })
-    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepDuration) {
+    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MethodLength", "checkstyle:MissingSwitchDefault" })
+    public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepEffort) {
         if (eObject instanceof Task task) {
             if (name != null) {
                 task.setName(name);
@@ -130,58 +125,32 @@ public class PepperMMJavaService {
                     boolean endTimeControlledByDependency =
                             dependencies.stream()
                                     .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
-                    TaskTimeBoundariesConstraint calculationOption = task.getCalculationOption();
 
-                    if (startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        if (differenceStart != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                            }
-                        }
-                        if (differenceEnd != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                            } else {
-                                taskComputationService.updateEndTime(task, newEndTime);
-                            }
-                        }
-                    } else if (!startTimeControlledByDependency && endTimeControlledByDependency) {
-                        if (differenceStart != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                            } else {
-                                taskComputationService.updateStartTime(task, newStartTime);
-                            }
-                        }
-                        if (differenceEnd != 0) {
-                            if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                            }
-                        }
-                    } else if (!startTimeControlledByDependency && !endTimeControlledByDependency) {
-                        if (taskShifted) {
-                            taskComputationService.updateStartTime(task, newStartTime);
-                            taskComputationService.updateEndTime(task, newEndTime);
-                        } else {
-                            if (differenceStart != 0) {
-                                if (calculationOption.equals(TaskTimeBoundariesConstraint.END_DURATION)) {
-                                    taskComputationService.updateDuration(task, task.getDuration() - Math.round((float) differenceStart / 3600));
-                                } else {
+                    if (taskShifted) {
+                        if (dependencies.isEmpty()) {
+                            TaskTimeBoundariesConstraint calculationOption = task.getCalculationOption();
+                            switch (calculationOption) {
+                                case START_EFFORT -> taskComputationService.updateStartTime(task, newStartTime);
+                                case END_EFFORT -> taskComputationService.updateEndTime(task, newEndTime);
+                                case START_END -> {
                                     taskComputationService.updateStartTime(task, newStartTime);
-                                }
-                            }
-                            if (differenceEnd != 0) {
-                                if (calculationOption.equals(TaskTimeBoundariesConstraint.START_DURATION)) {
-                                    taskComputationService.updateDuration(task, task.getDuration() + Math.round((float) differenceEnd / 3600));
-                                } else {
                                     taskComputationService.updateEndTime(task, newEndTime);
                                 }
                             }
+                            this.followMoveDependency(task);
+                        }
+                    } else {
+                        if (differenceStart != 0 && !startTimeControlledByDependency) {
+                            taskComputationService.updateStartTime(task, newStartTime);
+                            this.followMoveDependency(task);
+                        }
+
+                        if (differenceEnd != 0 && !endTimeControlledByDependency) {
+                            taskComputationService.updateEndTime(task, newEndTime);
+                            this.followMoveDependency(task);
                         }
                     }
-                    if (!startTimeControlledByDependency || !endTimeControlledByDependency) {
-                        this.followMoveDependency(task);
-                    }
+
                 }
             }
             if (progress != null) {
@@ -190,9 +159,9 @@ public class PepperMMJavaService {
         }
     }
 
-    private void setTaskDuration(Task task, Instant start, Instant end) {
-        int duration = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        taskComputationService.updateDuration(task, duration);
+    private void setTaskEffort(Task task, Instant start, Instant end) {
+        int effort = (int) ChronoUnit.HOURS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
+        taskComputationService.updateEffort(task, effort);
     }
 
     public void createTask(EObject context) {
@@ -514,7 +483,7 @@ public class PepperMMJavaService {
             }
             if (winnerEnd != null && winnerStart != null) {
                 if (workpackage.getStartDate().isAfter(workpackage.getEndDate())) {
-                    workpackageComputationService.updateDuration(workpackage, 1);
+                    workpackageComputationService.updateEffort(workpackage, 1);
                     workpackageComputationService.updateEndDate(workpackage, workpackage.getStartDate().plusDays(1));
                     this.feedbackMessageService.addFeedbackMessage(
                             new Message("Task dependencies overlap : End date has been changed to avoid to have end date before start date.", MessageLevel.WARNING));
@@ -583,7 +552,7 @@ public class PepperMMJavaService {
             if (winnerEnd != null && winnerStart != null) {
                 if (task.getEndTime().isBefore(task.getStartTime())) {
                     Instant newEndTime = task.getStartTime().plus(12, ChronoUnit.HOURS);
-                    this.setTaskDuration(task, task.getStartTime(), newEndTime);
+                    this.setTaskEffort(task, task.getStartTime(), newEndTime);
                     taskComputationService.updateEndTime(task, newEndTime.minus(1, ChronoUnit.MINUTES));
                     this.feedbackMessageService.addFeedbackMessage(new Message("Task dependencies overlap.", MessageLevel.ERROR));
                 }
@@ -637,7 +606,7 @@ public class PepperMMJavaService {
     /**
      * Recalculates and updates the start and end dates of the specified target {@link Task} according to the given {@link DependencyLink}.
      * <p>
-     * The task duration is preserved during the calculation. Only the start and end instants are shifted to satisfy the dependency constraints.
+     * The task effort is preserved during the calculation. Only the start and end instants are shifted to satisfy the dependency constraints.
      *
      * @param task
      *         the target {@link Task} whose start and end dates must be updated according to the dependency
@@ -692,7 +661,7 @@ public class PepperMMJavaService {
                 newTaskEnd = newTaskEnd.plus(1, ChronoUnit.MINUTES);
             }
         }
-        this.setTaskDuration(task, task.getStartTime(), newTaskEnd);
+        this.setTaskEffort(task, task.getStartTime(), newTaskEnd);
         taskComputationService.updateEndTime(task, newTaskEnd);
     }
 
@@ -712,7 +681,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newTaskStart = sourceStart.plus(delay, ChronoUnit.HOURS);
         }
-        this.setTaskDuration(task, task.getStartTime(), newTaskStart);
+        this.setTaskEffort(task, task.getStartTime(), newTaskStart);
         taskComputationService.updateStartTime(task, newTaskStart);
     }
 
@@ -730,7 +699,7 @@ public class PepperMMJavaService {
         LocalDate sourceEnd = bestSourceworkpackage.getEndDate();
         LocalDate oldWorkpackageStart = workpackage.getStartDate();
         LocalDate oldWorkpackageEnd = workpackage.getEndDate();
-        long duration = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
+        long effort = ChronoUnit.DAYS.between(oldWorkpackageStart, oldWorkpackageEnd);
         StartOrEnd sourceStartOrEnd = dependencyLink.getSourceKind();
         StartOrEnd targetStartOrEnd = dependencyLink.getTargetKind();
         int delay = dependencyLink.getDelay();
@@ -742,19 +711,19 @@ public class PepperMMJavaService {
         }
         if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceEnd.plusDays(delay);
-            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(effort);
             workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.START) {
             LocalDate newWorkpackageStart = sourceStart.plusDays(delay);
-            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(duration);
+            LocalDate newWorkpackageEnd = newWorkpackageStart.plusDays(effort);
             workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
         } else if (sourceStartOrEnd == StartOrEnd.END && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceEnd.plusDays(delay);
-            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(effort);
             workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
         } else if (sourceStartOrEnd == StartOrEnd.START && targetStartOrEnd == StartOrEnd.END) {
             LocalDate newWorkpackageEnd = sourceStart.plusDays(delay);
-            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(duration);
+            LocalDate newWorkpackageStart = newWorkpackageEnd.minusDays(effort);
             workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
         }
     }
@@ -778,7 +747,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageEnd = sourceStart.plusDays(delay);
         }
-        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
+        workpackageComputationService.updateEffort(workpackage, (int) ChronoUnit.DAYS.between(workpackage.getStartDate(), newWorkpackageEnd));
         workpackageComputationService.updateEndDate(workpackage, newWorkpackageEnd);
     }
 
@@ -798,7 +767,7 @@ public class PepperMMJavaService {
         } else if (sourceStartOrEnd == StartOrEnd.START) {
             newWorkpackageStart = sourceStart.plusDays(delay);
         }
-        workpackageComputationService.updateDuration(workpackage, (int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
+        workpackageComputationService.updateEffort(workpackage, (int) ChronoUnit.DAYS.between(newWorkpackageStart, workpackage.getEndDate()));
         workpackageComputationService.updateStartDate(workpackage, newWorkpackageStart);
     }
 
@@ -813,61 +782,9 @@ public class PepperMMJavaService {
         return laterLocalDate;
     }
 
-    public void editDependencyLinkDuration(DependencyLink depLink, int newDuration) {
-        depLink.setDelay(newDuration);
+    public void editDependencyLinkDelay(DependencyLink depLink, int newDelay) {
+        depLink.setDelay(newDelay);
         this.followMoveDependency(depLink.getSource());
-    }
-
-    public List<Task> getTasksWithTag(TaskTag tag, Workpackage workpackage) {
-        return Optional.of(workpackage).stream()
-                .flatMap(wkP -> {
-                    Iterable<EObject> content = () -> wkP.eAllContents();
-                    return StreamSupport.stream(content.spliterator(), false);
-                })
-                .filter(Task.class::isInstance)
-                .map(Task.class::cast)
-                .filter(task -> task.getTags().contains(tag))
-                .toList();
-    }
-
-    public String computeTaskDurationDays(Task task) {
-        String value = "";
-        int duration = task.getDuration();
-        int dd = duration / 24;
-        int hh = duration % 24;
-        value = String.format("%02dd%02dh", dd, hh);
-        return value;
-    }
-
-    public void createCard(EObject context) {
-        Task task = PepperFactory.eINSTANCE.createTask();
-        task.setName(NEW_TASK);
-        task.setDescription("new description");
-        if (context instanceof TaskTag tag) {
-            task.getTags().add(tag);
-
-            EObject parent = context.eContainer();
-            if (parent instanceof TagFolder tagFolder) {
-                EObject parent2 = tagFolder.eContainer();
-                if (parent2 instanceof Project project) {
-                    var workpackages = project.getOwnedWorkpackages();
-                    if (!workpackages.isEmpty()) {
-                        workpackages.get(0).getOwnedTasks().add(task);
-                    }
-                }
-            }
-        }
-    }
-
-    public void editCard(EObject eObject, String title, String description, String label) {
-        if (eObject instanceof AbstractTask task) {
-            if (title != null) {
-                task.setName(title);
-            }
-            if (description != null) {
-                task.setDescription(description);
-            }
-        }
     }
 
     public void moveTaskIntoTarget(Task sourceTask, EObject target, int indexInTarget) {
@@ -906,7 +823,7 @@ public class PepperMMJavaService {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
         newWorkpackage.setName("New Workpackage");
         if (context instanceof Workpackage workpackage) {
-            // The new task follows the context task and has the same duration than the context task.
+            // The new task follows the context task and has the same effort than the context task.
             if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
                 workpackageComputationService.updateStartDate(newWorkpackage, workpackage.getEndDate());
                 workpackageComputationService.updateEndDate(newWorkpackage, workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay()));
@@ -932,8 +849,8 @@ public class PepperMMJavaService {
         }
     }
 
-    @SuppressWarnings("checkstyle:NestedIfDepth")
-    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepDuration) {
+    @SuppressWarnings({ "checkstyle:NestedIfDepth", "checkstyle:MissingSwitchDefault" })
+    public void editWorkpackage(EObject eObject, String name, String description, LocalDate startDate, LocalDate endDate, Integer progress, boolean keepEffort) {
         if (eObject instanceof Workpackage workpackage) {
             if (name != null) {
                 workpackage.setName(name);
@@ -952,21 +869,28 @@ public class PepperMMJavaService {
                 boolean endDateControlledByDependency =
                         dependencies.stream()
                                 .anyMatch(dep -> dep.getTargetKind() == StartOrEnd.END);
-                if (dependencies.isEmpty() || differenceEnd != differenceStart) {
-                    if (startDateControlledByDependency && !endDateControlledByDependency) {
-                        this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackageComputationService.updateEndDate(workpackage, endDate.plusDays(differenceStart));
-                    } else if (endDateControlledByDependency && !startDateControlledByDependency) {
-                        this.workpackageSetDuration(workpackage, startDate, endDate);
-                        workpackageComputationService.updateStartDate(workpackage, startDate.plusDays(differenceEnd));
-                    } else if (!startDateControlledByDependency && !endDateControlledByDependency) {
-                        if (!keepDuration) {
-                            this.workpackageSetDuration(workpackage, startDate, endDate);
+
+                if (differenceStart != 0 && differenceEnd != 0) {
+                    if (dependencies.isEmpty()) {
+                        TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
+                        switch (calculationOption) {
+                            case START_EFFORT -> workpackageComputationService.updateStartDate(workpackage, startDate);
+                            case END_EFFORT -> workpackageComputationService.updateEndDate(workpackage, endDate);
+                            case START_END -> {
+                                workpackageComputationService.updateStartDate(workpackage, startDate);
+                                workpackageComputationService.updateEndDate(workpackage, endDate);
+                            }
                         }
-                        workpackageComputationService.updateStartDate(workpackage, startDate);
-                        workpackageComputationService.updateEndDate(workpackage, endDate);
+                        this.followMoveDependency(workpackage);
                     }
-                    if (!startDateControlledByDependency || !endDateControlledByDependency) {
+                } else {
+                    if (differenceStart != 0 && !startDateControlledByDependency) {
+                        workpackageComputationService.updateStartDate(workpackage, startDate);
+                        this.followMoveDependency(workpackage);
+                    }
+
+                    if (differenceEnd != 0 && !endDateControlledByDependency) {
+                        workpackageComputationService.updateEndDate(workpackage, endDate);
                         this.followMoveDependency(workpackage);
                     }
                 }
@@ -975,11 +899,6 @@ public class PepperMMJavaService {
                 workpackage.setProgress(progress);
             }
         }
-    }
-
-    private void workpackageSetDuration(Workpackage workpackage, LocalDate start, LocalDate end) {
-        int duration = (int) ChronoUnit.DAYS.between(start, end) + 1; //+1 because between(00:00, 00:59) = 0. We want 1.
-        workpackageComputationService.updateDuration(workpackage, duration);
     }
 
     public void moveWorkpackageInProject(Workpackage sourceWorkpackage, Project project, int indexInTarget) {
@@ -993,16 +912,6 @@ public class PepperMMJavaService {
             }
         } else {
             project.getOwnedWorkpackages().add(indexInTarget, sourceWorkpackage);
-        }
-    }
-
-    public void moveKeyResultIntoObjective(KeyResult sourceKeyResult, Objective targetObjective, int indexInTarget) {
-        EList<KeyResult> ownedKeyResults = targetObjective.getOwnedKeyResults();
-        if (sourceKeyResult.eContainer().equals(targetObjective)) {
-            ownedKeyResults.move(indexInTarget, sourceKeyResult);
-        } else {
-            ownedKeyResults.add(sourceKeyResult);
-            ownedKeyResults.move(indexInTarget, sourceKeyResult);
         }
     }
 
@@ -1030,111 +939,5 @@ public class PepperMMJavaService {
                 targetTask.getSubTasks().add(sourceTask);
             }
         }
-    }
-
-    public Task moveTaskInTag(Task moveTask, int index, TaskTag targetTag) {
-        Optional<Workpackage> workPackageOpt = this.getParent(moveTask, Workpackage.class);
-
-        if (workPackageOpt.isPresent()) {
-            // We retrieve all tasks with the same tag (in the same lane).
-            List<Task> allTaskInTheLane = this.getTasksWithTag(targetTag, workPackageOpt.get());
-            Optional<Task> firstTaskAfterTheDroppedTaskWithSameParent = allTaskInTheLane.subList(index, allTaskInTheLane.size()).stream()
-                    .filter(task -> task.eContainer().equals(moveTask.eContainer())).findFirst();
-
-            List<Task> tasksBeforeTheDroppedTaskWithSameParent = allTaskInTheLane.subList(0, index).stream().filter(task -> task.eContainer().equals(moveTask.eContainer())).toList();
-            Optional<Task> lastTaskBeforeTheDroppedTaskWithSameParent = Optional.empty();
-            if (!tasksBeforeTheDroppedTaskWithSameParent.isEmpty()) {
-                lastTaskBeforeTheDroppedTaskWithSameParent = Optional.of(tasksBeforeTheDroppedTaskWithSameParent.get(tasksBeforeTheDroppedTaskWithSameParent.size() - 1));
-            }
-
-            if (lastTaskBeforeTheDroppedTaskWithSameParent.isPresent() || firstTaskAfterTheDroppedTaskWithSameParent.isPresent()) {
-                EObject eContainer = moveTask.eContainer();
-                if (eContainer instanceof Workpackage workpackage) {
-                    int indexInParent = 0;
-                    if (lastTaskBeforeTheDroppedTaskWithSameParent.isPresent()) {
-                        indexInParent = workpackage.getOwnedTasks().indexOf(lastTaskBeforeTheDroppedTaskWithSameParent.get()) + 1;
-                    } else {
-                        indexInParent = workpackage.getOwnedTasks().indexOf(firstTaskAfterTheDroppedTaskWithSameParent.get());
-                    }
-                    workpackage.getOwnedTasks().move(indexInParent, moveTask);
-                } else if (eContainer instanceof AbstractTask parentTask) {
-                    int indexInParent = 0;
-                    if (lastTaskBeforeTheDroppedTaskWithSameParent.isPresent()) {
-                        indexInParent = parentTask.getSubTasks().indexOf(lastTaskBeforeTheDroppedTaskWithSameParent.get()) + 1;
-                    } else {
-                        indexInParent = parentTask.getSubTasks().indexOf(firstTaskAfterTheDroppedTaskWithSameParent.get());
-                    }
-                    parentTask.getSubTasks().move(indexInParent, moveTask);
-                }
-            }
-        }
-        return moveTask;
-    }
-
-    <T> Optional<T> getParent(EObject eObject, Class<T> clazz) {
-        Optional<T> objectOpt = Optional.empty();
-        EObject parent = eObject.eContainer();
-        while (parent != null) {
-            if (clazz.isInstance(parent)) {
-                objectOpt = Optional.of(clazz.cast(parent));
-                break;
-            }
-            parent = parent.eContainer();
-        }
-
-        return objectOpt;
-    }
-
-    public void moveObjectiveAtIndex(Objective objective, int index) {
-        if (objective.eContainer() instanceof Project project) {
-            project.getOwnedObjectives().move(index, objective);
-        }
-    }
-
-    public void moveTagAtIndex(TaskTag movedTag, int index) {
-        EObject eContainer = movedTag.eContainer();
-        if (eContainer instanceof TagFolder tagFolder) {
-            String prefix = movedTag.getPrefix();
-            List<TaskTag> tagList = tagFolder.getOwnedTags().stream().filter(tag -> tag.getPrefix().equals(prefix)).toList();
-
-            int newIndex = this.computeIndexOfTagToMove(movedTag, index, tagList, tagFolder);
-            // We move the current tag before the tagToReplace in the project ownTags list.
-            int oldIndex = tagFolder.getOwnedTags().indexOf(movedTag);
-            // If the moved tag was located before the new location, the index after having remove the tag is
-            // decremented.
-            if (oldIndex < newIndex) {
-                newIndex--;
-            }
-            tagFolder.getOwnedTags().move(newIndex, movedTag);
-
-        }
-    }
-
-    /**
-     * When a lane is moved, we change the underlying tag ordering. We need to compute the new index in the project tag list.
-     *
-     * @param tag
-     *         the tag to move.
-     * @param index
-     *         the new index in the project tag list.
-     * @param tagList
-     *         the current deck representation tag list (might be a sub set of the project tag list).
-     * @param tagFolder
-     *         the TagFolder owning the tags.
-     * @return the index on which the tag should be moved in the project tag list to match the new index in the deck representation.
-     */
-    private int computeIndexOfTagToMove(TaskTag tag, int index, List<TaskTag> tagList, TagFolder tagFolder) {
-        int newIndex;
-        List<TaskTag> unmovedLaneTags = tagList.stream().filter(currentTag -> currentTag != tag).toList();
-        if (index < unmovedLaneTags.size()) {
-            // We retrieve the tag that will be located after the moved one.
-            TaskTag tagToMoveAround = unmovedLaneTags.get(index);
-            newIndex = tagFolder.getOwnedTags().indexOf(tagToMoveAround);
-        } else {
-            // We need to locate the tag after the last one in the deck representation
-            TaskTag lastTag = unmovedLaneTags.get(unmovedLaneTags.size() - 1);
-            newIndex = tagFolder.getOwnedTags().indexOf(lastTag) + 1;
-        }
-        return newIndex;
     }
 }
