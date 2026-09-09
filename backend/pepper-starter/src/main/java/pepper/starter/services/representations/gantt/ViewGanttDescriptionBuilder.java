@@ -136,7 +136,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newDeleteTaskDependencyTool()
                 .name("Delete Task Dependency")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:targetObject.deleteDependencyLink(sourceObject)")
+                        .expression("aql:sourceObject.deleteDependencyLink(targetObject)")
                         .build())
                 .build();
     }

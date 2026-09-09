@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 
 import pepper.domain.services.TaskComputationService;
 import pepper.domain.services.WorkpackageComputationService;
+import pepper.domain.services.update.TaskUpdateService;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.StartOrEnd;
@@ -63,7 +64,7 @@ public class EditDependenciesServiceTests {
     private final Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
     private final TaskComputationService taskComputationService = new TaskComputationService();
     private final WorkpackageComputationService workpackageComputationService = new WorkpackageComputationService();
-    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), taskComputationService, workpackageComputationService);
+    private final PepperMMJavaService service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskUpdateService(new IFeedbackMessageService.NoOp()));
     private final SimpleCrossReferenceProvider simpleCrossReferenceProvider = new SimpleCrossReferenceProvider();
 
     @BeforeEach
