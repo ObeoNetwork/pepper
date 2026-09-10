@@ -15,6 +15,7 @@ package pepper.domain.services.update;
 
 /**
  * Represent a step in the update of a task.
+ * Steps are equal when their impacted task instances are the same.
  * @author lfasani
  */
 public abstract class TaskUpdateStep {
