@@ -15,6 +15,9 @@ package pepper.domain.services;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -72,6 +75,11 @@ public class TaskHelper {
         }
 
         return objectOpt;
+    }
+
+    public boolean isParent(EObject parent, EObject child) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(parent.eAllContents(), Spliterator.ORDERED), false)
+                .anyMatch(eObject -> eObject.equals(child));
     }
 
     public TaskTimeBoundariesConstraint getCalculationOption(DependencyRelatedObject task) {
