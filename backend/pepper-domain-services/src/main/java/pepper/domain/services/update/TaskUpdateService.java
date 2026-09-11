@@ -16,6 +16,7 @@ package pepper.domain.services.update;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
 import org.springframework.stereotype.Service;
 
+import pepper.domain.services.PersonCapacityAllocation;
 import pepper.domain.services.TaskComputationService;
 import pepper.domain.services.TaskHelper;
 import pepper.domain.services.WorkpackageComputationService;
@@ -84,7 +86,40 @@ public class TaskUpdateService {
     }
 
     private void doUpdate(Collection<TaskUpdateStep> tasksToUpdate) {
-        tasksToUpdate.forEach(TaskUpdateStep::update);
+        PersonCapacityAllocation allocation = new PersonCapacityAllocation();
+        this.seedAllocation(allocation, tasksToUpdate);
+        try (PersonCapacityAllocation.Scope ignored = PersonCapacityAllocation.activate(allocation)) {
+            tasksToUpdate.forEach(step -> {
+                step.update(allocation);
+                this.reserve(allocation, step.getImpactedTask());
+            });
+        }
+    }
+
+    /**
+     * Reserve allocation for non being updated tasks.
+     */
+    private void seedAllocation(PersonCapacityAllocation allocation, Collection<TaskUpdateStep> tasksToUpdate) {
+        var impactedTasks = Collections.newSetFromMap(new java.util.IdentityHashMap<DependencyRelatedObject, Boolean>());
+        tasksToUpdate.stream()
+                .map(TaskUpdateStep::getImpactedTask)
+                .filter(DependencyRelatedObject.class::isInstance)
+                .map(DependencyRelatedObject.class::cast)
+                .forEach(impactedTasks::add);
+
+        impactedTasks.stream()
+                .findFirst()
+                .ifPresent(task -> this.getAllTasksOfGantt(task).stream()
+                        .filter(ganttTask -> !impactedTasks.contains(ganttTask))
+                        .forEach(ganttTask -> this.reserve(allocation, ganttTask)));
+    }
+
+    private void reserve(PersonCapacityAllocation allocation, Object task) {
+        if (task instanceof AbstractTask abstractTask) {
+            allocation.reserve(abstractTask);
+        } else if (task instanceof Workpackage workpackage) {
+            allocation.reserve(workpackage);
+        }
     }
 
     /**

@@ -49,17 +49,17 @@ public class TaskComputationService {
     public void updateStartTime(AbstractTask abstractTask, Instant newStartTime) {
         TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
         Instant roundedNewStartTime = this.roundToNearestHalfDay(newStartTime);
-        Instant previousStartTime = nonWorkingDaysService.getPreviousStartTime(roundedNewStartTime, abstractTask.getAssignedPersons());
-        abstractTask.setStartTime(this.convertAccordingToTimeZone(previousStartTime));
+        Instant nextStartTime = nonWorkingDaysService.getNextStartTime(roundedNewStartTime, 0, abstractTask.getAssignedPersons());
+        abstractTask.setStartTime(this.convertAccordingToTimeZone(nextStartTime));
 
         Instant currentEndTime = this.roundToNearestHalfDay(abstractTask.getEndTime());
         int currentEffort = abstractTask.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(((DependencyRelatedObject) abstractTask).getDependencies(), StartOrEnd.END) && previousStartTime != null) {
-            Instant newEndTime = nonWorkingDaysService.getNextEndTime(previousStartTime, currentEffort, abstractTask.getAssignedPersons()).minus(1, ChronoUnit.MINUTES);
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(((DependencyRelatedObject) abstractTask).getDependencies(), StartOrEnd.END) && nextStartTime != null) {
+            Instant newEndTime = nonWorkingDaysService.getNextEndTime(nextStartTime, currentEffort, abstractTask.getAssignedPersons()).minus(1, ChronoUnit.MINUTES);
             abstractTask.setEndTime(this.convertAccordingToTimeZone(newEndTime));
         } else {
-            if (currentEndTime != null && previousStartTime != null) {
-                long hourEffort = nonWorkingDaysService.getEffort(previousStartTime, currentEndTime, abstractTask.getAssignedPersons()).toHours();
+            if (currentEndTime != null && nextStartTime != null) {
+                long hourEffort = nonWorkingDaysService.getEffort(nextStartTime, currentEndTime, abstractTask.getAssignedPersons()).toHours();
                 abstractTask.setEffort((int) hourEffort);
             }
         }

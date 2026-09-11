@@ -36,18 +36,18 @@ public class WorkpackageComputationService {
     private final TaskHelper taskHelper = new TaskHelper();
 
     public void updateStartDate(Workpackage workpackage, LocalDate newStartDate) {
-        LocalDate previousNewStartDate = nonWorkingDaysService.getPreviousStartDate(newStartDate, workpackage.getAssignedPersons());
+        LocalDate nextNewStartDate = nonWorkingDaysService.getNextEndDate(newStartDate, 0, workpackage.getAssignedPersons());
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
-        workpackage.setStartDate(previousNewStartDate);
+        workpackage.setStartDate(nextNewStartDate);
 
         LocalDate currentEndDate = workpackage.getEndDate();
         int currentEffort = workpackage.getEffort();
-        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(workpackage.getDependencies(), StartOrEnd.END) && previousNewStartDate != null) {
-            LocalDate newEndDate = nonWorkingDaysService.getNextEndDate(previousNewStartDate, currentEffort, workpackage.getAssignedPersons());
+        if (calculationOption.equals(TaskTimeBoundariesConstraint.START_EFFORT) && !taskHelper.isBoundaryConstrainedByDependency(workpackage.getDependencies(), StartOrEnd.END) && nextNewStartDate != null) {
+            LocalDate newEndDate = nonWorkingDaysService.getNextEndDate(nextNewStartDate, currentEffort, workpackage.getAssignedPersons());
             workpackage.setEndDate(newEndDate);
         } else {
-            if (currentEndDate != null && previousNewStartDate != null) {
-                long newEffort = nonWorkingDaysService.getEffort(previousNewStartDate, currentEndDate, workpackage.getAssignedPersons()).toDays();
+            if (currentEndDate != null && nextNewStartDate != null) {
+                long newEffort = nonWorkingDaysService.getEffort(nextNewStartDate, currentEndDate, workpackage.getAssignedPersons()).toDays();
                 workpackage.setEffort((int) newEffort);
             }
         }

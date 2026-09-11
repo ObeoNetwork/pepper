@@ -66,10 +66,9 @@ public class NonWorkingDaysService {
         Duration effort = Duration.ZERO;
         Instant currentTime = startTime;
         while (currentTime.isBefore(endTime)) {
-            LocalDate currentDate = currentTime.atZone(ZoneOffset.UTC).toLocalDate();
-            Instant nextDayStart = currentDate.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant();
-            Instant intervalEnd = endTime.isBefore(nextDayStart) ? endTime : nextDayStart;
-            int nbWorkingPersons = this.getNbWorkingPersons(currentDate, assignedPersons);
+            Instant nextHalfDayStart = currentTime.truncatedTo(ChronoUnit.HALF_DAYS).plus(1, ChronoUnit.HALF_DAYS);
+            Instant intervalEnd = endTime.isBefore(nextHalfDayStart) ? endTime : nextHalfDayStart;
+            int nbWorkingPersons = this.getNbWorkingPersons(currentTime, assignedPersons);
             if (nbWorkingPersons > 0) {
                 effort = effort.plus(Duration.ofHours(Duration.between(currentTime, intervalEnd).toHours() * nbWorkingPersons));
             }
@@ -176,10 +175,10 @@ public class NonWorkingDaysService {
         Duration remainingDuration = Duration.ofHours(effortInHours);
         Instant currentEndTime = startTime;
         while (!remainingDuration.isZero()
-                || !this.isWorkingDay(currentEndTime.minus(1, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
+                || !this.isWorkingTime(currentEndTime.minus(1, ChronoUnit.MINUTES), persons)) {
             LocalDate currentDate = currentEndTime.atZone(ZoneOffset.UTC).toLocalDate();
             Instant nextHalfDayStart = currentEndTime.truncatedTo(ChronoUnit.HALF_DAYS).plus(1, ChronoUnit.HALF_DAYS);
-            int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
+            int nbWorkingPersons = this.getNbWorkingPersons(currentEndTime, persons);
             if (nbWorkingPersons > 0) {
                 Duration availableDuration = Duration.ofHours(Duration.between(currentEndTime, nextHalfDayStart).toHours() * nbWorkingPersons);
                 Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
@@ -225,10 +224,10 @@ public class NonWorkingDaysService {
         Duration remainingDuration = Duration.ofHours(effortInHours);
         Instant currentStartTime = startTime;
         while (!remainingDuration.isZero()
-                || !this.isWorkingDay(currentStartTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
+                || !this.isWorkingTime(currentStartTime, persons)) {
             LocalDate currentDate = currentStartTime.atZone(ZoneOffset.UTC).toLocalDate();
             Instant nextHalfDayStart = currentStartTime.truncatedTo(ChronoUnit.HALF_DAYS).plus(1, ChronoUnit.HALF_DAYS);
-            int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
+            int nbWorkingPersons = this.getNbWorkingPersons(currentStartTime, persons);
             if (nbWorkingPersons > 0) {
                 Duration availableDuration = Duration.ofHours(Duration.between(currentStartTime, nextHalfDayStart).toHours() * nbWorkingPersons);
                 Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
@@ -274,10 +273,10 @@ public class NonWorkingDaysService {
         Instant currentStartTime = endTime;
 
         while (!remainingDuration.isZero()
-                || !this.isWorkingDay(currentStartTime.atZone(ZoneOffset.UTC).toLocalDate(), persons)) {
+                || !this.isWorkingTime(currentStartTime, persons)) {
             Instant previousHalfDayStart = currentStartTime.minusNanos(1).truncatedTo(ChronoUnit.HALF_DAYS);
             LocalDate currentDate = previousHalfDayStart.atZone(ZoneOffset.UTC).toLocalDate();
-            int nbWorkingPersons = this.getNbWorkingPersons(currentDate, persons);
+            int nbWorkingPersons = this.getNbWorkingPersons(previousHalfDayStart, persons);
             if (nbWorkingPersons > 0) {
                 Duration availableDuration = Duration.ofHours(Duration.between(previousHalfDayStart, currentStartTime).toHours() * nbWorkingPersons);
                 Duration consumedDuration = remainingDuration.compareTo(availableDuration) < 0
@@ -388,6 +387,26 @@ public class NonWorkingDaysService {
         return this.getNbWorkingPersons(date, persons) > 0;
     }
 
+    private boolean isWorkingTime(Instant instant, List<Person> persons) {
+        return this.getNbWorkingPersons(instant, persons) > 0;
+    }
+
+    private int getNbWorkingPersons(Instant instant, List<Person> assignedPersons) {
+        LocalDate date = instant.atZone(ZoneOffset.UTC).toLocalDate();
+        boolean isNonWorkingDay = NON_WORKING_DAYS_IN_WEEK.contains(date.getDayOfWeek()) || FRENCH_NON_WORKING_DAYS_2026.contains(date);
+        if (isNonWorkingDay) {
+            return 0;
+        }
+        if (assignedPersons == null || assignedPersons.isEmpty()) {
+            return 1;
+        }
+        PersonCapacityAllocation allocation = PersonCapacityAllocation.current();
+        return Math.toIntExact(assignedPersons.stream()
+                .filter(person -> this.isAvailable(person, date))
+                .filter(person -> allocation == null || allocation.isAvailable(person, instant))
+                .count());
+    }
+
     private int getNbWorkingPersons(LocalDate date, List<Person> assignedPersons) {
         long nbWorkingDays = 0;
         boolean isNonWorkingDay = NON_WORKING_DAYS_IN_WEEK.contains(date.getDayOfWeek()) || FRENCH_NON_WORKING_DAYS_2026.contains(date);
@@ -395,14 +414,20 @@ public class NonWorkingDaysService {
             if (assignedPersons == null || assignedPersons.isEmpty()) {
                 nbWorkingDays = 1;
             } else {
+                PersonCapacityAllocation allocation = PersonCapacityAllocation.current();
                 nbWorkingDays = assignedPersons.stream()
-                        .filter(person -> person.getUnavailabilityPeriods().stream()
-                                .noneMatch(unavailabilityPeriod -> !date.isBefore(unavailabilityPeriod.getStartDate()) && !date.isAfter(unavailabilityPeriod.getEndDate())))
+                        .filter(person -> this.isAvailable(person, date))
+                        .filter(person -> allocation == null || allocation.isAvailableForDate(person, date))
                         .count();
             }
         }
 
         return Math.toIntExact(nbWorkingDays);
+    }
+
+    private boolean isAvailable(Person person, LocalDate date) {
+        return person.getUnavailabilityPeriods().stream()
+                .noneMatch(unavailabilityPeriod -> !date.isBefore(unavailabilityPeriod.getStartDate()) && !date.isAfter(unavailabilityPeriod.getEndDate()));
     }
 
     public Duration roundToNearestHalfDay(Duration duration) {

@@ -17,9 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import org.eclipse.sirius.components.core.api.IFeedbackMessageService;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Task;
@@ -44,7 +47,7 @@ public class TaskUpdateServiceOrderingTests {
                 List.of(dependency, simple, parent), List.of(dependency, parent, simple));
 
         for (List<TaskUpdateStep> steps : permutations) {
-            List<TaskUpdateStep> result = List.copyOf(service.filterAndOrderTaskUpdateSteps(
+            List<TaskUpdateStep> result = List.copyOf(this.filterAndOrderTaskUpdateSteps(
                     List.of(steps.get(0), unrelated, steps.get(1), steps.get(2))));
 
             assertThat(result).hasSize(2);
@@ -61,7 +64,7 @@ public class TaskUpdateServiceOrderingTests {
         TaskUpdateStep unrelated = new SimpleUpdateStep(PepperFactory.eINSTANCE.createTask());
 
         for (List<TaskUpdateStep> steps : List.of(List.of(simple, unrelated, parent), List.of(parent, unrelated, simple))) {
-            List<TaskUpdateStep> result = List.copyOf(service.filterAndOrderTaskUpdateSteps(steps));
+            List<TaskUpdateStep> result = List.copyOf(this.filterAndOrderTaskUpdateSteps(steps));
             assertThat(result).hasSize(2);
             assertThat(result.get(0)).isSameAs(parent);
             assertThat(result.get(1)).isSameAs(unrelated);
@@ -82,7 +85,11 @@ public class TaskUpdateServiceOrderingTests {
         TaskUpdateStep siblingStep = new SimpleUpdateStep(sibling);
         TaskUpdateStep unrelated = new SimpleUpdateStep(PepperFactory.eINSTANCE.createTask());
 
-        assertThat(service.filterAndOrderTaskUpdateSteps(List.of(rootStep, childStep, unrelated, grandchildStep, siblingStep)))
+        assertThat(this.filterAndOrderTaskUpdateSteps(List.of(rootStep, childStep, unrelated, grandchildStep, siblingStep)))
                 .containsExactly(unrelated, grandchildStep, childStep, siblingStep, rootStep);
+    }
+
+    private LinkedHashSet<TaskUpdateStep> filterAndOrderTaskUpdateSteps(Collection<TaskUpdateStep> steps) {
+        return ReflectionTestUtils.invokeMethod(service, "filterAndOrderTaskUpdateSteps", steps);
     }
 }
