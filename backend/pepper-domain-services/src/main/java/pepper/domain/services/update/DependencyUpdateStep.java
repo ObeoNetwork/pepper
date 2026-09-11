@@ -15,6 +15,7 @@ package pepper.domain.services.update;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import pepper.domain.services.TaskHelper;
 import pepper.domain.services.TemporalHelper;
 import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.AssignableObject;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.StartOrEnd;
@@ -41,9 +43,9 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
 
     private static final WorkpackageComputationService WORKPACKAGE_COMPUTATION_SERVICE = new WorkpackageComputationService();
 
-    private final NonWorkingDaysService nonWorkingDaysService = new NonWorkingDaysService();
+    private static final NonWorkingDaysService NON_WORKING_DAYS_SERVICE = new NonWorkingDaysService();
 
-    private final TemporalHelper temporalHelper = new TemporalHelper();
+    private static final TemporalHelper TEMPORAL_HELPER = new TemporalHelper();
 
     private final DependencyRelatedObject targetTask;
 
@@ -68,18 +70,32 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
         boolean endTimeControlledByDependency = TASK_HELPER.isBoundaryConstrainedByDependency(dependencies, StartOrEnd.END);
 
         TaskTimeBoundariesConstraint initialCalculationOption = TASK_HELPER.getCalculationOption(targetTask);
-        if (startTimeControlledByDependency) { //Whatever endTimeControlledByDependency
+        if (startTimeControlledByDependency) {
+            if (targetTask instanceof AbstractTask abstractTask) {
+                Instant nextTimeFromDependency = this.getNextTimeFromDependency(dependencies, StartOrEnd.START);
+                TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, nextTimeFromDependency, true);
+            } else if (targetTask instanceof Workpackage workpackage) {
+                LocalDate nextDateFromDependency = this.getNextDateFromDependency(dependencies, StartOrEnd.START);
+                WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, nextDateFromDependency, true);
+            }
+        }
+
+        boolean mustBeComputedFromStartDate = endTimeControlledByDependency && this.mustBeComputedFromStartDateConsideringPersonAvailability(dependencies);
+        if (mustBeComputedFromStartDate) {
             TASK_HELPER.setCalculationOption(targetTask, TaskTimeBoundariesConstraint.START_EFFORT);
 
             if (targetTask instanceof AbstractTask abstractTask) {
-                Instant nextTimeFromDependency = this.getNextTimeFromDependency(dependencies, StartOrEnd.START);
-                TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, nextTimeFromDependency);
+                TASK_HELPER.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
+                        .ifPresent(nextStartTime -> TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, nextStartTime));
             } else if (targetTask instanceof Workpackage workpackage) {
-                LocalDate nextDateFromDependency = this.getNextDateFromDependency(dependencies, StartOrEnd.START);
-                WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, nextDateFromDependency);
+                TASK_HELPER.getEarlierAvailableInstantOfPerson(workpackage.getAssignedPersons())
+                        .ifPresent(nextStartTime -> {
+                            // TODO to test
+                            LocalDate nextStartDate = nextStartTime.atOffset(ZoneOffset.UTC).toLocalDate();
+                            WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, nextStartDate);
+                        });
             }
-        }
-        if (endTimeControlledByDependency) {
+        } else if (endTimeControlledByDependency) {
             TASK_HELPER.setCalculationOption(targetTask, TaskTimeBoundariesConstraint.END_EFFORT);
 
             if (targetTask instanceof AbstractTask abstractTask) {
@@ -94,25 +110,46 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
 
     }
 
+    // We need to know if there is enough assigned persons manpower between the latest moment of the earliest assigned person available or the next time from dependency on one side and the endTime on the other side
+    private boolean mustBeComputedFromStartDateConsideringPersonAvailability(List<DependencyLink> dependencies) {
+        boolean mustBeComputedFromEndDate = false;
+        if (targetTask instanceof AssignableObject assignableObject && !assignableObject.getAssignedPersons().isEmpty()) {
+            if (targetTask instanceof AbstractTask abstractTask) {
+                Instant nextStartTimeFromDependency = this.getNextTimeFromDependency(dependencies, StartOrEnd.END);
+                return TASK_HELPER.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
+                        .map(earlierAvailableInstantOfPerson -> {
+                            Instant latestInstantForStart = earlierAvailableInstantOfPerson.isAfter(nextStartTimeFromDependency) ? earlierAvailableInstantOfPerson : nextStartTimeFromDependency;
+                            Instant nextEndTime = NON_WORKING_DAYS_SERVICE.getNextEndTime(TEMPORAL_HELPER.roundToNearestHalfDay(latestInstantForStart), abstractTask.getEffort(),
+                                    abstractTask.getAssignedPersons());
+                            return TEMPORAL_HELPER.roundToNearestHalfDay(nextEndTime).isAfter(TEMPORAL_HELPER.roundToNearestHalfDay(abstractTask.getEndTime()));
+                        })
+                        .orElse(false);
+            } else if (targetTask instanceof Workpackage workpackage) {
+                // TODO
+            }
+        }
+        return mustBeComputedFromEndDate;
+    }
+
     @SuppressWarnings("checkstyle:ReturnCount")
     Instant getNextTimeFromDependency(List<DependencyLink> dependencies, StartOrEnd targetBoundary) {
         return dependencies.stream()
                 .filter(dep -> dep.getTargetKind() == targetBoundary)
                 .filter(dependencyLink -> dependencyLink.getSource() instanceof AbstractTask)
                 .map(dependencyLink -> {
-                    Instant roundedStartTime = temporalHelper.roundToNearestHalfDay(((AbstractTask) dependencyLink.getSource()).getStartTime());
-                    Instant roundedEndTime = temporalHelper.roundToNearestHalfDay(((AbstractTask) dependencyLink.getSource()).getEndTime());
+                    Instant roundedStartTime = TEMPORAL_HELPER.roundToNearestHalfDay(((AbstractTask) dependencyLink.getSource()).getStartTime());
+                    Instant roundedEndTime = TEMPORAL_HELPER.roundToNearestHalfDay(((AbstractTask) dependencyLink.getSource()).getEndTime());
                     if (targetBoundary == StartOrEnd.START) {
                         if (dependencyLink.getSourceKind() == StartOrEnd.START) {
-                            return nonWorkingDaysService.getNextStartTime(roundedStartTime, dependencyLink.getDelay(), List.of());
+                            return NON_WORKING_DAYS_SERVICE.getNextStartTime(roundedStartTime, dependencyLink.getDelay(), List.of());
                         } else {
-                            return nonWorkingDaysService.getNextStartTime(roundedEndTime, dependencyLink.getDelay(), List.of());
+                            return NON_WORKING_DAYS_SERVICE.getNextStartTime(roundedEndTime, dependencyLink.getDelay(), List.of());
                         }
                     } else {
                         if (dependencyLink.getSourceKind() == StartOrEnd.START) {
-                            return nonWorkingDaysService.getNextEndTime(roundedStartTime, dependencyLink.getDelay(), List.of());
+                            return NON_WORKING_DAYS_SERVICE.getNextEndTime(roundedStartTime, dependencyLink.getDelay(), List.of());
                         } else {
-                            return nonWorkingDaysService.getNextEndTime(roundedEndTime, dependencyLink.getDelay(), List.of());
+                            return NON_WORKING_DAYS_SERVICE.getNextEndTime(roundedEndTime, dependencyLink.getDelay(), List.of());
                         }
                     }
                 })
@@ -126,9 +163,9 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
                 .filter(dependencyLink -> dependencyLink.getSource() instanceof Workpackage)
                 .map(dependencyLink -> {
                     if (dependencyLink.getSourceKind() == StartOrEnd.START) {
-                        return nonWorkingDaysService.getNextEndDate(((Workpackage) dependencyLink.getSource()).getStartDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
+                        return NON_WORKING_DAYS_SERVICE.getNextEndDate(((Workpackage) dependencyLink.getSource()).getStartDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
                     } else {
-                        return nonWorkingDaysService.getNextEndDate(((Workpackage) dependencyLink.getSource()).getEndDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
+                        return NON_WORKING_DAYS_SERVICE.getNextEndDate(((Workpackage) dependencyLink.getSource()).getEndDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
                     }
                 })
                 .max(Comparator.naturalOrder())

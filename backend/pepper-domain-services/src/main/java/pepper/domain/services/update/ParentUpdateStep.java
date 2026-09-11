@@ -58,6 +58,18 @@ public final class ParentUpdateStep extends TaskUpdateStep {
                 .max(Comparator.naturalOrder())
                 .orElse(null);
         abstractTask.setEndTime(endTime);
+
+        int duration = subTasks.stream()
+                .map(AbstractTask::getDuration)
+                .mapToInt(Integer::intValue)
+                .sum();
+        abstractTask.setDuration(duration);
+
+        int effort = subTasks.stream()
+                .map(AbstractTask::getEffort)
+                .mapToInt(Integer::intValue)
+                .sum();
+        abstractTask.setEffort(effort);
     }
 
 }

@@ -17,13 +17,16 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
@@ -35,10 +38,10 @@ import org.eclipse.sirius.components.representations.Message;
 import org.eclipse.sirius.components.representations.MessageLevel;
 import org.springframework.stereotype.Service;
 
-import pepper.domain.services.TaskComputationService;
+import pepper.domain.services.PersonCapacityAllocation;
 import pepper.domain.services.TaskHelper;
-import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.AssignableObject;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.NamedElement;
@@ -54,15 +57,17 @@ import pepper.peppermm.Workpackage;
 @Service
 public class TaskUpdateService {
 
+    // Highest priority first for steps affecting the same task.
+    private static final List<Class<? extends TaskUpdateStep>> IMPACTED_STEPS = List.of(
+            ParentUpdateStep.class,
+            DependencyUpdateStep.class,
+            PersonUpdateStep.class);
+
     private final TaskHelper taskHelper = new TaskHelper();
 
     private final SimpleCrossReferenceProvider simpleCrossReferenceProvider = new SimpleCrossReferenceProvider();
 
     private final IFeedbackMessageService feedbackMessageService;
-
-    private final TaskComputationService taskComputationService = new TaskComputationService();
-
-    private final WorkpackageComputationService workpackageComputationService = new WorkpackageComputationService();
 
     public TaskUpdateService(IFeedbackMessageService feedbackMessageService) {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
@@ -73,18 +78,70 @@ public class TaskUpdateService {
     }
 
     public void updateWithImpacts(EObject task, List<TaskUpdateStep> taskUpdateSteps) {
-        List<TaskUpdateStep> tasksToUpdate = new ArrayList<>(taskUpdateSteps);
-        List<TaskUpdateStep> currentBranchOfTasksToUpdate = new ArrayList<>(tasksToUpdate);
-        try {
-            this.computeTaskToUpdate(task, tasksToUpdate, currentBranchOfTasksToUpdate);
-            this.doUpdate(tasksToUpdate);
-        } catch (IllegalStateException e) {
-            // logged in IFeedbackMessageService
+        if (!taskUpdateSteps.isEmpty()) {
+            Temporal minTemporal = this.getStartTemporal(taskUpdateSteps);
+            if (minTemporal != null) {
+                try {
+                    List<TaskUpdateStep> taskUpdateStepsWithImpacts = new ArrayList<>(taskUpdateSteps);
+                    this.computeTaskToUpdate((EObject) taskUpdateSteps.get(taskUpdateSteps.size() - 1).getImpactedTask(), taskUpdateStepsWithImpacts, List.copyOf(taskUpdateSteps));
+                    this.updateTasksAfterGivenTemporal((DependencyRelatedObject) task, minTemporal, taskUpdateStepsWithImpacts);
+                } catch (IllegalStateException e) {
+                    // logged with IFeedbackMessage;
+                }
+            }
         }
     }
 
+    private Temporal getStartTemporal(List<TaskUpdateStep> taskUpdateSteps) {
+        return taskUpdateSteps.stream()
+                .filter(TaskBoundaryUpdateStep.class::isInstance)
+                .map(TaskBoundaryUpdateStep.class::cast)
+                .filter(taskBoundaryUpdateStep -> taskHelper.getStartTemporal(taskBoundaryUpdateStep.getImpactedTask()) != null)
+                .findFirst()
+                .flatMap(taskBoundaryUpdateStep -> {
+                    Temporal startTemp = taskHelper.getStartTemporal(taskBoundaryUpdateStep.getImpactedTask());
+                    Temporal start = taskBoundaryUpdateStep.getStart();
+                    Optional<Temporal> earliest = Stream.of(startTemp, start)
+                            .min(Comparator.comparing(t -> (Comparable<Object>) t));
+                    return earliest;
+                })
+                .orElseGet(() -> taskHelper.getStartTemporal(taskUpdateSteps.get(taskUpdateSteps.size() - 1).getImpactedTask()));
+    }
+
     private void doUpdate(Collection<TaskUpdateStep> tasksToUpdate) {
-        tasksToUpdate.forEach(TaskUpdateStep::update);
+        PersonCapacityAllocation allocation = new PersonCapacityAllocation();
+        this.seedAllocation(allocation, tasksToUpdate);
+        try (PersonCapacityAllocation.Scope ignored = PersonCapacityAllocation.activate(allocation)) {
+            tasksToUpdate.forEach(step -> {
+                step.update(allocation);
+                this.reserve(allocation, step.getImpactedTask());
+            });
+        }
+    }
+
+    /**
+     * Reserve allocation for non being updated tasks.
+     */
+    private void seedAllocation(PersonCapacityAllocation allocation, Collection<TaskUpdateStep> tasksToUpdate) {
+        var impactedTasks = tasksToUpdate.stream()
+                .map(TaskUpdateStep::getImpactedTask)
+                .filter(DependencyRelatedObject.class::isInstance)
+                .map(DependencyRelatedObject.class::cast)
+                .toList();
+
+        impactedTasks.stream()
+                .findFirst()
+                .ifPresent(task -> this.getAllTasksOfGantt(task).stream()
+                        .filter(ganttTask -> !impactedTasks.contains(ganttTask))
+                        .forEach(ganttTask -> this.reserve(allocation, ganttTask)));
+    }
+
+    private void reserve(PersonCapacityAllocation allocation, Object task) {
+        if (task instanceof AbstractTask abstractTask) {
+            allocation.reserve(abstractTask);
+        } else if (task instanceof Workpackage workpackage) {
+            allocation.reserve(workpackage);
+        }
     }
 
     /**
@@ -155,75 +212,127 @@ public class TaskUpdateService {
         return List.of();
     }
 
-    public void updateTasksFollowingPersonChange(DependencyRelatedObject task) {
-        this.updateTasksAfterGivenTemporal(task, taskHelper.getStartTemporal(task));
+    public void updateTaskWithImpacts(DependencyRelatedObject task) {
+        this.updateTasksAfterGivenTemporal(task, taskHelper.getStartTemporal(task), List.of());
     }
 
-    public void updateTasksFollowingPersonChange(Person updatePerson) {
-        List<DependencyRelatedObject> tasksToUpdate = simpleCrossReferenceProvider.getInverseReferences(updatePerson).stream()
+    public void updateTasksWithImpacts(Person updatePerson) {
+        Map<Object, List<DependencyRelatedObject>> rootToAnyTask = new LinkedHashMap<>();
+        simpleCrossReferenceProvider.getInverseReferences(updatePerson).stream()
                 .map(EStructuralFeature.Setting::getEObject)
                 .filter(DependencyRelatedObject.class::isInstance)
                 .map(DependencyRelatedObject.class::cast)
-                .toList();
+                .forEach(dependencyRelatedObject -> {
+                    if (dependencyRelatedObject instanceof AbstractTask abstractTask) {
+                        taskHelper.getParent(abstractTask, Workpackage.class)
+                                .ifPresent(workpackage ->
+                                        rootToAnyTask.computeIfAbsent(workpackage, k -> new ArrayList<>())
+                                                .add((DependencyRelatedObject) abstractTask));
+                    } else if (dependencyRelatedObject instanceof Workpackage workpackage) {
+                        taskHelper.getParent(workpackage, Project.class)
+                                .ifPresent(project ->
+                                        rootToAnyTask.computeIfAbsent(project, k -> new ArrayList<>())
+                                                .add(workpackage));
+                    }
+                });
 
-        Comparator<Temporal> temporalComparator = Comparator.comparing(temporal -> (Comparable<Object>) temporal);
-        Optional<Temporal> minTemporal = tasksToUpdate.stream()
-                .map(taskHelper::getStartTemporal)
-                .filter(Objects::nonNull)
-                .min(temporalComparator);
+        rootToAnyTask.forEach((object, dependencyRelatedObjects) -> {
+            Comparator<Temporal> temporalComparator = Comparator.comparing(temporal -> (Comparable<Object>) temporal);
+            Optional<Temporal> minTemporal = dependencyRelatedObjects.stream()
+                    .map(taskHelper::getStartTemporal)
+                    .filter(Objects::nonNull)
+                    .min(temporalComparator);
 
-        if (minTemporal.isEmpty()) {
-            return;
-        }
+            if (minTemporal.isEmpty()) {
+                return;
+            }
 
-        this.updateTasksAfterGivenTemporal(tasksToUpdate.get(0), minTemporal.get());
+            this.updateTasksAfterGivenTemporal(dependencyRelatedObjects.get(0), minTemporal.get(), List.of());
+        });
     }
 
-    private void updateTasksAfterGivenTemporal(DependencyRelatedObject task, Temporal minTemporal) {
-        Comparator<Temporal> temporalComparator = Comparator.comparing(temporal -> (Comparable<Object>) temporal);
-        Collection<TaskUpdateStep> taskUpdateSteps = this.getAllTasksOfGantt(task).stream()
-                .filter(dependencyRelatedObject -> {
-                    Temporal startTemporal = taskHelper.getStartTemporal(dependencyRelatedObject);
-                    return startTemporal != null && temporalComparator.compare(startTemporal, minTemporal) >= 0;
-                })
-                .flatMap(dependencyRelatedObject -> {
-                    List<TaskUpdateStep> updateSteps = new ArrayList<>(List.of(new SimpleUpdateStep(dependencyRelatedObject)));
-                    this.computeTaskToUpdate(dependencyRelatedObject, updateSteps, List.copyOf(updateSteps));
-                    return updateSteps.stream();
-                })
-                .sorted(Comparator.comparing((TaskUpdateStep taskUpdateStep) -> taskHelper.getStartTemporal((DependencyRelatedObject) taskUpdateStep.getImpactedTask()), temporalComparator))
-                .toList();
-        LinkedHashSet<TaskUpdateStep> orderedTaskUpdateSteps = this.filterAndOrderTaskUpdateSteps(taskUpdateSteps);
-        orderedTaskUpdateSteps.forEach(taskUpdateStep -> {
-            System.out.println(((NamedElement) taskUpdateStep.getImpactedTask()).getName() + "   " + taskUpdateStep.getClass().getSimpleName());
-        });
-        this.doUpdate(orderedTaskUpdateSteps);
+    private void updateTasksAfterGivenTemporal(DependencyRelatedObject aTaskInGantt, Temporal minTemporal, Collection<TaskUpdateStep> preleminaryTaskUpdateSteps) {
+        try {
+            Comparator<Temporal> temporalComparator = Comparator.comparing(temporal -> (Comparable<Object>) temporal);
+            List<TaskUpdateStep> taskUpdateStepsInGantt = this.getAllTasksOfGantt(aTaskInGantt).stream()
+                    .filter(task -> {
+                        Temporal startTemporal = taskHelper.getStartTemporal(task);
+                        return startTemporal != null && temporalComparator.compare(startTemporal, minTemporal) >= 0;
+                    })
+                    .flatMap(task -> {
+                        List<TaskUpdateStep> updateSteps = new ArrayList<>();
+                        if (!task.getDependencies().isEmpty()) {
+                            updateSteps.add(new DependencyUpdateStep(task));
+                            this.computeTaskToUpdate(task, updateSteps, List.copyOf(updateSteps));
+                        } else if (task instanceof AssignableObject assignableObject && !assignableObject.getAssignedPersons().isEmpty()) {
+                            updateSteps.add(new PersonUpdateStep(task));
+                            this.computeTaskToUpdate(task, updateSteps, List.copyOf(updateSteps));
+                        }
+                        return updateSteps.stream();
+                    })
+//                    .sorted(Comparator.comparing((TaskUpdateStep taskUpdateStep) -> taskHelper.getStartTemporal((DependencyRelatedObject) taskUpdateStep.getImpactedTask()), temporalComparator))
+                    .toList();
+
+            Collection<TaskUpdateStep> taskUpdateSteps = Stream.concat(preleminaryTaskUpdateSteps.stream(), taskUpdateStepsInGantt.stream())
+                    .toList();
+
+            LinkedHashSet<TaskUpdateStep> orderedTaskUpdateSteps = this.filterAndOrderTaskUpdateSteps(taskUpdateSteps);
+            orderedTaskUpdateSteps.forEach(taskUpdateStep -> {
+                System.out.println(((NamedElement) taskUpdateStep.getImpactedTask()).getName() + "   " + taskUpdateStep.getClass().getSimpleName());
+            });
+            this.doUpdate(orderedTaskUpdateSteps);
+
+        } catch (IllegalStateException e) {
+            // logged with IFeedbackMessage;
+        }
     }
 
     private LinkedHashSet<TaskUpdateStep> filterAndOrderTaskUpdateSteps(Collection<TaskUpdateStep> taskUpdateSteps) {
-        // Part 1: eliminate identical steps (same type and same impacted task).
+        // Part 1.1: eliminate
+        // * identical steps (same type and same impacted task).
+        // * PersonUpdateStep if already managed by another step
         List<TaskUpdateStep> distinctSteps = new ArrayList<>();
         for (TaskUpdateStep step : taskUpdateSteps) {
-            boolean alreadyPresent = distinctSteps.stream().anyMatch(otherStep -> otherStep.getClass() == step.getClass()
-                    && otherStep.getImpactedTask() == step.getImpactedTask());
+            boolean alreadyPresent = distinctSteps.stream()
+                    .anyMatch(otherStep -> {
+                        boolean value =  otherStep.getClass() == step.getClass()
+                                && otherStep.getImpactedTask() == step.getImpactedTask();
+                        value = value || step instanceof PersonUpdateStep && step.getImpactedTask() == otherStep.getImpactedTask();
+                        return value;
+                    });
             if (!alreadyPresent) {
                 distinctSteps.add(step);
             }
         }
 
-        // Part 2: reduce to the preferred step per task, preserving first encounter order.
+        // Part 1.2: eliminate task with no start or end
+        List<TaskUpdateStep> remainingSteps1 = distinctSteps.stream()
+            .filter(taskUpdateStep -> {
+                return taskHelper.getStartTemporal(taskUpdateStep.getImpactedTask()) != null || taskHelper.getEndTemporal(taskUpdateStep.getImpactedTask()) != null;
+            })
+            .toList();
+
+        // Part 2.1: order from the oldest to the most recent.
+        Comparator<Temporal> temporalComparator = Comparator.comparing(temporal -> (Comparable<Object>) temporal);
+        List<TaskUpdateStep> remainingStep2s = new ArrayList<>(remainingSteps1.stream()
+                .sorted(Comparator.comparing((TaskUpdateStep taskUpdateStep) -> taskHelper.getStartTemporal(taskUpdateStep.getImpactedTask()), temporalComparator))
+                .toList());
+
+
+        // Part 2.2: move higher-priority steps before lower-priority steps.
         List<TaskUpdateStep> remainingSteps = new ArrayList<>();
-        for (TaskUpdateStep step : distinctSteps) {
-            boolean taskAlreadyPresent = remainingSteps.stream().anyMatch(otherStep -> otherStep.getImpactedTask() == step.getImpactedTask());
-            if (!taskAlreadyPresent) {
-                TaskUpdateStep preferredStep = distinctSteps.stream()
-                        .filter(otherStep -> otherStep.getImpactedTask() == step.getImpactedTask())
-                        .reduce(step, this::getPreferredTaskUpdateStep);
-                remainingSteps.add(preferredStep);
-            }
+        List<TaskUpdateStep> pendingSteps = new ArrayList<>(remainingStep2s);
+        while (!pendingSteps.isEmpty()) {
+            TaskUpdateStep nextStep = pendingSteps.stream()
+                    .filter(step -> pendingSteps.stream().noneMatch(otherStep -> otherStep != step && this.hasHigherPriority(otherStep, step)))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("Cannot order task updates: cyclic step priorities."));
+            remainingSteps.add(nextStep);
+            // Remove this instance, since different step types may compare equal.
+            pendingSteps.removeIf(step -> step == nextStep);
         }
 
-        // Part 3: order descendants before their ParentUpdateStep.
+        // Part 2.3: order descendants before their ParentUpdateStep.
         LinkedHashSet<TaskUpdateStep> orderedSteps = new LinkedHashSet<>();
         while (!remainingSteps.isEmpty()) {
             // Take the first available step, deferring parents until all descendants have been placed.
@@ -239,16 +348,24 @@ public class TaskUpdateService {
         return orderedSteps;
     }
 
-    @SuppressWarnings("checkstyle:ReturnCount")
-    private TaskUpdateStep getPreferredTaskUpdateStep(TaskUpdateStep currentTaskUpdateStep, TaskUpdateStep candidateTaskUpdateStep) {
-        if (currentTaskUpdateStep instanceof DependencyUpdateStep) {
-            return currentTaskUpdateStep;
+    private boolean hasHigherPriority(TaskUpdateStep step, TaskUpdateStep otherStep) {
+        boolean hasHigherPriority = this.getStepPriority(step) > this.getStepPriority(otherStep);
+        if (!hasHigherPriority) {
+            if (step instanceof DependencyUpdateStep && otherStep instanceof DependencyUpdateStep otherUpdateStep) {
+                if (otherUpdateStep.getImpactedTask() instanceof DependencyRelatedObject dependencyRelatedObject) {
+                    hasHigherPriority = dependencyRelatedObject.getDependencies().stream()
+                            .anyMatch(dependencyLink -> step.getImpactedTask().equals(dependencyLink.getSource()));
+                }
+            }
         }
-        if (candidateTaskUpdateStep instanceof DependencyUpdateStep
-                || candidateTaskUpdateStep instanceof ParentUpdateStep && currentTaskUpdateStep instanceof SimpleUpdateStep) {
-            return candidateTaskUpdateStep;
-        }
-        return currentTaskUpdateStep;
+
+        return hasHigherPriority;
     }
 
+    private int getStepPriority(TaskUpdateStep step) {
+        if (IMPACTED_STEPS.contains(step.getClass())) {
+            return 0;
+        }
+        return Integer.MAX_VALUE;
+    }
 }

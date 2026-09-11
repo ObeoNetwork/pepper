@@ -13,6 +13,8 @@
 
 package pepper.domain.services.update;
 
+import pepper.domain.services.PersonCapacityAllocation;
+
 /**
  * Represent a step in the update of a task.
  * Steps are equal when their impacted task instances are the same.
@@ -29,6 +31,14 @@ public abstract class TaskUpdateStep {
     public abstract String getName();
 
     public abstract void update();
+
+    /**
+     * Updates this step while a batch allocation is active. Custom steps that only implement the
+     * legacy method keep their existing behavior.
+     */
+    public void update(PersonCapacityAllocation allocation) {
+        this.update();
+    }
 
     @Override
     public final boolean equals(Object object) {

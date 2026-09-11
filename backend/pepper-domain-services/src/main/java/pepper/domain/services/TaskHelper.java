@@ -12,7 +12,9 @@
  *******************************************************************************/
 package pepper.domain.services;
 
+import java.time.Instant;
 import java.time.temporal.Temporal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Spliterator;
@@ -22,9 +24,11 @@ import java.util.stream.StreamSupport;
 import org.eclipse.emf.ecore.EObject;
 
 import pepper.peppermm.AbstractTask;
+import pepper.peppermm.AssignableObject;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.NamedElement;
+import pepper.peppermm.Person;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
@@ -35,12 +39,26 @@ import pepper.peppermm.Workpackage;
  * @author lfasani
  */
 public class TaskHelper {
-    public Temporal getStartTemporal(DependencyRelatedObject dependencyRelatedObject) {
+    private final NonWorkingDaysService nonWorkingDaysService = new NonWorkingDaysService();
+
+    private final TemporalHelper temporalHelper = new TemporalHelper();
+
+    public Temporal getStartTemporal(Object object) {
         Temporal startTemporal = null;
-        if (dependencyRelatedObject instanceof AbstractTask abstractTask) {
+        if (object instanceof AbstractTask abstractTask) {
             startTemporal = abstractTask.getStartTime();
-        } else if (dependencyRelatedObject instanceof Workpackage workpackage) {
+        } else if (object instanceof Workpackage workpackage) {
             startTemporal = workpackage.getStartDate();
+        }
+        return startTemporal;
+    }
+
+    public Temporal getEndTemporal(Object object) {
+        Temporal startTemporal = null;
+        if (object instanceof AbstractTask abstractTask) {
+            startTemporal = abstractTask.getEndTime();
+        } else if (object instanceof Workpackage workpackage) {
+            startTemporal = workpackage.getEndDate();
         }
         return startTemporal;
     }
@@ -103,5 +121,32 @@ public class TaskHelper {
     public boolean isBoundaryConstrainedByDependency(List<DependencyLink> dependencies, StartOrEnd boundary) {
         return dependencies.stream()
                 .anyMatch(dep -> dep.getTargetKind() == boundary);
+    }
+
+    /**
+     * The task must be computed from the start if there is not enough assigned person manpower between the earliest moment of an available assigned person and the endTime.
+     */
+    public boolean mustBeComputedFromStartDateConsideringPersonAvailability(DependencyRelatedObject targetTask) {
+        boolean mustBeComputedFromEndDate = false;
+        if (targetTask instanceof AssignableObject assignableObject && !assignableObject.getAssignedPersons().isEmpty()) {
+            if (targetTask instanceof AbstractTask abstractTask) {
+                return this.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
+                        .map(earlierAvailableInstantOfPerson -> {
+                            Instant nextEndTime = nonWorkingDaysService.getNextEndTime(temporalHelper.roundToNearestHalfDay(earlierAvailableInstantOfPerson), abstractTask.getEffort(),
+                                    abstractTask.getAssignedPersons());
+                            return temporalHelper.roundToNearestHalfDay(nextEndTime).isAfter(temporalHelper.roundToNearestHalfDay(abstractTask.getEndTime()));
+                        })
+                        .orElse(false);
+            } else if (targetTask instanceof Workpackage workpackage) {
+                // TODO
+            }
+        }
+        return mustBeComputedFromEndDate;
+    }
+
+    public Optional<Instant> getEarlierAvailableInstantOfPerson(List<Person> persons) {
+        return persons.stream()
+                .flatMap(person -> PersonCapacityAllocation.current().getNextAvailableSlot(person).stream())
+                .min(Comparator.naturalOrder());
     }
 }

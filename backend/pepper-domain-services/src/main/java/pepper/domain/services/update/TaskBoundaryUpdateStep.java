@@ -32,6 +32,7 @@ import pepper.peppermm.Workpackage;
 
 /**
  * This class represents an update step for the change of boundary of a task.
+ * @author lfasani
  */
 public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
     private static final TaskHelper TASK_HELPER = new TaskHelper();
@@ -48,6 +49,10 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
         this.task = task;
         this.start = start;
         this.end = end;
+    }
+
+    public Temporal getStart() {
+        return start;
     }
 
     @Override
@@ -83,7 +88,10 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
                     TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
                     switch (calculationOption) {
                         case START_EFFORT -> TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime);
-                        case END_EFFORT -> TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
+                        case END_EFFORT -> {
+                            // TODO case if a person is assigned
+                            TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
+                        }
                         case START_END -> {
                             TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime);
                             TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);

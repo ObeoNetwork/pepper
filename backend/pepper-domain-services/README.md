@@ -3,7 +3,6 @@
 Pepper only supports a single time zone.
 The server and the browser must use the same time zone.
 
-
 ## Upadate philosophy
 
 There are two approaches to solve the update.
@@ -20,33 +19,56 @@ The philophy is "I know what I am doing, so I let the algorithm change task boun
 
 If this occurs, then conflicting changes are not applied until the user cancel or accept the changes.
 
+## Task definition
+
+Gantt task are supported for AbstractTask and Workpackage.
+A task has start and end boundaries.
+A task has an effort which is the amount of time worked on this task.
+Non-working days (in week and configured fixed non-working days) do not consume any effort.
+
+An AbstractTask has its boundaries defined as Instant.
+When modifying an AbstractTask, either from Gantt, details view or by the algorithm, its boundaries are rounded to the closest half-day.
+
+The workpackage has its boundaries defined as LocalDate.
+Both workpackage startDate and endDate are included.
+
 ## Considering task constraints
+
+### Internal constraints
 
 A task is constrained by two `TimeConstraint` values among:
 
 - `START`
 - `END`
 - `EFFORT`
-  If a constrained boundary (`START` or `END`) is also constrained by a dependency, the dependency constraint is considered stronger than the task constraint.
 
-A boundary constrained by a dependency can not be changed by a user.
+The value that is not constraining is generally computed from the two others.
 
+### Task dependencies
 
-## Task boundaries computation
-
-An AbstractTask has its boundaries defined as Instant.
-When modifying the task, either from Gantt, details view or by the algorithm, the AbstractTask boundaries are rounded to the closest half-day.
-Non-working days (in week and configured fixed non-working days) do not consume any effort.
-
-The workpackage has its boundaries defined as LocalDate.
-Both workpackage startDate and endDate are included.
+A dependency is a link between the boundary of two tasks. One is a constraining task and the others is the constrained tasks.
 
 ### Task with assigned persons
 
 If a task has assigned persons, then the calculation of time constraints will consider the unavailability periods of Person.
 An unavailability period does not consume any effort.
-On the contrary if multiple persons are available on a task, the effort is more consumed.
+On the contrary, if multiple persons are available on a task, the effort is more consumed.
 If no person is assigned, one working day consume an effort of one day.
+
+A person can not be "used" for multiple tasks at the same time. A person can be assigned to two tasks though.
+It only means that person will produce an effort only for one task at a time. The computation will shift the task on the time line to avoid that a person is used for multiple tasks.
+
+## Constraint priority
+
+The order of priority is:
+
+- the assigned persons
+- the dependencies
+  If two tasks have an END-END dependencies (both finishing at the same time) and are assigned to the same person, the second task is shifted after the first
+- the internal constraints
+  If a constrained boundary (`START` or `END`) is also constrained by a dependency, the dependency constraint is considered stronger than the task constraint.
+
+A boundary constrained by a dependency can not be changed by a user.
 
 ## Gantt interactions
 
@@ -60,7 +82,7 @@ If no person is assigned, one working day consume an effort of one day.
 For example: A START-EFFORT task has its end date constrained by a dependency. If the start date is moved, the end date remains unchanged and the effort is updated accordingly.
 
 In any case, the impacted tasks are updating keeping the effort unchanged
-  -- [FUTURE ENHANCEMENT] Clicking on an alternative key while updating the task, the impacted task would be updated according to their constraint.
+-- [FUTURE ENHANCEMENT] Clicking on an alternative key while updating the task, the impacted task would be updated according to their constraint.
 
 ### Moving a task
 
