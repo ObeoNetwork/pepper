@@ -108,15 +108,18 @@ public class PepperMMJavaServiceTests {
     @Test
     public void editTaskWithDependency() {
         Task task1 = PepperFactory.eINSTANCE.createTask();
+        task1.setName("t1");
         taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
+        task2.setName("t2");
         task2.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEffort(task2, 24);
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
+        task3.setName("t3");
         task3.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
         taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEffort(task3, 24);
@@ -157,21 +160,25 @@ public class PepperMMJavaServiceTests {
     @Test
     public void editSubTaskOfDynamicTaskWithDependency() {
         Task task1 = PepperFactory.eINSTANCE.createTask();
+        task1.setName("task1");
         task1.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
         taskComputationService.updateStartTime(task1, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEndTime(task1, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task2 = PepperFactory.eINSTANCE.createTask();
+        task2.setName("task2");
         task2.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
         taskComputationService.updateStartTime(task2, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEndTime(task2, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task3 = PepperFactory.eINSTANCE.createTask();
+        task3.setName("task3");
         task3.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
         taskComputationService.updateStartTime(task3, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEndTime(task3, Instant.parse(MONDAY_2026_01_05_T23_59_00));
 
         Task task31 = PepperFactory.eINSTANCE.createTask();
+        task31.setName("task31");
         task31.setCalculationOption(TaskTimeBoundariesConstraint.START_END);
         taskComputationService.updateStartTime(task31, Instant.parse(TUESDAY_2026_01_06_T00_00_00));
         taskComputationService.updateEndTime(task31, Instant.parse(TUESDAY_2026_01_06_T23_59_00));
@@ -195,6 +202,8 @@ public class PepperMMJavaServiceTests {
 
         assertThat(task3.getSubTasks().size()).isEqualTo(1);
         assertThat(task31.getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00).plus(1, ChronoUnit.DAYS));
+        assertThat(task3.getStartTime()).isEqualTo(task31.getStartTime());
+        assertThat(task3.getEndTime()).isEqualTo(task31.getEndTime());
         assertThat(task1.getStartTime()).isEqualTo(task31.getEndTime().plus(1, ChronoUnit.MINUTES));
     }
 

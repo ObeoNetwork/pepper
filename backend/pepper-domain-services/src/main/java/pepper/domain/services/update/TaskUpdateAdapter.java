@@ -44,13 +44,13 @@ public class TaskUpdateAdapter extends EContentAdapter {
         Object notifier = notification.getNotifier();
         Object feature = notification.getFeature();
         if (notifier instanceof DependencyRelatedObject task && feature.equals(PepperPackage.eINSTANCE.getAssignableObject_AssignedPersons())) {
-            taskUpdateService.updateTasksFollowingPersonChange(task);
+            taskUpdateService.updateTaskWithImpacts(task);
         } else if (notifier instanceof Person person && feature.equals(PepperPackage.eINSTANCE.getResource_UnavailabilityPeriods())) {
-            taskUpdateService.updateTasksFollowingPersonChange(person);
+            taskUpdateService.updateTasksWithImpacts(person);
         } else if (notifier instanceof UnavailabilityPeriod unavailabilityPeriod
                 && (feature.equals(PepperPackage.eINSTANCE.getUnavailabilityPeriod_StartDate()) || feature.equals(PepperPackage.eINSTANCE.getUnavailabilityPeriod_EndDate()))) {
             if (unavailabilityPeriod.eContainer() instanceof Person person) {
-                taskUpdateService.updateTasksFollowingPersonChange(person);
+                taskUpdateService.updateTasksWithImpacts(person);
             }
         }
     }

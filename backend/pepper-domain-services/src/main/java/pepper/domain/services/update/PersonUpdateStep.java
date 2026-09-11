@@ -26,17 +26,20 @@ import pepper.peppermm.Workpackage;
 
 /**
  * This class represents an update step for a task that may be changed due to Person assignment change or Person change.
- * The step preserves the effort
+ * This step preserves the effort
+ *
  * @author lfasani
  */
-public final class SimpleUpdateStep extends TaskUpdateStep {
+public final class PersonUpdateStep extends TaskUpdateStep {
     private static final TaskHelper TASK_HELPER = new TaskHelper();
+
     private static final TaskComputationService TASK_COMPUTATION_SERVICE = new TaskComputationService();
+
     private static final WorkpackageComputationService WORKPACKAGE_COMPUTATION_SERVICE = new WorkpackageComputationService();
 
     private final DependencyRelatedObject task;
 
-    public SimpleUpdateStep(DependencyRelatedObject task) {
+    public PersonUpdateStep(DependencyRelatedObject task) {
         this.task = task;
     }
 
@@ -62,7 +65,13 @@ public final class SimpleUpdateStep extends TaskUpdateStep {
                 TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
                 switch (calculationOption) {
                     case START_EFFORT -> TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, roundedStartTime);
-                    case END_EFFORT -> TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, roundedEndTime);
+                    case END_EFFORT -> {
+                        if (TASK_HELPER.mustBeComputedFromStartDateConsideringPersonAvailability(task)) {
+                            TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, roundedStartTime, true);
+                        } else {
+                            TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, roundedEndTime);
+                        }
+                    }
                     case START_END -> {
                         abstractTask.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
                         TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, roundedStartTime);
@@ -77,9 +86,17 @@ public final class SimpleUpdateStep extends TaskUpdateStep {
             TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
             switch (calculationOption) {
                 case START_EFFORT -> WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
-                case END_EFFORT -> WORKPACKAGE_COMPUTATION_SERVICE.updateEndDate(workpackage, endDate);
+                case END_EFFORT -> {
+                    if (TASK_HELPER.mustBeComputedFromStartDateConsideringPersonAvailability(task)) {
+                        WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate, true);
+                    } else {
+                        WORKPACKAGE_COMPUTATION_SERVICE.updateEndDate(workpackage, endDate);
+                    }
+                }
                 case START_END -> {
+                    workpackage.setCalculationOption(TaskTimeBoundariesConstraint.START_EFFORT);
                     WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
+                    workpackage.setCalculationOption(calculationOption);
                 }
             }
         }
