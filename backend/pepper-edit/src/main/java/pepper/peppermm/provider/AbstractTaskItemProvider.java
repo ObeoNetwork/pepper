@@ -339,6 +339,11 @@ public class AbstractTaskItemProvider extends AssignableObjectItemProvider {
 			(createChildParameter
 				(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS,
 				 PepperFactory.eINSTANCE.createTask()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS,
+				 PepperFactory.eINSTANCE.createTaskMilestone()));
 	}
 
 }

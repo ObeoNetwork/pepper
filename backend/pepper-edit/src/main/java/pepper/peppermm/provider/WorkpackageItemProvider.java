@@ -345,6 +345,11 @@ public class WorkpackageItemProvider extends AssignableObjectItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
+				(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS,
+				 PepperFactory.eINSTANCE.createTaskMilestone()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(PepperPackage.Literals.WORKPACKAGE__OWNED_OBJECTIVES,
 				 PepperFactory.eINSTANCE.createObjective()));
 	}

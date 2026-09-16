@@ -47,6 +47,7 @@ import pepper.peppermm.RiskState;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TagFolder;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
@@ -141,6 +142,13 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
     private EClass taskEClass = null;
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass taskMilestoneEClass = null;
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -688,6 +696,16 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getTaskMilestone() {
+		return taskMilestoneEClass;
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1511,6 +1529,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 
 		taskEClass = createEClass(TASK);
 
+		taskMilestoneEClass = createEClass(TASK_MILESTONE);
+
 		objectiveEClass = createEClass(OBJECTIVE);
 		createEReference(objectiveEClass, OBJECTIVE__OWNED_KEY_RESULTS);
 
@@ -1643,6 +1663,7 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		abstractTaskEClass.getESuperTypes().add(this.getAssignableObject());
 		taskEClass.getESuperTypes().add(this.getAbstractTask());
 		taskEClass.getESuperTypes().add(this.getDependencyRelatedObject());
+		taskMilestoneEClass.getESuperTypes().add(this.getTask());
 		objectiveEClass.getESuperTypes().add(this.getAbstractTask());
 		keyResultEClass.getESuperTypes().add(this.getAbstractTask());
 		projectEClass.getESuperTypes().add(this.getNamedElement());
@@ -1705,6 +1726,8 @@ public class PepperPackageImpl extends EPackageImpl implements PepperPackage {
 		initEAttribute(getTaskTag_Suffix(), ecorePackage.getEString(), "suffix", null, 0, 1, TaskTag.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(taskEClass, Task.class, "Task", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(taskMilestoneEClass, TaskMilestone.class, "TaskMilestone", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(objectiveEClass, Objective.class, "Objective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getObjective_OwnedKeyResults(), this.getKeyResult(), null, "ownedKeyResults", null, 0, -1, Objective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

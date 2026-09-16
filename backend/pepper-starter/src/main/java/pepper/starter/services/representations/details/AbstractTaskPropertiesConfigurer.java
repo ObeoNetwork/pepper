@@ -71,6 +71,7 @@ import pepper.peppermm.Person;
 import pepper.peppermm.Project;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.provider.PepperItemProviderAdapterFactory;
@@ -187,7 +188,14 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                     }
                 },
                 PepperPackage.Literals.ABSTRACT_TASK__PROGRESS);
-        controls.add(progress);
+
+        IfDescription progressWidget = IfDescription.newIfDescription("if.abstractTask.progress")
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty())
+                .controlDescriptions(List.of(progress))
+                .build();
+
+        controls.add(progressWidget);
 
         var dependencies = this.getDependenciesWidget();
         controls.add(dependencies);
@@ -213,7 +221,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         return controls;
     }
 
-    private RadioDescription getCalculationOptionWidget() {
+    private IfDescription getCalculationOptionWidget() {
         Function<VariableManager, Boolean> optionSelectedProvider = variableManager -> {
             var optionalTaskTimeBoundariesConstraint = variableManager.get(SelectComponent.CANDIDATE_VARIABLE, TaskTimeBoundariesConstraint.class);
             if (optionalTaskTimeBoundariesConstraint.isPresent()) {
@@ -264,7 +272,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         };
 
         String id = "abstractTask.calculationOption";
-        return RadioDescription.newRadioDescription(id)
+        RadioDescription calculationOptionWidget = RadioDescription.newRadioDescription(id)
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
                 .labelProvider(variableManager -> abstractTaskAdapter.getString("_UI_AbstractTask_calculationOption_feature"))
@@ -282,10 +290,16 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_COMPUTATION_OPTION))
                 .build();
+
+        return IfDescription.newIfDescription("if.abstractTask.calculationOption")
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty())
+                .controlDescriptions(List.of(calculationOptionWidget))
+                .build();
     }
 
     @SuppressWarnings("checkstyle:MultipleStringLiterals")
-    private TextfieldDescription getEffortWidget() {
+    private IfDescription getEffortWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
                 .map(abstractTask -> {
                     double nbOfDays = abstractTask.getEffort() / 24.0;
@@ -304,7 +318,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
         };
 
         String id = "abstractTask.effort";
-        return TextfieldDescription.newTextfieldDescription(id)
+        TextfieldDescription effortWidget = TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
                         .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_END || this.isDateOptionForced(task))
                         .orElse(true))
@@ -319,9 +333,15 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_EFFORT) + System.lineSeparator() + this.pepperMessageService.getMessage(
                         MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
                 .build();
+
+        return IfDescription.newIfDescription("if.abstractTask.effort")
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty())
+                .controlDescriptions(List.of(effortWidget))
+                .build();
     }
 
-    private TextfieldDescription getDurationWidget() {
+    private IfDescription getDurationWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, AbstractTask.class)
                 .map(abstractTask -> {
                     double nbOfDays = abstractTask.getDuration() / 24.0;
@@ -331,7 +351,7 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .orElse("0");
 
         String id = "abstractTask.duration";
-        return TextfieldDescription.newTextfieldDescription(id)
+        TextfieldDescription durationWidget = TextfieldDescription.newTextfieldDescription(id)
                 .isReadOnlyProvider(vm -> true)
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -343,6 +363,12 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DURATION) + System.lineSeparator() + this.pepperMessageService.getMessage(
                         MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .build();
+
+        return IfDescription.newIfDescription("if.abstractTask.duration")
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty())
+                .controlDescriptions(List.of(durationWidget))
                 .build();
     }
 
@@ -475,12 +501,17 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .kindProvider(this.propertiesConfigurerService.getKindProvider())
                 .messageProvider(this.propertiesConfigurerService.getMessageProvider())
                 .type(DateTimeType.DATE_TIME)
-                .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
-                        MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .helpTextProvider(variableManager -> {
+                    if (variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty()) {
+                        return this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
+                                MessageConstants.HELP_ROUNDED_TO_HALF_DAY);
+                    }
+                    return "";
+                })
                 .build();
     }
 
-    private DateTimeDescription getEndTimeWidget() {
+    private IfDescription getEndTimeWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, Object.class)
                 .map(task -> {
                     try {
@@ -510,9 +541,10 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                     .orElse(new Failure(""));
         };
         String id = "abstractTask.endTime";
-        return DateTimeDescription.newDateTimeDescription(id)
+        DateTimeDescription endTimeWidget = DateTimeDescription.newDateTimeDescription(id)
                 .isReadOnlyProvider(vm -> vm.get(VariableManager.SELF, AbstractTask.class)
-                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END) || task.isComputeStartEndDynamically())
+                        .map(task -> task.getCalculationOption() == TaskTimeBoundariesConstraint.START_EFFORT || this.isDateOptionForced(task) || this.isPointed(task, StartOrEnd.END)
+                                || task.isComputeStartEndDynamically())
                         .orElse(true))
                 .idProvider(variableManager -> id)
                 .targetObjectIdProvider(this.propertiesConfigurerService.getSemanticTargetIdProvider())
@@ -525,6 +557,12 @@ public class AbstractTaskPropertiesConfigurer implements IPropertiesDescriptionR
                 .type(DateTimeType.DATE_TIME)
                 .helpTextProvider(variableManager -> this.pepperMessageService.getMessage(MessageConstants.HELP_DATE) + System.lineSeparator() + this.pepperMessageService.getMessage(
                         MessageConstants.HELP_ROUNDED_TO_HALF_DAY))
+                .build();
+
+        return IfDescription.newIfDescription("if.abstractTask.endTime")
+                .targetObjectIdProvider(variableManager -> variableManager.get(VariableManager.SELF, Object.class).map(this.identityService::getId).orElse(null))
+                .predicate(variableManager -> variableManager.get(VariableManager.SELF, TaskMilestone.class).isEmpty())
+                .controlDescriptions(List.of(endTimeWidget))
                 .build();
     }
 

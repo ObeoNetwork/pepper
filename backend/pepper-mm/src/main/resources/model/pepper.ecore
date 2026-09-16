@@ -68,6 +68,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//AbstractTask #//DependencyRelatedObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskMilestone" eSuperTypes="#//Task"/>
   <eClassifiers xsi:type="ecore:EClass" name="Objective" eSuperTypes="#//AbstractTask">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedKeyResults" upperBound="-1"
         eType="#//KeyResult" containment="true"/>

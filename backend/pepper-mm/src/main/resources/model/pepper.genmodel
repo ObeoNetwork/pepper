@@ -108,6 +108,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pepper.ecore#//TaskTag/suffix"/>
     </genClasses>
     <genClasses ecoreClass="pepper.ecore#//Task"/>
+    <genClasses ecoreClass="pepper.ecore#//TaskMilestone"/>
     <genClasses ecoreClass="pepper.ecore#//Objective">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pepper.ecore#//Objective/ownedKeyResults"/>
     </genClasses>

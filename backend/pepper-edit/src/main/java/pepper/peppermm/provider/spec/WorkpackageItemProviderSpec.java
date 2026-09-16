@@ -20,6 +20,7 @@ import pepper.domain.services.TaskComputationService;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.PepperPackage;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.Workpackage;
 import pepper.peppermm.provider.WorkpackageItemProvider;
 
@@ -31,15 +32,17 @@ public class WorkpackageItemProviderSpec extends WorkpackageItemProvider {
 
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/Workpackage.svg"));
+        return this.overlayImage(object, this.getClass().getClassLoader().getResource("icons/full/obj16/Workpackage.svg"));
     }
 
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         if (object instanceof Workpackage workpackage) {
-            Task task = new TaskComputationService().createNewTask(workpackage, getString("_UI_New") + " " + getString("_UI_Task_type"));
-
+            Task task = new TaskComputationService().createNewTask(workpackage, this.getString("_UI_New") + " " + this.getString("_UI_Task_type"));
             newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS, task));
+
+            TaskMilestone milestone = new TaskComputationService().createNewMilestone(workpackage, this.getString("_UI_New") + " " + this.getString("_UI_TaskMilestone_type"));
+            newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OWNED_TASKS, milestone));
         }
 
         newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.WORKPACKAGE__OUTPUTS, PepperFactory.eINSTANCE.createWorkpackageArtefact()));

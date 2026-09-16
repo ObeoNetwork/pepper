@@ -42,6 +42,7 @@ import pepper.peppermm.provider.spec.ResourceFolderItemProviderSpec;
 import pepper.peppermm.provider.spec.RiskItemProviderSpec;
 import pepper.peppermm.provider.spec.TagFolderItemProviderSpec;
 import pepper.peppermm.provider.spec.TaskItemProviderSpec;
+import pepper.peppermm.provider.spec.TaskMilestoneItemProviderSpec;
 import pepper.peppermm.provider.spec.TaskTagItemProviderSpec;
 import pepper.peppermm.provider.spec.TeamItemProviderSpec;
 import pepper.peppermm.provider.spec.UnavailabilityPeriodItemProviderSpec;
@@ -83,6 +84,150 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
     /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.Organization} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected OrganizationItemProvider organizationItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.ResourceFolder} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected ResourceFolderItemProvider resourceFolderItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Team} instances.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected TeamItemProvider teamItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.InternalStakeholder} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected InternalStakeholderItemProvider internalStakeholderItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.ExternalStakeholder} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected ExternalStakeholderItemProvider externalStakeholderItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Person} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected PersonItemProvider personItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TagFolder} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected TagFolderItemProvider tagFolderItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TaskTag} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected TaskTagItemProvider taskTagItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Task} instances.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected TaskItemProvider taskItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TaskMilestone} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TaskMilestoneItemProvider taskMilestoneItemProvider;
+
+				/**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Objective} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected ObjectiveItemProvider objectiveItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.KeyResult} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected KeyResultItemProvider keyResultItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Project} instances.
+	 * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected ProjectItemProvider projectItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.Workpackage} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected WorkpackageItemProvider workpackageItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.WorkpackageArtefact} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected WorkpackageArtefactItemProvider workpackageArtefactItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Risk} instances.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    protected RiskItemProvider riskItemProvider;
+
+    /**
+     * This keeps track of the one adapter used for all {@link pepper.peppermm.DependencyLink} instances. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    protected DependencyLinkItemProvider dependencyLinkItemProvider;
+
+    /**
+	 * This keeps track of the one adapter used for all {@link pepper.peppermm.UnavailabilityPeriod} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UnavailabilityPeriodItemProvider unavailabilityPeriodItemProvider;
+
+    /**
 	 * This constructs an instance.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -96,16 +241,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
 	}
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Organization} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected OrganizationItemProvider organizationItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Organization}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -118,17 +255,9 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.ResourceFolder} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected ResourceFolderItemProvider resourceFolderItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.ResourceFolder}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -141,16 +270,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Team} instances.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected TeamItemProvider teamItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Team}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -163,17 +284,9 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.InternalStakeholder} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected InternalStakeholderItemProvider internalStakeholderItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.InternalStakeholder}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -186,17 +299,9 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.ExternalStakeholder} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected ExternalStakeholderItemProvider externalStakeholderItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.ExternalStakeholder}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -209,16 +314,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Person} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected PersonItemProvider personItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Person}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -231,16 +328,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TagFolder} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected TagFolderItemProvider tagFolderItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.TagFolder}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -253,16 +342,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.TaskTag} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected TaskTagItemProvider taskTagItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.TaskTag}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -275,16 +356,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Task} instances.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected TaskItemProvider taskItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Task}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -296,17 +369,24 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
         return taskItemProvider;
     }
 
-    /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Objective} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
+				/**
+	 * This creates an adapter for a {@link pepper.peppermm.TaskMilestone}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-    protected ObjectiveItemProvider objectiveItemProvider;
+	@Override
+	public Adapter createTaskMilestoneAdapter() {
+		if (taskMilestoneItemProvider == null) {
+			taskMilestoneItemProvider = new TaskMilestoneItemProviderSpec(this);
+		}
+
+		return taskMilestoneItemProvider;
+	}
 
     /**
      * This creates an adapter for a {@link pepper.peppermm.Objective}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -319,16 +399,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.KeyResult} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected KeyResultItemProvider keyResultItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.KeyResult}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -341,16 +413,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Project} instances.
-	 * <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected ProjectItemProvider projectItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Project}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -363,16 +427,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.Workpackage} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected WorkpackageItemProvider workpackageItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Workpackage}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -385,17 +441,9 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.WorkpackageArtefact} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected WorkpackageArtefactItemProvider workpackageArtefactItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.WorkpackageArtefact}. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -408,16 +456,8 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.Risk} instances.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected RiskItemProvider riskItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.Risk}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -430,17 +470,9 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link pepper.peppermm.DependencyLink} instances. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected DependencyLinkItemProvider dependencyLinkItemProvider;
-
-    /**
      * This creates an adapter for a {@link pepper.peppermm.DependencyLink}. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
-     * 
+     *
      * @generated NOT
      */
     @Override
@@ -451,14 +483,6 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
 
         return dependencyLinkItemProvider;
     }
-
-    /**
-	 * This keeps track of the one adapter used for all {@link pepper.peppermm.UnavailabilityPeriod} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UnavailabilityPeriodItemProvider unavailabilityPeriodItemProvider;
 
 				/**
 	 * This creates an adapter for a {@link pepper.peppermm.UnavailabilityPeriod}.
@@ -521,7 +545,7 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
 	 */
     @Override
     public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
+		if (this.isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);
 			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
 				return adapter;
@@ -582,6 +606,7 @@ public class PepperItemProviderAdapterFactory extends PepperAdapterFactory imple
 		if (tagFolderItemProvider != null) tagFolderItemProvider.dispose();
 		if (taskTagItemProvider != null) taskTagItemProvider.dispose();
 		if (taskItemProvider != null) taskItemProvider.dispose();
+		if (taskMilestoneItemProvider != null) taskMilestoneItemProvider.dispose();
 		if (objectiveItemProvider != null) objectiveItemProvider.dispose();
 		if (keyResultItemProvider != null) keyResultItemProvider.dispose();
 		if (projectItemProvider != null) projectItemProvider.dispose();

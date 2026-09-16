@@ -162,6 +162,17 @@ public class PepperSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PepperPackage.TASK_MILESTONE: {
+				TaskMilestone taskMilestone = (TaskMilestone)theEObject;
+				T result = caseTaskMilestone(taskMilestone);
+				if (result == null) result = caseTask(taskMilestone);
+				if (result == null) result = caseAbstractTask(taskMilestone);
+				if (result == null) result = caseDependencyRelatedObject(taskMilestone);
+				if (result == null) result = caseAssignableObject(taskMilestone);
+				if (result == null) result = caseNamedElement(taskMilestone);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PepperPackage.OBJECTIVE: {
 				Objective objective = (Objective)theEObject;
 				T result = caseObjective(objective);
@@ -411,6 +422,21 @@ public class PepperSwitch<T> extends Switch<T> {
 	}
 
     /**
+	 * Returns the result of interpreting the object as an instance of '<em>Task Milestone</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Task Milestone</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTaskMilestone(TaskMilestone object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>Objective</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
