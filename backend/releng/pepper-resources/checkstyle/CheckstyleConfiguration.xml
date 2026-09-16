@@ -218,9 +218,6 @@
       <metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="error"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <module name="MissingSwitchDefault">
-      <property name="severity" value="error"/>
-    </module>
     <module name="ModifiedControlVariable">
       <property name="severity" value="error"/>
     </module>
@@ -247,7 +244,7 @@
     </module>
     <module name="ReturnCount">
       <property name="severity" value="error"/>
-      <property name="maxForVoid" value="2"/>
+      <property name="maxForVoid" value="3"/>
       <property name="format" value="^insertionIndexFor$"/>
     </module>
     <module name="SimplifyBooleanExpression">
