@@ -332,7 +332,7 @@ public class PepperMMJavaServiceTests {
     }
 
     @Test
-    public void createTask() {
+    public void createSubTask() {
         Task task11 = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task11, Instant.parse(MONDAY_2026_01_05_T00_00_00));
         taskComputationService.updateEndTime(task11, Instant.parse(MONDAY_2026_01_05_T23_59_00));
@@ -345,15 +345,15 @@ public class PepperMMJavaServiceTests {
         workpackage.getOwnedTasks().add(task1);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskUpdateService(new IFeedbackMessageService.NoOp()));
 
-        service.createTask(workpackage);
+        service.createSubTask(workpackage);
         assertThat(workpackage.getOwnedTasks()).hasSize(2);
 
-        service.createTask(task1);
+        service.createSubTask(task1);
         assertThat(task1.getSubTasks()).hasSize(2);
         assertThat(task1.getSubTasks().get(1).getStartTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T00_00_00));
         assertThat(task1.getSubTasks().get(1).getEndTime()).isEqualTo(Instant.parse(TUESDAY_2026_01_06_T23_59_00));
 
-        service.createTask(task11);
+        service.createSubTask(task11);
         assertThat(task11.getSubTasks()).hasSize(1);
         assertThat(task11.getSubTasks().get(0).getStartTime()).isEqualTo(task11.getStartTime());
         assertThat(task11.getSubTasks().get(0).getEndTime()).isEqualTo(task11.getEndTime());

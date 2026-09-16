@@ -40,7 +40,7 @@ public class WorkpackageComputationService {
     }
 
     public void updateStartDate(Workpackage workpackage, LocalDate newStartDate, boolean keepEffort) {
-        LocalDate nextNewStartDate = nonWorkingDaysService.getNextEndDate(newStartDate, 0, workpackage.getAssignedPersons());
+        LocalDate nextNewStartDate = nonWorkingDaysService.getNextEndDate(newStartDate, workpackage.getAssignedPersons());
         TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
         workpackage.setStartDate(nextNewStartDate);
 

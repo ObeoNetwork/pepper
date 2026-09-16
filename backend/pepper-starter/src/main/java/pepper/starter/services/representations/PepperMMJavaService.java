@@ -102,7 +102,7 @@ public class PepperMMJavaService {
         taskComputationService.updateEffort(task, effort);
     }
 
-    public void createTask(EObject context) {
+    public void createSubTask(EObject context) {
         if (context instanceof AbstractTask abstractTask) {
             Task task = PepperFactory.eINSTANCE.createTask();
             task.setName(NEW_TASK);
@@ -141,6 +141,31 @@ public class PepperMMJavaService {
             Task newTask = taskComputationService.createNewTask(workpackage, NEW_TASK);
 
             workpackage.getOwnedTasks().add(newTask);
+        }
+    }
+
+    public void createTaskAfter(AbstractTask abstractTaskContext) {
+        Task task = PepperFactory.eINSTANCE.createTask();
+        task.setName(NEW_TASK);
+        // The new task follows the context task and has the same duration as the context task.
+        if (abstractTaskContext.getEndTime() != null && abstractTaskContext.getStartTime() != null) {
+            if (abstractTaskContext.getEndTime().equals(abstractTaskContext.getStartTime())) {
+                // If the task is a Milestone
+                taskComputationService.updateStartTime(task, abstractTaskContext.getEndTime());
+                taskComputationService.updateEndTime(task, Instant.ofEpochSecond(2 * abstractTaskContext.getEndTime().getEpochSecond() - abstractTaskContext.getStartTime().getEpochSecond()));
+            } else {
+                taskComputationService.updateStartTime(task, abstractTaskContext.getEndTime().plus(1, ChronoUnit.MINUTES));
+                taskComputationService.updateEndTime(task, Instant.ofEpochSecond(2 * abstractTaskContext.getEndTime().getEpochSecond() - abstractTaskContext.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
+            }
+        }
+
+        EObject parent = abstractTaskContext.eContainer();
+        if (parent instanceof Workpackage workpackage) {
+            int index = workpackage.getOwnedTasks().indexOf(abstractTaskContext);
+            workpackage.getOwnedTasks().add(index + 1, task);
+        } else if (parent instanceof AbstractTask parentTask) {
+            int index = parentTask.getSubTasks().indexOf(abstractTaskContext);
+            parentTask.getSubTasks().add(index + 1, task);
         }
     }
 
@@ -253,27 +278,19 @@ public class PepperMMJavaService {
         }
     }
 
-    public void createWorkpackage(EObject context) {
+    public void createWorkpackage(Workpackage workpackageContext) {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
         newWorkpackage.setName("New Workpackage");
-        if (context instanceof Workpackage workpackage) {
-            // The new task follows the context task and has the same effort than the context task.
-            if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
-                workpackageComputationService.updateStartDate(newWorkpackage, workpackage.getEndDate());
-                workpackageComputationService.updateEndDate(newWorkpackage, workpackage.getEndDate().plusDays(workpackage.getEndDate().toEpochDay() - workpackage.getStartDate().toEpochDay()));
-            }
+        // The new task follows the context task and has the same effort than the context task.
+        if (workpackageContext.getEndDate() != null && workpackageContext.getStartDate() != null) {
+            workpackageComputationService.updateStartDate(newWorkpackage, workpackageContext.getEndDate().plusDays(1));
+            workpackageComputationService.updateEndDate(newWorkpackage, workpackageContext.getEndDate().plusDays(1 + workpackageContext.getEndDate().toEpochDay() - workpackageContext.getStartDate().toEpochDay()));
+        }
 
-            EObject parent = context.eContainer();
-            if (parent instanceof Project project) {
-                int index = project.getOwnedWorkpackages().indexOf(context);
-                project.getOwnedWorkpackages().add(index + 1, newWorkpackage);
-            }
-        } else if (context instanceof Project project) {
-            LocalDate now = LocalDate.now();
-            workpackageComputationService.updateStartDate(newWorkpackage, now);
-            workpackageComputationService.updateEndDate(newWorkpackage, now.plusDays(28));
-
-            project.getOwnedWorkpackages().add(newWorkpackage);
+        EObject parent = workpackageContext.eContainer();
+        if (parent instanceof Project project) {
+            int index = project.getOwnedWorkpackages().indexOf(workpackageContext);
+            project.getOwnedWorkpackages().add(index + 1, newWorkpackage);
         }
     }
 

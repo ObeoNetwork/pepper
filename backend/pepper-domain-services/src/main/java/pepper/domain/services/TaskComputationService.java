@@ -156,6 +156,9 @@ public class TaskComputationService {
                 Instant endInstant = Instant.parse(endTime);
                 this.updateStartTime(task, startInstant);
                 this.updateEndTime(task, endInstant);
+            } else {
+                this.updateStartTime(task, Instant.now());
+                this.updateEndTime(task, Instant.now().plus(1, ChronoUnit.DAYS));
             }
         }
         return task;

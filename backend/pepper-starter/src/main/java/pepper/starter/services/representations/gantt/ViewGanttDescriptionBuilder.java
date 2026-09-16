@@ -118,7 +118,7 @@ public class ViewGanttDescriptionBuilder {
         return new GanttBuilders().newCreateTaskTool()
                 .name("Create Task After")
                 .body(new ChangeContextBuilder()
-                        .expression("aql:self.createTask()")
+                        .expression("aql:self.createTaskAfter()")
                         .build())
                 .build();
     }
