@@ -101,6 +101,15 @@ public interface PepperFactory extends EFactory {
     Task createTask();
 
     /**
+	 * Returns a new object of class '<em>Task Milestone</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Task Milestone</em>'.
+	 * @generated
+	 */
+	TaskMilestone createTaskMilestone();
+
+				/**
 	 * Returns a new object of class '<em>Objective</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Objective</em>'.

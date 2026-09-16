@@ -858,6 +858,151 @@ public interface PepperPackage extends EPackage {
     int TASK_FEATURE_COUNT = ABSTRACT_TASK_FEATURE_COUNT + 1;
 
     /**
+	 * The meta object id for the '{@link pepper.peppermm.impl.TaskMilestoneImpl <em>Task Milestone</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see pepper.peppermm.impl.TaskMilestoneImpl
+	 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskMilestone()
+	 * @generated
+	 */
+	int TASK_MILESTONE = 13;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__NAME = TASK__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__DESCRIPTION = TASK__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Persons</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__ASSIGNED_PERSONS = TASK__ASSIGNED_PERSONS;
+
+				/**
+	 * The feature id for the '<em><b>Assigned Teams</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__ASSIGNED_TEAMS = TASK__ASSIGNED_TEAMS;
+
+				/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__START_TIME = TASK__START_TIME;
+
+				/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__END_TIME = TASK__END_TIME;
+
+				/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__PROGRESS = TASK__PROGRESS;
+
+				/**
+	 * The feature id for the '<em><b>Compute Start End Dynamically</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__COMPUTE_START_END_DYNAMICALLY = TASK__COMPUTE_START_END_DYNAMICALLY;
+
+				/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__TAGS = TASK__TAGS;
+
+				/**
+	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__SUB_TASKS = TASK__SUB_TASKS;
+
+				/**
+	 * The feature id for the '<em><b>Calculation Option</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__CALCULATION_OPTION = TASK__CALCULATION_OPTION;
+
+				/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__DURATION = TASK__DURATION;
+
+				/**
+	 * The feature id for the '<em><b>Effort</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__EFFORT = TASK__EFFORT;
+
+				/**
+	 * The feature id for the '<em><b>Dependencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE__DEPENDENCIES = TASK__DEPENDENCIES;
+
+				/**
+	 * The number of structural features of the '<em>Task Milestone</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_MILESTONE_FEATURE_COUNT = TASK_FEATURE_COUNT + 0;
+
+				/**
      * The meta object id for the '{@link pepper.peppermm.impl.ObjectiveImpl <em>Objective</em>}' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -865,7 +1010,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getObjective()
      * @generated
      */
-    int OBJECTIVE = 13;
+    int OBJECTIVE = 14;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1003,7 +1148,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getKeyResult()
      * @generated
      */
-    int KEY_RESULT = 14;
+    int KEY_RESULT = 15;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1132,7 +1277,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getProject()
 	 * @generated
 	 */
-    int PROJECT = 15;
+    int PROJECT = 16;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1417,7 +1562,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyRelatedObject()
 	 * @generated
 	 */
-    int DEPENDENCY_RELATED_OBJECT = 20;
+    int DEPENDENCY_RELATED_OBJECT = 21;
 
     /**
      * The meta object id for the '{@link pepper.peppermm.impl.WorkpackageImpl <em>Workpackage</em>}' class. <!--
@@ -1427,7 +1572,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackage()
      * @generated
      */
-    int WORKPACKAGE = 16;
+    int WORKPACKAGE = 17;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1572,7 +1717,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefact()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT = 17;
+    int WORKPACKAGE_ARTEFACT = 18;
 
     /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1674,7 +1819,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRisk()
 	 * @generated
 	 */
-    int RISK = 18;
+    int RISK = 19;
 
     /**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1757,7 +1902,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getDependencyLink()
      * @generated
      */
-    int DEPENDENCY_LINK = 19;
+    int DEPENDENCY_LINK = 20;
 
     /**
 	 * The feature id for the '<em><b>Target Kind</b></em>' attribute.
@@ -1827,7 +1972,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getUnavailabilityPeriod()
 	 * @generated
 	 */
-	int UNAVAILABILITY_PERIOD = 21;
+	int UNAVAILABILITY_PERIOD = 22;
 
 				/**
 	 * The feature id for the '<em><b>Start Date</b></em>' attribute.
@@ -1872,7 +2017,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getWorkpackageArtefactNature()
 	 * @generated
 	 */
-    int WORKPACKAGE_ARTEFACT_NATURE = 25;
+    int WORKPACKAGE_ARTEFACT_NATURE = 26;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.StartOrEnd <em>Start Or End</em>}' enum.
@@ -1882,7 +2027,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getStartOrEnd()
 	 * @generated
 	 */
-    int START_OR_END = 26;
+    int START_OR_END = 27;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.TaskTimeBoundariesConstraint <em>Task Time Boundaries Constraint</em>}' enum.
@@ -1891,7 +2036,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskTimeBoundariesConstraint()
 	 * @generated
 	 */
-    int TASK_TIME_BOUNDARIES_CONSTRAINT = 27;
+    int TASK_TIME_BOUNDARIES_CONSTRAINT = 28;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskKind <em>Risk Kind</em>}' enum.
@@ -1901,7 +2046,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskKind()
 	 * @generated
 	 */
-    int RISK_KIND = 23;
+    int RISK_KIND = 24;
 
     /**
 	 * The meta object id for the '{@link pepper.peppermm.RiskState <em>Risk State</em>}' enum.
@@ -1911,7 +2056,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getRiskState()
 	 * @generated
 	 */
-    int RISK_STATE = 24;
+    int RISK_STATE = 25;
 
     /**
      * The meta object id for the '{@link ProjectState <em>Project State</em>}' enum. <!--
@@ -1921,7 +2066,7 @@ public interface PepperPackage extends EPackage {
      * @see pepper.peppermm.impl.PepperPackageImpl#getProjectState()
      * @generated
      */
-    int PROJECT_STATE = 22;
+    int PROJECT_STATE = 23;
 
     /**
 	 * The meta object id for the '<em>Instant</em>' data type.
@@ -1930,7 +2075,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getInstant()
 	 * @generated
 	 */
-    int INSTANT = 29;
+    int INSTANT = 30;
 
     /**
 	 * Returns the meta object for class '{@link pepper.peppermm.NamedElement <em>Named Element</em>}'.
@@ -1971,7 +2116,7 @@ public interface PepperPackage extends EPackage {
 	 * @see pepper.peppermm.impl.PepperPackageImpl#getDate()
 	 * @generated
 	 */
-    int DATE = 28;
+    int DATE = 29;
 
     /**
      * Returns the meta object for class '{@link Organization <em>Organization</em>}'. <!--
@@ -2378,6 +2523,16 @@ public interface PepperPackage extends EPackage {
     EClass getTask();
 
     /**
+	 * Returns the meta object for class '{@link pepper.peppermm.TaskMilestone <em>Task Milestone</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Task Milestone</em>'.
+	 * @see pepper.peppermm.TaskMilestone
+	 * @generated
+	 */
+	EClass getTaskMilestone();
+
+				/**
 	 * Returns the meta object for class '{@link pepper.peppermm.Objective <em>Objective</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3590,6 +3745,16 @@ public interface PepperPackage extends EPackage {
         EClass TASK = eINSTANCE.getTask();
 
         /**
+		 * The meta object literal for the '{@link pepper.peppermm.impl.TaskMilestoneImpl <em>Task Milestone</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see pepper.peppermm.impl.TaskMilestoneImpl
+		 * @see pepper.peppermm.impl.PepperPackageImpl#getTaskMilestone()
+		 * @generated
+		 */
+		EClass TASK_MILESTONE = eINSTANCE.getTaskMilestone();
+
+								/**
          * The meta object literal for the '{@link pepper.peppermm.impl.ObjectiveImpl <em>Objective</em>}' class. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 

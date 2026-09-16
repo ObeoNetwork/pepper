@@ -63,65 +63,6 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     protected static final Instant START_TIME_EDEFAULT = null;
 
     /**
-	 * The default value of the '{@link #getEndTime() <em>End Time</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getEndTime()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final Instant END_TIME_EDEFAULT = null;
-
-    /**
-	 * The default value of the '{@link #getProgress() <em>Progress</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getProgress()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final int PROGRESS_EDEFAULT = 0;
-
-    /**
-	 * The default value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #isComputeStartEndDynamically()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final boolean COMPUTE_START_END_DYNAMICALLY_EDEFAULT = false;
-
-    /**
-     * The default value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @see #getCalculationOption()
-     * @generated
-     * @ordered
-     */
-    protected static final TaskTimeBoundariesConstraint CALCULATION_OPTION_EDEFAULT = TaskTimeBoundariesConstraint.START_END;
-
-    /**
-	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-	 * @see #getDuration()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final int DURATION_EDEFAULT = 0;
-
-    /**
-	 * The default value of the '{@link #getEffort() <em>Effort</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEffort()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int EFFORT_EDEFAULT = 0;
-
-    /**
 	 * The cached value of the '{@link #getStartTime() <em>Start Time</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -130,6 +71,16 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	 * @ordered
 	 */
     protected Instant startTime = START_TIME_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #getEndTime() <em>End Time</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @see #getEndTime()
+	 * @generated
+	 * @ordered
+	 */
+    protected static final Instant END_TIME_EDEFAULT = null;
 
     /**
 	 * The cached value of the '{@link #getEndTime() <em>End Time</em>}' attribute.
@@ -141,6 +92,16 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	 */
     protected Instant endTime = END_TIME_EDEFAULT;
 
+				/**
+	 * The default value of the '{@link #getProgress() <em>Progress</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @see #getProgress()
+	 * @generated
+	 * @ordered
+	 */
+    protected static final int PROGRESS_EDEFAULT = 0;
+
     /**
 	 * The cached value of the '{@link #getProgress() <em>Progress</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
@@ -150,6 +111,15 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	 * @ordered
 	 */
     protected int progress = PROGRESS_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isComputeStartEndDynamically()
+	 * @generated
+	 * @ordered
+	 */
+    protected static final boolean COMPUTE_START_END_DYNAMICALLY_EDEFAULT = false;
 
     /**
 	 * The cached value of the '{@link #isComputeStartEndDynamically() <em>Compute Start End Dynamically</em>}' attribute.
@@ -180,6 +150,16 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
      */
     protected EList<Task> subTasks;
 
+				/**
+     * The default value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @see #getCalculationOption()
+     * @generated
+     * @ordered
+     */
+    protected static final TaskTimeBoundariesConstraint CALCULATION_OPTION_EDEFAULT = TaskTimeBoundariesConstraint.START_END;
+
     /**
      * The cached value of the '{@link #getCalculationOption() <em>Calculation Option</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
@@ -190,6 +170,16 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
      */
     protected TaskTimeBoundariesConstraint calculationOption = CALCULATION_OPTION_EDEFAULT;
 
+				/**
+	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
+    protected static final int DURATION_EDEFAULT = 0;
+
     /**
 	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
@@ -199,6 +189,16 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	 * @ordered
 	 */
     protected int duration = DURATION_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #getEffort() <em>Effort</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEffort()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EFFORT_EDEFAULT = 0;
 
 				/**
 	 * The cached value of the '{@link #getEffort() <em>Effort</em>}' attribute.
@@ -245,8 +245,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void setStartTime(Instant newStartTime) {
 		Instant oldStartTime = startTime;
 		startTime = newStartTime;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__START_TIME, oldStartTime, startTime));
 	}
 
     /**
@@ -267,8 +267,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void setEndTime(Instant newEndTime) {
 		Instant oldEndTime = endTime;
 		endTime = newEndTime;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__END_TIME, oldEndTime, endTime));
 	}
 
     /**
@@ -312,8 +312,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void setComputeStartEndDynamically(boolean newComputeStartEndDynamically) {
 		boolean oldComputeStartEndDynamically = computeStartEndDynamically;
 		computeStartEndDynamically = newComputeStartEndDynamically;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY, oldComputeStartEndDynamically, computeStartEndDynamically));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY, oldComputeStartEndDynamically, computeStartEndDynamically));
 	}
 
     /**
@@ -357,8 +357,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void setCalculationOption(TaskTimeBoundariesConstraint newCalculationOption) {
 		TaskTimeBoundariesConstraint oldCalculationOption = calculationOption;
 		calculationOption = newCalculationOption == null ? CALCULATION_OPTION_EDEFAULT : newCalculationOption;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION, oldCalculationOption, calculationOption));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION, oldCalculationOption, calculationOption));
 	}
 
     /**
@@ -379,8 +379,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void setDuration(int newDuration) {
 		int oldDuration = duration;
 		duration = newDuration;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__DURATION, oldDuration, duration));
 	}
 
     /**
@@ -402,8 +402,8 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	public void setEffort(int newEffort) {
 		int oldEffort = effort;
 		effort = newEffort;
-		if (this.eNotificationRequired())
-            this.eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__EFFORT, oldEffort, effort));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PepperPackage.ABSTRACT_TASK__EFFORT, oldEffort, effort));
 	}
 
 				/**
@@ -414,7 +414,7 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-				return ((InternalEList<?>) this.getSubTasks()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getSubTasks()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -427,23 +427,23 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
-				return this.getStartTime();
+				return getStartTime();
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
-				return this.getEndTime();
+				return getEndTime();
 			case PepperPackage.ABSTRACT_TASK__PROGRESS:
-				return this.getProgress();
+				return getProgress();
 			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-				return this.isComputeStartEndDynamically();
+				return isComputeStartEndDynamically();
 			case PepperPackage.ABSTRACT_TASK__TAGS:
-				return this.getTags();
+				return getTags();
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-				return this.getSubTasks();
+				return getSubTasks();
 			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-				return this.getCalculationOption();
+				return getCalculationOption();
 			case PepperPackage.ABSTRACT_TASK__DURATION:
-				return this.getDuration();
+				return getDuration();
 			case PepperPackage.ABSTRACT_TASK__EFFORT:
-				return this.getEffort();
+				return getEffort();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -457,33 +457,33 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
-                this.setStartTime((Instant)newValue);
+				setStartTime((Instant)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
-                this.setEndTime((Instant)newValue);
+				setEndTime((Instant)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                this.setProgress((Integer)newValue);
+				setProgress((Integer)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                this.setComputeStartEndDynamically((Boolean)newValue);
+				setComputeStartEndDynamically((Boolean)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__TAGS:
-                this.getTags().clear();
-                this.getTags().addAll((Collection<? extends TaskTag>)newValue);
+				getTags().clear();
+				getTags().addAll((Collection<? extends TaskTag>)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                this.getSubTasks().clear();
-                this.getSubTasks().addAll((Collection<? extends Task>)newValue);
+				getSubTasks().clear();
+				getSubTasks().addAll((Collection<? extends Task>)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                this.setCalculationOption((TaskTimeBoundariesConstraint)newValue);
+				setCalculationOption((TaskTimeBoundariesConstraint)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__DURATION:
-                this.setDuration((Integer)newValue);
+				setDuration((Integer)newValue);
 				return;
 			case PepperPackage.ABSTRACT_TASK__EFFORT:
-                this.setEffort((Integer)newValue);
+				setEffort((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -497,31 +497,31 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public void eUnset(int featureID) {
 		switch (featureID) {
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
-                this.setStartTime(START_TIME_EDEFAULT);
+				setStartTime(START_TIME_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
-                this.setEndTime(END_TIME_EDEFAULT);
+				setEndTime(END_TIME_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__PROGRESS:
-                this.setProgress(PROGRESS_EDEFAULT);
+				setProgress(PROGRESS_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
-                this.setComputeStartEndDynamically(COMPUTE_START_END_DYNAMICALLY_EDEFAULT);
+				setComputeStartEndDynamically(COMPUTE_START_END_DYNAMICALLY_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__TAGS:
-                this.getTags().clear();
+				getTags().clear();
 				return;
 			case PepperPackage.ABSTRACT_TASK__SUB_TASKS:
-                this.getSubTasks().clear();
+				getSubTasks().clear();
 				return;
 			case PepperPackage.ABSTRACT_TASK__CALCULATION_OPTION:
-                this.setCalculationOption(CALCULATION_OPTION_EDEFAULT);
+				setCalculationOption(CALCULATION_OPTION_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__DURATION:
-                this.setDuration(DURATION_EDEFAULT);
+				setDuration(DURATION_EDEFAULT);
 				return;
 			case PepperPackage.ABSTRACT_TASK__EFFORT:
-                this.setEffort(EFFORT_EDEFAULT);
+				setEffort(EFFORT_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -535,9 +535,9 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
     public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PepperPackage.ABSTRACT_TASK__START_TIME:
-				return !Objects.equals(START_TIME_EDEFAULT, startTime);
+				return START_TIME_EDEFAULT == null ? startTime != null : !START_TIME_EDEFAULT.equals(startTime);
 			case PepperPackage.ABSTRACT_TASK__END_TIME:
-				return !Objects.equals(END_TIME_EDEFAULT, endTime);
+				return END_TIME_EDEFAULT == null ? endTime != null : !END_TIME_EDEFAULT.equals(endTime);
 			case PepperPackage.ABSTRACT_TASK__PROGRESS:
 				return progress != PROGRESS_EDEFAULT;
 			case PepperPackage.ABSTRACT_TASK__COMPUTE_START_END_DYNAMICALLY:
@@ -562,24 +562,25 @@ public abstract class AbstractTaskImpl extends AssignableObjectImpl implements A
 	 */
     @Override
     public String toString() {
-		if (this.eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        String result = super.toString() + " (startTime: "
-                + startTime
-                + ", endTime: "
-                + endTime
-                + ", progress: "
-                + progress
-                + ", computeStartEndDynamically: "
-                + computeStartEndDynamically
-                + ", calculationOption: "
-                + calculationOption
-                + ", duration: "
-                + duration
-                + ", effort: "
-                + effort
-                + ')';
-		return result;
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (startTime: ");
+		result.append(startTime);
+		result.append(", endTime: ");
+		result.append(endTime);
+		result.append(", progress: ");
+		result.append(progress);
+		result.append(", computeStartEndDynamically: ");
+		result.append(computeStartEndDynamically);
+		result.append(", calculationOption: ");
+		result.append(calculationOption);
+		result.append(", duration: ");
+		result.append(duration);
+		result.append(", effort: ");
+		result.append(effort);
+		result.append(')');
+		return result.toString();
 	}
 
 } // AbstractTaskImpl

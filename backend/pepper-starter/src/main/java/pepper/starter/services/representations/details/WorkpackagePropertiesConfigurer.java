@@ -316,8 +316,7 @@ public class WorkpackagePropertiesConfigurer implements IPropertiesDescriptionRe
     private TextfieldDescription getDurationWidget() {
         Function<VariableManager, String> valueProvider = variableManager -> variableManager.get(VariableManager.SELF, Workpackage.class)
                 .map(abstractTask -> {
-                    double nbOfDays = abstractTask.getDuration() / 24.0;
-                    return String.format("%.1f", nbOfDays);
+                    return Math.round(abstractTask.getDuration() / 24.0);
                 })
                 .map(String::valueOf)
                 .orElse("0");

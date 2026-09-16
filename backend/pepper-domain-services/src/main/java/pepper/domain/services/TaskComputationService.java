@@ -27,6 +27,7 @@ import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.PepperFactory;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 
@@ -187,6 +188,29 @@ public class TaskComputationService {
             }
         }
         return task;
+    }
+
+    public TaskMilestone createNewMilestone(Workpackage workpackage, String name) {
+        TaskMilestone milestone = PepperFactory.eINSTANCE.createTaskMilestone();
+        milestone.setName(name);
+        Optional<Task> optionalTask = workpackage.getOwnedTasks().stream().reduce((first, second) -> second)
+                .filter(filteredTask -> filteredTask.getEndTime() != null && filteredTask.getStartTime() != null);
+
+        if (optionalTask.isPresent()) {
+            Task lastTask = optionalTask.get();
+            this.updateStartTime(milestone, lastTask.getEndTime());
+        } else {
+            if (workpackage.getEndDate() != null && workpackage.getStartDate() != null) {
+                ZonedDateTime zdt = workpackage.getStartDate().atStartOfDay(ZoneId.systemDefault());
+                String zone = zdt.getOffset().toString();
+                String startTime = workpackage.getStartDate().toString() + "T00:00:00.00" + zone;
+                Instant startInstant = Instant.parse(startTime);
+                this.updateStartTime(milestone, startInstant);
+            } else {
+                this.updateStartTime(milestone, Instant.now());
+            }
+        }
+        return milestone;
     }
 
     private int roundToNearestHalfDay(int nbHours) {

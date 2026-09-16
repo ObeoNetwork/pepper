@@ -124,6 +124,10 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 				return createTaskAdapter();
 			}
 			@Override
+			public Adapter caseTaskMilestone(TaskMilestone object) {
+				return createTaskMilestoneAdapter();
+			}
+			@Override
 			public Adapter caseObjective(Objective object) {
 				return createObjectiveAdapter();
 			}
@@ -346,6 +350,20 @@ public class PepperAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
+	 * Creates a new adapter for an object of class '{@link pepper.peppermm.TaskMilestone <em>Task Milestone</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see pepper.peppermm.TaskMilestone
+	 * @generated
+	 */
+	public Adapter createTaskMilestoneAdapter() {
+		return null;
+	}
+
+				/**
      * Creates a new adapter for an object of class '{@link Objective <em>Objective</em>}'. <!--
      * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
      * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->

@@ -75,6 +75,7 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 			case PepperPackage.TAG_FOLDER: return createTagFolder();
 			case PepperPackage.TASK_TAG: return createTaskTag();
 			case PepperPackage.TASK: return createTask();
+			case PepperPackage.TASK_MILESTONE: return createTaskMilestone();
 			case PepperPackage.OBJECTIVE: return createObjective();
 			case PepperPackage.KEY_RESULT: return createKeyResult();
 			case PepperPackage.PROJECT: return createProject();
@@ -235,6 +236,17 @@ public class PepperFactoryImpl extends EFactoryImpl implements PepperFactory {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TaskMilestone createTaskMilestone() {
+		TaskMilestoneImpl taskMilestone = new TaskMilestoneImpl();
+		return taskMilestone;
+	}
+
+				/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
