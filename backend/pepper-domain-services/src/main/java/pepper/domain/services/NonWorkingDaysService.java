@@ -391,6 +391,7 @@ public class NonWorkingDaysService {
         return this.getNbWorkingPersons(instant, persons) > 0;
     }
 
+    @SuppressWarnings("checkstyle:ReturnCount")
     private int getNbWorkingPersons(Instant instant, List<Person> assignedPersons) {
         LocalDate date = instant.atZone(ZoneOffset.UTC).toLocalDate();
         boolean isNonWorkingDay = NON_WORKING_DAYS_IN_WEEK.contains(date.getDayOfWeek()) || FRENCH_NON_WORKING_DAYS_2026.contains(date);

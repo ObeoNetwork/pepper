@@ -29,10 +29,10 @@ public class AbstractTaskItemProviderSpec extends AbstractTaskItemProvider {
     }
 
     @Override
-    protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+    public void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 
         if (object instanceof AbstractTask abstractTask) {
-            Task task = new TaskComputationService().createNewTask(abstractTask, getString("_UI_New") + " " + getString("_UI_Task_type"));
+            Task task = new TaskComputationService().createNewTask(abstractTask, this.getString("_UI_New") + " " + this.getString("_UI_Task_type"));
 
             newChildDescriptors.add(this.createChildParameter(PepperPackage.Literals.ABSTRACT_TASK__SUB_TASKS, task));
         }
