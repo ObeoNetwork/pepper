@@ -28,7 +28,6 @@ import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.StartOrEnd;
-import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Workpackage;
 
 /**
@@ -67,6 +66,7 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
         return TASK_HELPER.getName(task);
     }
 
+    @SuppressWarnings("checkstyle:NestedIfDepth")
     @Override
     public void update() {
         if (task instanceof AbstractTask abstractTask && start instanceof Instant startTime && end instanceof Instant endTime) {
@@ -86,28 +86,20 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
                 boolean endTimeControlledByDependency = TASK_HELPER.isBoundaryConstrainedByDependency(dependencies, StartOrEnd.END);
 
                 if (taskShifted) {
-                    TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();
-                    switch (calculationOption) {
-                        case START_EFFORT -> TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime);
-                        case END_EFFORT -> {
-                            // TODO case if a person is assigned
-                            TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
-                        }
-                        case START_END -> {
-                            TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime);
-                            TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
-                        }
-                    }
+                    TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime, true);
                 } else {
                     if (differenceStart != 0 && !startTimeControlledByDependency) {
                         TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime);
                     }
 
                     if (differenceEnd != 0 && !endTimeControlledByDependency) {
-                        TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
+                        if (TASK_HELPER.mustBeComputedFromStartDateConsideringPersonAvailability(task)) {
+                            TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, newStartTime, true);
+                        } else {
+                            TASK_COMPUTATION_SERVICE.updateEndTime(abstractTask, newEndTime);
+                        }
                     }
                 }
-
             }
         } else if (task instanceof Workpackage workpackage && start instanceof LocalDate startDate && end instanceof LocalDate endDate) {
             long differenceEnd = Optional.ofNullable(workpackage.getEndDate()).map(currentEndDate -> ChronoUnit.DAYS.between(endDate, currentEndDate))
@@ -118,27 +110,22 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
             List<DependencyLink> dependencies = workpackage.getDependencies();
             boolean startDateControlledByDependency = TASK_HELPER.isBoundaryConstrainedByDependency(dependencies, StartOrEnd.START);
             boolean endDateControlledByDependency = TASK_HELPER.isBoundaryConstrainedByDependency(dependencies, StartOrEnd.END);
+            // Nothing is done when moving a task constrained by dependencies
+            if (dependencies.isEmpty() || !taskShifted) {
+                if (taskShifted) {
+                    WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate, true);
+                } else {
+                    if (differenceStart != 0 && !startDateControlledByDependency) {
+                        WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
+                    }
 
-            if (taskShifted) {
-                // Nothing is done when moving a task constrained by dependencies
-                if (dependencies.isEmpty()) {
-                    TaskTimeBoundariesConstraint calculationOption = workpackage.getCalculationOption();
-                    switch (calculationOption) {
-                        case START_EFFORT -> WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
-                        case END_EFFORT -> WORKPACKAGE_COMPUTATION_SERVICE.updateEndDate(workpackage, endDate);
-                        case START_END -> {
-                            WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
+                    if (differenceEnd != 0 && !endDateControlledByDependency) {
+                        if (TASK_HELPER.mustBeComputedFromStartDateConsideringPersonAvailability(task, endDate)) {
+                            WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate, true);
+                        } else {
                             WORKPACKAGE_COMPUTATION_SERVICE.updateEndDate(workpackage, endDate);
                         }
                     }
-                }
-            } else {
-                if (differenceStart != 0 && !startDateControlledByDependency) {
-                    WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, startDate);
-                }
-
-                if (differenceEnd != 0 && !endDateControlledByDependency) {
-                    WORKPACKAGE_COMPUTATION_SERVICE.updateEndDate(workpackage, endDate);
                 }
             }
         }

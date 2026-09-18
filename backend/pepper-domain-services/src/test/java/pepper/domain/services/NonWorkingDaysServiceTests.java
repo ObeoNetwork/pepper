@@ -320,35 +320,35 @@ public class NonWorkingDaysServiceTests {
     }
 
     @Test
-    public void getNextEndDateKeepsAWorkingDate() {
+    public void getNextAvailableDateKeepsAWorkingDate() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 31);
 
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(date);
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(date);
     }
 
     @Test
-    public void getNextEndDateMovesPastAWeekend() {
+    public void getNextAvailableDateMovesPastAWeekend() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 8, 1);
 
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(LocalDate.of(2026, 8, 3));
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(LocalDate.of(2026, 8, 3));
     }
 
     @Test
-    public void getNextEndDateMovesPastANonWorkingDate() {
+    public void getNextAvailableDateMovesPastANonWorkingDate() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 14);
 
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(LocalDate.of(2026, 7, 15));
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(LocalDate.of(2026, 7, 15));
     }
 
     @Test
-    public void getNextEndDateKeepsAWorkingDateFollowingANonWorkingDay() {
+    public void getNextAvailableDateKeepsAWorkingDateFollowingANonWorkingDay() {
         var service = new NonWorkingDaysService();
         LocalDate date = LocalDate.of(2026, 7, 15);
 
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(date);
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(date);
     }
 
     @Test
@@ -421,16 +421,66 @@ public class NonWorkingDaysServiceTests {
     }
 
     @Test
-    public void getNextEndDateMovesWithAssignedPersons() {
+    public void getNextAvailableDateMovesWithAssignedPersons() {
         var service = new NonWorkingDaysService();
         LocalDate date = TUESDAY_2026_07_07;
 
         Person person1 = this.getPerson1();
         Person person2 = PepperFactory.eINSTANCE.createPerson();
 
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(TUESDAY_2026_07_07);
-        assertThat(service.getNextEndDate(date, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
-        assertThat(service.getNextEndDate(date, List.of(person1, person2))).isEqualTo(TUESDAY_2026_07_07);
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(TUESDAY_2026_07_07);
+        assertThat(service.getNextAvailableDate(date, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
+        assertThat(service.getNextAvailableDate(date, List.of(person1, person2))).isEqualTo(TUESDAY_2026_07_07);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "2026-07-31, 2026-07-31",
+        "2026-08-01, 2026-08-03",
+        "2026-08-02, 2026-08-03",
+        "2026-07-14, 2026-07-15",
+        "2026-07-15, 2026-07-15",
+        ","
+    })
+    public void getNextAvailableDateRespectsWorkingDays(LocalDate date, LocalDate expected) {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getNextAvailableDate(date, List.of())).isEqualTo(expected);
+    }
+
+    @Test
+    public void getEndDateFromStartDateRespectsAssignedPersons() {
+        var service = new NonWorkingDaysService();
+
+        Person unavailablePerson = this.getPerson1();
+        Person availablePerson = PepperFactory.eINSTANCE.createPerson();
+
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 1, List.of(unavailablePerson))).isEqualTo(MONDAY_2026_07_06);
+        assertThat(service.getEndDateFromStartDate(TUESDAY_2026_07_07, 1, List.of(unavailablePerson))).isEqualTo(WEDNESDAY_2026_07_08);
+        assertThat(service.getEndDateFromStartDate(TUESDAY_2026_07_07, 1, List.of(unavailablePerson, availablePerson))).isEqualTo(TUESDAY_2026_07_07);
+
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 2, List.of(unavailablePerson))).isEqualTo(WEDNESDAY_2026_07_08);
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 1, List.of(unavailablePerson, availablePerson))).isEqualTo(MONDAY_2026_07_06);
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 2, List.of(unavailablePerson, availablePerson))).isEqualTo(MONDAY_2026_07_06);
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 3, List.of(unavailablePerson, availablePerson))).isEqualTo(TUESDAY_2026_07_07);
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 4, List.of(unavailablePerson, availablePerson))).isEqualTo(WEDNESDAY_2026_07_08);
+        assertThat(service.getEndDateFromStartDate(MONDAY_2026_07_06, 5, List.of(unavailablePerson, availablePerson))).isEqualTo(WEDNESDAY_2026_07_08);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "2026-07-06, 1, 2026-07-06",
+        "2026-07-06, 3, 2026-07-08",
+        "2026-07-10, 1, 2026-07-10",
+        "2026-07-10, 2, 2026-07-13",
+        "2026-07-11, 1, 2026-07-13",
+        "2026-07-14, 1, 2026-07-15",
+        ", 1,"
+    })
+    public void getEndDateFromStartDateRespectsWorkingDays(LocalDate date, int effort, LocalDate expected) {
+        var service = new NonWorkingDaysService();
+
+        assertThat(service.getEndDateFromStartDate(date, effort, List.of())).isEqualTo(expected);
     }
 
     @Test
@@ -459,36 +509,6 @@ public class NonWorkingDaysServiceTests {
         assertThat(service.getPreviousStartDate(WEDNESDAY_2026_07_08, 2, List.of(person1, person2))).isEqualTo(WEDNESDAY_2026_07_08);
         assertThat(service.getPreviousStartDate(WEDNESDAY_2026_07_08, 3, List.of(person1, person2))).isEqualTo(TUESDAY_2026_07_07);
         assertThat(service.getPreviousStartDate(WEDNESDAY_2026_07_08, 4, List.of(person1, person2))).isEqualTo(MONDAY_2026_07_06);
-    }
-
-    @Test
-    public void getNextEndDateWithEffortWithAssignedPersons() {
-        var service = new NonWorkingDaysService();
-
-        Person person1 = this.getPerson1();
-        Person person2 = PepperFactory.eINSTANCE.createPerson();
-
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 1, List.of(person1))).isEqualTo(MONDAY_2026_07_06);
-        assertThat(service.getNextEndDate(TUESDAY_2026_07_07, 1, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 2, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 1, List.of(person1, person2))).isEqualTo(MONDAY_2026_07_06);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 2, List.of(person1, person2))).isEqualTo(MONDAY_2026_07_06);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 3, List.of(person1, person2))).isEqualTo(TUESDAY_2026_07_07);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 4, List.of(person1, person2))).isEqualTo(WEDNESDAY_2026_07_08);
-        assertThat(service.getNextEndDate(MONDAY_2026_07_06, 5, List.of(person1, person2))).isEqualTo(WEDNESDAY_2026_07_08);
-    }
-
-    @Test
-    public void getNextTimeMovesWithAssignedPersons() {
-        var service = new NonWorkingDaysService();
-        LocalDate date = TUESDAY_2026_07_07;
-
-        Person person1 = this.getPerson1();
-        Person person2 = PepperFactory.eINSTANCE.createPerson();
-
-        assertThat(service.getNextEndDate(date, List.of())).isEqualTo(TUESDAY_2026_07_07);
-        assertThat(service.getNextEndDate(date, List.of(person1))).isEqualTo(WEDNESDAY_2026_07_08);
-        assertThat(service.getNextEndDate(date, List.of(person1, person2))).isEqualTo(TUESDAY_2026_07_07);
     }
 
     @Test
