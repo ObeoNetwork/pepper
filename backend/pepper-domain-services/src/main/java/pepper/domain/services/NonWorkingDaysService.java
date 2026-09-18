@@ -30,7 +30,7 @@ import pepper.peppermm.Person;
  */
 public class NonWorkingDaysService {
     /**
-     * National public holidays in metropolitan France for 2026.
+     * National public holidays in metropolitan France for 2026 and 2027.
      */
     private static final List<LocalDate> FRENCH_NON_WORKING_DAYS_2026 = List.of(
             LocalDate.of(2026, 1, 1),
@@ -43,9 +43,22 @@ public class NonWorkingDaysService {
             LocalDate.of(2026, 8, 15),
             LocalDate.of(2026, 11, 1),
             LocalDate.of(2026, 11, 11),
-            LocalDate.of(2026, 12, 25));
+            LocalDate.of(2026, 12, 25),
+            LocalDate.of(2027, 1, 1),   // New Year's Day (Jour de l'An)
+            LocalDate.of(2027, 3, 29),  // Easter Monday (Lundi de Pâques)
+            LocalDate.of(2027, 5, 1),   // Labour Day (Fête du Travail)
+            LocalDate.of(2027, 5, 6),   // Ascension Day (Ascension)
+            LocalDate.of(2027, 5, 8),   // Victory Day (Victoire 1945)
+            LocalDate.of(2027, 5, 17),  // Whit Monday (Lundi de Pentecôte)
+            LocalDate.of(2027, 7, 14),  // Bastille Day (Fête Nationale)
+            LocalDate.of(2027, 8, 15),  // Assumption Day (Assomption)
+            LocalDate.of(2027, 11, 1),  // All Saints' Day (Toussaint)
+            LocalDate.of(2027, 11, 11), // Armistice Day (Armistice 1918)
+            LocalDate.of(2027, 12, 25));  // Christmas Day (Noël)
 
     private static final List<DayOfWeek> NON_WORKING_DAYS_IN_WEEK = List.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+
+    private final TemporalHelper temporalHelper = new TemporalHelper();
 
     /**
      * Returns the effort bounded by {@code startTime} and {@code endTime}, including the working-time portions of both boundary days. Any portion that falls on a Saturday, Sunday, or configured fixed
@@ -74,7 +87,7 @@ public class NonWorkingDaysService {
             }
             currentTime = intervalEnd;
         }
-        return this.roundToNearestHalfDay(effort);
+        return temporalHelper.roundToNearestHalfDay(effort);
     }
 
     /**
@@ -103,7 +116,7 @@ public class NonWorkingDaysService {
             }
             currentTime = intervalEnd;
         }
-        return this.roundToNearestHalfDay(duration);
+        return temporalHelper.roundToNearestHalfDay(duration);
     }
 
     /**
@@ -391,7 +404,6 @@ public class NonWorkingDaysService {
         return this.getNbWorkingPersons(instant, persons) > 0;
     }
 
-    @SuppressWarnings("checkstyle:ReturnCount")
     private int getNbWorkingPersons(Instant instant, List<Person> assignedPersons) {
         LocalDate date = instant.atZone(ZoneOffset.UTC).toLocalDate();
         boolean isNonWorkingDay = NON_WORKING_DAYS_IN_WEEK.contains(date.getDayOfWeek()) || FRENCH_NON_WORKING_DAYS_2026.contains(date);
@@ -429,11 +441,5 @@ public class NonWorkingDaysService {
     private boolean isAvailable(Person person, LocalDate date) {
         return person.getUnavailabilityPeriods().stream()
                 .noneMatch(unavailabilityPeriod -> !date.isBefore(unavailabilityPeriod.getStartDate()) && !date.isAfter(unavailabilityPeriod.getEndDate()));
-    }
-
-    public Duration roundToNearestHalfDay(Duration duration) {
-        return duration.isNegative()
-                ? duration.minusHours(6).truncatedTo(ChronoUnit.HALF_DAYS)
-                : duration.plusMinutes(6).truncatedTo(ChronoUnit.HALF_DAYS);
     }
 }

@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import pepper.domain.services.TaskComputationService;
 import pepper.domain.services.TaskHelper;
+import pepper.domain.services.TemporalHelper;
 import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyLink;
@@ -38,6 +39,7 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
     private static final TaskHelper TASK_HELPER = new TaskHelper();
     private static final TaskComputationService TASK_COMPUTATION_SERVICE = new TaskComputationService();
     private static final WorkpackageComputationService WORKPACKAGE_COMPUTATION_SERVICE = new WorkpackageComputationService();
+    private static final TemporalHelper TEMPORAL_HELPER = new TemporalHelper();
 
     private final DependencyRelatedObject task;
 
@@ -65,17 +67,16 @@ public final class TaskBoundaryUpdateStep extends TaskUpdateStep {
         return TASK_HELPER.getName(task);
     }
 
-    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @Override
     public void update() {
         if (task instanceof AbstractTask abstractTask && start instanceof Instant startTime && end instanceof Instant endTime) {
-            Instant newStartTime = TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(startTime);
-            Instant newEndTime = TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(endTime);
+            Instant newStartTime = TEMPORAL_HELPER.roundToNearestHalfDay(startTime);
+            Instant newEndTime = TEMPORAL_HELPER.roundToNearestHalfDay(endTime);
             long differenceStart = Optional.ofNullable(abstractTask.getStartTime())
-                    .map(currentStartTime -> newStartTime.getEpochSecond() - TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(currentStartTime).getEpochSecond())
+                    .map(currentStartTime -> newStartTime.getEpochSecond() - TEMPORAL_HELPER.roundToNearestHalfDay(currentStartTime).getEpochSecond())
                     .orElse((long) -1);
             long differenceEnd = Optional.ofNullable(abstractTask.getEndTime())
-                    .map(currentEndTime -> newEndTime.getEpochSecond() - TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(currentEndTime).getEpochSecond())
+                    .map(currentEndTime -> newEndTime.getEpochSecond() - TEMPORAL_HELPER.roundToNearestHalfDay(currentEndTime).getEpochSecond())
                     .orElse((long) -1);
             boolean taskShifted = differenceStart != 0 && differenceEnd != 0;
             List<DependencyLink> dependencies = task.getDependencies();

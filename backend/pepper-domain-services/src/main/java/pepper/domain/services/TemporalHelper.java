@@ -23,15 +23,24 @@ import java.util.Optional;
  * @author lfasani
  */
 public class TemporalHelper {
+    public Duration roundToNearestHalfDay(Duration duration) {
+        long totalSeconds = duration.getSeconds();
+        long halfDayInSeconds = 12 * 3600;
+
+        long halfDays = Math.round((double) totalSeconds / halfDayInSeconds);
+
+        return Duration.ofSeconds(halfDays * halfDayInSeconds);
+    }
+
+    public int roundToNearestHalfDay(int nbHours) {
+        return Math.toIntExact(Math.round(nbHours / 12.0) * 12);
+    }
+
     public int roundToNearestHalfDayInHours(String nbDaysString) {
-        double doubleValue = Double.parseDouble(nbDaysString.replace(',', '.'));
+        double nbDaysDouble = Double.parseDouble(nbDaysString.replace(',', '.'));
+        double nbDaysRounded = Math.round(nbDaysDouble / 0.5) * 0.5;
 
-        Duration inputDuration = Duration.ofHours((int) (doubleValue * 24));
-        Duration duration = inputDuration.isNegative()
-                ? inputDuration.minusHours(6).truncatedTo(ChronoUnit.HALF_DAYS)
-                : inputDuration.plusMinutes(6).truncatedTo(ChronoUnit.HALF_DAYS);
-
-        return Math.toIntExact(duration.toHours());
+        return (int) (nbDaysRounded * 24);
     }
 
     public Instant roundToNearestHalfDay(Instant instant) {

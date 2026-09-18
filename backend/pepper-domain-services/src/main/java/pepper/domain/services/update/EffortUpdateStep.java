@@ -54,12 +54,10 @@ public final class EffortUpdateStep extends TaskUpdateStep {
     @Override
     public void update() {
         if (task instanceof AbstractTask abstractTask) {
-            if (newEffort == null || newEffort.isBlank()) {
-                TASK_COMPUTATION_SERVICE.updateEffort(abstractTask, 0);
-            } else {
+            if (newEffort != null && !newEffort.isBlank()) {
                 try {
                     int valueInHours = TEMPORAL_HELPER.roundToNearestHalfDayInHours(newEffort);
-                    if (valueInHours >= 0) {
+                    if (valueInHours >= 0.5) {
                         TASK_COMPUTATION_SERVICE.updateEffort(abstractTask, valueInHours);
                     }
                 } catch (NumberFormatException e) {
@@ -67,13 +65,11 @@ public final class EffortUpdateStep extends TaskUpdateStep {
                 }
             }
         } else if (task instanceof Workpackage workpackage) {
-            if (newEffort == null || newEffort.isBlank()) {
-                WORKPACKAGE_COMPUTATION_SERVICE.updateEffort(workpackage, 0);
-            } else {
+            if (newEffort != null && !newEffort.isBlank()) {
                 try {
-                    int valueInHours = (int) Math.round(Double.parseDouble(newEffort));
-                    if (valueInHours >= 0) {
-                        WORKPACKAGE_COMPUTATION_SERVICE.updateEffort(workpackage, valueInHours);
+                    int valueInDays = (int) Math.round(Double.parseDouble(newEffort));
+                    if (valueInDays >= 0) {
+                        WORKPACKAGE_COMPUTATION_SERVICE.updateEffort(workpackage, valueInDays);
                     }
                 } catch (NumberFormatException e) {
                     // Ignore

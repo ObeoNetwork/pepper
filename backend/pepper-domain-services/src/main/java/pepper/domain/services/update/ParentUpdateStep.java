@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 
+import pepper.domain.services.NonWorkingDaysService;
 import pepper.domain.services.TaskHelper;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.Task;
@@ -27,6 +28,7 @@ import pepper.peppermm.Task;
  */
 public final class ParentUpdateStep extends TaskUpdateStep {
     private static final TaskHelper TASK_HELPER = new TaskHelper();
+    private static final NonWorkingDaysService NON_WORKING_DAYS_SERVICE = new NonWorkingDaysService();
 
     private final AbstractTask abstractTask;
 
@@ -59,10 +61,7 @@ public final class ParentUpdateStep extends TaskUpdateStep {
                 .orElse(null);
         abstractTask.setEndTime(endTime);
 
-        int duration = subTasks.stream()
-                .map(AbstractTask::getDuration)
-                .mapToInt(Integer::intValue)
-                .sum();
+        int duration = Math.toIntExact(NON_WORKING_DAYS_SERVICE.getDuration(startTime, endTime).toHours());
         abstractTask.setDuration(duration);
 
         int effort = subTasks.stream()
