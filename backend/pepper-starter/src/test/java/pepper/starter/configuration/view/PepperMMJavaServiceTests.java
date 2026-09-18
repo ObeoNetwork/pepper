@@ -63,6 +63,7 @@ public class PepperMMJavaServiceTests {
 
     private static final String MONDAY_2026_01_05_T00_00_00 = "2026-01-05T00:00:00" + ZONE;
     private static final String MONDAY_2026_01_05_T23_59_00 = "2026-01-05T23:59:00" + ZONE;
+    private static final String MONDAY_NOON_2026_01_05_T11_59_00 = "2026-01-05T11:59:00" + ZONE;
     private static final String TUESDAY_2026_01_06_T00_00_00 = "2026-01-06T00:00:00" + ZONE;
     private static final String TUESDAY_2026_01_06_T23_59_00 = "2026-01-06T23:59:00" + ZONE;
 
@@ -72,6 +73,7 @@ public class PepperMMJavaServiceTests {
     private static final LocalDate WEDNESDAY_20260107 = LocalDate.ofYearDay(2026, 7);
     private static final LocalDate THURSDAY_20260108 = LocalDate.ofYearDay(2026, 8);
     private static final LocalDate FRIDAY_20260109 = LocalDate.ofYearDay(2026, 9);
+    private static final LocalDate MONDAY_20260112 = LocalDate.ofYearDay(2026, 12);
 
     private final Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
 
@@ -89,19 +91,21 @@ public class PepperMMJavaServiceTests {
         resource.getContents().add(workpackage);
     }
 
-
+    /**
+     * Task is moved so the effort of kept with 0.5 day.
+     */
     @Test
     public void editTask() {
         Task task = PepperFactory.eINSTANCE.createTask();
         taskComputationService.updateStartTime(task, Instant.now());
-        taskComputationService.updateEndTime(task, Instant.now());
+        taskComputationService.updateEndTime(task, Instant.now().plus(1, ChronoUnit.HALF_DAYS));
         workpackage.getOwnedTasks().add(task);
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskUpdateService(new IFeedbackMessageService.NoOp()));
         service.editTask(task, NEW_NAME, NEW_DESCRIPTION, Instant.parse(MONDAY_2026_01_05_T00_00_00), Instant.parse(MONDAY_2026_01_05_T23_59_00), 10, false);
         assertThat(task.getName()).isEqualTo(NEW_NAME);
         assertThat(task.getDescription()).isEqualTo(NEW_DESCRIPTION);
         assertThat(task.getStartTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T00_00_00));
-        assertThat(task.getEndTime()).isEqualTo(Instant.parse(MONDAY_2026_01_05_T23_59_00));
+        assertThat(task.getEndTime()).isEqualTo(Instant.parse(MONDAY_NOON_2026_01_05_T11_59_00));
         assertThat(task.getProgress()).isEqualTo(10);
     }
 
@@ -403,8 +407,8 @@ public class PepperMMJavaServiceTests {
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskUpdateService(new IFeedbackMessageService.NoOp()));
         service.createWorkpackage(projectWorkpackage);
         assertThat(project.getOwnedWorkpackages()).hasSize(2);
-        assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(WEDNESDAY_20260107);
-        assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(FRIDAY_20260109);
+        assertThat(project.getOwnedWorkpackages().get(1).getStartDate()).isEqualTo(THURSDAY_20260108);
+        assertThat(project.getOwnedWorkpackages().get(1).getEndDate()).isEqualTo(MONDAY_20260112);
     }
 
     @Test

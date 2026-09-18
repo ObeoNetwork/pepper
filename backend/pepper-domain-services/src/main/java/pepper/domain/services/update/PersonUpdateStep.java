@@ -18,6 +18,7 @@ import java.time.LocalDate;
 
 import pepper.domain.services.TaskComputationService;
 import pepper.domain.services.TaskHelper;
+import pepper.domain.services.TemporalHelper;
 import pepper.domain.services.WorkpackageComputationService;
 import pepper.peppermm.AbstractTask;
 import pepper.peppermm.DependencyRelatedObject;
@@ -37,6 +38,8 @@ public final class PersonUpdateStep extends TaskUpdateStep {
 
     private static final WorkpackageComputationService WORKPACKAGE_COMPUTATION_SERVICE = new WorkpackageComputationService();
 
+    private static final TemporalHelper TEMPORAL_HELPER = new TemporalHelper();
+
     private final DependencyRelatedObject task;
 
     public PersonUpdateStep(DependencyRelatedObject task) {
@@ -53,13 +56,12 @@ public final class PersonUpdateStep extends TaskUpdateStep {
         return TASK_HELPER.getName(task);
     }
 
-    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @Override
     public void update() {
 
         if (task instanceof AbstractTask abstractTask) {
-            Instant roundedStartTime = TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(abstractTask.getStartTime());
-            Instant roundedEndTime = TASK_COMPUTATION_SERVICE.roundToNearestHalfDay(abstractTask.getEndTime());
+            Instant roundedStartTime = TEMPORAL_HELPER.roundToNearestHalfDay(abstractTask.getStartTime());
+            Instant roundedEndTime = TEMPORAL_HELPER.roundToNearestHalfDay(abstractTask.getEndTime());
 
             if (roundedStartTime != null && roundedEndTime != null) {
                 TaskTimeBoundariesConstraint calculationOption = abstractTask.getCalculationOption();

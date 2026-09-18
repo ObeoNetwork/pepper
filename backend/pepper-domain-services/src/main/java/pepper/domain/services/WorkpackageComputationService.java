@@ -52,7 +52,7 @@ public class WorkpackageComputationService {
         } else {
             if (currentEndDate != null && nextNewStartDate != null) {
                 long newEffort = nonWorkingDaysService.getEffort(nextNewStartDate, currentEndDate, workpackage.getAssignedPersons()).toDays();
-                workpackage.setEffort((int) newEffort);
+                workpackage.setEffort((int) Math.max(1, newEffort));
             }
         }
 
@@ -79,7 +79,7 @@ public class WorkpackageComputationService {
         } else {
             if (nextNewEndDate != null && currentStartDate != null) {
                 long newEffort = nonWorkingDaysService.getEffort(currentStartDate, nextNewEndDate, workpackage.getAssignedPersons()).toDays();
-                workpackage.setEffort((int) newEffort);
+                workpackage.setEffort((int) Math.max(1, newEffort));
             }
         }
 
@@ -91,7 +91,7 @@ public class WorkpackageComputationService {
         if (TaskTimeBoundariesConstraint.START_END.equals(calculationOption)) {
             return;
         }
-        workpackage.setEffort(newEffort);
+        workpackage.setEffort(Math.max(1, newEffort));
 
         LocalDate currentStartDate = workpackage.getStartDate();
         LocalDate currentEndDate = workpackage.getEndDate();
@@ -102,6 +102,8 @@ public class WorkpackageComputationService {
             LocalDate newStartDate = nonWorkingDaysService.getPreviousStartDate(currentEndDate, newEffort, workpackage.getAssignedPersons());
             workpackage.setStartDate(newStartDate);
         }
+
+        this.updateDuration(workpackage);
     }
 
     public Workpackage createNewWorkpackage(Project project, String name) {
