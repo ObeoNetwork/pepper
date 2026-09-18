@@ -417,11 +417,13 @@ public class PepperMMJavaServiceTests {
         workpackageComputationService.updateEndDate(workpackage, TUESDAY_20260106);
 
         var service = new PepperMMJavaService(new IFeedbackMessageService.NoOp(), new TaskUpdateService(new IFeedbackMessageService.NoOp()));
-        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, WEDNESDAY_20260107, FRIDAY_20260109, 10, false);
+        service.editWorkpackage(workpackage, NEW_NAME, NEW_DESCRIPTION, WEDNESDAY_20260107, THURSDAY_20260108, 10, false);
         assertThat(workpackage.getName()).isEqualTo(NEW_NAME);
         assertThat(workpackage.getDescription()).isEqualTo(NEW_DESCRIPTION);
         assertThat(workpackage.getStartDate()).isEqualTo(WEDNESDAY_20260107);
-        assertThat(workpackage.getEndDate()).isEqualTo(FRIDAY_20260109);
+        assertThat(workpackage.getEndDate()).isEqualTo(THURSDAY_20260108);
+        assertThat(workpackage.getDuration()).isEqualTo(48);
+        assertThat(workpackage.getEffort()).isEqualTo(2);
         assertThat(workpackage.getProgress()).isEqualTo(10);
     }
 

@@ -340,7 +340,7 @@ public class NonWorkingDaysService {
 
         int remainingEffort = effortInDays;
         LocalDate currentStartDate = startDate;
-        while (remainingEffort > 0) {
+        while (remainingEffort > 0 || !this.isWorkingDay(currentStartDate, persons)) {
             remainingEffort -= this.getNbWorkingPersons(currentStartDate, persons);
             if (remainingEffort > 0) {
                 currentStartDate = currentStartDate.minusDays(1);
@@ -353,15 +353,15 @@ public class NonWorkingDaysService {
      * Returns the supplied end date when it is a working day. Otherwise, moves forward one day at a time through the non-working period and returns the next working date. The end date is included.
      * When persons is provided, days that correspond of unavailability period of all the persons are also excluded.
      *
-     * @param endDate
+     * @param date
      *         the end date to evaluate
      * @return the supplied date or the next valid inclusive end date
      */
-    public LocalDate getNextEndDate(LocalDate endDate, List<Person> persons) {
-        if (endDate == null) {
+    public LocalDate getNextAvailableDate(LocalDate date, List<Person> persons) {
+        if (date == null) {
             return null;
         }
-        LocalDate nextEndDate = endDate;
+        LocalDate nextEndDate = date;
         while (!this.isWorkingDay(nextEndDate, persons)) {
             nextEndDate = nextEndDate.plusDays(1);
         }
@@ -380,7 +380,7 @@ public class NonWorkingDaysService {
      *         the assigned persons
      * @return the resulting end date, or {@code null} when {@code startDate} is null
      */
-    public LocalDate getNextEndDate(LocalDate startDate, int effortInDays, List<Person> persons) {
+    public LocalDate getEndDateFromStartDate(LocalDate startDate, int effortInDays, List<Person> persons) {
         if (startDate == null) {
             return null;
         }

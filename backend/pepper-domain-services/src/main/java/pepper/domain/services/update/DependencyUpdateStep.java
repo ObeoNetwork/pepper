@@ -15,6 +15,7 @@ package pepper.domain.services.update;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
@@ -36,6 +37,7 @@ import pepper.peppermm.Workpackage;
  * This class represents the update of a task due to a {@link pepper.peppermm.DependencyLink}.
  * @author lfasani
  */
+@SuppressWarnings("checkstyle:ReturnCount")
 public final class DependencyUpdateStep extends TaskUpdateStep {
     private static final TaskHelper TASK_HELPER = new TaskHelper();
 
@@ -85,13 +87,20 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
             TASK_HELPER.setCalculationOption(targetTask, TaskTimeBoundariesConstraint.START_EFFORT);
 
             if (targetTask instanceof AbstractTask abstractTask) {
+
                 TASK_HELPER.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
-                        .ifPresent(nextStartTime -> TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, nextStartTime));
+                        .ifPresent(startTimeFromPerson -> {
+                            Instant nextStartTimeFromDependency = this.getNextTimeFromDependency(dependencies, StartOrEnd.END);
+                            Instant latestStartTime = startTimeFromPerson.isAfter(nextStartTimeFromDependency) ? startTimeFromPerson : nextStartTimeFromDependency;
+                            TASK_COMPUTATION_SERVICE.updateStartTime(abstractTask, latestStartTime);
+                        });
             } else if (targetTask instanceof Workpackage workpackage) {
                 TASK_HELPER.getEarlierAvailableInstantOfPerson(workpackage.getAssignedPersons())
-                        .ifPresent(nextStartTime -> {
+                        .map(earlierAvailableInstantOfPerson -> earlierAvailableInstantOfPerson.atOffset(ZoneOffset.UTC).toLocalDate())
+                        .ifPresent(startDateFromPerson -> {
                             // TODO to test
-                            LocalDate nextStartDate = nextStartTime.atOffset(ZoneOffset.UTC).toLocalDate();
+                            LocalDate nextStartDateFromDependency = this.getNextDateFromDependency(dependencies, StartOrEnd.END);
+                            LocalDate nextStartDate = startDateFromPerson.isAfter(nextStartDateFromDependency) ? startDateFromPerson : nextStartDateFromDependency;
                             WORKPACKAGE_COMPUTATION_SERVICE.updateStartDate(workpackage, nextStartDate);
                         });
             }
@@ -125,13 +134,21 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
                         })
                         .orElse(false);
             } else if (targetTask instanceof Workpackage workpackage) {
-                // TODO
+                LocalDate nextStartDateFromDependency = this.getNextDateFromDependency(dependencies, StartOrEnd.END);
+                return TASK_HELPER.getEarlierAvailableInstantOfPerson(workpackage.getAssignedPersons())
+                        .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                        .map(earlierAvailableDateOfPerson -> {
+                            LocalDate latestInstantForStart = earlierAvailableDateOfPerson.isAfter(nextStartDateFromDependency) ? earlierAvailableDateOfPerson : nextStartDateFromDependency;
+                            LocalDate nextEndDate = NON_WORKING_DAYS_SERVICE.getEndDateFromStartDate(latestInstantForStart, workpackage.getEffort(),
+                                    workpackage.getAssignedPersons());
+                            return nextEndDate.isAfter(workpackage.getEndDate());
+                        })
+                        .orElse(false);
             }
         }
         return mustBeComputedFromEndDate;
     }
 
-    @SuppressWarnings("checkstyle:ReturnCount")
     Instant getNextTimeFromDependency(List<DependencyLink> dependencies, StartOrEnd targetBoundary) {
         return dependencies.stream()
                 .filter(dep -> dep.getTargetKind() == targetBoundary)
@@ -162,10 +179,20 @@ public final class DependencyUpdateStep extends TaskUpdateStep {
                 .filter(dep -> dep.getTargetKind() == targetBoundary)
                 .filter(dependencyLink -> dependencyLink.getSource() instanceof Workpackage)
                 .map(dependencyLink -> {
-                    if (dependencyLink.getSourceKind() == StartOrEnd.START) {
-                        return NON_WORKING_DAYS_SERVICE.getNextEndDate(((Workpackage) dependencyLink.getSource()).getStartDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
+                    LocalDate startDate = ((Workpackage) dependencyLink.getSource()).getStartDate();
+                    LocalDate endDate = ((Workpackage) dependencyLink.getSource()).getEndDate();
+                    if (targetBoundary == StartOrEnd.START) {
+                        if (dependencyLink.getSourceKind() == StartOrEnd.START) {
+                            return NON_WORKING_DAYS_SERVICE.getEndDateFromStartDate(startDate, dependencyLink.getDelay() + 1, List.of());
+                        } else {
+                            return NON_WORKING_DAYS_SERVICE.getEndDateFromStartDate(endDate.plusDays(1), dependencyLink.getDelay() + 1, List.of());
+                        }
                     } else {
-                        return NON_WORKING_DAYS_SERVICE.getNextEndDate(((Workpackage) dependencyLink.getSource()).getEndDate().plusDays(1), dependencyLink.getDelay() + 1, List.of());
+                        if (dependencyLink.getSourceKind() == StartOrEnd.START) {
+                            return NON_WORKING_DAYS_SERVICE.getEndDateFromStartDate(startDate.minusDays(1), dependencyLink.getDelay() + 1, List.of());
+                        } else {
+                            return NON_WORKING_DAYS_SERVICE.getEndDateFromStartDate(endDate, dependencyLink.getDelay() + 1 , List.of());
+                        }
                     }
                 })
                 .max(Comparator.naturalOrder())

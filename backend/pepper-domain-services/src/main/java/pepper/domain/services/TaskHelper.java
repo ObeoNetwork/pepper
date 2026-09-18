@@ -13,6 +13,8 @@
 package pepper.domain.services;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.Temporal;
 import java.util.Comparator;
 import java.util.List;
@@ -54,13 +56,13 @@ public class TaskHelper {
     }
 
     public Temporal getEndTemporal(Object object) {
-        Temporal startTemporal = null;
+        Temporal endTemporal = null;
         if (object instanceof AbstractTask abstractTask) {
-            startTemporal = abstractTask.getEndTime();
+            endTemporal = abstractTask.getEndTime();
         } else if (object instanceof Workpackage workpackage) {
-            startTemporal = workpackage.getEndDate();
+            endTemporal = workpackage.getEndDate();
         }
-        return startTemporal;
+        return endTemporal;
     }
 
     public String getName(Object task) {
@@ -123,22 +125,32 @@ public class TaskHelper {
                 .anyMatch(dep -> dep.getTargetKind() == boundary);
     }
 
+    public boolean mustBeComputedFromStartDateConsideringPersonAvailability(DependencyRelatedObject targetTask) {
+        return this.mustBeComputedFromStartDateConsideringPersonAvailability(targetTask, this.getEndTemporal(targetTask));
+    }
+
     /**
      * The task must be computed from the start if there is not enough assigned person manpower between the earliest moment of an available assigned person and the endTime.
      */
-    public boolean mustBeComputedFromStartDateConsideringPersonAvailability(DependencyRelatedObject targetTask) {
+    public boolean mustBeComputedFromStartDateConsideringPersonAvailability(DependencyRelatedObject targetTask, Temporal end) {
         boolean mustBeComputedFromEndDate = false;
         if (targetTask instanceof AssignableObject assignableObject && !assignableObject.getAssignedPersons().isEmpty()) {
-            if (targetTask instanceof AbstractTask abstractTask) {
-                return this.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
+            if (targetTask instanceof AbstractTask abstractTask && end instanceof Instant newEndTime) {
+                mustBeComputedFromEndDate = this.getEarlierAvailableInstantOfPerson(abstractTask.getAssignedPersons())
                         .map(earlierAvailableInstantOfPerson -> {
                             Instant nextEndTime = nonWorkingDaysService.getNextEndTime(temporalHelper.roundToNearestHalfDay(earlierAvailableInstantOfPerson), abstractTask.getEffort(),
                                     abstractTask.getAssignedPersons());
-                            return temporalHelper.roundToNearestHalfDay(nextEndTime).isAfter(temporalHelper.roundToNearestHalfDay(abstractTask.getEndTime()));
+                            return temporalHelper.roundToNearestHalfDay(nextEndTime).isAfter(temporalHelper.roundToNearestHalfDay(newEndTime));
                         })
                         .orElse(false);
-            } else if (targetTask instanceof Workpackage workpackage) {
-                // TODO
+            } else if (targetTask instanceof Workpackage workpackage && end instanceof LocalDate newEndDate) {
+                mustBeComputedFromEndDate = this.getEarlierAvailableInstantOfPerson(workpackage.getAssignedPersons())
+                        .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                        .map(earlierAvailableDateOfPerson -> {
+                            LocalDate nextEndDate = nonWorkingDaysService.getEndDateFromStartDate(earlierAvailableDateOfPerson, workpackage.getEffort(), workpackage.getAssignedPersons());
+                            return nextEndDate.isAfter(newEndDate);
+                        })
+                        .orElse(false);
             }
         }
         return mustBeComputedFromEndDate;
