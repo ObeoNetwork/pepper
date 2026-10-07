@@ -44,7 +44,7 @@ public class TaskUpdateAdapter extends EContentAdapter {
         Object notifier = notification.getNotifier();
         Object feature = notification.getFeature();
         if (notifier instanceof DependencyRelatedObject task && feature.equals(PepperPackage.eINSTANCE.getAssignableObject_AssignedPersons())) {
-            taskUpdateService.updateTaskWithImpacts(task);
+            taskUpdateService.updateWithImpacts(task, new PersonUpdateStep(task));
         } else if (notifier instanceof Person person && feature.equals(PepperPackage.eINSTANCE.getResource_UnavailabilityPeriods())) {
             taskUpdateService.updateTasksWithImpacts(person);
         } else if (notifier instanceof UnavailabilityPeriod unavailabilityPeriod

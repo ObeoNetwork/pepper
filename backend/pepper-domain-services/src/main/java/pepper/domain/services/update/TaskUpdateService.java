@@ -212,10 +212,6 @@ public class TaskUpdateService {
         return List.of();
     }
 
-    public void updateTaskWithImpacts(DependencyRelatedObject task) {
-        this.updateTasksAfterGivenTemporal(task, taskHelper.getStartTemporal(task), List.of());
-    }
-
     public void updateTasksWithImpacts(Person updatePerson) {
         Map<Object, List<DependencyRelatedObject>> rootToAnyTask = new LinkedHashMap<>();
         simpleCrossReferenceProvider.getInverseReferences(updatePerson).stream()
@@ -288,20 +284,30 @@ public class TaskUpdateService {
     }
 
     private LinkedHashSet<TaskUpdateStep> filterAndOrderTaskUpdateSteps(Collection<TaskUpdateStep> taskUpdateSteps) {
-        // Part 1.1: eliminate
-        // * identical steps (same type and same impacted task).
-        // * PersonUpdateStep if already managed by another step
+        // Part 1.1: keep one step per impacted task.
+        // Keep the first step of the same type;
+        // replace a PersonUpdateStep when another type of step manages that task.
         List<TaskUpdateStep> distinctSteps = new ArrayList<>();
-        for (TaskUpdateStep step : taskUpdateSteps) {
-            boolean alreadyPresent = distinctSteps.stream()
-                    .anyMatch(otherStep -> {
-                        boolean value =  otherStep.getClass() == step.getClass()
-                                && otherStep.getImpactedTask() == step.getImpactedTask();
-                        value = value || step instanceof PersonUpdateStep && step.getImpactedTask() == otherStep.getImpactedTask();
-                        return value;
-                    });
-            if (!alreadyPresent) {
-                distinctSteps.add(step);
+        for (TaskUpdateStep replacement : taskUpdateSteps) {
+            int existingIndex = -1;
+            for (int index = 0; index < distinctSteps.size(); index++) {
+                if (distinctSteps.get(index).getImpactedTask() == replacement.getImpactedTask()) {
+                    existingIndex = index;
+                    break;
+                }
+            }
+
+            if (existingIndex == -1) {
+                distinctSteps.add(replacement);
+                continue;
+            }
+
+            TaskUpdateStep existing = distinctSteps.get(existingIndex);
+            if (existing.getClass() == replacement.getClass()) {
+                continue;
+            }
+            if (existing instanceof PersonUpdateStep) {
+                distinctSteps.set(existingIndex, replacement);
             }
         }
 
@@ -351,7 +357,7 @@ public class TaskUpdateService {
     private boolean hasHigherPriority(TaskUpdateStep step, TaskUpdateStep otherStep) {
         boolean hasHigherPriority = this.getStepPriority(step) > this.getStepPriority(otherStep);
         if (!hasHigherPriority) {
-            if (step instanceof DependencyUpdateStep && otherStep instanceof DependencyUpdateStep otherUpdateStep) {
+            if (otherStep instanceof DependencyUpdateStep otherUpdateStep) {
                 if (otherUpdateStep.getImpactedTask() instanceof DependencyRelatedObject dependencyRelatedObject) {
                     hasHigherPriority = dependencyRelatedObject.getDependencies().stream()
                             .anyMatch(dependencyLink -> step.getImpactedTask().equals(dependencyLink.getSource()));

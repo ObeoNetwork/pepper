@@ -60,7 +60,7 @@ public class TaskUpdateServicePersonCapacityTests {
         Task updated = this.task("updated", List.of(bob), calculationOption);
         workpackage.getOwnedTasks().addAll(List.of(unchanged, updated));
 
-        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateTaskWithImpacts(updated);
+        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateWithImpacts(unchanged, new PersonUpdateStep(unchanged));
 
         assertThat(unchanged.getEffort()).isEqualTo(36);
         assertThat(updated.getEffort()).isEqualTo(36);
@@ -76,7 +76,7 @@ public class TaskUpdateServicePersonCapacityTests {
         Task unchanged2 = this.task("unchanged2", List.of(paul, bob), calculationOption);
         workpackage.getOwnedTasks().addAll(List.of(unchanged, unchanged2));
 
-        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateTaskWithImpacts(unchanged2);
+        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateWithImpacts(unchanged, new PersonUpdateStep(unchanged));
 
         assertThat(unchanged.getEffort()).isEqualTo(36);
         assertThat(unchanged2.getEffort()).isEqualTo(36);
@@ -92,7 +92,7 @@ public class TaskUpdateServicePersonCapacityTests {
         Task second = this.task("second", List.of(bob), calculationOption);
         workpackage.getOwnedTasks().addAll(List.of(first, second));
 
-        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateTaskWithImpacts(first);
+        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateWithImpacts(first, new PersonUpdateStep(first));
 
         assertThat(first.getEffort()).isEqualTo(36);
         assertThat(second.getEffort()).isEqualTo(36);
@@ -114,7 +114,7 @@ public class TaskUpdateServicePersonCapacityTests {
         dependencyLinkFromFirstToSecond.setSource(first);
         second.getDependencies().add(dependencyLinkFromFirstToSecond);
 
-        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateTaskWithImpacts(first);
+        new TaskUpdateService(mock(IFeedbackMessageService.class)).updateWithImpacts(first, new PersonUpdateStep(first));
 
         assertThat(first.getEffort()).isEqualTo(36);
         assertThat(second.getEffort()).isEqualTo(36);
