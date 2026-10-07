@@ -49,6 +49,26 @@ public class TaskUpdateServiceOrderingTests {
     }
 
     @Test
+    public void dependencyStepReplacesPersonStepForTheSameTask() {
+        Task task = this.createTask("task");
+        TaskUpdateStep personUpdateStep = new PersonUpdateStep(task);
+        TaskUpdateStep dependencyUpdateStep = new DependencyUpdateStep(task);
+
+        assertThat(this.filterAndOrderTaskUpdateSteps(List.of(personUpdateStep, dependencyUpdateStep)).iterator().next())
+                .isSameAs(dependencyUpdateStep);
+    }
+
+    @Test
+    public void duplicateStepKeepsTheFirstInstance() {
+        Task task = this.createTask("task");
+        TaskUpdateStep first = new DependencyUpdateStep(task);
+        TaskUpdateStep duplicate = new DependencyUpdateStep(task);
+
+        assertThat(this.filterAndOrderTaskUpdateSteps(List.of(first, duplicate)).iterator().next())
+                .isSameAs(first);
+    }
+
+    @Test
     public void dependencySourcesMoveBeforeDependentsAcrossTheWholeList() {
         Task first = this.createTask("first");
         Task middle = this.createTask("middle");
