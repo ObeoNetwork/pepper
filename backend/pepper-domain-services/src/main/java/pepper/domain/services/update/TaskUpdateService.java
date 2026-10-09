@@ -47,6 +47,7 @@ import pepper.peppermm.DependencyRelatedObject;
 import pepper.peppermm.NamedElement;
 import pepper.peppermm.Person;
 import pepper.peppermm.Project;
+import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Workpackage;
 
 /**
@@ -79,6 +80,7 @@ public class TaskUpdateService {
 
     public void updateWithImpacts(EObject task, List<TaskUpdateStep> taskUpdateSteps) {
         if (!taskUpdateSteps.isEmpty()) {
+            this.checkNotHandledCases(taskUpdateSteps);
             Temporal minTemporal = this.getStartTemporal(taskUpdateSteps);
             if (minTemporal != null) {
                 try {
@@ -88,6 +90,23 @@ public class TaskUpdateService {
                 } catch (IllegalStateException e) {
                     // logged with IFeedbackMessage;
                 }
+            }
+        }
+    }
+
+    private void checkNotHandledCases(List<TaskUpdateStep> taskUpdateSteps) {
+        Optional<DependencyRelatedObject> dependencyRelatedObject = taskUpdateSteps.stream()
+                .filter(taskUpdateStep -> taskUpdateStep instanceof TaskBoundaryUpdateStep || taskUpdateStep instanceof EffortUpdateStep)
+                .findFirst()
+                .map(TaskUpdateStep::getImpactedTask)
+                .filter(DependencyRelatedObject.class::isInstance)
+                .map(DependencyRelatedObject.class::cast);
+
+        if (dependencyRelatedObject.isPresent()) {
+            boolean taskConstrainedOnEnd = taskHelper.isBoundaryConstrainedByDependency(dependencyRelatedObject.get().getDependencies(), StartOrEnd.END);
+            boolean assignedTask =  dependencyRelatedObject.get() instanceof AssignableObject assignableObject && !assignableObject.getAssignedPersons().isEmpty();
+            if (taskConstrainedOnEnd && assignedTask) {
+                this.fail("Not handled case: An assigned task constrained on end can not be manually changed");
             }
         }
     }
