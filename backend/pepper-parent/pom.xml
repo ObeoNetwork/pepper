@@ -49,7 +49,7 @@
 		</repository>
 		<repository>
 			<id>github-sirius-web</id>
-			<url>https://maven.pkg.github.com/eclipse-web/sirius-web</url>
+			<url>https://maven.pkg.github.com/eclipse-sirius/sirius-web</url>
 		</repository>
 	</repositories>
 
