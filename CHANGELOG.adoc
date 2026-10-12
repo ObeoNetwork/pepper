@@ -19,6 +19,7 @@
 - https://github.com/ObeoNetwork/pepper/issues/60[#60] Take Resource (including Unavailability period) into account for effort commutation
 - https://github.com/ObeoNetwork/pepper/issues/98[#98] Change the way the impacted tasks are calculated. Impacted tasks are always moved (effort is kept)
 - https://github.com/ObeoNetwork/pepper/issues/95[#95] Add a task milestone. A task with same start/end is no longer a milestone. A milestone must be created from the explorer. 
+- https://github.com/ObeoNetwork/pepper/issues/104[#104] Initialize the task CalculationOption with the preceding task
 
 === Bug fixes
 

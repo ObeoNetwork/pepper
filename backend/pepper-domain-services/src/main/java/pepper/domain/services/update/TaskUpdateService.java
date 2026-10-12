@@ -213,7 +213,7 @@ public class TaskUpdateService {
             return taskHelper.getParent(abstractTask, Workpackage.class)
                     .map(workpackage -> {
                         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(workpackage.eAllContents(), Spliterator.ORDERED), false)
-                                .filter(AbstractTask.class::isInstance)
+                                .filter(DependencyRelatedObject.class::isInstance)
                                 .map(DependencyRelatedObject.class::cast)
                                 .toList();
                     })
@@ -222,7 +222,7 @@ public class TaskUpdateService {
             return taskHelper.getParent(workpackage, Project.class)
                     .map(project -> {
                         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(project.eAllContents(), Spliterator.ORDERED), false)
-                                .filter(Workpackage.class::isInstance)
+                                .filter(DependencyRelatedObject.class::isInstance)
                                 .map(DependencyRelatedObject.class::cast)
                                 .toList();
                     })

@@ -174,6 +174,7 @@ public class TaskComputationService {
 
         if (optionalTask.isPresent()) {
             Task lastTask = optionalTask.get();
+            task.setCalculationOption(lastTask.getCalculationOption());
             if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
                 // If the last task is a Milestone
                 task.setStartTime(lastTask.getEndTime());
@@ -183,6 +184,7 @@ public class TaskComputationService {
                 task.setEndTime(Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
             }
         } else {
+            task.setCalculationOption(abstractTask.getCalculationOption());
             if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
                 task.setStartTime(abstractTask.getStartTime());
                 task.setEndTime(abstractTask.getEndTime());
