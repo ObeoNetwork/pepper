@@ -117,6 +117,7 @@ public class WorkpackageComputationService {
             this.updateStartDate(workpackage, lastWorkpackage.getEndDate().plusDays(1));
             long difference = lastWorkpackage.getStartDate().until(lastWorkpackage.getEndDate(), ChronoUnit.DAYS);
             this.updateEndDate(workpackage, lastWorkpackage.getEndDate().plusDays(difference + 1));
+            workpackage.setCalculationOption(lastWorkpackage.getCalculationOption());
         } else {
             LocalDate endDate = null;
             if (project.getEffectiveEndDate() != null) {
