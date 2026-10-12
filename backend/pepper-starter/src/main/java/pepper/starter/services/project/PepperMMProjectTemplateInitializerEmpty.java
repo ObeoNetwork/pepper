@@ -35,8 +35,11 @@ public class PepperMMProjectTemplateInitializerEmpty implements ISemanticDataIni
 
     private final IEditingContextPersistenceService editingContextPersistenceService;
 
-    public PepperMMProjectTemplateInitializerEmpty(IEditingContextPersistenceService editingContextPersistenceService) {
+    private final DefaultRepresentationsCreation defaultRepresentationsCreation;
+
+    public PepperMMProjectTemplateInitializerEmpty(IEditingContextPersistenceService editingContextPersistenceService, DefaultRepresentationsCreation defaultRepresentationsCreation) {
         this.editingContextPersistenceService = editingContextPersistenceService;
+        this.defaultRepresentationsCreation = defaultRepresentationsCreation;
     }
 
     @Override
@@ -56,6 +59,8 @@ public class PepperMMProjectTemplateInitializerEmpty implements ISemanticDataIni
             resource.getContents().add(new PepperMMSampleBuilder().getEmptySampleContent());
 
             this.editingContextPersistenceService.persist(cause, editingContext);
+
+            defaultRepresentationsCreation.createGanttOfWorkpackage(cause, editingContext, resource);
         }
     }
 }

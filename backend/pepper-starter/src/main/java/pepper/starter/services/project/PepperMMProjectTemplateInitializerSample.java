@@ -13,31 +13,17 @@
 package pepper.starter.services.project;
 
 import static pepper.starter.services.project.PepperMMProjectTemplateProvider.PEPPERMM_PEPPER_SAMPLE;
-import static pepper.starter.services.representations.gantt.ViewGanttDescriptionBuilder.WORKPACKAGE_GANTT_REP_DESC_NAME;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.sirius.components.collaborative.api.IRepresentationMetadataPersistenceService;
-import org.eclipse.sirius.components.collaborative.api.IRepresentationPersistenceService;
-import org.eclipse.sirius.components.collaborative.gantt.api.IGanttCreationService;
-import org.eclipse.sirius.components.core.RepresentationMetadata;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IEditingContextPersistenceService;
-import org.eclipse.sirius.components.core.api.IRepresentationDescriptionSearchService;
 import org.eclipse.sirius.components.emf.ResourceMetadataAdapter;
 import org.eclipse.sirius.components.emf.services.JSONResourceFactory;
 import org.eclipse.sirius.components.emf.services.api.IEMFEditingContext;
 import org.eclipse.sirius.components.events.ICause;
-import org.eclipse.sirius.components.gantt.Gantt;
-import org.eclipse.sirius.components.gantt.description.GanttDescription;
-import org.eclipse.sirius.components.representations.VariableManager;
-import org.eclipse.sirius.emfjson.resource.JsonResource;
 import org.eclipse.sirius.web.application.project.services.api.ISemanticDataInitializer;
 import org.springframework.stereotype.Service;
-
-import pepper.peppermm.Organization;
-import pepper.peppermm.Workpackage;
 
 /**
  * Provides Pepper meta model specific project sample template.
@@ -48,19 +34,12 @@ import pepper.peppermm.Workpackage;
 public class PepperMMProjectTemplateInitializerSample implements ISemanticDataInitializer {
 
     private final IEditingContextPersistenceService editingContextPersistenceService;
-    private final IRepresentationPersistenceService representationPersistenceService;
-    private final IGanttCreationService ganttCreationService;
-    private final IRepresentationDescriptionSearchService representationDescriptionSearchService;
-    private final IRepresentationMetadataPersistenceService representationMetadataPersistenceService;
 
-    public PepperMMProjectTemplateInitializerSample(IEditingContextPersistenceService editingContextPersistenceService, IRepresentationPersistenceService representationPersistenceService,
-            IGanttCreationService ganttCreationService, IRepresentationDescriptionSearchService representationDescriptionSearchService,
-            IRepresentationMetadataPersistenceService representationMetadataPersistenceService) {
+    private final DefaultRepresentationsCreation defaultRepresentationsCreation;
+
+    public PepperMMProjectTemplateInitializerSample(IEditingContextPersistenceService editingContextPersistenceService, DefaultRepresentationsCreation defaultRepresentationsCreation) {
         this.editingContextPersistenceService = editingContextPersistenceService;
-        this.representationPersistenceService = representationPersistenceService;
-        this.ganttCreationService = ganttCreationService;
-        this.representationDescriptionSearchService = representationDescriptionSearchService;
-        this.representationMetadataPersistenceService = representationMetadataPersistenceService;
+        this.defaultRepresentationsCreation = defaultRepresentationsCreation;
     }
 
     @Override
@@ -81,35 +60,9 @@ public class PepperMMProjectTemplateInitializerSample implements ISemanticDataIn
 
             this.editingContextPersistenceService.persist(cause, editingContext);
 
-            this.createGanttOfWorkpackage(cause, editingContext, resource);
+            defaultRepresentationsCreation.createGanttOfWorkpackage(cause, editingContext, resource);
         }
     }
 
-    private void createGanttOfWorkpackage(ICause cause, IEditingContext editingContext, JsonResource resource) {
-        var optionalGanttDescription = this.representationDescriptionSearchService.findAll(editingContext)
-                .values()
-                .stream()
-                .filter(GanttDescription.class::isInstance)
-                .map(GanttDescription.class::cast)
-                .filter(desc -> WORKPACKAGE_GANTT_REP_DESC_NAME.equals(desc.getLabel()))
-                .findFirst();
-        if (optionalGanttDescription.isPresent()) {
-            GanttDescription ganttDescription = optionalGanttDescription.get();
-            Workpackage workpackage = ((Organization) resource.getContents().get(0)).getOwnedProjects().get(0).getOwnedWorkpackages().get(0);
-            var variableManager = new VariableManager();
-            variableManager.put(VariableManager.SELF, workpackage);
-            String label = ganttDescription.labelProvider().apply(variableManager);
-            List<String> iconURLs = ganttDescription.getIconURLsProvider().apply(variableManager);
 
-            Gantt gantt = this.ganttCreationService.create(workpackage, ganttDescription, editingContext);
-            var representationMetadata = RepresentationMetadata.newRepresentationMetadata(gantt.getId())
-                    .kind(gantt.getKind())
-                    .label(label)
-                    .descriptionId(gantt.descriptionId())
-                    .iconURLs(iconURLs)
-                    .build();
-            this.representationMetadataPersistenceService.save(cause, editingContext, representationMetadata, gantt.targetObjectId());
-            this.representationPersistenceService.save(cause, editingContext, gantt);
-        }
-    }
 }
