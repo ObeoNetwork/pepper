@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import pepper.domain.services.TaskComputationService;
 import pepper.domain.services.WorkpackageComputationService;
+import pepper.mm.builder.generated.pepper.PepperBuilders;
 import pepper.peppermm.DependencyLink;
 import pepper.peppermm.ExternalStakeholder;
 import pepper.peppermm.InternalStakeholder;
@@ -35,13 +36,14 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Person;
 import pepper.peppermm.Project;
 import pepper.peppermm.ResourceFolder;
+import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.TagFolder;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.TaskTag;
 import pepper.peppermm.TaskTimeBoundariesConstraint;
 import pepper.peppermm.Team;
 import pepper.peppermm.Workpackage;
-import pepper.peppermm.WorkpackageArtefact;
 
 /**
  * Builder for samples of PepperMM.
@@ -438,30 +440,57 @@ public class PepperMMSampleBuilder {
     }
 
     public Organization getEmptySampleContent() {
-        Organization organization = PepperFactory.eINSTANCE.createOrganization();
-        ResourceFolder resourceFolder = PepperFactory.eINSTANCE.createResourceFolder();
-        resourceFolder.setName("Resources");
-        organization.getOwnedResourceFolders().add(resourceFolder);
+        PepperBuilders pepperBuilders = new PepperBuilders();
+        Instant now = Instant.now();
 
-        Person person = PepperFactory.eINSTANCE.createPerson();
-        person.setName("Peter");
-        InternalStakeholder internalStakeholder = PepperFactory.eINSTANCE.createInternalStakeholder();
-        internalStakeholder.setName("Department 1");
-        ExternalStakeholder externalStakeholder = PepperFactory.eINSTANCE.createExternalStakeholder();
-        externalStakeholder.setName("Client 1");
-        resourceFolder.getOwnedResources().addAll(List.of(person, internalStakeholder, externalStakeholder));
+        TaskMilestone projectStartMilestone = pepperBuilders.newTaskMilestone()
+                .name("Kick off")
+                .startTime(now)
+                .build();
+        taskComputationService.updateStartTime(projectStartMilestone, now);
+        Task task1 = pepperBuilders.newTask()
+                .name("Task 1")
+                .calculationOption(TaskTimeBoundariesConstraint.START_EFFORT)
+                .effort(24)
+                .dependencies(pepperBuilders.newDependencyLink()
+                        .source(projectStartMilestone)
+                        .sourceKind(StartOrEnd.END)
+                        .targetKind(StartOrEnd.START)
+                        .build())
+                .build();
+        taskComputationService.updateStartTime(task1, now);
+        Task task2 = pepperBuilders.newTask()
+                .name("Task 2")
+                .calculationOption(TaskTimeBoundariesConstraint.START_EFFORT)
+                .effort(24)
+                .dependencies(pepperBuilders.newDependencyLink()
+                        .source(projectStartMilestone)
+                        .sourceKind(StartOrEnd.END)
+                        .targetKind(StartOrEnd.START)
+                        .build())
+                .build();
+        taskComputationService.updateStartTime(task2, now);
 
-        Project project = PepperFactory.eINSTANCE.createProject();
-        project.setName("My project");
-        Workpackage workpackage = PepperFactory.eINSTANCE.createWorkpackage();
-        workpackage.setName(MAIN_WORKPACKAGE);
-        WorkpackageArtefact workpackageArtefact = PepperFactory.eINSTANCE.createWorkpackageArtefact();
-        workpackageArtefact.setName("New Workpackage Artefact");
-        workpackage.getOutputs().add(workpackageArtefact);
-        project.getOwnedWorkpackages().add(workpackage);
-
-
-        organization.getOwnedProjects().add(project);
+        Organization organization = pepperBuilders.newOrganization()
+                .ownedResourceFolders(pepperBuilders.newResourceFolder()
+                        .name("Resources")
+                        .ownedResources(
+                                pepperBuilders.newPerson().name("Peter").build(),
+                                pepperBuilders.newInternalStakeholder().name("Department 1").build(),
+                                pepperBuilders.newExternalStakeholder().name("Client 1").build())
+                        .build())
+                .ownedProjects(pepperBuilders.newProject()
+                        .name("My project")
+                        .ownedWorkpackages(pepperBuilders.newWorkpackage()
+                                .name(MAIN_WORKPACKAGE)
+                                .startDate(LocalDate.now())
+                                .outputs(pepperBuilders.newWorkpackageArtefact()
+                                        .name("New Workpackage Artefact")
+                                        .build())
+                                .ownedTasks(projectStartMilestone, task1, task2)
+                                .build())
+                        .build())
+                .build();
 
         return organization;
     }
