@@ -47,7 +47,7 @@ import pepper.starter.services.representations.forms.WorkpackagesPageDescription
  * @author lfasani
  */
 @Service
-public class FormEditingContextDescriptionProvider implements IEditingContextRepresentationDescriptionProvider {
+public class ProjectFormEditingContextDescriptionProvider implements IEditingContextRepresentationDescriptionProvider {
 
     public static final String PROJECT_FORM_ID = "projectFormDescription";
 
@@ -65,7 +65,7 @@ public class FormEditingContextDescriptionProvider implements IEditingContextRep
 
     private final CursorBasedNavigationServices cursorBasedNavigationServices;
 
-    public FormEditingContextDescriptionProvider(List<ComposedAdapterFactory.Descriptor> composedAdapterFactoryDescriptors, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, IPepperMessageService pepperMMMessageService,
+    public ProjectFormEditingContextDescriptionProvider(List<ComposedAdapterFactory.Descriptor> composedAdapterFactoryDescriptors, ILabelService labelService, IIdentityService identityService, IObjectSearchService objectSearchService, IPepperMessageService pepperMMMessageService,
             IFeedbackMessageService feedbackMessageService) {
         this.labelService = Objects.requireNonNull(labelService);
         this.identityService = Objects.requireNonNull(identityService);
