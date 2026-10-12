@@ -24,6 +24,7 @@
 
 - https://github.com/ObeoNetwork/pepper/issues/68[#68] Prevent cyclic dependencies creation
 Prevent dependency creation between a task and one of its child and a task depending on one of the target task's parent
+- https://github.com/ObeoNetwork/pepper/issues/87[#87] Fix the project form representation creation
 
 == v2026.6.1
 
