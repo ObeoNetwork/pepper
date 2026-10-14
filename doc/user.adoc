@@ -79,14 +79,7 @@ In `Gantt` on `Project`, the Gantt tasks represent the `Workpackage` of the `Pro
 
 In `Gantt` on `Workpackage`, the Gantt tasks represent the `Tasks` and sub `Tasks` of the `Workpackage`.
 
-You can 
-
-* Create new tasks
-* Change the dates of the task by moving the task or changing in `Details` panel
-* Reorder existing tasks or change the parent of a task
-* Create dependencies between tasks. Dependencies can connect to either the start or end of a task and can originate from either the start or end of the source task.
-
-When multiple dependencies exist, the priority dependency is the one that pushes the task to the latest date.
+See xref:gantt.adoc[Gantt representation documentation] for the full Gantt documentation.
 
 === Deck on Project and Workpackage
 
