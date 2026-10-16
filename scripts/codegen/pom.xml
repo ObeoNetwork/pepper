@@ -10,8 +10,8 @@
   ~ Contributors:
   ~     Obeo - initial API and implementation
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -64,9 +64,14 @@
       <version>3.44.0</version>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>20.0</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.18</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.38</version>
     </dependency>
   </dependencies>
 
@@ -83,16 +88,34 @@
             <goals>
               <goal>java</goal>
             </goals>
+            <configuration>
+              <mainClass>pepper.codegen.emf.SiriusWebEMFGenerator</mainClass>
+              <arguments>
+                <argument>${project.basedir}/../../backend</argument>
+                <argument>--genmodel-pattern=**/src/**.genmodel</argument>
+                <argument>--format=false</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate builders classes</id>
+            <phase>package</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>pepper.builder.generator.BuilderGenerator</mainClass>
+              <arguments>
+                <argument>${project.basedir}/../../backend/pepper-mm-builder/src/main/resources/emf-merge.xml</argument>
+                <argument>${project.basedir}/../../backend/pepper-mm-builder</argument>
+                <argument>${project.basedir}/../../backend/pepper-mm-builder/src/main/java/pepper/mm/builder/generated</argument>
+                <argument>pepper.mm.builder.generated</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
         <configuration>
-          <executable>java</executable>
-          <mainClass>org.eclipse.sirius.components.codegen.emf.SiriusWebEMFGenerator</mainClass>
           <cleanupDaemonThreads>false</cleanupDaemonThreads>
-          <arguments>
-            <argument>${project.basedir}/../../backend</argument>
-            <argument>--genmodel-pattern=**/src/**.genmodel</argument>
-          </arguments>
         </configuration>
       </plugin>
     </plugins>

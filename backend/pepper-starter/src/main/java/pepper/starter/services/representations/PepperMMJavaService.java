@@ -44,6 +44,7 @@ import pepper.peppermm.PepperFactory;
 import pepper.peppermm.Project;
 import pepper.peppermm.StartOrEnd;
 import pepper.peppermm.Task;
+import pepper.peppermm.TaskMilestone;
 import pepper.peppermm.Workpackage;
 
 /**
@@ -69,16 +70,6 @@ public class PepperMMJavaService {
         this.feedbackMessageService = Objects.requireNonNull(feedbackMessageService);
         this.taskUpdateService = taskUpdateService;
     }
-
-//    private static Instant getTaskStartTime(Task task) {
-//        if (task.isComputeStartEndDynamically()) {
-//            return task.getSubTasks().stream()
-//                    .map(PepperMMJavaService::getTaskStartTime)
-//                    .min(Instant::compareTo)
-//                    .orElse(task.getStartTime());
-//        }
-//        return task.getStartTime();
-//    }
 
     public void editTask(EObject eObject, String name, String description, Instant startTime, Instant endTime, Integer progress, boolean keepEffort) {
 
@@ -112,6 +103,7 @@ public class PepperMMJavaService {
 
             if (optionalTask.isPresent()) {
                 Task lastTask = optionalTask.get();
+                task.setCalculationOption(lastTask.getCalculationOption());
                 if (lastTask.getEndTime().equals(lastTask.getStartTime())) {
                     // If the last task is a Milestone
                     taskComputationService.updateStartTime(task, lastTask.getEndTime());
@@ -122,6 +114,7 @@ public class PepperMMJavaService {
                             Instant.ofEpochSecond(2 * lastTask.getEndTime().getEpochSecond() - lastTask.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
                 }
             } else {
+                task.setCalculationOption(abstractTask.getCalculationOption());
                 if (abstractTask.getEndTime() != null && abstractTask.getStartTime() != null) {
                     taskComputationService.updateStartTime(task, abstractTask.getStartTime());
                     taskComputationService.updateEndTime(task, abstractTask.getEndTime());
@@ -146,14 +139,15 @@ public class PepperMMJavaService {
 
     public void createTaskAfter(AbstractTask abstractTaskContext) {
         Task task = PepperFactory.eINSTANCE.createTask();
+        task.setCalculationOption(abstractTaskContext.getCalculationOption());
         task.setName(NEW_TASK);
         // The new task follows the context task and has the same duration as the context task.
-        if (abstractTaskContext.getEndTime() != null && abstractTaskContext.getStartTime() != null) {
-            if (abstractTaskContext.getEndTime().equals(abstractTaskContext.getStartTime())) {
+        if (abstractTaskContext.getStartTime() != null) {
+            if (abstractTaskContext instanceof TaskMilestone) {
                 // If the task is a Milestone
-                taskComputationService.updateStartTime(task, abstractTaskContext.getEndTime());
-                taskComputationService.updateEndTime(task, Instant.ofEpochSecond(2 * abstractTaskContext.getEndTime().getEpochSecond() - abstractTaskContext.getStartTime().getEpochSecond()));
-            } else {
+                taskComputationService.updateStartTime(task, abstractTaskContext.getStartTime());
+                taskComputationService.updateEndTime(task, abstractTaskContext.getStartTime().plus(1, ChronoUnit.DAYS));
+            } else if (abstractTaskContext.getEndTime() != null) {
                 taskComputationService.updateStartTime(task, abstractTaskContext.getEndTime().plus(1, ChronoUnit.MINUTES));
                 taskComputationService.updateEndTime(task, Instant.ofEpochSecond(2 * abstractTaskContext.getEndTime().getEpochSecond() - abstractTaskContext.getStartTime().getEpochSecond()).plus(1, ChronoUnit.MINUTES));
             }
@@ -280,6 +274,7 @@ public class PepperMMJavaService {
 
     public void createWorkpackage(Workpackage workpackageContext) {
         Workpackage newWorkpackage = PepperFactory.eINSTANCE.createWorkpackage();
+        newWorkpackage.setCalculationOption(workpackageContext.getCalculationOption());
         newWorkpackage.setName("New Workpackage");
         // The new task follows the context task and has the same effort than the context task.
         if (workpackageContext.getEndDate() != null && workpackageContext.getStartDate() != null) {

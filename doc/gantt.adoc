@@ -1,0 +1,116 @@
+ifndef::imagesdir[:imagesdir: images]
+
+= Gantt representation
+
+:toc:
+
+A `Gantt` representation can be created from a `Project` or a `Workpackage`.
+
+image::representation-gantt.png[Gantt] 
+
+In a Gantt representation of a `Project`, the Gantt tasks represent its `Workpackages`.
+
+In a Gantt representation of a `Workpackage`, the Gantt tasks represent its `Tasks` and subtasks.
+
+
+== Task definition
+
+Gantt representations support both `AbstractTask` and `Workpackage` objects. Each task has a start and an end boundary.
+
+Effort is the total time spent working on a task and depends on the people assigned to it. Weekly and configured fixed non-working days do not count toward effort. Duration measures how long the task lasts, still considering non-working days but regardless of the number of people assigned. For a given duration, assigning more people increases the effort.
+
+The boundaries of an `AbstractTask` are stored as `Instant` values. When the task is changed in Gantt or the details view, or recalculated by the algorithm, its boundaries are rounded to the nearest half-day.
+
+The boundaries of a `Workpackage` are stored as `LocalDate` values. Both its `startDate` and `endDate` are inclusive.
+
+== Considering task constraints
+
+=== Internal constraints
+
+A task is constrained by two of the following `TimeConstraint` values:
+
+- `START`
+- `END`
+- `EFFORT`
+
+The unconstrained value is generally computed from the other two.
+
+=== Task dependencies
+
+A dependency links the start or end boundaries of two tasks. One boundary constrains the other.
+
+When a task boundary is constrained by a dependency, it is automatically calculated from the constraining task.
+
+When multiple dependencies exist, the dependency that pushes the task to the latest date takes priority.
+
+=== Task and parent task
+
+In the model, parent tasks can contain other tasks.
+
+- When a `Workpackage` contains tasks, its boundaries are computed from its child tasks.
+- When a `Task` contains subtasks and has `computeTaskDynamically=true`, its boundaries are also computed from its child tasks. Otherwise, it behaves like a regular task.
+
+A parent task cannot be constrained by a dependency link.
+
+=== Task with assigned persons
+
+If people are assigned to a task, the time constraint calculations take their periods of unavailability into account.
+An unavailability period does not consume any effort.
+If multiple people are available to work on a task, effort is consumed more quickly.
+If no one is assigned, one working day consumes one day of effort.
+
+A person cannot work on multiple tasks at the same time, although they can be assigned to more than one task.
+They contribute effort to only one task at a time. The calculation shifts tasks on the timeline to avoid scheduling a person on multiple tasks simultaneously.
+
+=== Constraint priority
+
+The order of priority is:
+
+- Assigned people
+- Dependencies: if two tasks have an end-to-end dependency (both finishing at the same time) and are assigned to the same person, the second task is shifted after the first.
+- Internal constraints: if a boundary constrained by `START` or `END` is also constrained by a dependency, the dependency takes priority.
+
+== Gantt user interactions
+
+A user can:
+
+* Create new tasks.
+* Create dependencies between tasks.
+* Change a task's properties.
+* Reorder existing tasks or change their parent.
+
+
+=== Creating a new task
+
+A user can create tasks or workpackages from either the explorer or Gantt.
+
+*From the explorer*, you can create a task, a task milestone, or a workpackage within the selected object.
+
+- Select a project to create a workpackage.
+- Select a workpackage or a task to create a task.
+- Select a workpackage to create a task milestone.
+
+image::createSemanticOject.png[New object]
+
+image::createTaskOrMilestone.png[Create a task]
+
+*From Gantt*, you can create a `Task` or a `Workpackage` by right-clicking a task.
+The new task is placed immediately after the selected task and starts with the same effort and calculation option.
+
+image::gantt-task-contextual-menu.png[Create a task]
+
+=== Creating a dependency
+
+*From Gantt*, you can create a dependency from a boundary of a source task to a boundary of a target task.
+
+image::gantt-create-dependency.png[Create a dependency]
+
+A user cannot change a boundary constrained by a dependency.
+
+=== Reordering existing tasks or changing their parent
+
+You can drag and drop a task from either the explorer or the table on the left side of the Gantt representation.
+Drop it on another task to make that task its parent, or between two tasks to change its position.
+
+image::gantt-reorder-task.png[Reorder a task]
+
