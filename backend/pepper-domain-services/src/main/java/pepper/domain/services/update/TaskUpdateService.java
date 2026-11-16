@@ -115,12 +115,15 @@ public class TaskUpdateService {
         return taskUpdateSteps.stream()
                 .filter(TaskBoundaryUpdateStep.class::isInstance)
                 .map(TaskBoundaryUpdateStep.class::cast)
-                .filter(taskBoundaryUpdateStep -> taskHelper.getStartTemporal(taskBoundaryUpdateStep.getImpactedTask()) != null)
+                .filter(taskBoundaryUpdateStep -> {
+                    return taskBoundaryUpdateStep.getStart() != null || taskHelper.getStartTemporal(taskBoundaryUpdateStep.getImpactedTask()) != null;
+                })
                 .findFirst()
                 .flatMap(taskBoundaryUpdateStep -> {
                     Temporal startTemp = taskHelper.getStartTemporal(taskBoundaryUpdateStep.getImpactedTask());
                     Temporal start = taskBoundaryUpdateStep.getStart();
                     Optional<Temporal> earliest = Stream.of(startTemp, start)
+                            .filter(Objects::nonNull)
                             .min(Comparator.comparing(t -> (Comparable<Object>) t));
                     return earliest;
                 })
@@ -213,7 +216,7 @@ public class TaskUpdateService {
             return taskHelper.getParent(abstractTask, Workpackage.class)
                     .map(workpackage -> {
                         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(workpackage.eAllContents(), Spliterator.ORDERED), false)
-                                .filter(DependencyRelatedObject.class::isInstance)
+                                .filter(AbstractTask.class::isInstance)
                                 .map(DependencyRelatedObject.class::cast)
                                 .toList();
                     })
@@ -222,7 +225,7 @@ public class TaskUpdateService {
             return taskHelper.getParent(workpackage, Project.class)
                     .map(project -> {
                         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(project.eAllContents(), Spliterator.ORDERED), false)
-                                .filter(DependencyRelatedObject.class::isInstance)
+                                .filter(Workpackage.class::isInstance)
                                 .map(DependencyRelatedObject.class::cast)
                                 .toList();
                     })
